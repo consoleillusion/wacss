@@ -1,0 +1,326 @@
+// WACSS specification: the book.
+//
+// This file is the only entrypoint and the only place with styling. The chapter
+// files (*.typ next to this one) hold content only.
+//
+//   typst compile book.typ                       -> light theme (default)
+//   typst compile --input theme=dark book.typ    -> dark theme
+//
+// Themes are the dictionaries in `themes`. Add a theme by adding an entry with
+// the same keys.
+
+// ---------------------------------------------------------------------------
+// Document data
+// ---------------------------------------------------------------------------
+
+#let title = "WACSS"
+#let subtitle = "Specification"
+#let eyebrow = "Design system & component library"
+#let summary = [
+  A data-driven component library with one global, token-driven stylesheet. \
+  Pass data, get a complete, accessible UI.
+]
+#let status = "Draft"
+#let running-title = "WACSS · Specification"
+
+// The order and grouping follow design/index.md. Each part is a level-1
+// heading; each file's own headings nest beneath it.
+// index.md also lists `components`, which has no file yet, so it is not included.
+#let parts = (
+  ("Direction", ("introduction", "roadmap")),
+  ("Deliverables", ("css-output", "build-and-verification", "demo-site")),
+  (
+    "Code Structure",
+    (
+      "primitives",
+      "semantic",
+      "variants",
+      "states",
+      "layout",
+      "components-and-api",
+      "architecture",
+      "component-schema",
+      "generation",
+    ),
+  ),
+  ("Guiding Principles", ("tokens", "ux-and-accessibility")),
+  ("Aesthetics", ("philosophy", "aesthetics-in-practice")),
+)
+
+// ---------------------------------------------------------------------------
+// Themes
+// ---------------------------------------------------------------------------
+
+#let themes = (
+  light: (
+    page: rgb("#ffffff"),
+    ink: rgb("#2a2926"),
+    muted: rgb("#5f5a52"),
+    faint: rgb("#9a958c"),
+    rule: rgb("#e3dfd6"),
+    wash: rgb("#f5f3ee"),
+    kanji: rgb("#ebe7df"),
+    accent: rgb("#4a6a5c"),
+  ),
+  dark: (
+    page: rgb("#1c1b19"),
+    ink: rgb("#e9e5dc"),
+    muted: rgb("#b3ada2"),
+    faint: rgb("#7f7a70"),
+    rule: rgb("#35332f"),
+    wash: rgb("#262522"),
+    kanji: rgb("#2b2a27"),
+    accent: rgb("#8fb4a1"),
+  ),
+)
+
+#let theme-name = sys.inputs.at("theme", default: "light")
+#let c = themes.at(theme-name)
+
+// ---------------------------------------------------------------------------
+// Typography
+// ---------------------------------------------------------------------------
+
+#let sans = ("Inter", "Source Sans 3", "Helvetica Neue", "Arial", "Liberation Sans")
+#let serif = (
+  "Source Serif 4",
+  "Source Serif Pro",
+  "Lora",
+  "Charter",
+  "Georgia",
+  "Noto Serif CJK JP",
+  "Liberation Serif",
+)
+#let mono = ("JetBrains Mono", "DejaVu Sans Mono", "Consolas", "Menlo", "Liberation Mono")
+#let cjk = ("Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN")
+
+// Small, tracked, upper-case label used for eyebrows, table heads and footers.
+#let label-text(body, size: 6.8pt, fill: c.faint) = text(
+  size: size,
+  weight: 500,
+  tracking: 0.14em,
+  fill: fill,
+  upper(body),
+)
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+
+#set document(title: title + " " + subtitle)
+#set text(font: sans, size: 9.4pt, fill: c.ink, lang: "en", hyphenate: false)
+#set par(leading: 0.78em, spacing: 1.05em, justify: false)
+#set page(
+  paper: "a4",
+  margin: (x: 22mm, top: 26mm, bottom: 28mm),
+  fill: c.page,
+  footer: context {
+    grid(
+      columns: (1fr, auto),
+      label-text(running-title, size: 6.8pt, fill: c.ink),
+      label-text(str(counter(page).get().first()), size: 6.8pt, fill: c.muted),
+    )
+  },
+)
+
+#set heading(numbering: (..n) => if n.pos().len() <= 4 { numbering("1.1", ..n) })
+
+// ---------------------------------------------------------------------------
+// Headings
+// ---------------------------------------------------------------------------
+
+#let heading-number(it) = if it.numbering != none {
+  counter(heading).display(it.numbering) + h(0.45em)
+}
+
+// Level 1: part divider page.
+#show heading.where(level: 1): it => {
+  pagebreak(weak: true)
+  v(30%)
+  label-text([Part #counter(heading).display("1")], size: 7.5pt, fill: c.faint)
+  v(5mm)
+  block(text(font: serif, size: 36pt, weight: "regular", fill: c.ink, it.body))
+  v(7mm)
+  line(length: 26pt, stroke: 1.2pt + c.accent)
+  pagebreak(weak: true)
+}
+
+// Level 2: a file's title. Starts a new page.
+#show heading.where(level: 2): it => {
+  pagebreak(weak: true)
+  block(above: 0pt, below: 8mm, width: 100%)[
+    #text(font: serif, size: 23pt, weight: "regular", fill: c.ink)[#heading-number(it)#it.body]
+    #v(4.5mm, weak: true)
+    #line(length: 100%, stroke: 0.6pt + c.rule)
+  ]
+}
+
+#show heading.where(level: 3): it => block(above: 9mm, below: 4mm, sticky: true)[
+  #text(font: serif, size: 14.5pt, weight: "regular", fill: c.ink)[#heading-number(it)#it.body]
+]
+
+#show heading.where(level: 4): it => block(above: 7mm, below: 3mm, sticky: true)[
+  #text(font: serif, size: 11.5pt, weight: "regular", fill: c.ink)[#heading-number(it)#it.body]
+]
+
+#show heading.where(level: 5): it => block(above: 6mm, below: 2.5mm, sticky: true)[
+  #label-text(it.body, size: 7.2pt, fill: c.muted)
+]
+
+// ---------------------------------------------------------------------------
+// Inline text
+// ---------------------------------------------------------------------------
+
+#show strong: set text(weight: 600)
+
+// Links written in the text are accent-coloured and underlined; the internal
+// links the contents page builds from locations are left plain.
+#show link: it => if type(it.dest) == location {
+  it
+} else {
+  set text(fill: c.accent)
+  underline(stroke: 0.5pt + c.accent.transparentize(55%), offset: 2.2pt, it)
+}
+
+#show raw.where(block: false): it => highlight(
+  fill: c.wash,
+  top-edge: "ascender",
+  bottom-edge: "descender",
+  extent: 1.6pt,
+  radius: 2pt,
+  text(font: mono, size: 0.86em, fill: c.ink, it),
+)
+
+// ---------------------------------------------------------------------------
+// Code blocks: restrained, no syntax colours.
+// ---------------------------------------------------------------------------
+
+#show raw: it => if it.lang != none { raw(it.text, lang: none, block: it.block) } else { it }
+
+#show raw.where(block: true): it => block(
+  width: 100%,
+  fill: c.wash,
+  inset: (x: 11pt, y: 10pt),
+  radius: 3pt,
+  above: 1.1em,
+  below: 1.5em,
+  {
+    set text(font: mono, size: 7.7pt, fill: c.ink)
+    set par(leading: 0.62em, spacing: 0.62em)
+    it
+  },
+)
+
+// ---------------------------------------------------------------------------
+// Tables
+// ---------------------------------------------------------------------------
+
+#set table(
+  stroke: (x, y) => (bottom: if y == 0 { 0.8pt + c.ink } else { 0.5pt + c.rule }),
+  inset: (x: 5pt, y: 6.5pt),
+  align: left + top,
+)
+#show table: set text(size: 8.2pt)
+#show table: set block(above: 1.1em, below: 1.2em)
+#show table.cell.where(x: 0): set text(weight: 500)
+#show table.cell.where(y: 0): set text(size: 6.6pt, weight: 600, tracking: 0.12em, fill: c.faint)
+#show table.cell.where(y: 0): it => upper(it)
+
+// ---------------------------------------------------------------------------
+// Lists
+// ---------------------------------------------------------------------------
+
+#set list(marker: text(fill: c.faint)[•], indent: 3pt, body-indent: 7pt, spacing: 0.65em)
+#set enum(numbering: n => text(fill: c.faint)[#n.], indent: 3pt, body-indent: 7pt, spacing: 0.65em)
+
+// Roadmap task boxes.
+#show "☐": box(
+  width: 0.72em,
+  height: 0.72em,
+  baseline: 0.04em,
+  stroke: 0.7pt + c.faint,
+  radius: 1.5pt,
+)
+
+#show quote.where(block: true): it => block(
+  inset: (left: 10pt, y: 2pt),
+  stroke: (left: 1.2pt + c.accent),
+  text(fill: c.muted, it.body),
+)
+
+// ---------------------------------------------------------------------------
+// Cover
+// ---------------------------------------------------------------------------
+
+#page(margin: (x: 22mm, top: 34mm, bottom: 28mm))[
+  #text(font: cjk, size: 175pt, weight: "extralight", fill: c.kanji)[和]
+  #v(1fr)
+  #label-text(eyebrow, size: 7.2pt)
+  #v(6mm)
+  #text(font: serif, size: 46pt, tracking: 0.03em, fill: c.ink)[#title]
+  #v(1mm)
+  #text(font: serif, size: 19pt, fill: c.muted)[#subtitle]
+  #v(9mm)
+  #line(length: 26pt, stroke: 1.2pt + c.accent)
+  #v(7mm)
+  #block(width: 62%, text(size: 10pt, fill: c.muted, summary))
+  #v(16mm)
+  #line(length: 100%, stroke: 0.5pt + c.rule)
+  #v(3mm)
+  #label-text(status + " · " + datetime.today().display("[month repr:long] [year]"), size: 7pt)
+]
+
+// ---------------------------------------------------------------------------
+// Contents
+// ---------------------------------------------------------------------------
+
+#show outline.entry.where(level: 1): it => {
+  v(7mm, weak: true)
+  block(below: 2.5mm, link(
+    it.element.location(),
+    grid(
+      columns: (12mm, 1fr, auto),
+      label-text(it.prefix(), size: 6.8pt, fill: c.faint),
+      text(font: serif, size: 11.5pt, it.element.body),
+      text(size: 8pt, fill: c.faint, it.page()),
+    ),
+  ))
+}
+
+#show outline.entry.where(level: 2): it => block(
+  below: 0pt,
+  stroke: (bottom: 0.6pt + c.accent.transparentize(65%)),
+  inset: (y: 6.5pt),
+  link(
+    it.element.location(),
+    grid(
+      columns: (12mm, 1fr, auto),
+      text(size: 7.6pt, fill: c.faint, it.prefix()),
+      text(size: 8.4pt, it.element.body),
+      text(size: 8pt, fill: c.faint, it.page()),
+    ),
+  ),
+)
+
+#page[
+  #block(below: 8mm, width: 100%)[
+    #text(font: serif, size: 23pt)[Contents]
+    #v(4.5mm, weak: true)
+    #line(length: 100%, stroke: 0.6pt + c.rule)
+  ]
+  #outline(title: none, depth: 2, indent: 0pt)
+]
+
+// ---------------------------------------------------------------------------
+// Body
+// ---------------------------------------------------------------------------
+
+#for (part-title, files) in parts {
+  heading(level: 1)[#part-title]
+  for f in files {
+    [
+      #set heading(offset: 1)
+      #include (f + ".typ")
+    ]
+  }
+}
