@@ -81,7 +81,7 @@ card needs no per-instance logic.
   figure component\'s schema (`schema.description`) and appears nowhere
   else in the card or page.],
   [Figure],
-  [Data matching any WACSS component schema, recognised by its `title`
+  [Data matching any wacss component schema, recognised by its `title`
   property. Video, Image and Audio are the common cases. The figure
   renders that component inside the card.],
 )
