@@ -1,6 +1,7 @@
 ---
 const {
-  type = "button"
+  href
+  , type = "button"
   , variant = "default"
   , size = "default"
   , disabled = false
@@ -15,10 +16,21 @@ const VARIANT_CLASS = {
 const variantClass = VARIANT_CLASS[variant] ?? "";
 const classNames = [variantClass, className].filter(Boolean).join(" ") || undefined;
 ---
-<button
-  type={type}
-  disabled={disabled}
-  class={classNames}
-  data-size={size}
-  {...attrs}
-><slot /></button>
+{href ? (
+  <a
+    {...attrs}
+    href={href}
+    class={classNames}
+    data-size={size}
+    aria-disabled={disabled ? "true" : undefined}
+    tabindex={disabled ? -1 : undefined}
+  ><slot /></a>
+) : (
+  <button
+    type={type}
+    disabled={disabled}
+    class={classNames}
+    data-size={size}
+    {...attrs}
+  ><slot /></button>
+)}

@@ -1,5 +1,5 @@
-import { defineConfig } from "astro/config";
-import svelte from "@astrojs/svelte";
+import { defineConfig } from "astro/config"
+import svelte from "@astrojs/svelte"
 
 export default defineConfig({
   outDir: "./demo-dist",
@@ -18,4 +18,4 @@ export default defineConfig({
       exclude: ["bits-ui", "@svar-ui/svelte-grid", "@xyflow/svelte"],
     },
   },
-});
+})
