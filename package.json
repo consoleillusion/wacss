@@ -2,16 +2,25 @@
   "name": "wacss",
   "version": "0.0.2",
   "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
+  "license": "MIT",
   "type": "module",
   "private": false,
   "files": [],
   "exports": {},
-  "scripts": {},
+  "scripts": {
+    "test": "bun test"
+  },
   "devDependencies": {
-    "@types/bun": "latest",
-    "astro": "7.4.7",
     "@astrojs/svelte": "^9.1.2",
+    "@types/bun": "latest",
+    "@types/ramda": "^0.32.0",
+    "astro": "7.4.7",
+    "cssnano": "^9.9.0",
     "json-schema-typed": "^8.0.2",
+    "lightningcss": "^1.33.0",
+    "postcss": "^8.5.32",
+    "postcss-cli": "^12.0.0",
+    "ramda": "^0.32.0",
     "svelte": "^5.57.3"
   },
   "peerDependencies": {
@@ -29,16 +38,11 @@
   "dependencies": {
     "@dagrejs/dagre": "^3.1.3",
     "@svar-ui/svelte-grid": "^2.7.6",
-    "@types/ramda": "^0.32.0",
     "@xyflow/svelte": "^1.7.1",
     "bits-ui": "^2.20.6",
     "change-case": "^5.4.4",
-    "cssnano": "^9.9.0",
     "dhall-wasm": "github:consoleillusion/dhall-wasm",
     "elkjs": "^0.12.1",
-    "lightningcss": "^1.33.0",
-    "postcss": "^8.5.32",
-    "postcss-cli": "^12.0.0",
-    "ramda": "^0.32.0"
+    "load-object": "^1.8.5"
   }
 }

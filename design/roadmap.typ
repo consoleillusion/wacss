@@ -1,17 +1,17 @@
-= Roadmap to v1
+= Roadmap to v1.0.0
 <roadmap>
-v1 is the complete library: one generated, verified global stylesheet,
+v1.0.0 is the complete library: one generated, verified global stylesheet,
 the full component set, and the demo site. Work is staged so each
 milestone stands on its own. The token pipeline and verification are
 built before components; components are built in batches; the demo site
-follows the components and precedes the v1 release.
+follows the components and precedes the v1.0.0 release.
 
 The first four components are #strong[Accordion, Button, Card and
-Checkbox]. They are built in M4; the remaining components from the full
-list follow in M5.
+Checkbox]. They are built in v0.5.0; the remaining components from the full
+list follow in v0.6.0.
 
-== v.0.1.0 - Spec baseline
-<roadmap:v010---spec-baseline>
+== v0.1.0 — Spec baseline
+<roadmap:v010--spec-baseline>
 - ☐ Record the component folder contract: `<Name>.astro` and `schema.ts`
   required, `<Name>.svelte` optional for reactivity
 - ☐ Resolve spec inconsistencies: L1/L2 authored in SCSS, card
@@ -36,8 +36,8 @@ list follow in M5.
 - ☐ Compile SCSS and concatenate L1 + L2 into `dist/tokens.css`
 - ☐ Add generated-file headers to every emitted file
 
-== M2 — Generator
-<roadmap:m2--generator>
+== v0.3.0 — Generator
+<roadmap:v030--generator>
 - ☐ Discover and load every `src/components/<Name>/schema.ts`
 - ☐ Validate schemas: names, variants, states, `cssProperties` L2
   defaults or overrides, `structure`/`pseudoElements` overlap, channels,
@@ -56,8 +56,8 @@ list follow in M5.
   readable
 - ☐ Add `bun run tokens:show <component>` inspector
 
-== M3 — Verification
-<roadmap:m3--verification>
+== v0.4.0 — Verification
+<roadmap:v040--verification>
 - ☐ Integrate every schema, token, state and CSS check into `build` so
   there is no separate verify step
 - ☐ Token checks: adjacency, references resolve, no cycles, exact matrix
@@ -74,8 +74,8 @@ list follow in M5.
   and generated CSS
 - ☐ Confirm a fresh `bun install && bun run build` passes from scratch
 
-== M4 — Component foundation and the first four
-<roadmap:m4--component-foundation-and-the-first-four>
+== v0.5.0 — Component foundation and the first four
+<roadmap:v050--component-foundation-and-the-first-four>
 - ☐ Add shared prop types and a registry for data-driven composition
 - ☐ `Accordion`: schema + `.astro`; native `<details>`/`<summary>`,
   `::details-content`, static/open, no JavaScript
@@ -89,8 +89,8 @@ list follow in M5.
 - ☐ Replace the stale component files; keep only what the new
   implementations use
 
-== M5 — Remaining components (full set, before v1)
-<roadmap:m5--remaining-components-full-set-before-v1>
+== v0.6.0 — Remaining components (full set, before v1.0.0)
+<roadmap:v060--remaining-components-full-set-before-v100>
 Each component gets a `schema.ts`, an `.astro` file, and a `.svelte`
 file only where native HTML and CSS cannot provide the required
 behaviour. Variants, states, properties and structure are chosen from
@@ -152,17 +152,17 @@ the spec when each schema is written.
 - ☐ `NodeLinkDiagram` — last, since it depends on `tokens.json`; no
   bespoke token-graph UI before this point
 
-== M6 — Packaging and documentation
-<roadmap:m6--packaging-and-documentation>
+== v0.7.0 — Packaging and documentation
+<roadmap:v070--packaging-and-documentation>
 - ☐ Define `package.json` `exports` and `files` for the stylesheet,
   tokens, types/schemas and components
 - ☐ Rewrite `README.md` to describe the rebuilt library
 - ☐ Document consumer usage: install, import the one stylesheet, retheme
   at L2, switch palettes, custom accent
-- ☐ Add `CHANGELOG.md` and draft v1 release notes
+- ☐ Add `CHANGELOG.md` and draft v1.0.0 release notes
 
-== M7 — Demo site (before v1)
-<roadmap:m7--demo-site-before-v1>
+== v0.8.0 — Demo site (before v1.0.0)
+<roadmap:v080--demo-site-before-v100>
 - ☐ Represent the site as data: pages with ordered children, per
   `design/demo-site.md`
 - ☐ Add dynamic Astro routes and a consistent navbar
@@ -171,16 +171,16 @@ the spec when each schema is written.
 - ☐ Build the data-driven home page from component cards and their
   schemas
 - ☐ Build a component page for every component in the full set,
-  including `NodeLinkDiagram` once M5 completes
+  including `NodeLinkDiagram` once v0.6.0 completes
 - ☐ Check the demo with the same lint/build gate as the library
 
-== M8 — v1 release
-<roadmap:m8--v1-release>
+== v1.0.0 — Release
+<roadmap:v100--release>
 - ☐ Final clean verification: fresh install, build, tests, demo build
 - ☐ Confirm every documented component and helper is present
-- ☐ Tag v1 and publish release notes
+- ☐ Tag v1.0.0 and publish release notes
 
-== After v1
-<roadmap:after-v1>
+== After v1.0.0
+<roadmap:after-v100>
 - ☐ Pass-through token pruning, gated on computed-style equivalence
 - ☐ Extended browser and assistive-technology testing with real users

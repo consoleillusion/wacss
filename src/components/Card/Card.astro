@@ -1,25 +1,68 @@
 ---
-import Accordion from "../Accordion/Accordion.astro";
+import Button from "../Button/Button.astro";
 
-const components: Record<string, any> = { Accordion };
+// Every component folder is listed here, but a component is only fetched when
+// a card is given its name. Card never imports them itself.
+const loaders = import.meta.glob("../*/*.astro") as Record<string, () => Promise<{ default: any }>>;
+
+// Figures given by media type render with the matching component.
+const MEDIA_COMPONENT: Record<string, string> = { image: "Image", video: "Video", audio: "Audio" };
+
+type Request = { name: string; props: Record<string, unknown> };
+
+function loaderFor(name: unknown) {
+  // Purpose: Find the loader for a component name, or undefined when no such component exists.
+  if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
+  const key = `../${name}/${name}.astro`;
+  return Object.hasOwn(loaders, key) ? loaders[key] : undefined;
+}
+
+function figureRequest(f: any): Request | undefined {
+  // Purpose: Turn figure data into the component name and props it asks for, or undefined.
+  if (!f || typeof f !== "object") return undefined;
+  const { type, component: named, schema, data: d, title: figureTitle, ...rest } = f;
+  const name =
+    typeof type === "string" && Object.hasOwn(MEDIA_COMPONENT, type) ? MEDIA_COMPONENT[type]
+    : typeof named === "string" ? named
+    : typeof schema?.title === "string" ? schema.title
+    : typeof figureTitle === "string" ? figureTitle
+    : undefined;
+  if (!name || !loaderFor(name)) return undefined;
+  return { name, props: d && typeof d === "object" ? d : rest };
+}
+
+async function resolve(request: Request | undefined) {
+  // Purpose: Fetch the component a request names and pair it with its props.
+  const loader = request && loaderFor(request.name);
+  if (!request || !loader) return undefined;
+  return { Comp: (await loader()).default, props: request.props };
+}
 
 const {
   as: Tag = "article"
   , title
   , description
   , footer
+  , figure
   , media
   , content
   , component
   , data = {}
+  , href
+  , ctaLabel = "Open component"
   , class: className = ""
   , ...rest
 } = Astro.props as any;
 
-const Comp = component ? components[component] : content?.component ? components[content.component] : null;
-const compData = component ? data : content?.data ?? {};
+const bodyRequest: Request | undefined = component
+  ? { name: component, props: data }
+  : content?.component
+    ? { name: content.component, props: content.data ?? {} }
+    : undefined;
+const body = await resolve(bodyRequest);
+const figureBody = await resolve(figureRequest(figure ?? media));
 const textContent = typeof content === "string" ? content : content?.text;
-const hasContent = Boolean(media || Comp || textContent || Astro.slots.has("default"));
+const hasContent = Boolean(body || textContent || Astro.slots.has("default"));
 ---
 <Tag wacss="card" class={["card", className].filter(Boolean).join(" ")} {...rest}>
   {(title || description) && (
@@ -28,34 +71,26 @@ const hasContent = Boolean(media || Comp || textContent || Astro.slots.has("defa
       {description && <p wacss="card-description">{description}</p>}
     </header>
   )}
-  {hasContent && (
+  {(hasContent || footer || href) && (
     <div wacss="card-content">
-      {media?.type === "image" && (
+      {figureBody && (
         <figure wacss="card-media">
-          <img src={media.src} alt={media.alt ?? ""} />
-          {media.caption && <figcaption>{media.caption}</figcaption>}
+          <figureBody.Comp {...figureBody.props} />
         </figure>
       )}
-      {media?.type === "video" && (
-        <figure wacss="card-media">
-          <video src={media.src} poster={media.poster} controls={media.controls ?? true} autoplay={media.autoplay} loop={media.loop} muted={media.muted} playsinline={media.playsinline} preload={media.preload}>
-            {media.sources?.map((s: any) => <source src={s.src} type={s.type} />)}
-          </video>
-          {media.caption && <figcaption>{media.caption}</figcaption>}
-        </figure>
-      )}
-      {media?.type === "audio" && (
-        <figure wacss="card-media">
-          <audio src={media.src} controls={media.controls ?? true} autoplay={media.autoplay} loop={media.loop} muted={media.muted} preload={media.preload}>
-            {media.sources?.map((s: any) => <source src={s.src} type={s.type} />)}
-          </audio>
-          {media.caption && <figcaption>{media.caption}</figcaption>}
-        </figure>
-      )}
-      {Comp && <Comp {...compData} />}
+      {body && <body.Comp {...body.props} />}
       {textContent && <p>{textContent}</p>}
       <slot />
+      {(footer || href) && (
+        <footer wacss="card-footer">
+          {footer}
+          {href && (
+            <Button href={href} variant="secondary" data-slot="card-cta">
+              <span>{ctaLabel}</span>
+            </Button>
+          )}
+        </footer>
+      )}
     </div>
   )}
-  {footer && <footer wacss="card-footer">{footer}</footer>}
 </Tag>
