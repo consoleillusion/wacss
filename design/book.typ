@@ -27,11 +27,13 @@
 // heading; each file's own headings nest beneath it.
 // index.md also lists `components`, which has no file yet, so it is not included.
 #let parts = (
-  ("Direction", ("introduction", "roadmap")),
-  ("Deliverables", ("css-output", "build-and-verification", "demo-site")),
+  ("Introduction", ("introduction", "roadmap")),
   (
-    "Code Structure",
+    "Architecture",
     (
+     "css-output", 
+     "build-and-verification", 
+     "demo-site",
       "primitives",
       "semantic",
       "variants",
@@ -41,10 +43,14 @@
       "architecture",
       "component-schema",
       "generation",
+      "tokens",
     ),
   ),
-  ("Guiding Principles", ("tokens", "ux-and-accessibility")),
-  ("Aesthetics", ("philosophy", "aesthetics-in-practice")),
+  
+  ("Aesthetics", ("philosophy", "aesthetics-in-practice"
+
+  , "ux-and-accessibility"
+)),
 )
 
 // ---------------------------------------------------------------------------
