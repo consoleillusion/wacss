@@ -4,12 +4,9 @@
   "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
   "type": "module",
   "private": false,
-  "files": [
-  ],
-  "exports": {
-  },
-  "scripts": {
-  },
+  "files": [],
+  "exports": {},
+  "scripts": {},
   "devDependencies": {
     "@types/bun": "latest",
     "astro": "7.4.7",
@@ -37,6 +34,7 @@
     "bits-ui": "^2.20.6",
     "change-case": "^5.4.4",
     "cssnano": "^9.9.0",
+    "dhall-wasm": "github:consoleillusion/dhall-wasm",
     "elkjs": "^0.12.1",
     "lightningcss": "^1.33.0",
     "postcss": "^8.5.32",
