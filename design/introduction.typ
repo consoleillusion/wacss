@@ -8,47 +8,6 @@ one schema per component. Everything else is generated: component tokens
 (L3), variant tokens (L4), state tokens (L5) and the CSS that applies
 them.
 
-== Files
-<introduction:files>
-#table(
-  columns: 2,
-  [File], [Covers],
-  [#link(<philosophy>)[philosophy]],
-  [Aesthetic direction and principles],
-  [#link(<aesthetics-in-practice>)[aesthetics-in-practice]],
-  [How the principles shape colour, motion, space and arrangement],
-  [#link(<architecture>)[architecture]],
-  [What is hand-authored, what is generated, the pipeline],
-  [#link(<tokens>)[tokens]],
-  [The five levels, naming, reference rules, themable vs structural],
-  [#link(<primitives>)[primitives]],
-  [L1: the full primitive set],
-  [#link(<semantic>)[semantic]],
-  [L2: the full semantic set, themes, palettes],
-  [#link(<variants>)[variants]],
-  [The variant set and variant recipes (L3 → L4)],
-  [#link(<states>)[states]],
-  [The state set, selectors, channels, co-occurring states (L4 → L5)],
-  [#link(<component-schema>)[component-schema]],
-  [The `meta` shape every component exports],
-  [#link(<generation>)[generation]],
-  [The generator: hierarchy, values, bridges, overrides],
-  [#link(<css-output>)[css-output]],
-  [The generated CSS: selectors, classes, cascade layers, order],
-  [#link(<build-and-verification>)[build-and-verification]],
-  [Build outputs, mangling, checks, the token graph],
-  [#link(<layout>)[layout]],
-  [Hand-authored layout helpers],
-  [#link(<components-and-api>)[components-and-api]],
-  [Component API, registries and components],
-  [#link(<demo-site>)[demo-site]],
-  [Representing the demo site as data],
-  [#link(<ux-and-accessibility>)[ux-and-accessibility]],
-  [UX practice and accessibility requirements],
-  [open-questions],
-  [Decisions not yet made],
-)
-
 == Core rules
 <introduction:core-rules>
 + #strong[Define foundations, not ramps.] L1 holds bases, steps and
@@ -62,6 +21,8 @@ them.
   tokens and schema-declared structural literals.
 + #strong[The schema is the contract.] A component\'s tokens and CSS
   come only from its schema.
+
+#pagebreak(weak: false)
 
 == Glossary
 <introduction:glossary>
