@@ -1,6 +1,6 @@
 = Philosophy and aesthetic direction
 <philosophy>
-#emph[Wa] (和) means harmony, balance and belonging. In WACSS it means
+#emph[Wa] (和) means harmony, balance and belonging. In wacss it means
 harmony between users, developers and web standards: native browser
 behaviour, accessibility by default and a small public API.
 
@@ -18,13 +18,13 @@ minimalism.
   quiet and never distracting.
 - Clear typography with few sizes and weights.
 - Default component behaviour and proportions follow shadcn-svelte,
-  built on WACSS tokens.
+  built on wacss tokens.
 
 == Principles
 <philosophy:principles>
 #table(
   columns: 4,
-  [Principle], [], [Meaning], [In WACSS],
+  [Principle], [], [Meaning], [In wacss],
   [Wa],
   [和],
   [Harmony],

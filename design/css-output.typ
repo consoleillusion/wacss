@@ -122,7 +122,7 @@ Tokens (L1–L5) are unlayered custom properties on `:root`.
   specificity.
 - A layout helper beats both, so `.stack` spacing applies to cards
   inside it.
-- Consumer CSS outside any layer beats all of WACSS.
+- Consumer CSS outside any layer beats all of wacss.
 
 == Containment
 <css-output:containment>
