@@ -1,9 +1,3 @@
-
-```rs
-pub fn main() {
-    println!("Hello World!");
-}
-```
 ```dhall
 { title = "Button"
 , type = "object"

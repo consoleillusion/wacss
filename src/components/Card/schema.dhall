@@ -1,10 +1,10 @@
 let P = ../prelude.dhall
-
-in  { title = "Card"
-    , type = "object"
-    , description =
-        "A surface for grouping content: a header, body text and a figure that renders any wacss component."
-    , variants = [ "secondary", "primary" ]
+in
+{ title = "Card"
+, type = "object"
+, description = "A surface for grouping content: a header, body text and a figure that renders any wacss component."
+, properties =
+    { variants = [ "secondary", "primary" ]
     , states = [ "static", "hover" ]
     , cssProperties =
       [ "background"
@@ -53,3 +53,4 @@ in  { title = "Card"
               P.choice [ "portrait", "square", "landscape" ] "portrait"
           }
     }
+}
