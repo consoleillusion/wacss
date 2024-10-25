@@ -1,0 +1,37 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import Button from "../Button/index.astro"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+---
+
+
+<section class="block hero" style={"--height: " + props.height + "; --color-background: " + props.backgroundColor + "; --image-opacity: " + props.imgOpacity + ';'}>
+
+  <div class="hero-content">
+    <h1>{props.headline}</h1>
+    <p>{props.subheadline}</p>
+    <div class="action-row">
+      <Button actionType="ahref" action={props.actionPrimary} text={props.ctaPrimaryText} class="primary"/>
+      <Button actionType="ahref" action={props.actionSecondary} text={props.ctaSecondaryText} class="secondary"/>
+    </div>
+  </div>
+
+  <img src={props.imgSrc}/>
+
+</section>
+
+<!--
+<section class="block hero" style={"--height: " + height + "; --color-background: " + backgroundColor + "; --image-opacity: " + imageOpacity + ';'}>
+
+  <div class="hero-content">
+    <h1>{headline}</h1>
+    <p>{subheadline}</p>
+    <ButtonLink text={ctaPrimaryText}/>
+    <ButtonLink text={ctaSecondaryText}/>
+  </div>
+
+  <img src={imgSrc}/>
+
+</section>
+-->

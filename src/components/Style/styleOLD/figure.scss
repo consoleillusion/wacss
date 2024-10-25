@@ -1,0 +1,12 @@
+@use './color';
+
+figure {
+  .icon-background{
+    @include color.background-and-contrast(var(--color-brand));
+    background-color: var(--background-color);
+    color: var(--color);
+
+    padding: var(--s1);
+    border-radius: 100%;
+  }
+}

@@ -1,0 +1,32 @@
+title: Table
+type: object
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: Table
+    description: "This specifies which component and schema is being used. It's mostly for internal purposes."
+  block:
+    type: boolean
+    default: false
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","table","data display"]
+  caption:
+    type: string
+    default: ""
+  headers:
+    type: array
+    default: '[]'
+    items:
+      type: string
+  rows:
+    type: array
+    default: '[]'
+    items:
+      type: array
+      items:
+        type: string

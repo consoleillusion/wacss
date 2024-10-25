@@ -1,0 +1,34 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+//import {Icon} from 'astro-icon/components'
+import {cond,isNotNil,prop,propSatisfies} from 'ramda'
+
+const props = await loadPropDefaults(schema,Astro.props)
+
+const conditions = 
+  [ [propSatisfies(isNotNil, "imgSrc") , _ => "image"]
+  , [propSatisfies(isNotNil, "icon")   , _ => "icon"]
+  , [propSatisfies(isNotNil, "chart")  , _ => "chart"]
+  , [propSatisfies(isNotNil, "code")   , _ => "code"]
+  , [ _ => true, _ => "image"]
+  ]
+const figureType = cond(conditions)(props)
+
+/*
+const randomImage =
+  () => 'https://picsum.dev/'
+      + Math.round(Math.random()*100+500)
+      + '/'
+      + Math.round(Math.random()*100+500)
+      */
+const randomImage =
+  () => 'https://boringapi.com/api/v1/static/photos/'+Math.ceil(Math.random()*300)+'.jpeg'
+  /*
+  { figureType === "image" ? <img src={props.imgSrc || randomImage()}/> : ""}
+  { figureType === "icon" ? <span class="icon-background"><Icon name={props.icon} /></span> : ""}
+  */
+---
+
+<figure>
+</figure>

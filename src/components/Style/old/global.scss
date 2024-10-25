@@ -1,0 +1,34 @@
+@use "./normalize.scss";
+@use "./scale.scss";
+@use "./color.scss";
+@use "./typography.scss";
+@use "./layout.scss";
+@use "./variables.scss";
+
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: var(--transition-time) all ease-in-out;
+}
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+section.block {
+  //padding:5rem;
+}
+section.block.full-width {
+  padding:0;
+}
+
+body {
+  background: var(--color-base);
+}
+.card {
+  background: var(--color-surface);
+}

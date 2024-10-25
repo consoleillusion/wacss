@@ -1,0 +1,38 @@
+title: CardGrid
+#$id: "./schema.yaml"
+type: object
+description: ""
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: CardGrid
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: true
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","grid","layout"]
+  headline:
+    type: string
+    default: ""
+  cards:
+    type: array
+    default: '[]'
+    items:
+      type: object
+      properties: 
+        headline:
+          type: string
+        subheadline:
+          type: string
+        text:
+          type: string
+        icon:
+          type: string
+

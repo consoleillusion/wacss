@@ -1,0 +1,31 @@
+:root {
+  --color-contrast: oklch(from var(--color-background) calc((.5 - l) * 9999 + l) 0 h / .9);
+
+  --color-text-light: rgba(245,245,245,.9);
+  --color-text-dark: rgba(10,10,10,.9);
+  --color-text: var(--color-contrast);
+
+  /*
+  --color-base: #E2E8F0;
+  --color-surface: #F8FAFC;
+  --color-accent: #3B82F6; //primary button
+  --color-accent-2: #64748B; //secondary button
+  --color-accent-3: #10B981; //additional highlight
+  */
+
+  --color-success: #3D9970;
+  --color-failure: #FF4136;
+  --color-warning: #FFDC00;
+
+  --color-background: rgba(255,255,255,0);
+
+  --border-width: var(--s-4);
+  --border-color: #111111;
+  --border-style: solid;
+
+
+  --transition-time: 120ms;
+  --measure: 60ch;
+  --border-radius: var(--border-radius-6);
+
+}

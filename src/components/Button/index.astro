@@ -1,0 +1,17 @@
+---
+import Link from '../Link/index.astro'
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+const action = props.action
+props.text = props.text || "Click me"
+---
+
+<!--
+{JSON.stringify(props)}
+-->
+
+{ (props.actionType === "ahref")
+? (<a href={action} role="button" class={props.class}>{props.text}</a>)
+: (<button {action} class={props.class} >{props.text}</button>)
+}

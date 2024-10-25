@@ -1,0 +1,43 @@
+---
+import Link from "../Link"
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+import "./index.scss"
+const props = await loadPropDefaults(schema,Astro.props)
+
+//const {links = linksExample,meta} = Astro.props
+//const listless = Astro.props.listless || true
+//const Outer = listless ? 'div' : 'ul';
+//const Inner = listless ? 'span' : 'li';
+---
+
+<nav>
+
+  { props.start
+  ? <div class="start">
+      { props?.start?.links?.map(link => (
+      <Link {...link}  />
+      ))}
+    </div>
+  : ''
+  }
+
+  { props.center
+  ? <div class="center">
+      { props.center.links.map(link => (
+      <Link {...link}  />
+      ))}
+    </div>
+  : ''
+  }
+
+  { props.end
+  ? <div class="end">
+      { props.end.links.map(link => (
+      <Link {...link}  />
+      ))}
+    </div>
+  : ''
+  }
+
+</nav>

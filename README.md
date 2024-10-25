@@ -52,6 +52,7 @@ Seijaku (静寂)
 * **Soft borders and shadows.** Inspired by **Shizen** and **Kokō**. Gentle edges and subtle depth feel more natural than hard lines or dramatic contrast.
 * **Natural motion.** Inspired by **Shizen** and **Seijaku**. Movement should feel organic and purposeful, with nothing animating without reason.
 * **Hidden detail.** Inspired by **Yūgen**, **Shibui**, and **Datsuzoku**. Small moments of discovery reward attention—such as swatch names appearing on hover—adding depth and delight without overwhelming the interface.
+* **AI Token Efficient** By using strict HTML compliance and mostly classless styling, the token
 
 ## Themes
 

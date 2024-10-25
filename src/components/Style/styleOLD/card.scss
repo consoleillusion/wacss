@@ -1,0 +1,20 @@
+@use './styles/layout';
+
+.card{
+  @include layout.stack();
+  figure {
+    order: 1;
+    text-align: center;
+    color: var(--color-accent);
+    margin-bottom: var(--s1);
+  }
+  h3 {
+    order: 2;
+  }
+  p {
+    order: 3;
+  }
+  padding: var(--s1);
+  border-radius: var(--border-radius);
+  border: 1px solid oklch(from var(--color-accent) l c h / .4);
+}

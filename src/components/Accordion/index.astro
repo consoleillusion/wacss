@@ -1,0 +1,17 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+import "./index.scss"
+const props = await loadPropDefaults(schema,Astro.props)
+const randomId = () =>  Array.from({length:6},_=>"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"[(Math.random() * 64) | 0]).join("")
+const name = props.name || randomId()
+---
+
+<div class="accordion">
+  { props.items.map(item => 
+    <details {name}>
+      <summary>{item.summary}</summary>
+      <div>{item.details}</div>
+    </details>
+  )}
+</div>

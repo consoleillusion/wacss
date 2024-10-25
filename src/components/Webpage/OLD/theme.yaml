@@ -1,0 +1,72 @@
+description: "The theme of the website, including palette and fonts."
+type: object
+required: [palette,fonts]
+default: 
+x-generator: "llm"
+properties:
+  fonts:
+    title: Fonts
+    type: object
+    required: [heading, body]
+    properties:
+      heading:
+        description: "The font used for headings. Appropriate for a hairdressers website."
+        type: string
+        enum: 
+          $ref: "./variableFonts.json"
+        default: "inter"
+        x-generator: "llm"
+      body:
+        description: "The font used for the main body text. appropriate for a restaurant."
+        type: string
+        enum:
+          $ref: "./variableFonts.json"
+        default: "inter"
+        x-generator: "llm"
+  palette:
+    title: Palette
+    type: object
+    required: ["title", "description", "colors"]
+    additionalProperties: false
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      author:
+        type: string
+      colors:
+        type: object
+        required: ["base", "surface", "brand", "accent", "support"]
+        properties:
+          base:
+            type: string
+            pattern: "^#([0-9A-Fa-f]{6})$"
+          surface:
+            type: string
+            pattern: "^#([0-9A-Fa-f]{6})$"
+          brand:
+            type: string
+            pattern: "^#([0-9A-Fa-f]{6})$"
+          accent:
+            type: string
+            pattern: "^#([0-9A-Fa-f]{6})$"
+          support:
+            type: string
+            pattern: "^#([0-9A-Fa-f]{6})$"
+      description:
+        type: string
+      url:
+        type: string
+        format: uri
+      imageUrl:
+        type: string
+        format: uri
+      badgeUrl:
+        type: string
+        format: uri
+      rank:
+        type: integer
+      dateCreated:
+        type: string
+        format: date-time

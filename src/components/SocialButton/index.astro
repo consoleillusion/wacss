@@ -1,0 +1,33 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+import Z from '@consoleillusion/zamda'
+//import { Icon } from 'astro-icon/components'
+
+const props = await loadPropDefaults(schema,Astro.props)
+
+const caseOf =
+  pairs => defaultValue => x =>
+    pairs.find(([pattern]) => pattern === x)?.[1] ?? defaultValue
+
+props.icon = props.icon ?? (caseOf(
+  [ ['facebook','ri:facebook-fill']
+  , ['instagram','ri:instagram-fill']
+  , ['tiktok','ri:tiktok-fill']
+  , ['twitter','ri:twitter-x']
+  ])('')(props.network))
+;
+/*
+<a href={props.network + "/" + props.handle}>
+  {props.handle}
+</a>
+
+
+{JSON.stringify(props)}
+  */
+---
+{/*
+<Icon name="ri:facebook-fill" />
+*/}
+
+
