@@ -1,0 +1,17 @@
+/* State tokens. Defined with component tokens and color-mix (no hardcoded ramps). */
+:root {
+  --link-color-hover: color-mix(in oklch, var(--link-color), var(--mix-color) 12%);
+
+  --button-background-hover: color-mix(in oklch, var(--button-background), var(--mix-color) 8%);
+  --button-primary-background-hover: color-mix(in oklch, var(--button-primary-background), var(--mix-color) 8%);
+  --button-secondary-background-hover: color-mix(in oklch, var(--button-secondary-background), var(--mix-color) 8%);
+  --button-background-active: color-mix(in oklch, var(--button-background), var(--mix-color) 14%);
+
+  --field-border-hover: color-mix(in oklch, var(--field-border), var(--color-text) 18%);
+  --field-border-focus: var(--focus-ring);
+  --field-border-invalid: var(--color-negative);
+
+  --table-row-background-hover: color-mix(in oklch, var(--color-surface), var(--color-text) 3%);
+  --nav-link-color-hover: color-mix(in oklch, var(--nav-link-color), var(--color-accent) 35%);
+  --disclosure-background-hover: color-mix(in oklch, var(--disclosure-background), var(--mix-color) 4%);
+}

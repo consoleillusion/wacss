@@ -1,0 +1,14 @@
+---
+const {
+  type = "button",
+  variant,
+  disabled = false,
+  ...attrs
+} = Astro.props;
+---
+<button
+  type={type}
+  disabled={disabled}
+  data-wacss-variant={variant}
+  {...attrs}
+><slot /></button>

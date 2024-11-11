@@ -1,0 +1,49 @@
+/* Primitive / global tokens. Palette themes override color primitives. */
+:root {
+  /* Mixing axis for derived states (calm hover/focus derivation). */
+  --mix-color: white;
+
+  /* Neutral/primitives (defaults; palettes may override). */
+  --color-black: oklch(22% 0.01 250);
+  --color-white: oklch(98% 0.005 95);
+
+  /* Typography scale (relative, calm). */
+  --font-body: "Noto Serif JP", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-ui: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", monospace;
+  --text-size-body: clamp(1rem, 0.96rem + 0.35vw, 1.125rem);
+  --text-size-sm: 0.9375rem;
+  --text-size-h1: clamp(1.75rem, 1.35rem + 1.8vw, 2.75rem);
+  --text-size-h2: clamp(1.4rem, 1.15rem + 1.1vw, 2rem);
+  --text-size-h3: clamp(1.15rem, 1.02rem + 0.55vw, 1.45rem);
+  --line-body: 1.7;
+  --line-heading: 1.2;
+  --measure: 62ch;
+
+  /* Spacing scale (rem, spacious). */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  /* Shape, border, shadow, motion (subtle). */
+  --radius-1: 0.05rem;
+  --radius-2: 0.11rem;
+  --border-width: 1px;
+  --shadow-1: 0 1px 2px color-mix(in oklch, var(--color-black), transparent 92%);
+  --shadow-2: 0 8px 24px color-mix(in oklch, var(--color-black), transparent 90%);
+  --motion-fast: 140ms;
+  --motion-base: 220ms;
+  --ease-calm: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Default dark behavior: derive states by mixing toward black in dark scheme. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mix-color: black;
+  }
+}

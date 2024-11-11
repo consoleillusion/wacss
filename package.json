@@ -1,23 +1,58 @@
 {
   "name": "wacss",
-  "module": "index.ts",
+  "version": "0.1.0",
+  "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
   "type": "module",
   "private": false,
+  "files": [
+    "dist",
+    "src/components",
+    "src/islands",
+    "src/spec",
+    "src/styles",
+    "scripts"
+  ],
+  "exports": {
+    ".": "./src/spec/index.ts",
+    "./spec": "./src/spec/index.ts",
+    "./styles": "./dist/wacss.css",
+    "./styles.min": "./dist/wacss.min.css",
+    "./styles/source": "./src/styles/wacss.scss",
+    "./components/*": "./src/components/*",
+    "./islands/*": "./src/islands/*"
+  },
   "scripts": {
-    "build": "rm dist/*; bun index.js"
+    "build": "bun scripts/build.js",
+    "build:demo": "bun scripts/build.js && astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "check": "biome check ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
     "@types/bun": "latest",
-    "sass": "^1.101.0"
+    "astro": "7.4.7",
+    "sass": "^1.101.0",
+    "@astrojs/svelte": "^9.1.2",
+    "svelte": "^5.57.3"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "astro": "",
+    "svelte": "^4.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "astro": {
+      "optional": true
+    },
+    "svelte": {
+      "optional": true
+    }
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "bits-ui": "^2.20.6",
     "lightningcss": "^1.32.0",
-    "maaidd": "github:consoleillusion/maaidd",
-    "postcss": "^8.5.19",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "tailwindcss": "^4.3.5",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
