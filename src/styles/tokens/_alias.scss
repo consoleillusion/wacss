@@ -1,0 +1,131 @@
+/* ==========================================================================
+   ALIAS TOKENS
+   Semantic roles. References primitives only. This is the layer to replace
+   when you want a different overall palette.
+   ========================================================================== */
+
+@mixin wacss-light-theme {
+  /* shadcn-svelte light theme. */
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-zinc-950);
+  --color-card: var(--color-white);
+  --color-card-foreground: var(--color-zinc-950);
+  --color-popover: var(--color-white);
+  --color-popover-foreground: var(--color-zinc-950);
+  --color-primary: var(--color-zinc-900);
+  --color-primary-foreground: var(--color-zinc-50);
+  --color-secondary: var(--color-zinc-100);
+  --color-secondary-foreground: var(--color-zinc-900);
+  --color-muted: var(--color-zinc-100);
+  --color-muted-foreground: var(--color-zinc-500);
+  --color-accent: var(--color-zinc-100);
+  --color-accent-foreground: var(--color-zinc-900);
+  --color-destructive: var(--color-red);
+  --color-destructive-foreground: var(--color-white);
+  --color-border: var(--color-zinc-200);
+  --color-input: var(--color-zinc-200);
+  --color-ring: var(--color-zinc-400);
+  --color-overlay: var(--color-black-50);
+
+  /* Status roles. */
+  --color-positive: var(--color-green);
+  --color-positive-text: var(--color-white);
+  --color-neutral: var(--color-amber);
+  --color-neutral-text: var(--color-black);
+  --color-negative: var(--color-destructive);
+  --color-negative-text: var(--color-destructive-foreground);
+
+  /* Compatibility aliases used by older markup. */
+  --color-base: var(--color-background);
+  --color-surface: var(--color-card);
+  --color-pop: var(--color-muted);
+  --color-text: var(--color-foreground);
+  --color-text-muted: var(--color-muted-foreground);
+  --color-focus: var(--color-ring);
+  --color-scrim: var(--color-overlay);
+  --color-transparent: transparent;
+}
+
+@mixin wacss-dark-theme {
+  /* shadcn-svelte dark theme. */
+  --color-background: var(--color-zinc-950);
+  --color-foreground: var(--color-zinc-50);
+  --color-card: var(--color-zinc-900);
+  --color-card-foreground: var(--color-zinc-50);
+  --color-popover: var(--color-zinc-900);
+  --color-popover-foreground: var(--color-zinc-50);
+  --color-primary: var(--color-zinc-200);
+  --color-primary-foreground: var(--color-zinc-900);
+  --color-secondary: var(--color-zinc-800);
+  --color-secondary-foreground: var(--color-zinc-50);
+  --color-muted: var(--color-zinc-800);
+  --color-muted-foreground: var(--color-zinc-400);
+  --color-accent: var(--color-zinc-800);
+  --color-accent-foreground: var(--color-zinc-50);
+  --color-destructive: var(--color-red-dark);
+  --color-destructive-foreground: var(--color-white);
+  --color-border: var(--color-white-10);
+  --color-input: var(--color-white-15);
+  --color-ring: var(--color-zinc-500);
+  --color-overlay: var(--color-black-50);
+
+  /* Status roles. */
+  --color-positive: var(--color-green);
+  --color-positive-text: var(--color-black);
+  --color-neutral: var(--color-amber);
+  --color-neutral-text: var(--color-black);
+  --color-negative: var(--color-destructive);
+  --color-negative-text: var(--color-destructive-foreground);
+
+  /* Compatibility aliases used by older markup. */
+  --color-base: var(--color-background);
+  --color-surface: var(--color-card);
+  --color-pop: var(--color-muted);
+  --color-text: var(--color-foreground);
+  --color-text-muted: var(--color-muted-foreground);
+  --color-focus: var(--color-ring);
+  --color-scrim: var(--color-overlay);
+  --color-transparent: transparent;
+}
+
+:root {
+  @include wacss-light-theme;
+
+  /* Typography roles. */
+  --font-body: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --text-size-body: var(--text-base);
+  --text-size-sm: var(--text-sm);
+  --text-size-h1: var(--text-3xl);
+  --text-size-h2: var(--text-2xl);
+  --text-size-h3: var(--text-xl);
+  --line-body: var(--leading-normal);
+  --line-heading: var(--leading-tight);
+
+  /* Shape roles. */
+  --radius-control: var(--radius-lg);
+  --radius-surface: var(--radius-xl);
+  --radius-popover: var(--radius-md);
+  --radius-pill: var(--radius-full);
+
+  /* Motion roles. */
+  --motion-interaction: var(--motion-fast);
+  --ease-interaction: var(--ease-out);
+
+  /* Elevation roles. */
+  --shadow-surface: var(--shadow-sm);
+  --shadow-overlay: var(--shadow-md);
+  --shadow-modal: var(--shadow-lg);
+  --shadow-control: var(--shadow-xs);
+}
+
+.dark {
+  @include wacss-dark-theme;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    @include wacss-dark-theme;
+  }
+}

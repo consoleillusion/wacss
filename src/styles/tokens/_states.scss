@@ -1,17 +1,90 @@
-/* State tokens. Defined with component tokens and color-mix (no hardcoded ramps). */
+/* ==========================================================================
+   STATE TOKENS
+   Hover, active, focus, selected, and disabled values. References component
+   tokens only (plus the primitive --mix-color mixing axis).
+   ========================================================================== */
+
 :root {
-  --link-color-hover: color-mix(in oklch, var(--link-color), var(--mix-color) 12%);
+  /* Button */
+  --background-button-hover: color-mix(in oklch, var(--background-button), transparent 20%);
+  --background-button-active: var(--background-button);
+  --background-button-secondary-hover: color-mix(in oklch, var(--background-button-secondary), transparent 20%);
+  --background-button-secondary-active: var(--background-button-secondary);
+  --background-button-outline-hover: var(--accent-ui);
+  --text-button-outline-hover: var(--accent-text-ui);
+  --background-button-outline-active: var(--accent-ui);
+  --background-button-ghost-hover: var(--accent-ui);
+  --text-button-ghost-hover: var(--accent-text-ui);
+  --background-button-ghost-active: var(--accent-ui);
+  --background-button-destructive-hover: color-mix(in oklch, var(--background-button-destructive), transparent 10%);
+  --background-button-destructive-active: var(--background-button-destructive);
+  --text-button-link-hover: var(--text-button-link);
+  --opacity-button-disabled: 0.5;
+  --ring-button-focus: color-mix(in oklch, var(--ring-button), transparent 50%);
+  --ring-button-destructive-focus: color-mix(in oklch, var(--ring-button-destructive), transparent 80%);
+  --ring-invalid-ui-focus: color-mix(in oklch, var(--ring-invalid-ui), transparent 80%);
 
-  --button-background-hover: color-mix(in oklch, var(--button-background), var(--mix-color) 8%);
-  --button-primary-background-hover: color-mix(in oklch, var(--button-primary-background), var(--mix-color) 8%);
-  --button-secondary-background-hover: color-mix(in oklch, var(--button-secondary-background), var(--mix-color) 8%);
-  --button-background-active: color-mix(in oklch, var(--button-background), var(--mix-color) 14%);
+  /* Accordion */
+  --background-accordion-trigger-hover: var(--background-accordion-trigger);
+  --background-accordion-trigger-active: var(--background-accordion-trigger);
+  --text-accordion-trigger-hover: var(--text-accordion-trigger);
+  --color-accordion-icon-open: var(--color-accordion-icon);
+  --opacity-accordion-disabled: 0.5;
+  --ring-accordion-focus: color-mix(in oklch, var(--ring-accordion), transparent 50%);
 
-  --field-border-hover: color-mix(in oklch, var(--field-border), var(--color-text) 18%);
-  --field-border-focus: var(--focus-ring);
-  --field-border-invalid: var(--color-negative);
+  /* Input */
+  --border-input-hover: var(--border-input);
+  --border-input-focus: var(--ring-input);
+  --ring-input-focus: color-mix(in oklch, var(--ring-input), transparent 50%);
+  --ring-input-invalid-focus: color-mix(in oklch, var(--ring-input-invalid), transparent 80%);
+  --background-input-focus: var(--background-input);
+  --opacity-input-disabled: 0.5;
 
-  --table-row-background-hover: color-mix(in oklch, var(--color-surface), var(--color-text) 3%);
-  --nav-link-color-hover: color-mix(in oklch, var(--nav-link-color), var(--color-accent) 35%);
-  --disclosure-background-hover: color-mix(in oklch, var(--disclosure-background), var(--mix-color) 4%);
+  /* Checkbox */
+  --background-checkbox-hover: var(--background-checkbox);
+  --border-checkbox-hover: var(--border-checkbox);
+  --background-checkbox-checked-hover: var(--background-checkbox-checked);
+  --border-checkbox-checked-hover: var(--border-checkbox-checked);
+  --opacity-checkbox-disabled: 0.5;
+  --ring-checkbox-focus: color-mix(in oklch, var(--ring-checkbox), transparent 50%);
+
+  /* Switch */
+  --background-switch-hover: var(--background-switch);
+  --background-switch-checked-hover: var(--background-switch-checked);
+  --opacity-switch-disabled: 0.5;
+  --ring-switch-focus: color-mix(in oklch, var(--ring-switch), transparent 50%);
+
+  /* Select */
+  --border-select-hover: var(--border-select);
+  --background-select-hover: var(--background-select);
+  --border-select-focus: var(--accent-select);
+  --ring-select-focus: color-mix(in oklch, var(--ring-select), transparent 50%);
+  --background-select-item-highlighted: var(--accent-ui);
+  --text-select-item-highlighted: var(--accent-text-ui);
+  --background-select-item-selected: var(--background-select-item);
+  --text-select-item-selected: var(--text-select-item);
+  --opacity-select-disabled: 0.5;
+
+  /* Dialog */
+  --background-dialog-close-hover: var(--background-dialog-close);
+  --text-dialog-close-hover: var(--text-dialog-close);
+  --opacity-dialog-close-hover: 1;
+  --opacity-dialog-overlay: 1;
+  --ring-dialog-focus: var(--ring-dialog);
+
+  /* Tabs */
+  --background-tabs-trigger-hover: var(--background-tabs-trigger);
+  --text-tabs-trigger-hover: var(--text-tabs-trigger-active);
+  --opacity-tabs-disabled: 0.5;
+  --ring-tabs-focus: color-mix(in oklch, var(--ring-tabs), transparent 50%);
+
+  /* Base / global */
+  --text-link-hover: color-mix(in oklch, var(--text-link), transparent 20%);
+  --background-table-row-hover: color-mix(in oklch, var(--background-table-header), transparent 50%);
+
+  /* Nav */
+  --text-nav-link-hover: var(--text-nav-link-current);
+
+  /* Disclosure */
+  --background-disclosure-hover: var(--surface-ui);
 }

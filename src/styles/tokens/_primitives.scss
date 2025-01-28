@@ -1,49 +1,98 @@
-/* Primitive / global tokens. Palette themes override color primitives. */
+/* ==========================================================================
+   PRIMITIVE TOKENS
+   Raw values only. Nothing in this layer references alias, component, or
+   state tokens. Replace the values here to re-theme the whole library.
+   ========================================================================== */
+
 :root {
-  /* Mixing axis for derived states (calm hover/focus derivation). */
-  --mix-color: white;
+  /* Neutral ramp (shadcn/zinc). */
+  --color-zinc-50: oklch(98.5% 0 0);
+  --color-zinc-100: oklch(97% 0 0);
+  --color-zinc-200: oklch(92.2% 0 0);
+  --color-zinc-400: oklch(70.8% 0 0);
+  --color-zinc-500: oklch(55.6% 0 0);
+  --color-zinc-800: oklch(26.9% 0 0);
+  --color-zinc-900: oklch(20.5% 0 0);
+  --color-zinc-950: oklch(14.5% 0 0);
 
-  /* Neutral/primitives (defaults; palettes may override). */
-  --color-black: oklch(22% 0.01 250);
-  --color-white: oklch(98% 0.005 95);
+  /* Color hues used for status and accent roles. */
+  --color-white: oklch(100% 0 0);
+  --color-black: oklch(0% 0 0);
+  --color-zinc: var(--color-zinc-500);
+  --color-red: oklch(57.7% 0.245 27.325);
+  --color-red-dark: oklch(70.4% 0.191 22.216);
+  --color-green: oklch(62.7% 0.17 149);
+  --color-amber: oklch(76.9% 0.155 70);
+  --color-indigo: oklch(58.5% 0.19 275);
+  --color-sky: oklch(68.5% 0.14 237);
+  --color-violet: oklch(60.6% 0.21 292);
+  --color-rose: oklch(64.5% 0.2 12);
 
-  /* Typography scale (relative, calm). */
-  --font-body: "Noto Serif JP", "Iowan Old Style", "Palatino Linotype", serif;
-  --font-ui: ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", monospace;
-  --text-size-body: clamp(1rem, 0.96rem + 0.35vw, 1.125rem);
-  --text-size-sm: 0.9375rem;
-  --text-size-h1: clamp(1.75rem, 1.35rem + 1.8vw, 2.75rem);
-  --text-size-h2: clamp(1.4rem, 1.15rem + 1.1vw, 2rem);
-  --text-size-h3: clamp(1.15rem, 1.02rem + 0.55vw, 1.45rem);
-  --line-body: 1.7;
-  --line-heading: 1.2;
-  --measure: 62ch;
+  /* Alpha values used by borders, inputs, and overlays. */
+  --color-white-10: oklch(100% 0 0 / 10%);
+  --color-white-15: oklch(100% 0 0 / 15%);
+  --color-black-50: oklch(0% 0 0 / 50%);
 
-  /* Spacing scale (rem, spacious). */
+  /* Mixing axis used by state derivations. */
+  --mix-color: var(--color-white);
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Spacing */
+  --space-0-5: 0.125rem;
   --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
   --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
   --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
   --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4.5rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
 
-  /* Shape, border, shadow, motion (subtle). */
-  --radius-1: 0.05rem;
-  --radius-2: 0.11rem;
+  /* Shape. shadcn scale: sm = radius - 4px, md = radius - 2px, lg = radius. */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-full: 9999px;
   --border-width: 1px;
-  --shadow-1: 0 1px 2px color-mix(in oklch, var(--color-black), transparent 92%);
-  --shadow-2: 0 8px 24px color-mix(in oklch, var(--color-black), transparent 90%);
-  --motion-fast: 140ms;
-  --motion-base: 220ms;
-  --ease-calm: cubic-bezier(0.2, 0, 0, 1);
-}
 
-/* Default dark behavior: derive states by mixing toward black in dark scheme. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --mix-color: black;
-  }
+  /* Shadow */
+  --shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.1), 0 1px 2px -1px oklch(0% 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px oklch(0% 0 0 / 0.1), 0 2px 4px -2px oklch(0% 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px oklch(0% 0 0 / 0.1), 0 4px 6px -4px oklch(0% 0 0 / 0.1);
+  --shadow-inset: inset 0 1px 2px oklch(0% 0 0 / 0.06);
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Measure */
+  --measure: 68ch;
+
+  /* Layering */
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-popover: 60;
 }

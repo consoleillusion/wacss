@@ -1,5 +1,7 @@
 ---
+import "../../../dist/wacss.min.css";
 import { schemas } from "../../spec/index";
+import SiteNav from "../../components/SiteNav.astro";
 import TooltipClient from "../../components/Tooltip/TooltipClient.svelte";
 
 function renderSchema(obj: Record<string, unknown>, depth = 0): string {
@@ -23,36 +25,43 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
 }
 ---
 
-<html lang="en" data-wacss-palette="sakura">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>wacss · Tooltip</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("wacss:theme");
+          if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+        } catch {}
+      })();
+    </script>
   </head>
-  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
-    <nav style="margin-block-end: var(--space-6);">
-      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
-      <br />
-      <a href="/components/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← components index</a>
-    </nav>
+  <body>
+    <SiteNav current="/components/" />
+    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
 
     <h1>Tooltip</h1>
-    <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
-      Shallow wrapper around a bits-ui component. Rendered client-side (<code>client:load</code>) because it needs a context provider.
+    <p style="color: var(--text-muted); margin-block-end: var(--space-5);">
+      A thin bits-ui wrapper, rendered client-side because it needs a context provider. The ten core wacss components are the high-level, data-driven API.
     </p>
 
-    <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width) solid var(--color-border); padding-block-start: var(--space-4);">
-      <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Preview</h2>
-      <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2);">
+    <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width-ui) solid var(--color-border); padding-block-start: var(--space-4);">
+      <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Preview</h2>
+      <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md);">
         <TooltipClient client:load />
       </div>
     </section>
 
     <section>
-      <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Schema (Tooltip)</h2>
-      <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.9em;">
+      <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Schema (Tooltip)</h2>
+      <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-family-mono); font-size: 0.9em;">
 {renderSchema(schemas.tooltip)}
           </pre>
     </section>
+    </div>
   </body>
 </html>
