@@ -1,10 +1,10 @@
-[data-wacss="tabs"] {
+[wacss="tabs"] {
   display: grid;
   gap: var(--gap-tabs);
   inline-size: 100%;
 }
 
-[data-wacss="tabs-list"] {
+[wacss="tabs"] [role="tablist"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@
   color: var(--text-tabs-trigger);
 }
 
-[data-wacss="tabs-trigger"] {
+[wacss="tabs"] [role="tab"] {
   display: inline-flex;
   flex: 1;
   align-items: center;
@@ -43,31 +43,32 @@
     box-shadow var(--motion-ui) var(--ease-ui);
 }
 
-[data-wacss="tabs-trigger"]:hover {
+[wacss="tabs"] [role="tab"]:hover {
   background: var(--background-tabs-trigger-hover);
   color: var(--text-tabs-trigger-hover);
 }
 
-[data-wacss="tabs-trigger"][data-state="active"] {
+[wacss="tabs"] [role="tab"][aria-selected="true"] {
   background: var(--background-tabs-trigger-active);
   border-color: var(--border-tabs-trigger-active);
   color: var(--text-tabs-trigger-active);
   box-shadow: var(--shadow-tabs-trigger-active);
 }
 
-[data-wacss="tabs-trigger"]:focus-visible {
+[wacss="tabs"] [role="tab"]:focus-visible {
   border-color: var(--ring-tabs);
   outline: var(--ring-tabs-width) solid var(--ring-tabs-focus);
   outline-offset: 0;
 }
 
-[data-wacss="tabs-trigger"]:disabled {
+[wacss="tabs"] [role="tab"][aria-disabled="true"],
+[wacss="tabs"] [role="tab"]:disabled {
   cursor: not-allowed;
   opacity: var(--opacity-tabs-disabled);
   pointer-events: none;
 }
 
-[data-wacss="tabs-panel"] {
+[wacss="tabs"] [role="tabpanel"] {
   display: grid;
   gap: var(--gap-tabs-content);
   padding: var(--padding-tabs-content);
@@ -76,6 +77,11 @@
   outline: none;
 }
 
-[data-wacss="tabs-panel"] > :last-child {
+[wacss="tabs"] [role="tabpanel"][hidden],
+[wacss="tabs"] [role="tabpanel"][aria-hidden="true"] {
+  display: none;
+}
+
+[wacss="tabs"] [role="tabpanel"] > :last-child {
   margin-block-end: 0;
 }

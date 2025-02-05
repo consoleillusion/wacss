@@ -1,0 +1,45 @@
+/* ==========================================================================
+   LEVEL 4 — ROLE
+   Emphasis roles derived from component tokens.
+   Roles: primary, secondary, tertiary, normal. Normal aliases to secondary.
+   Paste a role set here to shift emphasis across the interface.
+   ========================================================================== */
+
+:root {
+  /* Primary emphasis */
+  --role-primary-bg: var(--component-emphasis-primary-bg);
+  --role-primary-fg: var(--component-emphasis-primary-fg);
+  --role-primary-border: var(--component-emphasis-primary-border);
+  --role-primary-ring: var(--component-emphasis-primary-ring);
+
+  /* Secondary emphasis */
+  --role-secondary-bg: var(--component-emphasis-secondary-bg);
+  --role-secondary-fg: var(--component-emphasis-secondary-fg);
+  --role-secondary-border: var(--component-emphasis-secondary-border);
+  --role-secondary-ring: var(--component-emphasis-secondary-ring);
+
+  /* Tertiary emphasis */
+  --role-tertiary-bg: var(--component-emphasis-tertiary-bg);
+  --role-tertiary-fg: var(--component-emphasis-tertiary-fg);
+  --role-tertiary-border: var(--component-emphasis-tertiary-border);
+  --role-tertiary-ring: var(--component-emphasis-tertiary-ring);
+
+  /* Normal emphasis (aliases secondary) */
+  --role-normal-bg: var(--role-secondary-bg);
+  --role-normal-fg: var(--role-secondary-fg);
+  --role-normal-border: var(--role-secondary-border);
+  --role-normal-ring: var(--role-secondary-ring);
+
+  /* Status roles derived from component emphasis/status */
+  --role-destructive-bg: var(--component-emphasis-destructive-bg);
+  --role-destructive-fg: var(--component-emphasis-destructive-fg);
+  --role-destructive-border: var(--component-emphasis-destructive-border);
+  --role-destructive-ring: var(--component-emphasis-destructive-ring);
+
+  --role-positive-bg: var(--component-emphasis-positive-bg);
+  --role-positive-fg: var(--component-emphasis-positive-fg);
+  --role-neutral-bg: var(--component-emphasis-neutral-bg);
+  --role-neutral-fg: var(--component-emphasis-neutral-fg);
+  --role-negative-bg: var(--component-emphasis-negative-bg);
+  --role-negative-fg: var(--component-emphasis-negative-fg);
+}

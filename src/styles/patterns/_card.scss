@@ -1,12 +1,12 @@
+[wacss="card"],
 article[data-wacss-card],
 section[data-wacss-card],
-[data-wacss-card],
-[data-wacss="card"] {
+[data-wacss-card] {
   display: flex;
   flex-direction: column;
   gap: var(--gap-card);
   padding-block: var(--padding-card-block);
-  padding-inline: var(--padding-card);
+  padding-inline: var(--padding-card-inline);
   background: var(--background-card);
   color: var(--text-card);
   border: var(--border-width-ui) solid var(--border-card);
@@ -14,18 +14,20 @@ section[data-wacss-card],
   box-shadow: var(--shadow-card);
 }
 
-[data-wacss-card] > :last-child,
-[data-wacss="card"] > :last-child {
+[wacss="card"] > :last-child,
+[data-wacss-card] > :last-child {
   margin-block-end: 0;
 }
 
-[data-wacss="card-header"] {
+[wacss="card-header"],
+[wacss="card"] > header {
   display: grid;
   gap: var(--gap-card-header);
   padding: var(--padding-card-header);
 }
 
-[data-wacss="card-title"] {
+[wacss="card-title"],
+[wacss="card"] > header > h3 {
   margin: 0;
   color: var(--text-card-title);
   font-size: var(--font-size-card-title);
@@ -33,23 +35,48 @@ section[data-wacss-card],
   line-height: var(--line-card-title);
 }
 
-[data-wacss="card-description"] {
+[wacss="card-description"],
+[wacss="card"] > header > p {
   margin: 0;
   color: var(--text-card-description);
   font-size: var(--font-size-card-description);
 }
 
-[data-wacss="card-content"] {
+[wacss="card-content"] {
   display: grid;
   gap: var(--gap-card-content);
   padding: var(--padding-card-content);
 }
 
-[data-wacss="card-content"] > :last-child {
+[wacss="card-content"] > :last-child {
   margin-block-end: 0;
 }
 
-[data-wacss="card-footer"] {
+[wacss="card-media"] {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+[wacss="card-media"] img,
+[wacss="card-media"] video {
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: calc(var(--radius-card) - var(--space-1));
+  display: block;
+}
+
+[wacss="card-media"] audio {
+  inline-size: 100%;
+}
+
+[wacss="card-media"] figcaption {
+  color: var(--text-card-description);
+  font-size: var(--font-size-card-description);
+}
+
+[wacss="card-footer"],
+[wacss="card"] > footer {
   display: flex;
   align-items: center;
   padding: var(--padding-card-footer);
