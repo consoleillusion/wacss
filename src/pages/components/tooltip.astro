@@ -42,26 +42,23 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
+    <div data-wacss="page">
+      <h1>Tooltip</h1>
+      <p data-wacss="muted mb-5">
+        A thin bits-ui wrapper, rendered client-side because it needs a context provider. The ten core wacss components are the high-level, data-driven API.
+      </p>
 
-    <h1>Tooltip</h1>
-    <p style="color: var(--text-muted); margin-block-end: var(--space-5);">
-      A thin bits-ui wrapper, rendered client-side because it needs a context provider. The ten core wacss components are the high-level, data-driven API.
-    </p>
+      <section data-wacss="section-bordered">
+        <h2 data-wacss="section-title">Preview</h2>
+        <div data-wacss="preview">
+          <TooltipClient client:load />
+        </div>
+      </section>
 
-    <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width-ui) solid var(--color-border); padding-block-start: var(--space-4);">
-      <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Preview</h2>
-      <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md);">
-        <TooltipClient client:load />
-      </div>
-    </section>
-
-    <section>
-      <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Schema (Tooltip)</h2>
-      <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-family-mono); font-size: 0.9em;">
-{renderSchema(schemas.tooltip)}
-          </pre>
-    </section>
+      <section>
+        <h2 data-wacss="section-title">Schema (Tooltip)</h2>
+        <pre data-wacss="schema">{renderSchema(schemas.tooltip)}</pre>
+      </section>
     </div>
   </body>
 </html>

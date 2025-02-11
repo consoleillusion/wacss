@@ -66,76 +66,76 @@ const tabs = [
   </head>
   <body>
     <SiteNav current="/" />
-    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
-    <header style="margin-block-end: var(--space-7);">
-      <p><small>wacss · token-driven components</small></p>
-      <h1>Calm interfaces, one token set</h1>
-      <p style="color: var(--text-muted); max-inline-size: var(--measure);">
-        Components render from simple data props. Styling is global, and every value traces back to the
-        primitive → alias → component → state token hierarchy.
-      </p>
-      <p style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
-        <Button variant="default">Primary action</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="destructive">Delete</Button>
-        <Button variant="link" href="/components/">Component gallery →</Button>
-      </p>
-    </header>
-
-    <main>
-      <section style="display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); align-items: start;">
-        <Card title="Card" description="A surface with optional title, description, content, and footer.">
-          <p style="margin: 0; color: var(--text-muted);">
-            Card content is ordinary markup. The card only supplies the surface and spacing.
-          </p>
-        </Card>
-
-        <Card title="Form controls">
-          <div style="display: grid; gap: var(--space-4);">
-            <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." />
-            <Input client:load label="Project name" placeholder="Untitled" />
-            <Label for="demo-checkbox" text="Label" />
-            <Checkbox client:load label="Accept terms" description="This checkbox remembers its state." />
-            <Switch client:load label="Notifications" />
-          </div>
-        </Card>
-      </section>
-
-      <section style="margin-block-start: var(--space-7); display: grid; gap: var(--space-4);">
-        <h2>Accordion</h2>
-        <Accordion items={accordionItems} />
-
-        <h2>Select</h2>
-        <div style="max-inline-size: 20rem;">
-          <Select options={selectOptions} placeholder="Choose a theme" client:load />
-        </div>
-
-        <h2>Tabs</h2>
-        <Tabs tabs={tabs} client:load />
-
-        <h2>Dialog</h2>
-        <Dialog
-          title="Edit profile"
-          description="Make changes to your profile here. Click save when you are done."
-          triggerLabel="Open dialog"
-          client:load
-        >
-          <p style="margin: 0; color: var(--text-muted);">
-            Dialog content is a snippet. Everything else is supplied by props.
-          </p>
-        </Dialog>
-
-        <h2>Form from JSON Schema</h2>
-        <p style="color: var(--text-muted); max-inline-size: var(--measure); margin: 0;">
-          Pass a schema and the form infers text, email, number, switch, select, checkbox group,
-          textarea, date, and nested object fields. Add <code>action</code> and <code>target</code>
-          for native submission, or use <code>onSubmit</code> for client-side handling.
+    <div data-wacss="page">
+      <header data-wacss="page-header">
+        <p><small>wacss · token-driven components</small></p>
+        <h1>Calm interfaces, one token set</h1>
+        <p data-wacss="page-lead">
+          Components render from simple data props. Styling is global, and every value traces back to the
+          primitive → alias → component → state token hierarchy.
         </p>
-        <FormDemo client:load />
-      </section>
-    </main>
+        <p data-wacss="cluster">
+          <Button variant="default">Primary action</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="destructive">Delete</Button>
+          <Button variant="link" href="/components/">Component gallery →</Button>
+        </p>
+      </header>
+
+      <main>
+        <section data-wacss="grid-cards">
+          <Card title="Card" description="A surface with optional title, description, content, and footer.">
+            <p data-wacss="muted m-0">
+              Card content is ordinary markup. The card only supplies the surface and spacing.
+            </p>
+          </Card>
+
+          <Card title="Form controls">
+            <div data-wacss="stack">
+              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." />
+              <Input client:load label="Project name" placeholder="Untitled" />
+              <Label for="demo-checkbox" text="Label" />
+              <Checkbox client:load label="Accept terms" description="This checkbox remembers its state." />
+              <Switch client:load label="Notifications" />
+            </div>
+          </Card>
+        </section>
+
+        <section data-wacss="section">
+          <h2>Accordion</h2>
+          <Accordion items={accordionItems} />
+
+          <h2>Select</h2>
+          <div data-wacss="constrain-sm">
+            <Select options={selectOptions} placeholder="Choose a theme" client:load />
+          </div>
+
+          <h2>Tabs</h2>
+          <Tabs tabs={tabs} client:load />
+
+          <h2>Dialog</h2>
+          <Dialog
+            title="Edit profile"
+            description="Make changes to your profile here. Click save when you are done."
+            triggerLabel="Open dialog"
+            client:load
+          >
+            <p data-wacss="muted m-0">
+              Dialog content is a snippet. Everything else is supplied by props.
+            </p>
+          </Dialog>
+
+          <h2>Form from JSON Schema</h2>
+          <p data-wacss="page-lead m-0">
+            Pass a schema and the form infers text, email, number, switch, select, checkbox group,
+            textarea, date, and nested object fields. Add <code>action</code> and <code>target</code>
+            for native submission, or use <code>onSubmit</code> for client-side handling.
+          </p>
+          <FormDemo client:load />
+        </section>
+      </main>
     </div>
   </body>
 </html>
