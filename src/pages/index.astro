@@ -1,54 +1,44 @@
 ---
 import "../../dist/wacss.min.css";
-import {
-  Accordion,
-  Button,
-  Card,
-  Checkbox,
-  Dialog,
-  Input,
-  Label,
-  Select,
-  Switch,
-  Tabs,
-} from "../components";
-import FormDemo from "../islands/FormDemo.svelte";
+import { Card } from "../components";
 import SiteNav from "../components/SiteNav.astro";
+import { schemas } from "../spec/index";
 
 const accordionItems = [
-  {
-    value: "tokens",
-    title: "One token set restyles everything",
-    content:
-      "Primitive values feed alias roles, alias roles feed component tokens, and component tokens feed state values.",
-  },
-  {
-    value: "global",
-    title: "Global styles only",
-    content:
-      "Components carry no scoped styles. Paste a different token set at :root and the whole library follows.",
-  },
-  {
-    value: "data",
-    title: "Data in, UI out",
-    content:
-      "Pass items, options, tabs, or values. The component renders the full accessible interaction for you.",
-  },
+  { value: "one", title: "Token driven", content: "Change tokens, restyle the interface." },
+  { value: "two", title: "Data driven", content: "Pass data props, get a full UI." },
 ];
 
 const selectOptions = [
   { value: "sakura", label: "Sakura" },
-  { value: "matcha", label: "Matcha" },
+  { value: "shibui", label: "Shibui" },
   { value: "sumi", label: "Sumi" },
 ];
 
 const tabs = [
-  { value: "overview", label: "Overview", content: "A small, token-driven component set." },
-  { value: "tokens", label: "Tokens", content: "Primitive, alias, component, state." },
-  { value: "storage", label: "Storage", content: "Value-like state persists to localStorage." },
+  { value: "overview", label: "Overview", content: "Composable, token-driven components." },
+  { value: "tokens", label: "Tokens", content: "Primitive → alias → component → state." },
+];
+
+const showcase = [
+  { key: "button", figure: { title: "Button", variant: "default", label: "Primary action" } },
+  { key: "badge", figure: { title: "Badge", label: "Badge" } },
+  { key: "avatar", figure: { title: "Avatar", alt: "Ada Lovelace", fallback: "AL" } },
+  { key: "input", figure: { title: "Input", label: "Email", type: "email", placeholder: "you@example.com" } },
+  { key: "color", figure: { title: "Color", label: "Accent", value: "#6d9469", accentSelector: true, storageKey: "wacss:accent-color-input" } },
+  { key: "checkbox", figure: { title: "Checkbox", label: "Accept terms", description: "Remembered in localStorage." } },
+  { key: "switch", figure: { title: "Switch", label: "Notifications" } },
+  { key: "select", figure: { title: "Select", options: selectOptions, placeholder: "Choose accent", accentSelector: true, storageKey: "wacss:accent" } },
+  { key: "progress", figure: { title: "Progress", value: 62, label: "Progress", showValue: true } },
+  { key: "separator", figure: { title: "Separator" } },
+  { key: "tabs", figure: { title: "Tabs", tabs } },
+  { key: "accordion", figure: { title: "Accordion", items: accordionItems } },
+  { key: "label", figure: { title: "Label", text: "Label", required: true } },
+  { key: "image", figure: { title: "Image", src: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop", alt: "Matcha tea", caption: "Matcha" } },
+  { key: "video", figure: { title: "Video", src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "Sample video" } },
+  { key: "audio", figure: { title: "Audio", src: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3", caption: "Sample audio" } },
 ];
 ---
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -60,6 +50,13 @@ const tabs = [
         try {
           const stored = localStorage.getItem("wacss:theme");
           if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+          const accent = localStorage.getItem("wacss:accent");
+          const themes = ["sakura", "shibui", "sumi"];
+          if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
+          else if (accent === "custom") {
+            const c = localStorage.getItem("wacss:accent-color");
+            if (c) { document.documentElement.style.setProperty("--alias-theme", c); document.documentElement.style.setProperty("--alias-accent", c); }
+          }
         } catch {}
       })();
     </script>
@@ -71,69 +68,25 @@ const tabs = [
         <p><small>wacss · token-driven components</small></p>
         <h1>Calm interfaces, one token set</h1>
         <p data-wacss="page-lead">
-          Components render from simple data props. Styling is global, and every value traces back to the
-          primitive → alias → component → state token hierarchy.
-        </p>
-        <p data-wacss="cluster">
-          <Button variant="default">Primary action</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="destructive">Delete</Button>
-          <Button variant="link" href="/components/">Component gallery →</Button>
+          Data-driven components styled by a global token hierarchy. Each card below renders a component
+          from schema-described data.
         </p>
       </header>
 
       <main>
-        <section data-wacss="grid-cards">
-          <Card title="Card" description="A surface with optional title, description, content, and footer.">
-            <p data-wacss="muted m-0">
-              Card content is ordinary markup. The card only supplies the surface and spacing.
-            </p>
-          </Card>
-
-          <Card title="Form controls">
-            <div data-wacss="stack">
-              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." />
-              <Input client:load label="Project name" placeholder="Untitled" />
-              <Label for="demo-checkbox" text="Label" />
-              <Checkbox client:load label="Accept terms" description="This checkbox remembers its state." />
-              <Switch client:load label="Notifications" />
-            </div>
-          </Card>
-        </section>
-
-        <section data-wacss="section">
-          <h2>Accordion</h2>
-          <Accordion items={accordionItems} />
-
-          <h2>Select</h2>
-          <div data-wacss="constrain-sm">
-            <Select options={selectOptions} placeholder="Choose a theme" client:load />
-          </div>
-
-          <h2>Tabs</h2>
-          <Tabs tabs={tabs} client:load />
-
-          <h2>Dialog</h2>
-          <Dialog
-            title="Edit profile"
-            description="Make changes to your profile here. Click save when you are done."
-            triggerLabel="Open dialog"
-            client:load
-          >
-            <p data-wacss="muted m-0">
-              Dialog content is a snippet. Everything else is supplied by props.
-            </p>
-          </Dialog>
-
-          <h2>Form from JSON Schema</h2>
-          <p data-wacss="page-lead m-0">
-            Pass a schema and the form infers text, email, number, switch, select, checkbox group,
-            textarea, date, and nested object fields. Add <code>action</code> and <code>target</code>
-            for native submission, or use <code>onSubmit</code> for client-side handling.
-          </p>
-          <FormDemo client:load />
+        <section class="grid" data-fit data-wacss="component-grid">
+          {showcase.map((item) => {
+            const schema = (schemas as any)[item.key];
+            return schema ? (
+              <Card
+                client:load
+                header={schema.title}
+                text={schema.description}
+                figure={item.figure}
+                href={`/components/${item.key}/`}
+              />
+            ) : null;
+          })}
         </section>
       </main>
     </div>

@@ -1,4 +1,5 @@
-[wacss="accordion"] details {
+:where([wacss="accordion"], [data-wacss="accordion"]) details,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-item"] {
   interpolate-size: allow-keywords;
   overflow: clip;
   border-block-end: var(--state-border-width) solid var(--state-accordion-item-border);
@@ -7,11 +8,13 @@
   background: transparent;
 }
 
-[wacss="accordion"] details:last-child {
+:where([wacss="accordion"], [data-wacss="accordion"]) details:last-child,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-item"]:last-child {
   border-block-end: 0;
 }
 
-[wacss="accordion"] summary {
+:where([wacss="accordion"], [data-wacss="accordion"]) summary,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-trigger"] {
   display: block;
   cursor: pointer;
   position: relative;
@@ -28,50 +31,43 @@
   padding-inline-end: calc(var(--state-accordion-icon-size) + var(--state-accordion-trigger-gap));
 }
 
-[wacss="accordion"] details[open] > summary {
+:where([wacss="accordion"], [data-wacss="accordion"]) details[open] > summary,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-item"][open] > [data-wacss="accordion-trigger"] {
   color: var(--state-accordion-trigger-fg);
   background: var(--state-accordion-trigger-bg);
 }
 
-[wacss="accordion"] summary::-webkit-details-marker {
-  display: none;
-}
+:where([wacss="accordion"], [data-wacss="accordion"]) summary::-webkit-details-marker { display: none; }
+:where([wacss="accordion"], [data-wacss="accordion"]) summary::marker { content: ""; }
 
-[wacss="accordion"] summary::marker {
-  content: "";
-}
-
-[wacss="accordion"] details:not([open]) > summary:hover {
+:where([wacss="accordion"], [data-wacss="accordion"]) details:not([open]) > summary:hover,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-item"]:not([open]) > [data-wacss="accordion-trigger"]:hover {
   color: var(--state-accordion-trigger-fg-hover);
   background: var(--state-accordion-trigger-bg-hover);
   text-decoration: underline;
 }
 
-[wacss="accordion"] details[open]::details-content {
-  height: auto;
-}
-
-[wacss="accordion"] details::details-content {
+:where([wacss="accordion"], [data-wacss="accordion"]) details[open]::details-content { height: auto; }
+:where([wacss="accordion"], [data-wacss="accordion"]) details::details-content {
   height: 0;
   overflow-y: clip;
   transition: content-visibility var(--state-accordion-motion) allow-discrete, height var(--state-accordion-motion);
 }
 
-[wacss="accordion"] details > div {
+:where([wacss="accordion"], [data-wacss="accordion"]) details > div,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-content"] {
   padding: var(--state-accordion-content-padding);
   color: var(--state-accordion-content-fg);
   font-size: var(--state-accordion-content-font-size);
 }
 
-[wacss="accordion"] details > div > :first-child {
-  margin-block-start: 0;
-}
+:where([wacss="accordion"], [data-wacss="accordion"]) details > div > :first-child,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-content"] > :first-child { margin-block-start: 0; }
+:where([wacss="accordion"], [data-wacss="accordion"]) details > div > :last-child,
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-content"] > :last-child { margin-block-end: 0; }
 
-[wacss="accordion"] details > div > :last-child {
-  margin-block-end: 0;
-}
-
-[wacss="accordion"] summary > svg[aria-hidden="true"] {
+:where([wacss="accordion"], [data-wacss="accordion"]) summary > svg[aria-hidden="true"],
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-icon"] {
   position: absolute;
   inset-inline-end: 0;
   inset-block-start: 50%;
@@ -83,7 +79,8 @@
   pointer-events: none;
 }
 
-[wacss="accordion"] details[open] > summary > svg[aria-hidden="true"] {
+:where([wacss="accordion"], [data-wacss="accordion"]) details[open] > summary > svg[aria-hidden="true"],
+:where([wacss="accordion"], [data-wacss="accordion"]) [data-wacss="accordion-item"][open] [data-wacss="accordion-icon"] {
   color: var(--state-accordion-icon-open-fg);
   transform: translateY(-50%) rotate(180deg);
 }

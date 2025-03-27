@@ -24,11 +24,10 @@ function shortName(i) {
 }
 
 function mangleVars(css) {
-  const names = new Set();
-  for (const m of css.matchAll(/--([a-zA-Z0-9_-]+)/g)) names.add(m[1]);
-  const sorted = [...names].sort();
-  const map = new Map(sorted.map((n, i) => [n, shortName(i)]));
-  return css.replace(/--([a-zA-Z0-9_-]+)/g, (_, n) => `--${map.get(n) ?? n}`);
+  // Mangling renamed custom properties (e.g. --alias-theme -> --ku), which broke
+  // runtime theming: JS sets inline vars with source names (--alias-theme, --color-accent)
+  // but dist only contained mangled ones. Keep source names; rely on Lightning CSS minify.
+  return css;
 }
 
 await mkdir(outDir, { recursive: true });
@@ -42,7 +41,7 @@ const compiled = sass.compile(input, {
   sourceMap: false,
 });
 
-const prettyCss = mangleVars(compiled.css);
+const prettyCss = compiled.css;
 await writeFile(cssPath, prettyCss, "utf8");
 
 const minified = transform({

@@ -7,8 +7,9 @@
     href,
     class: className = "",
     children,
+    label,
     ...restProps
-  }: BadgeProps = $props();
+  }: BadgeProps & { label?: string } = $props();
 
   const Tag = $derived(href ? "a" : as);
   const classes = $derived(["wacss-badge", className].filter(Boolean).join(" "));
@@ -22,5 +23,5 @@
   data-wacss="badge"
   data-variant={variant}
 >
-  {@render children?.()}
+  {#if children}{@render children()}{:else if label}{label}{/if}
 </svelte:element>
