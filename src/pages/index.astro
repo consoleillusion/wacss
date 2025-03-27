@@ -20,12 +20,23 @@ const tabs = [
   { value: "tokens", label: "Tokens", content: "Primitive → alias → component → state." },
 ];
 
+const navMenuItems = [
+  { label: "Getting started", links: [
+    { href: "/components/", label: "Introduction", description: "Explore components." },
+    { href: "/components/button/", label: "Button", description: "Actions and variants." },
+  ]},
+  { label: "Components", href: "/components/" },
+];
+
 const showcase = [
   { key: "button", figure: { title: "Button", variant: "default", label: "Primary action" } },
   { key: "badge", figure: { title: "Badge", label: "Badge" } },
   { key: "avatar", figure: { title: "Avatar", alt: "Ada Lovelace", fallback: "AL" } },
   { key: "input", figure: { title: "Input", label: "Email", type: "email", placeholder: "you@example.com" } },
-  { key: "color", figure: { title: "Color", label: "Accent", value: "#6d9469", accentSelector: true, storageKey: "wacss:accent-color-input" } },
+  { key: "slider", figure: { component: "Slider", accentSelector: true } },
+  { key: "colorpicker", figure: { component: "ColorPicker", label: "Color", value: "#6d9469" } },
+  { key: "datepicker", figure: { component: "DatePicker", label: "Date" } },
+  { key: "navigationmenu", figure: { component: "NavigationMenu", items: navMenuItems } },
   { key: "checkbox", figure: { title: "Checkbox", label: "Accept terms", description: "Remembered in localStorage." } },
   { key: "switch", figure: { title: "Switch", label: "Notifications" } },
   { key: "select", figure: { title: "Select", options: selectOptions, placeholder: "Choose accent", accentSelector: true, storageKey: "wacss:accent" } },
@@ -49,13 +60,13 @@ const showcase = [
       (() => {
         try {
           const stored = localStorage.getItem("wacss:theme");
-          if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+          if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
           const accent = localStorage.getItem("wacss:accent");
           const themes = ["sakura", "shibui", "sumi"];
           if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
           else if (accent === "custom") {
             const c = localStorage.getItem("wacss:accent-color");
-            if (c) { document.documentElement.style.setProperty("--alias-theme", c); document.documentElement.style.setProperty("--alias-accent", c); }
+            if (c) { document.documentElement.style.setProperty("--color-theme", c); document.documentElement.style.setProperty("--color-accent", c); }
           }
         } catch {}
       })();
@@ -76,7 +87,8 @@ const showcase = [
       <main>
         <section class="grid" data-fit data-wacss="component-grid">
           {showcase.map((item) => {
-            const schema = (schemas as any)[item.key];
+            const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key;
+            const schema = (schemas as any)[schemaKey];
             return schema ? (
               <Card
                 client:load

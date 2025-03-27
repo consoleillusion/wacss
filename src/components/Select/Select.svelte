@@ -44,8 +44,8 @@
       try {
         const c = localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent");
         if (c) {
-          document.documentElement.style.setProperty("--alias-theme", c);
-          document.documentElement.style.setProperty("--alias-accent", c);
+          document.documentElement.style.setProperty("--color-theme", c);
+          document.documentElement.style.setProperty("--color-accent", c);
         }
       } catch {}
       emitAccentChange({ source: "custom", color: localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent") ?? "" });
@@ -59,8 +59,8 @@
     }
     const root = document.documentElement;
     for (const t of ACCENT_THEME_NAMES) root.classList.remove(`theme-${t}`);
-    root.style.removeProperty("--alias-theme");
-    root.style.removeProperty("--alias-accent");
+    root.style.removeProperty("--color-theme");
+    root.style.removeProperty("--color-accent");
     if (ACCENT_THEME_NAMES.includes(next)) root.classList.add(`theme-${next}`);
     try {
       localStorage.setItem("wacss:accent", next);

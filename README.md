@@ -94,20 +94,48 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 - Rendered styles consume layer 5 (final state tokens).
 - Many token families, such as a colour theme, derive from a single higher-level token.
 - **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
-- Light and dark values follow `prefers-color-scheme`. Add a `light` or `dark` class on `<html>` to override.
+- Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle).
+- Each domain(color, spacing, radius, etc) has a prima token on each layer, which the other tokens within the same category are derived from.
 
-```css
+
+```scss
 :root {
-  --color-indigo: oklch(58.5% 0.19 275);                       /* primitive */
-  --color-accent: var(--color-indigo);                         /* semantic  */
-  --background-button: var(--color-accent);                    /* component */
-  --background-button-standard: var(--background-button);      /* role      */
-  --background-button-standard-hover:                          /* state     */
-    color-mix(in oklch, var(--background-button-standard), var(--mix-color) 10%);
+  /* primitive */
+  --color-sakura: oklch(70% 0.15 5);
+  --color-matcha: oklch(70% 0.15 140);
+  --color-sumi: oklch(70% .01 260);
+
+  /* semantic */
+  --color-base-light: #111111;
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.05 h);
+  @media (prefers-color-scheme: light) {
+    --color-base-light: #fafafa;
+  }
+  &:[data-theme="light"]{
+    --color-base-light: #fafafa;
+  }
+    
+  --color-accent: var(--color-sumi); // prima
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent),5%);
+  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse), 5%);
+  --color-pop: oklch(from var(--color-accent) l calc(c+.01) calc(h + 15));
+
+  /* component */
+  --button-background: var(--color-accent); // prima
+  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
+
+  /* role */
+  --button-background-standard: var(--button-background); // prima
+  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+
+  /* state */
+  --button-background-standard-hover: color-mix(in oklch, var(--background-button-standard), var(--color-base-light-inverse), 10%);
+
+
 }
 
-button       { background: var(--background-button-standard); color: var(--text-button); }
-button:hover { background: var(--background-button-standard-hover); }
+button       { background: var(--button-background-standard); color: var(--text-button); }
+button:hover { background: var(--button-background-standard-hover); }
 ```
 
 ---

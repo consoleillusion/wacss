@@ -6,42 +6,41 @@
   let theme = $state<Theme>("system");
   let resolved = $state<"light" | "dark">("light");
 
-  function apply(next: Theme) {
+  function currentSystem(): "light" | "dark" {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  function apply(next: Theme, persist = true) {
     theme = next;
     const root = document.documentElement;
-    root.classList.remove("light", "dark");
     if (next === "system") {
-      localStorage.removeItem("wacss:theme");
-      resolved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      root.removeAttribute("data-theme");
+      resolved = currentSystem();
+      if (persist) localStorage.removeItem("wacss:theme");
     } else {
-      localStorage.setItem("wacss:theme", next);
-      root.classList.add(next);
+      root.setAttribute("data-theme", next);
       resolved = next;
+      if (persist) localStorage.setItem("wacss:theme", next);
     }
   }
 
   function toggle() {
-    const current = resolved;
-    apply(current === "dark" ? "light" : "dark");
+    apply(resolved === "dark" ? "light" : "dark");
   }
 
   onMount(() => {
     const stored = localStorage.getItem("wacss:theme");
     if (stored === "light" || stored === "dark") {
       theme = stored;
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(stored);
       resolved = stored;
     } else {
       theme = "system";
-      resolved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      resolved = currentSystem();
     }
 
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
-      if (theme === "system") {
-        resolved = media.matches ? "dark" : "light";
-      }
+      if (theme === "system") resolved = currentSystem();
     };
     media.addEventListener("change", onChange);
     return () => media.removeEventListener("change", onChange);
@@ -55,8 +54,8 @@
   data-size="sm"
   class="theme-toggle"
   onclick={toggle}
-  aria-label={resolved === "dark" ? "Dark mode (switch to light)" : "Light mode (switch to dark)"}
-  title={resolved === "dark" ? "Dark mode (switch to light)" : "Light mode (switch to dark)"}
+  aria-label={resolved === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+  title={resolved === "dark" ? "Dark mode (click to switch to light)" : "Light mode (click to switch to dark)"}
 >
   {#if resolved === "dark"}
     <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
