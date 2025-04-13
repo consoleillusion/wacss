@@ -2,19 +2,26 @@
 @use "sass:math";
 
 /* ==========================================================================
-   LEVEL 1 — PRIMITIVE / GLOBAL
-   Real values only. No references to semantic, component, role, or state tokens.
-   Paste a new primitive set here to change raw values everywhere.
+   LEVEL 1 — PRIMITIVE
+   Raw values only. No references to semantic, component, role, or state tokens.
    ========================================================================== */
+
+$palettes: (
+  "sakura": oklch(60% 0.15 5),
+  "matcha": oklch(60% 0.15 140),
+  "sumi": oklch(60% 0.01 260),
+  "aizome": oklch(60% 0.15 230),
+);
 
 $primitive-colors: (
   "white": oklch(100% 0 0),
   "black": oklch(0% 0 0),
   "stone": oklch(99.3% 0.002 250),
   "charcoal": oklch(17% 0.005 260),
-  "sakura": oklch(58% 0.19 340),
-  "shibui": oklch(52% 0.04 135),
-  "sumi": oklch(78% 0.01 260),
+  "sakura": oklch(60% 0.15 5),
+  "matcha": oklch(60% 0.15 140),
+  "sumi": oklch(60% 0.01 260),
+  "aizome": oklch(60% 0.15 230),
   "red": oklch(57.7% 0.245 27.325),
   "green": oklch(62.7% 0.17 149),
   "amber": oklch(76.9% 0.155 70),
@@ -123,6 +130,12 @@ $primitive-border-width: (
 
   @each $name, $value in $primitive-colors {
     --primitive-color-#{$name}: #{$value};
+  }
+
+  /* Primitive accent variants (4 palettes) */
+  @each $name, $color in $palettes {
+    --color-dark-#{$name}: #{$color};
+    --color-light-#{$name}: oklch(from #{$color} calc(l + 10%) calc(c + 0.02) h);
   }
 
   @each $name, $n in $primitive-space {

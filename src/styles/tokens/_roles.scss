@@ -43,3 +43,31 @@
   --role-negative-bg: var(--component-emphasis-negative-bg);
   --role-negative-fg: var(--component-emphasis-negative-fg);
 }
+
+/* ===== New hierarchy overrides (L4 roles/primas) ===== */
+:root {
+  --button-background-standard: var(--button-background, var(--color-accent));
+  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-standard: var(--button-border, transparent);
+
+  --button-background-primary: var(--color-pop);
+  --button-color-primary: oklch(from var(--button-background-primary) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-primary: transparent;
+
+  --button-background-secondary: var(--color-secondary);
+  --button-color-secondary: var(--color-secondary-foreground);
+  --button-border-secondary: transparent;
+
+  --button-background-tertiary: var(--color-muted);
+  --button-color-tertiary: var(--color-muted-foreground);
+  --button-border-tertiary: var(--color-border);
+
+  --role-primary-bg: var(--button-background-primary);
+  --role-primary-fg: var(--button-color-primary);
+  --role-secondary-bg: var(--button-background-secondary);
+  --role-secondary-fg: var(--button-color-secondary);
+  --role-tertiary-bg: var(--button-background-tertiary);
+  --role-tertiary-fg: var(--button-color-tertiary);
+  --role-normal-bg: var(--role-secondary-bg);
+  --role-normal-fg: var(--role-secondary-fg);
+}
