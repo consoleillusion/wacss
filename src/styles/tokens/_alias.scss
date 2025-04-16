@@ -10,14 +10,11 @@ $palettes: "sakura", "matcha", "sumi", "aizome";
 :root {
   color-scheme: light dark;
 
-  /* Base/ink: light default, inverted in dark via prefers-color-scheme/data-theme */
-  --color-base-light: #111111;
-  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.05 h);
-  @media (prefers-color-scheme: light) {
-    --color-base-light: #fafafa;
-  }
+  /* Base/ink: follows prefers-color-scheme by default, overridable via data-theme */
+  --color-base-light: #fafafa;
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0 0);
 
-  /* Palette-driven accent (prima). Default sumi (dark variant in dark/system-default, overridden below). */
+  /* Palette-driven accent (prima). Default sumi; mode-aware variants applied below. */
   --color-accent: var(--color-dark-sumi);
   --color-theme: var(--color-accent);
 
@@ -91,7 +88,12 @@ $palettes: "sakura", "matcha", "sumi", "aizome";
   --color-negative-text: var(--color-negative-foreground);
 }
 
-/* data-theme overrides for base */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-base-light: #111111;
+  }
+}
 :root[data-theme="light"] {
   color-scheme: light;
   --color-base-light: #fafafa;
@@ -137,14 +139,17 @@ $palettes: "sakura", "matcha", "sumi", "aizome";
 .theme-sakura { --color-accent: var(--color-dark-sakura); --color-theme: var(--color-accent); }
 .theme-matcha { --color-accent: var(--color-dark-matcha); --color-theme: var(--color-accent); }
 .theme-sumi   { --color-accent: var(--color-dark-sumi);   --color-theme: var(--color-accent); }
+.theme-aizome { --color-accent: var(--color-dark-aizome); --color-theme: var(--color-accent); }
 .theme-shibui { --color-accent: var(--primitive-color-shibui); --color-theme: var(--color-accent); }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]).theme-sakura, :root:not([data-theme="dark"]) .theme-sakura { --color-accent: var(--color-light-sakura); }
   :root:not([data-theme="dark"]).theme-matcha, :root:not([data-theme="dark"]) .theme-matcha { --color-accent: var(--color-light-matcha); }
   :root:not([data-theme="dark"]).theme-sumi,   :root:not([data-theme="dark"]) .theme-sumi   { --color-accent: var(--color-light-sumi); }
+  :root:not([data-theme="dark"]).theme-aizome, :root:not([data-theme="dark"]) .theme-aizome { --color-accent: var(--color-light-aizome); }
 }
 :root[data-theme="light"].theme-sakura, :root[data-theme="light"] .theme-sakura { --color-accent: var(--color-light-sakura); }
 :root[data-theme="light"].theme-matcha, :root[data-theme="light"] .theme-matcha { --color-accent: var(--color-light-matcha); }
 :root[data-theme="light"].theme-sumi,   :root[data-theme="light"] .theme-sumi   { --color-accent: var(--color-light-sumi); }
+:root[data-theme="light"].theme-aizome, :root[data-theme="light"] .theme-aizome { --color-accent: var(--color-light-aizome); }
 
 
