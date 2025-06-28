@@ -15,7 +15,7 @@
   }: AudioProps = $props();
 </script>
 
-<figure data-wacss="audio" class={className || undefined} {...restProps}>
+<figure class={className || undefined} {...restProps}>
   <audio {src} {controls} {autoplay} {loop} {muted} {preload}>
     {#if sources}
       {#each sources as s}

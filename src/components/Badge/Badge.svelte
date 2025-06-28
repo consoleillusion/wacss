@@ -12,15 +12,13 @@
   }: BadgeProps & { label?: string } = $props();
 
   const Tag = $derived(href ? "a" : as);
-  const classes = $derived(["wacss-badge", className].filter(Boolean).join(" "));
 </script>
 
 <svelte:element
   this={Tag}
   {...restProps}
   {href}
-  class={classes}
-  data-wacss="badge"
+  class={className || undefined}
   data-variant={variant}
 >
   {#if children}{@render children()}{:else if label}{label}{/if}

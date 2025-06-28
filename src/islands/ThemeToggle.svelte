@@ -49,7 +49,6 @@
 
 <button
   type="button"
-  data-wacss="button"
   data-variant="outline"
   data-size="sm"
   class="theme-toggle"

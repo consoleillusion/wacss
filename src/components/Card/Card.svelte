@@ -69,7 +69,7 @@ import Progress from "../Progress/Progress.svelte";
     ...restProps
   }: CardProps & { href?: string } = $props();
 
-  const classes = $derived([className].filter(Boolean).join(" "));
+  const classes = $derived(className || undefined);
   const headerText = $derived(typeof header === "string" ? header : title);
   const bodyText = $derived(text ?? description);
 
@@ -117,7 +117,7 @@ import Progress from "../Progress/Progress.svelte";
     if (!href) return;
     const target = e.target as HTMLElement | null;
     if (!target) return;
-    if (target.closest("a, button, input, select, textarea, label, video, audio, [role='button'], [data-wacss='card-figure']")) return;
+    if (target.closest("a, button, input, select, textarea, label, video, audio, [role='button'], figure")) return;
     const sel = globalThis.getSelection?.();
     if (sel && sel.toString().length > 0) return;
     window.location.href = href;
@@ -128,24 +128,24 @@ import Progress from "../Progress/Progress.svelte";
   this={Tag}
   {...restProps}
   class={classes || undefined}
-  data-wacss="card"
+  data-card
   data-href={href || undefined}
   onclick={onCardClick}
 >
   {#if hasFigure}
     {#if figureInfo.kind === "component"}
       {@const Comp = registry[figureInfo.name]}
-      <figure data-wacss="card-figure">
+      <figure data-slot="card-figure">
         <Comp {...figureInfo.props} />
       </figure>
     {:else if figureInfo.kind === "media"}
       {@const Comp = registry[figureInfo.name]}
       {#if Comp}
-        <figure data-wacss="card-figure">
+        <figure data-slot="card-figure">
           <Comp {...figureInfo.props} />
         </figure>
       {:else}
-        <figure data-wacss="card-figure">
+        <figure data-slot="card-figure">
           <img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} />
         </figure>
       {/if}
@@ -153,19 +153,19 @@ import Progress from "../Progress/Progress.svelte";
   {/if}
 
   {#if hasContent}
-    <div data-wacss="card-content">
+    <div data-slot="card-content">
       {#if header && typeof header !== "string"}
-        <div data-wacss="card-header">{@render header()}</div>
+        <div data-slot="card-header">{@render header()}</div>
       {:else if headerText}
-        <div data-wacss="card-header">
-          <h3 data-wacss="card-title">
-            {#if href}<a href={href} data-wacss="card-link">{headerText}</a>{:else}{headerText}{/if}
+        <div data-slot="card-header">
+          <h3 data-slot="card-title">
+            {#if href}<a href={href}>{headerText}</a>{:else}{headerText}{/if}
           </h3>
         </div>
       {/if}
 
       {#if bodyText}
-        <p data-wacss="card-text">{bodyText}</p>
+        <p data-slot="card-description">{bodyText}</p>
       {/if}
 
       {#if bodyContent.component}
@@ -184,6 +184,6 @@ import Progress from "../Progress/Progress.svelte";
   {#if footerSnippet}
     {@render footerSnippet()}
   {:else if footer}
-    <footer data-wacss="card-footer">{footer}</footer>
+    <footer data-slot="card-footer">{footer}</footer>
   {/if}
 </svelte:element>

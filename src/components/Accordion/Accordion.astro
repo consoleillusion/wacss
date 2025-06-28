@@ -24,7 +24,7 @@ const {
   ...rest
 } = Astro.props as Props;
 
-const groupName = type === "single" ? (name ?? "wacss-accordion") : undefined;
+const groupName = type === "single" ? (name ?? "") : undefined;
 const classes = [className].filter(Boolean).join(" ");
 
 const isOpen = (itemValue: string) => {

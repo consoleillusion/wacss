@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<AlertDialog.Root {...rest} data-wacss="alert-dialog">
+<AlertDialog.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

@@ -8,13 +8,12 @@
     ...restProps
   }: SeparatorProps = $props();
 
-  const classes = $derived(["wacss-separator", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
 <div
   {...restProps}
   class={classes}
-  data-wacss="separator"
   data-orientation={orientation}
   role={decorative ? "none" : "separator"}
   aria-orientation={decorative ? undefined : orientation}

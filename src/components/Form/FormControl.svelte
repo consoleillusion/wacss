@@ -49,11 +49,11 @@
   const helpId = $derived(error || help ? `${id}-help` : undefined);
 </script>
 
-<div data-wacss="input" data-wacss-field="">
-  <label data-wacss="label" for={id}>
+<div>
+  <label for={id}>
     {label}
     {#if required}
-      <span data-wacss="label-required" aria-hidden="true">*</span>
+      <span aria-hidden="true">*</span>
     {/if}
   </label>
 
@@ -71,7 +71,6 @@
       {rows}
       aria-invalid={error ? "true" : undefined}
       aria-describedby={helpId}
-      data-wacss="input-control"
       {oninput}
     >{value}</textarea>
   {:else}
@@ -93,14 +92,13 @@
       {pattern}
       aria-invalid={error ? "true" : undefined}
       aria-describedby={helpId}
-      data-wacss="input-control"
       {oninput}
     />
   {/if}
 
   {#if error}
-    <p id={helpId} data-wacss="input-error">{error}</p>
+    <p id={helpId}>{error}</p>
   {:else if help}
-    <p id={helpId} data-wacss="input-description">{help}</p>
+    <p id={helpId}>{help}</p>
   {/if}
 </div>

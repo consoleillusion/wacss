@@ -36,7 +36,7 @@
   const effectiveMax = $derived(accentSelector ? 360 : max);
   let hue = $state(150);
   const current = $derived(accentSelector ? hue : value);
-  const classes = $derived(["wacss-slider", className, accentSelector ? "wacss-hue-slider" : ""].filter(Boolean).join(" "));
+  const classes = $derived(["", className, accentSelector ? "" : ""].filter(Boolean).join(" "));
 
   function readAccent() {
     try {
@@ -104,11 +104,10 @@
   {step}
   {disabled}
   class={classes}
-  data-wacss="slider"
   data-hue={accentSelector || undefined}
   onValueChange={(v) => handleChange(v)}
   {...restProps}
 >
-  <Slider.Range data-wacss="slider-range" />
-  <Slider.Thumb index={0} data-wacss="slider-thumb" />
+  <Slider.Range />
+  <Slider.Thumb index={0} />
 </Slider.Root>

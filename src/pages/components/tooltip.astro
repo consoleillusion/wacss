@@ -49,22 +49,22 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div data-wacss="page">
+    <div>
       <h1>Tooltip</h1>
-      <p data-wacss="muted mb-5">
+      <p>
         A thin bits-ui wrapper, rendered client-side because it needs a context provider. The ten core wacss components are the high-level, data-driven API.
       </p>
 
-      <section data-wacss="section-bordered">
-        <h2 data-wacss="section-title">Preview</h2>
-        <div data-wacss="preview">
+      <section>
+        <h2>Preview</h2>
+        <div>
           <TooltipClient client:load />
         </div>
       </section>
 
       <section>
-        <h2 data-wacss="section-title">Schema (Tooltip)</h2>
-        <pre data-wacss="schema">{renderSchema(schemas.tooltip)}</pre>
+        <h2>Schema (Tooltip)</h2>
+        <pre>{renderSchema(schemas.tooltip)}</pre>
       </section>
     </div>
   </body>
