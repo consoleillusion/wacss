@@ -13,23 +13,41 @@
   box-shadow: var(--card-shadow);
 }
 
-/* Portrait/square/landscape ratios apply when a figure fills the card. */
+/* Card geometry: 3 units wide, 4 units high (aspect-ratio 3 / 4).
+   Figure spans the full width and takes 3/7 of the card height;
+   the body takes 4/7. Flex-grow 3 vs 4 with zero basis splits the
+   height exactly 3:7 and 4:7. */
 .card:has(> [data-slot="card-figure"]) {
   aspect-ratio: 3 / 4;
 }
-.card[data-orientation="square"] { aspect-ratio: 1 / 1; }
-.card[data-orientation="landscape"] { aspect-ratio: 4 / 3; }
 
 .card > [data-slot="card-figure"] {
   margin: 0;
-  flex: 0 1 auto;
+  flex: 3 0 0;
   min-block-size: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media components render their own figure; it fills the card figure. */
+.card > [data-slot="card-figure"] figure {
+  margin: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .card > [data-slot="card-figure"] img,
 .card > [data-slot="card-figure"] video {
+  flex: 1 1 auto;
+  min-block-size: 0;
   inline-size: 100%;
-  block-size: 100%;
   object-fit: cover;
+}
+.card > [data-slot="card-figure"] audio {
+  inline-size: 100%;
 }
 .card > [data-slot="card-figure"] figcaption {
   padding: var(--space-2) var(--card-padding);
@@ -42,8 +60,9 @@
   flex-direction: column;
   gap: var(--space-3);
   padding: var(--card-padding);
-  flex: 1 1 auto;
+  flex: 4 0 0;
   min-block-size: 0;
+  overflow: hidden;
 }
 .card > [data-slot="card-content"] > p { margin: 0; }
 .card [data-slot="card-header"] { display: grid; gap: var(--space-1); }
