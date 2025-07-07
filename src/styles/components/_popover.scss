@@ -1,28 +1,100 @@
-/* Popover / Dropdown / Context / Tooltip content surfaces */
+/* Floating surfaces: Popover / Dropdown / Context / Navigation content.
+   Selectors use bits-ui's native data-{component}-{part} attributes. */
+
 [data-popover-content],
 [data-dropdown-menu-content],
 [data-context-menu-content],
-[data-tooltip-content],
-[data-navigation-menu-content] {
-  z-index: 50;
+[data-menu-content] {
+  z-index: var(--popover-z);
   min-width: 8rem;
   overflow: hidden;
   border-radius: var(--popover-radius);
-  border: var(--border) solid var(--popover-border);
+  border: var(--border-width) solid var(--popover-border);
   background: var(--popover-background);
-  color: var(--popover-foreground);
-  padding: var(--space-1);
+  color: var(--popover-color);
+  padding: var(--popover-padding);
   box-shadow: var(--popover-shadow);
 }
+/* Opacity-only: bits-ui positions content with an inline transform. */
+[data-popover-content][data-state="open"],
+[data-dropdown-menu-content][data-state="open"],
+[data-context-menu-content][data-state="open"],
+[data-menu-content][data-state="open"] { animation: wacss-fade-in-fast var(--motion-fast) var(--ease-out); }
+[data-popover-content][data-state="closed"],
+[data-dropdown-menu-content][data-state="closed"],
+[data-context-menu-content][data-state="closed"],
+[data-menu-content][data-state="closed"] { animation: wacss-fade-out-fast var(--motion-fast) var(--ease-out); }
+
+/* Shared menu item anatomy */
 [data-dropdown-menu-item],
 [data-context-menu-item],
-[data-select-item] {
-  position: relative; display: flex; cursor: default; user-select: none; align-items: center;
-  border-radius: calc(var(--popover-radius) - 2px); padding: var(--space-1-5) var(--space-2);
-  font-size: var(--text-body); outline: none;
+[data-menu-item] {
+  position: relative;
+  display: flex;
+  cursor: default;
+  user-select: none;
+  align-items: center;
+  gap: var(--menu-item-gap);
+  border-radius: var(--menu-item-radius);
+  padding: var(--menu-item-padding-block) var(--menu-item-padding-inline);
+  font-size: var(--menu-item-font-size);
+  outline: none;
 }
 [data-dropdown-menu-item][data-highlighted],
-[data-context-menu-item][data-highlighted] { background: var(--item-background-hover); }
-[data-dropdown-menu-separator], [data-context-menu-separator] { height: 1px; background: var(--color-border); margin: var(--space-1) calc(-1 * var(--space-1)); }
-[data-tooltip-content] { padding: 0.375rem 0.75rem; font-size: var(--text-xs); }
+[data-context-menu-item][data-highlighted],
+[data-menu-item][data-highlighted] {
+  background: var(--menu-item-background-highlighted);
+  color: var(--menu-item-color-highlighted);
+}
+[data-dropdown-menu-item][data-disabled],
+[data-context-menu-item][data-disabled],
+[data-menu-item][data-disabled] {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+
+/* Menu separators */
+[data-dropdown-menu-separator],
+[data-context-menu-separator],
+[data-menu-separator] {
+  height: var(--border-width-1);
+  background: var(--color-border);
+  margin: var(--space-1) calc(-1 * var(--popover-padding));
+}
+
+/* Group labels */
+[data-dropdown-menu-group-heading],
+[data-context-menu-group-heading],
+[data-menu-group-heading] {
+  padding: var(--space-1-5) var(--menu-item-padding-inline);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-muted-foreground);
+}
+
+/* Checkbox / radio item indicators */
+[data-dropdown-menu-checkbox-item] [data-dropdown-menu-checkbox-item-indicator],
+[data-context-menu-checkbox-item] [data-context-menu-checkbox-item-indicator],
+[data-menu-checkbox-item] [data-menu-checkbox-item-indicator],
+[data-dropdown-menu-radio-item] [data-dropdown-menu-radio-item-indicator],
+[data-context-menu-radio-item] [data-context-menu-radio-item-indicator],
+[data-menu-radio-item] [data-menu-radio-item-indicator] {
+  position: absolute;
+  inset-inline-start: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--menu-item-indicator-size);
+  block-size: var(--menu-item-indicator-size);
+}
+
+/* Popover-specific: roomy body */
 [data-popover-content] { padding: var(--space-4); width: 18rem; }
+
+@keyframes wacss-fade-in-fast {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes wacss-fade-out-fast {
+  to { opacity: 0; }
+}

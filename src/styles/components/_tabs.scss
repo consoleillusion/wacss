@@ -1,33 +1,60 @@
+/* Tabs (bits-ui) */
+
 [data-tabs-list], [role="tablist"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 2.25rem;
-  padding: 0.25rem;
+  height: var(--tabs-height);
+  padding: var(--space-1);
   border-radius: var(--radius-control);
-  background: color-mix(in oklch, var(--color-foreground) 6%, transparent);
-  color: color-mix(in oklch, var(--color-foreground) 70%, transparent);
+  background: var(--tabs-list-background);
+  color: var(--tabs-list-color);
 }
 [data-tabs-trigger], [role="tab"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  padding: 0.25rem 0.75rem;
+  padding: var(--tabs-trigger-padding-block) var(--tabs-trigger-padding-inline);
   border-radius: calc(var(--radius-control) - 2px);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  border: 1px solid transparent;
-  background: transparent;
-  color: inherit;
+  font-size: var(--text-size-ui);
+  font-weight: var(--weight-medium);
+  border: var(--border-width) solid transparent;
+  background: var(--tabs-trigger-background);
+  color: var(--tabs-trigger-color);
   min-height: auto;
+  transition: color var(--motion-interaction) var(--ease-interaction);
+}
+[data-tabs-trigger]:hover, [role="tab"]:hover {
+  background: var(--tabs-trigger-background);
+  color: var(--tabs-trigger-color-hover);
 }
 [data-tabs-trigger][data-state="active"], [role="tab"][aria-selected="true"] {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--tabs-trigger-background-active);
+  color: var(--tabs-trigger-color-active);
   box-shadow: var(--shadow-1);
 }
+[data-tabs-trigger][data-disabled], [role="tab"][aria-disabled="true"] {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
 [data-tabs-content], [role="tabpanel"] {
-  margin-top: var(--space-2);
+  margin-block-start: var(--space-2);
   outline: none;
+  font-size: var(--text-size-body);
+  color: var(--color-foreground);
+}
+[data-tabs-content] > :first-child, [role="tabpanel"] > :first-child { margin-block-start: 0; }
+
+/* Vertical orientation */
+[data-tabs][data-orientation="vertical"] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+}
+[data-tabs][data-orientation="vertical"] [data-tabs-list] {
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  width: fit-content;
 }

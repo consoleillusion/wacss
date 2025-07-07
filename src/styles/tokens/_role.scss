@@ -1,8 +1,10 @@
-/* Level 4 - Role: emphasis derived from component tokens. */
+/* Level 4 - Role: emphasis derived from component tokens.
+   Standard aliases Secondary by default; Primary is the CTA/pop style. */
+
 :root {
-  /* Standard aliases secondary by default; primary is CTA/pop */
+  /* --- Button roles --- */
   --button-background-standard: var(--button-background);
-  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-color-standard: var(--button-color);
   --button-border-standard: var(--button-border);
 
   --button-background-primary: var(--color-pop);
@@ -28,4 +30,33 @@
   --button-background-link: transparent;
   --button-color-link: var(--color-foreground);
   --button-border-link: transparent;
+
+  /* --- Badge roles --- */
+  --badge-background-standard: var(--badge-background);
+  --badge-color-standard: var(--badge-color);
+  --badge-border-standard: var(--badge-border);
+
+  --badge-background-secondary: var(--color-muted);
+  --badge-color-secondary: var(--color-foreground);
+  --badge-border-secondary: transparent;
+
+  --badge-background-positive: color-mix(in oklch, var(--color-positive) 15%, transparent);
+  --badge-color-positive: var(--color-positive);
+  --badge-border-positive: transparent;
+
+  --badge-background-negative: color-mix(in oklch, var(--color-destructive) 15%, transparent);
+  --badge-color-negative: var(--color-destructive);
+  --badge-border-negative: transparent;
+
+  --badge-background-neutral: var(--color-muted);
+  --badge-color-neutral: var(--color-muted-foreground);
+  --badge-border-neutral: transparent;
+
+  --badge-background-outline: transparent;
+  --badge-color-outline: var(--color-foreground);
+  --badge-border-outline: var(--color-border);
+
+  --badge-background-destructive: var(--color-destructive);
+  --badge-color-destructive: oklch(98% 0 0deg);
+  --badge-border-destructive: transparent;
 }

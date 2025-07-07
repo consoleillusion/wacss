@@ -1,21 +1,78 @@
-/* Card - styled as semantic article/section surface */
-article, section[data-surface] {
-  /* conservative: only style article globally as card-like in this system; sections opt-in */
-}
-article {
-  border-radius: var(--card-radius);
-  border: var(--border) solid var(--card-border);
-  background: var(--card-background);
-  color: var(--card-foreground);
-  box-shadow: var(--card-shadow);
+/* Card - token-driven surface; intrinsically sized per the README.
+   Cards use a simple .card class (no semantic element exists for a card). */
+
+.card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--card-padding);
+  inline-size: 100%;
+  overflow: hidden;
+  background: var(--card-background);
+  color: var(--card-color);
+  border: var(--border-width) solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
 }
-article > header { display: grid; gap: var(--space-1-5); padding: 0; }
-article > header h3, article > header h2 { font-weight: var(--weight-semibold); line-height: 1; font-size: var(--text-lg); }
-article > figure { overflow: hidden; border-radius: calc(var(--card-radius) - 2px); margin: 0; }
-article > div, article > p { font-size: var(--text-body); }
-article > p, article .description { color: var(--color-muted-foreground); }
-article > footer { display: flex; align-items: center; gap: var(--space-2); margin-top: auto; }
+
+/* Portrait/square/landscape ratios apply when a figure fills the card. */
+.card:has(> [data-slot="card-figure"]) {
+  aspect-ratio: 3 / 4;
+}
+.card[data-orientation="square"] { aspect-ratio: 1 / 1; }
+.card[data-orientation="landscape"] { aspect-ratio: 4 / 3; }
+
+.card > [data-slot="card-figure"] {
+  margin: 0;
+  flex: 0 1 auto;
+  min-block-size: 0;
+}
+.card > [data-slot="card-figure"] img,
+.card > [data-slot="card-figure"] video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+.card > [data-slot="card-figure"] figcaption {
+  padding: var(--space-2) var(--card-padding);
+  font-size: var(--text-xs);
+  color: var(--card-description-color);
+}
+
+.card > [data-slot="card-content"] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--card-padding);
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+.card > [data-slot="card-content"] > p { margin: 0; }
+.card [data-slot="card-header"] { display: grid; gap: var(--space-1); }
+.card [data-slot="card-title"] {
+  margin: 0;
+  font-size: var(--card-title-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-heading);
+  color: var(--color-foreground);
+}
+.card [data-slot="card-title"] a { color: inherit; text-decoration: none; }
+.card [data-slot="card-title"] a:hover { text-decoration: underline; }
+/* Text keeps the text cursor; pointer is reserved for following the link. */
+.card[data-href] { cursor: pointer; }
+.card[data-href] [data-slot="card-description"],
+.card[data-href] [data-slot="card-content"] {
+  cursor: text;
+}
+.card [data-slot="card-description"] {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--card-description-color);
+}
+.card > [data-slot="card-footer"] {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--card-padding) var(--card-padding);
+  margin-block-start: auto;
+  font-size: var(--text-sm);
+  color: var(--card-description-color);
+}

@@ -1,52 +1,103 @@
-/* Select (bits-ui) */
+/* Select (bits-ui) - trigger looks like an input; content is a popover surface. */
+
 [data-select-trigger] {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
   width: 100%;
-  min-height: var(--input-height);
-  border: var(--border-width) solid var(--input-border);
-  border-radius: var(--input-radius);
-  background: var(--input-background);
-  color: var(--input-color);
+  min-height: var(--select-height);
+  border: var(--border-width) solid var(--select-border);
+  border-radius: var(--select-radius);
+  background: var(--select-background);
+  color: var(--select-color);
   padding: var(--input-padding-block) var(--input-padding-inline);
-  font-size: var(--text-sm);
+  font-size: var(--input-font-size);
+  font-weight: var(--weight-normal);
+  text-align: start;
+  transition: border-color var(--motion-interaction) var(--ease-interaction),
+    box-shadow var(--motion-interaction) var(--ease-interaction);
 }
+[data-select-trigger]:hover {
+  background: var(--select-background);
+  border-color: color-mix(in oklch, var(--select-border), var(--color-foreground) 20%);
+}
+[data-select-trigger]:focus-visible {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span) var(--input-ring-focus);
+}
+
+[data-select-trigger] [data-select-value][data-placeholder] {
+  color: var(--input-placeholder-color);
+}
+[data-select-icon] { flex-shrink: 0; opacity: 0.7; transition: transform var(--motion-base) var(--ease-out); }
+[data-select-trigger][data-state="open"] [data-select-icon] { transform: rotate(180deg); }
+
 [data-select-content] {
-  z-index: 50;
-  min-width: 8rem;
-  overflow: hidden;
+  z-index: var(--popover-z);
+  min-width: var(--popover-min-width, 8rem);
+  max-height: min(24rem, 80vh);
+  overflow: hidden auto;
   border: var(--border-width) solid var(--popover-border);
   background: var(--popover-background);
   color: var(--popover-color);
   border-radius: var(--popover-radius);
   box-shadow: var(--popover-shadow);
 }
-[data-select-viewport] { padding: var(--space-1); }
+/* Opacity-only: bits-ui positions content with an inline transform. */
+[data-select-content][data-state="open"] { animation: wacss-fade-in-fast var(--motion-fast) var(--ease-out); }
+[data-select-content][data-state="closed"] { animation: wacss-fade-out-fast var(--motion-fast) var(--ease-out); }
+
+[data-select-viewport] { padding: var(--popover-padding); }
+
 [data-select-item] {
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--menu-item-gap);
   width: 100%;
-  padding: 0.375rem 0.5rem 0.375rem 2rem;
-  border-radius: var(--radius-2);
-  font-size: var(--text-sm);
-  cursor: default;
+  padding: var(--menu-item-padding-block) var(--menu-item-padding-inline) var(--menu-item-padding-block) var(--space-6);
+  border-radius: var(--select-item-radius);
+  font-size: var(--menu-item-font-size);
+  cursor: pointer;
   user-select: none;
   outline: none;
 }
-[data-select-item][data-highlighted], [data-select-item][data-state="checked"] {
-  background: color-mix(in oklch, var(--color-accent) 12%, transparent);
-  color: var(--color-foreground);
+[data-select-item][data-highlighted] {
+  background: var(--select-item-background-highlighted);
+  color: var(--select-item-color-highlighted);
+}
+[data-select-item][data-disabled] {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+[data-select-item][data-state="checked"] {
+  font-weight: var(--weight-medium);
 }
 [data-select-item-indicator] {
   position: absolute;
-  left: 0.5rem;
+  inset-inline-start: var(--space-2);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0.875rem;
-  height: 0.875rem;
+  inline-size: var(--menu-item-indicator-size);
+  block-size: var(--menu-item-indicator-size);
+  opacity: 0;
+}
+[data-select-item][data-state="checked"] [data-select-item-indicator],
+[data-select-item][data-selected] [data-select-item-indicator],
+[data-select-item][aria-selected="true"] [data-select-item-indicator] {
+  opacity: 1;
+}
+
+/* Scroll buttons */
+[data-select-scroll-up-button],
+[data-select-scroll-down-button] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  cursor: default;
+  color: var(--color-muted-foreground);
 }

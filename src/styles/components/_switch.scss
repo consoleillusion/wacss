@@ -1,29 +1,46 @@
-button[role="switch"], [data-switch] {
+/* Switch - bits-ui root is a button[role=switch]; thumb is its child. */
+
+button[data-switch-root],
+button[role="switch"] {
   position: relative;
   display: inline-flex;
-  width: 2.25rem;
-  height: 1.25rem;
-  min-height: 1.25rem;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  min-height: var(--switch-height);
   padding: 0;
   border-radius: var(--radius-pill);
-  background: color-mix(in oklch, var(--color-foreground) 20%, transparent);
-  border: 2px solid transparent;
+  background: var(--switch-track);
+  border: var(--border-width) solid transparent;
   transition: background var(--motion-interaction) var(--ease-interaction);
 }
-button[role="switch"][data-state="checked"], [data-switch][data-state="checked"] {
-  background: var(--button-background-standard);
+button[data-switch-root]:hover,
+button[role="switch"]:hover {
+  background: var(--switch-track-hover);
 }
-button[role="switch"] > span, [data-switch-thumb] {
+button[data-switch-root][data-state="checked"],
+button[role="switch"][data-state="checked"] {
+  background: var(--switch-track-checked);
+}
+
+/* Thumb: bits-ui renders it as a child element (span or [data-switch-thumb]). */
+button[data-switch-root] > *,
+button[role="switch"] > span,
+[data-switch-thumb] {
   pointer-events: none;
   display: block;
-  width: 1rem;
-  height: 1rem;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
   border-radius: 50%;
-  background: var(--color-background);
+  background: var(--switch-thumb);
   box-shadow: var(--shadow-1);
   transform: translateX(0);
-  transition: transform var(--motion-interaction) var(--ease-interaction);
+  transition: transform var(--motion-interaction) var(--ease-interaction),
+    background var(--motion-interaction) var(--ease-interaction);
 }
-button[role="switch"][data-state="checked"] > span, [data-switch][data-state="checked"] > [data-switch-thumb] {
-  transform: translateX(1rem);
+button[data-switch-root][data-state="checked"] > *,
+button[role="switch"][data-state="checked"] > span,
+[data-switch-root][data-state="checked"] [data-switch-thumb],
+[role="switch"][data-state="checked"] [data-switch-thumb] {
+  background: var(--switch-thumb-checked);
+  transform: translateX(calc(var(--switch-width) - var(--switch-thumb-size) - 2 * var(--border-width)));
 }

@@ -18,7 +18,8 @@
     ...restProps
   }: SwitchProps = $props();
 
-  const classes = $derived(["", className].filter(Boolean).join(" "));
+  const uid = $props.id();
+  const switchId = $derived(id ?? `switch-${uid}`);
 
   persistState({
     get: () => checked,
@@ -30,24 +31,24 @@
   });
 </script>
 
-<BitsSwitch.Root
-  {...restProps}
-  bind:checked
-  {disabled}
-  {required}
-  {name}
-  {value}
-  {id}
-  class={classes}
->
-  <span>
-    <BitsSwitch.Thumb />
-  </span>
-  {#if label}
-    <span>{label}</span>
+<div data-field class={className || undefined}>
+  <div style="display:flex;align-items:center;gap:0.5rem;">
+    <BitsSwitch.Root
+      {...restProps}
+      bind:checked
+      {disabled}
+      {required}
+      {name}
+      {value}
+      id={switchId}
+    >
+      <BitsSwitch.Thumb />
+    </BitsSwitch.Root>
+    {#if label}
+      <label for={switchId}>{label}</label>
+    {/if}
+  </div>
+  {#if description}
+    <p data-field-description>{description}</p>
   {/if}
-</BitsSwitch.Root>
-
-{#if description}
-  <p>{description}</p>
-{/if}
+</div>

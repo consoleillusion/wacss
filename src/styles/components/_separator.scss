@@ -1,13 +1,20 @@
 /* Separator */
+
 [role="separator"], [data-separator-root], hr {
   flex-shrink: 0;
   background: var(--separator-color);
   border: none;
 }
-[role="separator"][data-orientation="horizontal"], [data-separator-root][data-orientation="horizontal"], hr {
-  height: 1px; width: 100%;
+[role="separator"][data-orientation="horizontal"],
+[data-separator-root][data-orientation="horizontal"],
+hr {
+  height: var(--border-width-1);
+  width: 100%;
 }
-[role="separator"][data-orientation="vertical"], [data-separator-root][data-orientation="vertical"] {
-  width: 1px; height: 100%;
+[role="separator"][data-orientation="vertical"],
+[data-separator-root][data-orientation="vertical"] {
+  width: var(--border-width-1);
+  height: auto;
+  align-self: stretch;
 }
 hr { margin: var(--space-4) 0; }
