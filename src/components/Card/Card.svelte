@@ -134,26 +134,6 @@ import Progress from "../Progress/Progress.svelte";
   data-href={href || undefined}
   onclick={onCardClick}
 >
-  {#if hasFigure}
-    {#if figureInfo.kind === "component"}
-      {@const Comp = registry[figureInfo.name]}
-      <figure data-slot="card-figure">
-        <Comp {...figureInfo.props} />
-      </figure>
-    {:else if figureInfo.kind === "media"}
-      {@const Comp = registry[figureInfo.name]}
-      {#if Comp}
-        <figure data-slot="card-figure">
-          <Comp {...figureInfo.props} />
-        </figure>
-      {:else}
-        <figure data-slot="card-figure">
-          <img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} />
-        </figure>
-      {/if}
-    {/if}
-  {/if}
-
   {#if hasContent}
     <div data-slot="card-content">
       {#if header && typeof header !== "string"}
@@ -180,12 +160,32 @@ import Progress from "../Progress/Progress.svelte";
       {#if children}
         {@render children()}
       {/if}
+
+      {#if footerSnippet}
+        {@render footerSnippet()}
+      {:else if footer}
+        <footer data-slot="card-footer">{footer}</footer>
+      {/if}
     </div>
   {/if}
 
-  {#if footerSnippet}
-    {@render footerSnippet()}
-  {:else if footer}
-    <footer data-slot="card-footer">{footer}</footer>
+  {#if hasFigure}
+    {#if figureInfo.kind === "component"}
+      {@const Comp = registry[figureInfo.name]}
+      <figure data-slot="card-figure">
+        <Comp {...figureInfo.props} />
+      </figure>
+    {:else if figureInfo.kind === "media"}
+      {@const Comp = registry[figureInfo.name]}
+      {#if Comp}
+        <figure data-slot="card-figure">
+          <Comp {...figureInfo.props} />
+        </figure>
+      {:else}
+        <figure data-slot="card-figure">
+          <img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} />
+        </figure>
+      {/if}
+    {/if}
   {/if}
 </svelte:element>
