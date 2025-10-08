@@ -5,48 +5,48 @@
   flex-direction: column;
 }
 .stack > * { margin-block: 0; }
-.stack > * + * { margin-block-start: var(--space, var(--space-4)); }
+.stack > * + * { margin-block-start: var(--stack-gap-static); }
 
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gutter, var(--space-3));
-  justify-content: var(--cluster-justify, flex-start);
-  align-items: var(--cluster-align, center);
+  gap: var(--cluster-gap-static);
+  justify-content: var(--cluster-justify-static);
+  align-items: var(--cluster-align-static);
 }
 
 .grid {
   display: grid;
-  gap: var(--gutter, var(--space-4));
+  gap: var(--grid-gap-static);
   align-items: stretch;
   inline-size: 100%;
 }
 .grid[data-fit] {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min, 20rem)), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-static)), 1fr));
 }
 
 .sidebar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gutter, var(--space-4));
+  gap: var(--sidebar-gap-static);
 }
-.sidebar > :first-child { flex-basis: var(--sidebar, 20rem); flex-grow: 1; }
-.sidebar > :last-child { flex-basis: 0; flex-grow: 999; min-inline-size: var(--content, 50%); }
+.sidebar > :first-child { flex-basis: var(--sidebar-width-static); flex-grow: 1; }
+.sidebar > :last-child { flex-basis: 0; flex-grow: 999; min-inline-size: var(--content-min-static); }
 
 .center {
   box-sizing: content-box;
-  max-inline-size: var(--measure);
+  max-inline-size: var(--measure-static);
   margin-inline: auto;
-  padding-inline: var(--gutter, var(--space-4));
+  padding-inline: var(--center-padding-static);
 }
 
 /* --- Gap / column attribute helpers (plain attributes, no classes) --- */
-[data-gap="1"] { gap: var(--space-1); }
-[data-gap="2"] { gap: var(--space-2); }
-[data-gap="3"] { gap: var(--space-3); }
-[data-gap="4"] { gap: var(--space-4); }
-[data-gap="6"] { gap: var(--space-6); }
-[data-gap="8"] { gap: var(--space-8); }
+[data-gap="1"] { gap: calc(var(--space-step-static) * 1.0); }
+[data-gap="2"] { gap: calc(var(--space-step-static) * 2.0); }
+[data-gap="3"] { gap: calc(var(--space-step-static) * 3.0); }
+[data-gap="4"] { gap: calc(var(--space-step-static) * 4.0); }
+[data-gap="6"] { gap: calc(var(--space-step-static) * 6.0); }
+[data-gap="8"] { gap: calc(var(--space-step-static) * 8.0); }
 [data-gap] {
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +56,7 @@
 [data-height] {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: calc(var(--space-step-static) * 2.0);
 }
 [data-height="2rem"] { block-size: 2rem; }
 [data-height="3rem"] { block-size: 3rem; }
@@ -68,9 +68,9 @@
 
 [data-columns] {
   display: grid;
-  gap: var(--form-gap);
+  gap: var(--form-gap-static);
 }
-@media (max-width: 48rem) {
+@media (max-width: 48rem) { /* raw value required: custom properties are not allowed in media feature values */
   [data-columns="2"], [data-columns="3"], [data-columns="4"] { grid-template-columns: minmax(0, 1fr); }
 }
 
@@ -79,53 +79,56 @@ body > header {
   position: sticky;
   inset-block-start: 0;
   z-index: 40;
-  background: color-mix(in oklch, var(--color-background) 85%, transparent);
+  background: color-mix(in oklch, var(--color-background-static) 85%, transparent);
   backdrop-filter: blur(8px);
-  border-block-end: var(--border-width) solid var(--color-border);
+  border-block-end: var(--border-width-static) solid var(--color-border-static);
 }
 body > header nav {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  max-inline-size: min(100%, 96rem);
-  margin-inline: auto;
-  padding: var(--space-3) var(--space-4);
+  gap: calc(var(--space-step-static) * 4.0);
+  padding: calc(var(--space-step-static) * 3.0) calc(var(--space-step-static) * 4.0);
 }
 body > header nav > a {
-  font-weight: var(--weight-semibold);
-  color: var(--color-foreground);
+  font-weight: var(--weight-semibold-static);
+  color: var(--color-foreground-static);
   text-decoration: none;
 }
-body > header nav > a:hover { color: var(--color-foreground); }
+body > header nav > a:hover { color: var(--color-foreground-static); }
 body > header nav > div { margin-inline-start: auto; }
 
+/* --- Generic nav: bare <nav> gets flex layout so slotted links don't pile up --- */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space-step-static) * 4.0);
+}
 nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: calc(var(--space-step-static) * 3.0);
   padding: 0;
   list-style: none;
   margin: 0;
 }
 nav a {
-  color: var(--nav-link-color);
+  color: var(--color-muted-foreground-static);
   text-decoration: none;
-  transition: color var(--motion-interaction) var(--ease-interaction);
+  transition: color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 nav a:hover, nav a[aria-current="page"], nav a[aria-current="true"] {
-  color: var(--nav-link-color-hover);
+  color: var(--color-foreground-static);
 }
 nav a[aria-current="page"], nav a[aria-current="true"] {
-  color: var(--nav-link-color-active);
+  color: var(--color-foreground-static);
 }
 
 /* --- Page shell: semantic <main> only; portals attach to body and must stay untouched --- */
 body > main {
-  max-inline-size: min(100%, 96rem);
-  margin-inline: auto;
-  padding: var(--space-4);
-  padding-block-end: var(--space-16);
+  padding: calc(var(--space-step-static) * 4.0);
+  padding-block-end: calc(var(--space-step-static) * 16.0);
 }
 
 /* --- Sections --- */
-section + section { margin-block-start: var(--space-8); }
+section + section { margin-block-start: calc(var(--space-step-static) * 8.0); }

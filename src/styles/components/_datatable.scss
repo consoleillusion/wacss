@@ -1,0 +1,140 @@
+/* DataTable - SVAR grid themed entirely through wacss tokens.
+   The widget's structural CSS is self-contained; only --wx-* variables are mapped here. */
+
+[data-datatable-root] {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  font-family: var(--font-body-static);
+  font-size: var(--text-size-ui-static);
+  font-weight: var(--weight-normal-static);
+  line-height: var(--line-normal-static);
+  color: var(--color-foreground-static);
+
+  /* base colors */
+  --wx-color-primary: var(--color-accent-static);
+  --wx-color-primary-selected: color-mix(in oklch, var(--color-accent-static) 22%, transparent);
+  --wx-color-primary-font: var(--color-accent-static);
+  --wx-color-secondary: transparent;
+  --wx-color-secondary-hover: color-mix(in oklch, var(--color-accent-static) 16%, transparent);
+  --wx-color-secondary-font: var(--color-accent-static);
+  --wx-color-secondary-font-hover: var(--color-accent-static);
+  --wx-color-secondary-border: var(--color-accent-static);
+  --wx-color-secondary-border-disabled: var(--color-border-static);
+
+  --wx-color-success: var(--color-positive-static);
+  --wx-color-warning: var(--color-positive-static);
+  --wx-color-info: var(--color-accent-static);
+  --wx-color-danger: var(--color-destructive-static);
+  --wx-color-disabled: var(--color-muted-static);
+  --wx-color-disabled-alt: var(--color-muted-static);
+
+  --wx-color-font: var(--color-foreground-static);
+  --wx-color-font-alt: var(--color-muted-foreground-static);
+  --wx-color-font-disabled: var(--color-muted-foreground-static);
+  --wx-color-link: var(--color-accent-static);
+
+  --wx-background: var(--color-background-static);
+  --wx-background-alt: var(--color-muted-static);
+  --wx-background-hover: var(--color-muted-static);
+
+  /* fonts */
+  --wx-font-family: var(--font-body-static);
+  --wx-font-size: var(--text-size-ui-static);
+  --wx-line-height: var(--line-normal-static);
+  --wx-font-size-md: var(--text-size-ui-static);
+  --wx-line-height-md: var(--line-normal-static);
+  --wx-font-size-sm: calc(var(--text-base-static) * 0.75);
+  --wx-line-height-sm: var(--line-tight-static);
+  --wx-font-weight: var(--weight-normal-static);
+  --wx-font-weight-md: var(--weight-medium-static);
+  --wx-font-weight-b: var(--weight-semibold-static);
+
+  /* icons */
+  --wx-icon-color: var(--color-muted-foreground-static);
+  --wx-icon-size: var(--text-size-ui-static);
+  --wx-icon-border-radius: calc(var(--radius-step-static) * 1);
+
+  /* borders */
+  --wx-border: var(--border-width-static) solid var(--color-border-static);
+  --wx-border-color: var(--color-border-static);
+  --wx-border-radius: var(--radius-control-static);
+  --wx-radius-major: var(--radius-surface-static);
+  --wx-border-light: none;
+  --wx-border-medium: var(--border-width-static) solid var(--color-border-static);
+
+  /* shadows */
+  --wx-shadow-light: var(--shadow-overlay-static);
+  --wx-shadow-medium: var(--shadow-overlay-static);
+  --wx-box-shadow: var(--shadow-overlay-static);
+  --wx-box-shadow-strong: var(--shadow-overlay-static);
+
+  --wx-padding: calc(var(--space-step-static) * 2.0);
+
+  /* table */
+  --wx-table-border: var(--color-border-static);
+  --wx-table-header-border: var(--color-border-static);
+  --wx-table-header-cell-border: var(--color-border-static);
+  --wx-table-footer-cell-border: var(--color-border-static);
+  --wx-table-cell-border: var(--color-border-static);
+  --wx-table-header-background: var(--color-well-static);
+  --wx-header-font-weight: var(--weight-semibold-static);
+  --wx-table-select-background: color-mix(in oklch, var(--color-accent-static) 20%, transparent);
+  --wx-table-select-color: var(--color-foreground-static);
+  --wx-table-select-border: inset calc(var(--border-width-1-static) * 3) 0 var(--color-accent-static);
+  --wx-table-fixed-column-border: calc(var(--border-width-1-static) * 3) solid var(--color-border-static);
+  --wx-table-editor-dropdown-border: var(--color-border-static);
+  --wx-table-editor-dropdown-shadow: var(--shadow-overlay-static);
+  --wx-table-drag-over-background: var(--color-muted-static);
+  --wx-table-drag-zone-shadow: var(--shadow-overlay-static);
+
+  /* popup / dropdown */
+  --wx-popup-z-index: var(--popover-z-static);
+  --wx-popup-background: var(--popover-background-static);
+  --wx-popup-shadow: var(--popover-shadow-static);
+  --wx-popup-border: var(--border-width-static) solid var(--color-border-static);
+  --wx-popup-border-radius: var(--popover-radius-static);
+
+  /* checkbox (multi-select) */
+  --wx-checkbox-border-width: calc(var(--border-width-1-static) * 2);
+  --wx-checkbox-border-color: var(--color-muted-foreground-static);
+  --wx-checkbox-border-color-disabled: var(--color-border-static);
+  --wx-checkbox-border-radius: var(--radius-control-static);
+  --wx-checkbox-font-color: var(--color-foreground-static);
+
+  /* input (cell editors) */
+  --wx-input-font-family: var(--font-body-static);
+  --wx-input-font-size: var(--text-size-ui-static);
+  --wx-input-line-height: var(--line-normal-static);
+  --wx-input-font-weight: var(--weight-normal-static);
+  --wx-input-text-align: start;
+  --wx-input-font-color: var(--color-foreground-static);
+  --wx-input-background: var(--color-background-static);
+  --wx-input-placeholder-color: var(--color-muted-foreground-static);
+  --wx-input-border: var(--input-border-static);
+  --wx-input-border-focus: var(--input-border-focus);
+  --wx-input-border-radius: var(--input-radius-static);
+  --wx-input-height: var(--input-height-static);
+}
+
+[data-datatable-root] *,
+[data-datatable-root] *::before,
+[data-datatable-root] *::after {
+  box-sizing: border-box;
+}
+
+/* SVAR renders sort indicators as <i class="wxi-arrow-*">. Ship glyphs without the CDN icon font. */
+[data-datatable-root] .wxi-arrow-up,
+[data-datatable-root] .wxi-arrow-down,
+[data-datatable-root] .wxi-angle-down {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  vertical-align: middle;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='black' d='M8 4l4.5 6h-9z'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='black' d='M8 4l4.5 6h-9z'/></svg>") center / contain no-repeat;
+}
+[data-datatable-root] .wxi-arrow-down {
+  transform: rotate(180deg);
+}

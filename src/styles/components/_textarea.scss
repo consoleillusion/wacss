@@ -1,0 +1,10 @@
+/* Textarea - the multi-line twin of input. Global element styling covers the control;
+   this file covers the field anatomy. */
+
+[data-textarea-root] { display: grid; gap: var(--field-gap-static); }
+[data-textarea-root] p { margin: 0; }
+[data-textarea-root] textarea {
+  inline-size: 100%;
+  min-block-size: 6rem;
+  resize: vertical;
+}

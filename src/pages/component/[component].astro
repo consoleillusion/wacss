@@ -28,10 +28,26 @@ import ColorPicker from "../../components/ColorPicker/ColorPicker.svelte";
 import ColorInput from "../../components/ColorInput/ColorInput.svelte";
 import DatePicker from "../../components/DatePicker/DatePicker.svelte";
 import NavigationMenu from "../../components/NavigationMenu/NavigationMenu.svelte";
+import Audio from "../../components/Audio/Audio.svelte";
+import Field from "../../components/Field/Field.astro";
+import Image from "../../components/Image/Image.svelte";
+import Video from "../../components/Video/Video.svelte";
+import Nav from "../../components/Nav/Nav.astro";
+import Disclosure from "../../components/Disclosure/Disclosure.astro";
+import DataTable from "../../components/DataTable/DataTable.svelte";
+import PertChart from "../../components/PertChart/PertChart.svelte";
+import TokenGraph from "../../components/TokenGraph/TokenGraph.svelte";
+import { collectTokenLayers } from "../../spec/tokens";
+import Alert from "../../components/Alert/Alert.svelte";
+import Breadcrumb from "../../components/Breadcrumb/Breadcrumb.svelte";
+import Pagination from "../../components/Pagination/Pagination.svelte";
+import Skeleton from "../../components/Skeleton/Skeleton.svelte";
+import Textarea from "../../components/Textarea/Textarea.svelte";
 import FormDemo from "../../islands/FormDemo.svelte";
 
 import { schemas } from "../../spec/index";
-
+import { ClientRouter } from "astro:transitions";
+import ThemeScript from "../../components/ThemeScript.astro";
 const entry: string = (Astro.params.component ?? "").toLowerCase();
 
 const accordionItems = [
@@ -46,7 +62,6 @@ const selectOptions = [
   { value: "sumi", label: "Sumi" },
   { value: "aizome", label: "Aizome" },
   { value: "kurenai", label: "Kurenai" },
-  { value: "yakisugi", label: "Yakisugi" },
 ];
 
 const tabs = [
@@ -55,7 +70,55 @@ const tabs = [
   { value: "tokens", label: "Tokens", content: "Every visual value comes from a component or state token." },
 ];
 
+const datatableColumns = [
+  { id: "version", header: "Version", width: 90, sort: true },
+  { id: "title", header: "Release", flexgrow: 1, editor: "text" },
+  { id: "date", header: "Date", width: 120, sort: true, editor: "datepicker" },
+  {
+    id: "status",
+    header: "Status",
+    width: 120,
+    editor: {
+      type: "richselect",
+      config: {
+        options: [
+          { id: "Current", label: "Current" },
+          { id: "Shipped", label: "Shipped" },
+          { id: "Fix", label: "Fix" },
+        ],
+      },
+    },
+  },
+];
+const datatableRows = [
+  { id: 1, version: "0.2.0", title: "DataTable component", date: "2026-11-13", status: "Current" },
+  { id: 2, version: "0.1.2", title: "Theme persists across view transitions", date: "2026-11-05", status: "Fix" },
+  { id: 3, version: "0.1.0", title: "Initial component set", date: "2026-10-28", status: "Shipped" },
+  { id: 4, version: "0.0.9", title: "Token hierarchy rulebook", date: "2026-10-21", status: "Shipped" },
+  { id: 5, version: "0.0.8", title: "Card figures bleed to the edge", date: "2026-10-14", status: "Shipped" },
+];
+
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Components", href: "/component/" },
+  { label: "Breadcrumb" },
+];
+
+const tokenLayers = collectTokenLayers();
+
+const pertTasks = [
+  { id: "A", name: "Requirements", optimistic: 3, likely: 5, pessimistic: 9 },
+  { id: "B", name: "Design", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["A"] },
+  { id: "C", name: "Frontend", optimistic: 5, likely: 8, pessimistic: 14, dependsOn: ["B"] },
+  { id: "D", name: "Backend", optimistic: 4, likely: 6, pessimistic: 10, dependsOn: ["B"] },
+  { id: "E", name: "QA", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["C"] },
+  { id: "F", name: "Performance", optimistic: 2, likely: 4, pessimistic: 6, dependsOn: ["D"] },
+  { id: "G", name: "Staging deploy", optimistic: 1, likely: 2, pessimistic: 4, dependsOn: ["E", "F"] },
+  { id: "H", name: "Launch", optimistic: 1, likely: 1, pessimistic: 2, dependsOn: ["G"] },
+];
+
 const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, unknown> }> = {
+  audio: { Component: Audio, schema: schemas.audio },
   button: { Component: Button, schema: schemas.button },
   card: { Component: Card, schema: schemas.card },
   input: { Component: Input, schema: schemas.input },
@@ -72,53 +135,44 @@ const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, un
   progress: { Component: Progress, schema: schemas.progress },
   avatar: { Component: Avatar, schema: schemas.avatar },
   popover: { Component: Popover, schema: schemas.popover },
-  dropdownMenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
+  dropdownmenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
   toggle: { Component: Toggle, schema: schemas.toggle },
-  radioGroup: { Component: RadioGroup, schema: schemas.radioGroup },
-  alertDialog: { Component: AlertDialog, schema: schemas.alertDialog },
-  contextMenu: { Component: ContextMenu, schema: schemas.contextMenu },
+  radiogroup: { Component: RadioGroup, schema: schemas.radioGroup },
+  alertdialog: { Component: AlertDialog, schema: schemas.alertDialog },
+  contextmenu: { Component: ContextMenu, schema: schemas.contextMenu },
   slider: { Component: Slider, schema: schemas.slider },
   meter: { Component: Meter, schema: schemas.meter },
-  aspectRatio: { Component: AspectRatio, schema: schemas.aspectRatio },
+  aspectratio: { Component: AspectRatio, schema: schemas.aspectRatio },
   color: { Component: ColorInput, schema: schemas.color },
   colorpicker: { Component: ColorPicker, schema: schemas.colorPicker },
   datepicker: { Component: DatePicker, schema: schemas.datePicker },
   navigationmenu: { Component: NavigationMenu, schema: schemas.navigationMenu },
+  field: { Component: Field, schema: schemas.field },
+  table: { Component: null, schema: schemas.table },
+  nav: { Component: Nav, schema: schemas.nav },
+  disclosure: { Component: Disclosure, schema: schemas.disclosure },
+  image: { Component: Image, schema: schemas.image },
+  video: { Component: Video, schema: schemas.video },
+  datatable: { Component: DataTable, schema: schemas.datatable },
+  pertchart: { Component: PertChart, schema: schemas.pertChart },
+  tokengraph: { Component: TokenGraph, schema: schemas.tokenGraph },
+  alert: { Component: Alert, schema: schemas.alert },
+  breadcrumb: { Component: Breadcrumb, schema: schemas.breadcrumb },
+  pagination: { Component: Pagination, schema: schemas.pagination },
+  skeleton: { Component: Skeleton, schema: schemas.skeleton },
+  textarea: { Component: Textarea, schema: schemas.textarea },
 };
 
 const componentInfo = COMPONENTS[entry];
+if (!componentInfo) {
+  throw new Error(`No demo entry registered for component "${entry}" — add one to COMPONENTS.`);
+}
 
-export function getStaticPaths() {
-  return [
-    "button",
-    "card",
-    "input",
-    "form",
-    "label",
-    "accordion",
-    "checkbox",
-    "switch",
-    "select",
-    "dialog",
-    "tabs",
-    "badge",
-    "separator",
-    "progress",
-    "avatar",
-    "popover",
-    "dropdownMenu",
-    "toggle",
-    "radioGroup",
-    "alertDialog",
-    "contextMenu",
-    "slider",
-    "meter",
-    "aspectRatio",
-    "color",
-    "colorpicker",
-    "datepicker",
-    "navigationmenu",
-  ].map((key) => ({ params: { component: key } }));
+/* tooltip.astro is a dedicated page; everything else with a schema gets an endpoint. */
+export async function getStaticPaths() {
+  const { schemas: allSchemas } = await import("../../spec/index");
+  const keys = Object.keys(allSchemas).map((key) => key.toLowerCase()).filter((key) => key !== "tooltip");
+  return keys.map((component) => ({ params: { component } }));
 }
 
 function renderSchema(obj: Record<string, unknown>, depth = 0): string {
@@ -151,25 +205,12 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
     <title>wacss · {componentInfo ? componentInfo.schema.title : entry}</title>
-    <script is:inline>
-      (() => {
-        try {
-          const stored = localStorage.getItem("wacss:theme");
-          if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
-          const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
-          if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
-          else if (accent === "custom") {
-            const c = localStorage.getItem("wacss:accent-color");
-            if (c) { document.documentElement.style.setProperty("--color-theme", c); document.documentElement.style.setProperty("--color-accent", c); }
-          }
-        } catch {}
-      })();
-    </script>
+    <ThemeScript />
   </head>
   <body>
-    <SiteNav current="/components/" />
+    <SiteNav current="/component/" />
     <main>
 
     {componentInfo ? (
@@ -182,14 +223,76 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
         <section>
           <h2>Preview</h2>
           <div>
+            {entry === "audio" && <Audio client:load src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" caption="Sample audio" />}
             {entry === "button" && <Button client:load>Save changes</Button>}
             {entry === "card" && (
               <Card client:load title="Card title" description="A short description of the card.">
                 <p>Card content goes here.</p>
               </Card>
             )}
+            {entry === "field" && (
+              <Field id="demo-field" label="Full name" help="Stored on your profile.">
+                <Input client:load id="demo-field" placeholder="Ada Lovelace" aria-describedby="demo-field-help" />
+              </Field>
+            )}
+            {entry === "nav" && (
+              <Nav label="Primary">
+                <a href="/">Home</a>
+                <a href="/component/">Components</a>
+              </Nav>
+            )}
+            {entry === "disclosure" && (
+              <Disclosure summary="Why native details?" open>
+                <p>Renders as an accessible, browser-native disclosure with no JS.</p>
+              </Disclosure>
+            )}
+            {entry === "table" && (
+              <table>
+                <caption>Release cadence</caption>
+                <thead>
+                  <tr><th scope="col">Release</th><th scope="col">Status</th><th scope="col">Notes</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>0.2.0</td><td>Current</td><td>DataTable, schema-driven docs</td></tr>
+                  <tr><td>0.1.0</td><td>Shipped</td><td>Initial component set</td></tr>
+                </tbody>
+              </table>
+            )}
+            {entry === "datatable" && (
+              <div style="inline-size: 100%; block-size: 18rem;">
+                <DataTable client:load data={datatableRows} columns={datatableColumns} />
+              </div>
+            )}
+            {entry === "alert" && (
+              <div class="stack" data-gap="3">
+                <Alert title="Heads up" description="This is an informational alert." />
+                <Alert variant="positive" title="Saved" description="Your changes were stored locally." />
+                <Alert variant="destructive" title="Not enough tokens" description="Add at least three items before trying to remove them." />
+              </div>
+            )}
+            {entry === "breadcrumb" && <Breadcrumb items={breadcrumbItems} />}
+            {entry === "pagination" && <Pagination client:load total={87} perPage={10} />}
+            {entry === "skeleton" && (
+              <div class="stack" data-gap="3">
+                <Skeleton circle />
+                <Skeleton lines={3} />
+              </div>
+            )}
+            {entry === "textarea" && <Textarea client:load label="Notes" placeholder="Write something memorable…" description="Stored in localStorage by default." rows={5} />}
+            {entry === "tokengraph" && (
+              <div style="inline-size: 100%; block-size: calc(100vh - 4rem);">
+                <TokenGraph client:load layers={tokenLayers} />
+              </div>
+            )}
+            {entry === "pertchart" && (
+              <div style="inline-size: 100%; block-size: 26rem;">
+                <PertChart client:load tasks={pertTasks} />
+              </div>
+            )}
+            {entry === "image" && <Image client:load src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop" alt="Matcha tea" />}
+            {entry === "video" && <Video client:load src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" />}
             {entry === "input" && (
-              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." />
+              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." required />
             )}
             {entry === "form" && <FormDemo client:load />}
             {entry === "label" && <Label client:load for="demo-label" text="Label" />}
@@ -238,7 +341,7 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "radioGroup" && <RadioGroup client:load />}
             {entry === "alertDialog" && <AlertDialog client:load />}
             {entry === "contextMenu" && <ContextMenu client:load />}
-            {entry === "slider" && <Slider client:load accentSelector />}
+            {entry === "slider" && <Slider client:load value={40} aria-label="Slider" />}
             {entry === "meter" && <Meter client:load />}
             {entry === "aspectRatio" && <AspectRatio client:load />}
             {entry === "color" && <ColorInput client:load label="Accent" value="#6d9469" accentSelector />}
@@ -251,10 +354,10 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
                   { href: "#", label: "Installation", description: "Add dist/wacss.css to your project." },
                 ]},
                 { label: "Components", links: [
-                  { href: "/components/button/", label: "Button", description: "Actions and variants." },
-                  { href: "/components/form/", label: "Form", description: "JSON Schema-driven forms." },
+                  { href: "/component/button/", label: "Button", description: "Actions and variants." },
+                  { href: "/component/form/", label: "Form", description: "JSON Schema-driven forms." },
                 ]},
-                { label: "Docs", href: "/components/" },
+                { label: "Docs", href: "/component/" },
               ]} />
             )}
           </div>

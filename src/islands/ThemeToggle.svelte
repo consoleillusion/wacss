@@ -5,6 +5,7 @@
 
   let theme = $state<Theme>("system");
   let resolved = $state<"light" | "dark">("light");
+  let mounted = $state(false);
 
   function currentSystem(): "light" | "dark" {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -29,6 +30,7 @@
   }
 
   onMount(() => {
+    mounted = true;
     const stored = localStorage.getItem("wacss:theme");
     if (stored === "light" || stored === "dark") {
       theme = stored;
@@ -49,14 +51,16 @@
 
 <button
   type="button"
-  data-variant="outline"
+  data-variant="secondary"
   data-size="sm"
   class="theme-toggle"
   onclick={toggle}
   aria-label={resolved === "dark" ? "Switch to light mode" : "Switch to dark mode"}
   title={resolved === "dark" ? "Dark mode (click to switch to light)" : "Light mode (click to switch to dark)"}
 >
-  {#if resolved === "dark"}
+  {#if !mounted}
+    <span aria-hidden="true" style="inline-size: 4rem; block-size: 1em;"></span>
+  {:else if resolved === "dark"}
     <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M13.5 8.5a5.5 5.5 0 1 1-6-6 4.5 4.5 0 0 0 6 6Z" />
     </svg>

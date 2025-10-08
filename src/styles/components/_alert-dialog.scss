@@ -3,42 +3,42 @@
 [data-alert-dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--dialog-z);
-  background: var(--dialog-overlay);
+  z-index: var(--dialog-z-static);
+  background: var(--dialog-overlay-static);
 }
 [data-alert-dialog-content] {
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: var(--dialog-z);
+  z-index: var(--dialog-z-static);
   display: grid;
-  gap: var(--dialog-gap);
+  gap: var(--dialog-gap-static);
   width: 100%;
-  max-width: var(--dialog-max-width);
-  max-height: var(--dialog-max-height);
+  max-width: var(--dialog-max-width-static);
+  max-height: var(--dialog-max-height-static);
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: var(--border-width) solid var(--dialog-border);
-  background: var(--dialog-background);
-  color: var(--dialog-color);
-  padding: var(--dialog-padding);
-  border-radius: var(--dialog-radius);
-  box-shadow: var(--dialog-shadow);
+  border: var(--border-width-static) solid var(--dialog-border-static);
+  background: var(--dialog-background-static);
+  color: var(--dialog-color-static);
+  padding: var(--dialog-padding-static);
+  border-radius: var(--dialog-radius-static);
+  box-shadow: var(--dialog-shadow-static);
 }
-[data-alert-dialog-overlay][data-state="open"] { animation: wacss-fade-in var(--motion-base) var(--ease-out); }
-[data-alert-dialog-content][data-state="open"] { animation: wacss-pop-in var(--motion-base) var(--ease-out); }
-[data-alert-dialog-content][data-state="closed"] { animation: wacss-pop-out var(--motion-fast) var(--ease-out); }
+[data-alert-dialog-overlay][data-state="open"] { animation: wacss-fade-in var(--motion-base-static) var(--ease-out-static); }
+[data-alert-dialog-content][data-state="open"] { animation: wacss-pop-in var(--motion-base-static) var(--ease-out-static); }
+[data-alert-dialog-content][data-state="closed"] { animation: wacss-pop-out var(--motion-fast-static) var(--ease-out-static); }
 
 [data-alert-dialog-title] {
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--line-heading);
+  font-size: calc(var(--text-base-static) * 1.125);
+  font-weight: var(--weight-semibold-static);
+  line-height: var(--line-heading-static);
 }
 [data-alert-dialog-description] {
-  font-size: var(--text-size-ui);
-  color: var(--field-description-color);
+  font-size: var(--text-size-ui-static);
+  color: var(--field-description-color-static);
 }
 [data-alert-dialog-action][data-variant="destructive"],
 [data-alert-dialog-cancel] {
-  min-height: var(--button-height);
+  min-height: var(--button-height-static);
 }

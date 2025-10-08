@@ -1,0 +1,14 @@
+{
+  "mcp": {
+    "servers": {
+      "css": {
+        "type": "local",
+        "command": [
+          "bunx",
+          "-y",
+          "css-mcp"
+        ]
+      }
+    }
+  }
+}

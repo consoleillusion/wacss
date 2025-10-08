@@ -2,36 +2,28 @@
    Standard aliases Secondary by default; Primary is the CTA/pop style. */
 
 :root {
-  /* --- Button roles --- */
-  --button-background-standard: var(--button-background);
-  --button-color-standard: var(--button-color);
-  --button-border-standard: var(--button-border);
+  /* --- Button roles (standard ≡ secondary ≡ plain default; primary is the CTA pop) --- */
+  --button-background-secondary: var(--button-background);
+  --button-color-secondary: var(--button-color);
+  --button-border-secondary: var(--button-border);
+
+  --button-background-standard: var(--button-background-secondary);
+  --button-color-standard: var(--button-color-secondary);
+  --button-border-standard: var(--button-border-secondary);
 
   --button-background-primary: var(--color-pop);
-  --button-color-primary: oklch(from var(--button-background-primary) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-color-primary: var(--color-on-accent);
   --button-border-primary: transparent;
 
-  --button-background-secondary: color-mix(in oklch, var(--color-foreground) 8%, transparent);
-  --button-color-secondary: var(--color-foreground);
-  --button-border-secondary: transparent;
-
-  --button-background-outline: transparent;
-  --button-color-outline: var(--color-foreground);
-  --button-border-outline: var(--color-border);
-
-  --button-background-ghost: transparent;
-  --button-color-ghost: var(--color-foreground);
-  --button-border-ghost: transparent;
-
   --button-background-destructive: var(--color-destructive);
-  --button-color-destructive: oklch(98% 0 0deg);
+  --button-color-destructive: var(--color-destructive-foreground);
   --button-border-destructive: transparent;
 
   --button-background-link: transparent;
   --button-color-link: var(--color-foreground);
   --button-border-link: transparent;
 
-  /* --- Badge roles --- */
+  /* --- Badge roles (prima: --badge-background-standard) --- */
   --badge-background-standard: var(--badge-background);
   --badge-color-standard: var(--badge-color);
   --badge-border-standard: var(--badge-border);
@@ -57,6 +49,6 @@
   --badge-border-outline: var(--color-border);
 
   --badge-background-destructive: var(--color-destructive);
-  --badge-color-destructive: oklch(98% 0 0deg);
+  --badge-color-destructive: var(--color-destructive-foreground);
   --badge-border-destructive: transparent;
 }
