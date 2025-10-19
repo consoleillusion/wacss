@@ -1,19 +1,19 @@
 <script lang="ts">
-  import type { ProgressProps } from "../types";
+  import type { ProgressProps } from "./types";
 
   let {
-    value = null,
-    max = 100,
-    label,
-    showValue = false,
-    class: className = "",
-    ...restProps
+    value = null
+    , max = 100
+    , label
+    , showValue = false
+    , class: className = ""
+    , ...restProps
   }: ProgressProps = $props();
 
   const safeMax = $derived(max > 0 ? max : 100);
   const clamped = $derived(
-    value == null ? null : Math.min(safeMax, Math.max(0, value)),
-  );
+    value == null ? null : Math.min(safeMax, Math.max(0, value))
+  , );
   const percent = $derived(clamped == null ? 0 : (clamped / safeMax) * 100);
   const indeterminate = $derived(value == null);
   const classes = $derived(["", className].filter(Boolean).join(" "));

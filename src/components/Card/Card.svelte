@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Component } from "svelte";
-  import type { CardFigure, CardProps } from "../types";
+  import type { CardFigure, CardProps } from "./types";
   import Accordion from "../Accordion/Accordion.svelte";
   import Audio from "../Audio/Audio.svelte";
   import Avatar from "../Avatar/Avatar.svelte";
@@ -23,7 +23,8 @@
   import Input from "../Input/Input.svelte";
   import Label from "../Label/Label.svelte";
   import NavigationMenu from "../NavigationMenu/NavigationMenu.svelte";
-import Progress from "../Progress/Progress.svelte";
+  import NodeLinkDiagram from "../NodeLinkDiagram/NodeLinkDiagram.svelte";
+  import Progress from "../Progress/Progress.svelte";
   import Select from "../Select/Select.svelte";
   import Separator from "../Separator/Separator.svelte";
   import Slider from "../Slider/Slider.svelte";
@@ -31,58 +32,59 @@ import Progress from "../Progress/Progress.svelte";
   import Tabs from "../Tabs/Tabs.svelte";
   import Video from "../Video/Video.svelte";
 
-  const registry: Record<string, Component<any>> = {
-    Accordion,
-    Alert,
-    Audio,
-    Avatar,
-    Badge,
-    Breadcrumb,
-    Button,
-    Checkbox,
-    DataTable,
-    PertChart,
-    Color: ColorInput,
-    ColorInput,
-    ColorPicker,
-    DatePicker,
-    Dialog,
-    Form,
-    Image,
-    Input,
-    Label,
-    NavigationMenu,
-    Pagination,
-    Progress,
-    Skeleton,
-    Select,
-    Separator,
-    Slider,
-    Switch,
-    Tabs,
-    Textarea,
-    Video,
+  const registry: Record<string, Component<any>> =
+  { Accordion
+  , Alert
+  , Audio
+  , Avatar
+  , Badge
+  , Breadcrumb
+  , Button
+  , Checkbox
+  , DataTable
+  , PertChart
+  , Color: ColorInput
+  , ColorInput
+  , ColorPicker
+  , DatePicker
+  , Dialog
+  , Form
+  , Image
+  , Input
+  , Label
+  , NavigationMenu
+  , NodeLinkDiagram
+  , Pagination
+  , Progress
+  , Skeleton
+  , Select
+  , Separator
+  , Slider
+  , Switch
+  , Tabs
+  , Textarea
+  , Video
   };
 
   let {
-    as: Tag = "article",
-    header,
-    title,
-    text,
-    description,
-    footer,
-    figure,
-    media,
-    content,
-    component,
-    data,
-    href,
-    ctaLabel = "Open component",
-    orientation = "portrait",
-    class: className = "",
-    children,
-    footerSnippet,
-    ...restProps
+    as: Tag = "article"
+    , header
+    , title
+    , text
+    , description
+    , footer
+    , figure
+    , media
+    , content
+    , component
+    , data
+    , href
+    , ctaLabel = "Open component"
+    , orientation = "portrait"
+    , class: className = ""
+    , children
+    , footerSnippet
+    , ...restProps
   }: CardProps & { href?: string; ctaLabel?: string; orientation?: "portrait" | "square" | "landscape" } = $props();
 
   const classes = $derived(["card", className].filter(Boolean).join(" "));

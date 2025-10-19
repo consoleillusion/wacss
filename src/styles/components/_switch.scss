@@ -2,63 +2,63 @@
    Track: fixed-size pill. Thumb: absolutely centered vertically,
    translates horizontally to the far side when checked. */
 
-button[data-switch-root],
-button[role="switch"] {
+button[data-switch-root]
+, button[role="switch"] {
   position: relative;
   display: block;
   width: var(--switch-width-static);
   height: var(--switch-height-static);
   min-height: var(--switch-height-static);
   padding: 0;
-  border-radius: var(--radius-pill-static);
+  border-radius: var(--radius-full-static);
   background: var(--switch-track-static);
   border: var(--border-width-static) solid transparent;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static);
 }
-button[data-switch-root]:hover,
-button[role="switch"]:hover {
+button[data-switch-root]:hover
+, button[role="switch"]:hover {
   background: var(--switch-track-hover);
 }
-button[data-switch-root][data-state="checked"],
-button[role="switch"][data-state="checked"] {
-  background: var(--switch-track-checked-static);
+button[data-switch-root][data-state="checked"]
+, button[role="switch"][data-state="checked"] {
+  background: var(--switch-track-checked);
 }
-button[data-switch-root]:focus-visible,
-button[role="switch"]:focus-visible {
+button[data-switch-root]:focus-visible
+, button[role="switch"]:focus-visible {
   outline: none;
   box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
 }
-button[data-switch-root][data-disabled],
-button[data-switch-root][aria-disabled="true"],
-button[role="switch"][aria-disabled="true"] {
-  opacity: var(--opacity-disabled-static);
+button[data-switch-root][data-disabled]
+, button[data-switch-root][aria-disabled="true"]
+, button[role="switch"][aria-disabled="true"] {
+  opacity: var(--opacity-inert-static);
   cursor: not-allowed;
 }
 
 /* Thumb: vertically centered, 2px inset from the track edge */
-button[data-switch-root] > *,
-button[role="switch"] > span,
-[data-switch-thumb] {
+button[data-switch-root] > *
+, button[role="switch"] > span
+, [data-switch-thumb] {
   pointer-events: none;
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: calc(var(--space-step-static) * 0.5);
+  inset-inline-start: calc(var(--space-unit-static) * 0.5);
   translate: 0 -50%;
   display: block;
   width: var(--switch-thumb-size-static);
   height: var(--switch-thumb-size-static);
   border-radius: 50%;
   background: var(--switch-thumb-static);
-  box-shadow: var(--shadow-1-static);
-  transition: translate var(--motion-interaction-static) var(--ease-interaction-static),
-    background var(--motion-interaction-static) var(--ease-interaction-static);
+  box-shadow: var(--shadow-rest-static);
+  transition: translate var(--motion-interaction-static) var(--ease-interaction-static)
+    , background var(--motion-interaction-static) var(--ease-interaction-static);
 }
-button[data-switch-root][data-state="checked"] > *,
-button[role="switch"][data-state="checked"] > span,
-[data-switch-root][data-state="checked"] [data-switch-thumb],
-[role="switch"][data-state="checked"] [data-switch-thumb] {
-  background: var(--switch-thumb-checked-static);
+button[data-switch-root][data-state="checked"] > *
+, button[role="switch"][data-state="checked"] > span
+, [data-switch-root][data-state="checked"] [data-switch-thumb]
+, [role="switch"][data-state="checked"] [data-switch-thumb] {
+  background: var(--switch-thumb-checked);
   translate: calc(
-    var(--switch-width-static) - var(--switch-thumb-size-static) - calc(var(--space-step-static) * 1.0) - 2 * var(--border-width-static)
+    var(--switch-width-static) - var(--switch-thumb-size-static) - calc(var(--space-unit-static) * 1.0) - 2 * var(--border-width-static)
   ) -50%;
 }

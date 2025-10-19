@@ -2,10 +2,10 @@
   import { Grid } from "@svar-ui/svelte-grid";
 
   let {
-    data = [],
-    columns = [],
-    class: className = "",
-    ...restProps
+    data = []
+    , columns = []
+    , class: className = ""
+    , ...restProps
   }: {
     data?: Record<string, unknown>[];
     columns?: Record<string, unknown>[];

@@ -1,10 +1,10 @@
 /* Floating surfaces: Popover / Dropdown / Context / Navigation content.
    Selectors use bits-ui's native data-{component}-{part} attributes. */
 
-[data-popover-content],
-[data-dropdown-menu-content],
-[data-context-menu-content],
-[data-menu-content] {
+[data-popover-content]
+, [data-dropdown-menu-content]
+, [data-context-menu-content]
+, [data-menu-content] {
   z-index: var(--popover-z-static);
   min-width: 8rem;
   overflow: hidden;
@@ -16,19 +16,19 @@
   box-shadow: var(--popover-shadow-static);
 }
 /* Opacity-only: bits-ui positions content with an inline transform. */
-[data-popover-content][data-state="open"],
-[data-dropdown-menu-content][data-state="open"],
-[data-context-menu-content][data-state="open"],
-[data-menu-content][data-state="open"] { animation: wacss-fade-in-fast var(--motion-fast-static) var(--ease-out-static); }
-[data-popover-content][data-state="closed"],
-[data-dropdown-menu-content][data-state="closed"],
-[data-context-menu-content][data-state="closed"],
-[data-menu-content][data-state="closed"] { animation: wacss-fade-out-fast var(--motion-fast-static) var(--ease-out-static); }
+[data-popover-content][data-state="open"]
+, [data-dropdown-menu-content][data-state="open"]
+, [data-context-menu-content][data-state="open"]
+, [data-menu-content][data-state="open"] { animation: wacss-fade-in-fast var(--motion-interaction-static) var(--ease-interaction-static); }
+[data-popover-content][data-state="closed"]
+, [data-dropdown-menu-content][data-state="closed"]
+, [data-context-menu-content][data-state="closed"]
+, [data-menu-content][data-state="closed"] { animation: wacss-fade-out-fast var(--motion-interaction-static) var(--ease-interaction-static); }
 
 /* Shared menu item anatomy */
-[data-dropdown-menu-item],
-[data-context-menu-item],
-[data-menu-item] {
+[data-dropdown-menu-item]
+, [data-context-menu-item]
+, [data-menu-item] {
   position: relative;
   display: flex;
   cursor: default;
@@ -40,47 +40,47 @@
   font-size: var(--menu-item-font-size-static);
   outline: none;
 }
-[data-dropdown-menu-item][data-highlighted],
-[data-context-menu-item][data-highlighted],
-[data-menu-item][data-highlighted] {
+[data-dropdown-menu-item][data-highlighted]
+, [data-context-menu-item][data-highlighted]
+, [data-menu-item][data-highlighted] {
   background: var(--menu-item-background-highlighted);
   color: var(--menu-item-color-highlighted);
 }
-[data-dropdown-menu-item][data-disabled],
-[data-context-menu-item][data-disabled],
-[data-menu-item][data-disabled] {
-  opacity: var(--opacity-disabled-static);
+[data-dropdown-menu-item][data-disabled]
+, [data-context-menu-item][data-disabled]
+, [data-menu-item][data-disabled] {
+  opacity: var(--opacity-inert-static);
   pointer-events: none;
 }
 
 /* Menu separators */
-[data-dropdown-menu-separator],
-[data-context-menu-separator],
-[data-menu-separator] {
-  height: var(--border-width-1-static);
+[data-dropdown-menu-separator]
+, [data-context-menu-separator]
+, [data-menu-separator] {
+  height: var(--border-width-static);
   background: var(--color-border-static);
-  margin: calc(var(--space-step-static) * 1.0) calc(-1 * var(--popover-padding-static));
+  margin: calc(var(--space-unit-static) * 1.0) calc(-1 * var(--popover-padding-static));
 }
 
 /* Group labels */
-[data-dropdown-menu-group-heading],
-[data-context-menu-group-heading],
-[data-menu-group-heading] {
-  padding: calc(var(--space-step-static) * 1.5) var(--menu-item-padding-inline-static);
-  font-size: calc(var(--text-base-static) * 0.75);
-  font-weight: var(--weight-medium-static);
+[data-dropdown-menu-group-heading]
+, [data-context-menu-group-heading]
+, [data-menu-group-heading] {
+  padding: calc(var(--space-unit-static) * 1.5) var(--menu-item-padding-inline-static);
+  font-size: calc(var(--text-size-body-static) * 0.75);
+  font-weight: var(--weight-ui-static);
   color: var(--color-muted-foreground-static);
 }
 
 /* Checkbox / radio item indicators */
-[data-dropdown-menu-checkbox-item] [data-dropdown-menu-checkbox-item-indicator],
-[data-context-menu-checkbox-item] [data-context-menu-checkbox-item-indicator],
-[data-menu-checkbox-item] [data-menu-checkbox-item-indicator],
-[data-dropdown-menu-radio-item] [data-dropdown-menu-radio-item-indicator],
-[data-context-menu-radio-item] [data-context-menu-radio-item-indicator],
-[data-menu-radio-item] [data-menu-radio-item-indicator] {
+[data-dropdown-menu-checkbox-item] [data-dropdown-menu-checkbox-item-indicator]
+, [data-context-menu-checkbox-item] [data-context-menu-checkbox-item-indicator]
+, [data-menu-checkbox-item] [data-menu-checkbox-item-indicator]
+, [data-dropdown-menu-radio-item] [data-dropdown-menu-radio-item-indicator]
+, [data-context-menu-radio-item] [data-context-menu-radio-item-indicator]
+, [data-menu-radio-item] [data-menu-radio-item-indicator] {
   position: absolute;
-  inset-inline-start: calc(var(--space-step-static) * 1.0);
+  inset-inline-start: calc(var(--space-unit-static) * 1.0);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -89,7 +89,7 @@
 }
 
 /* Popover-specific: roomy body */
-[data-popover-content] { padding: calc(var(--space-step-static) * 4.0); width: 18rem; }
+[data-popover-content] { padding: calc(var(--space-unit-static) * 4.0); width: 18rem; }
 
 @keyframes wacss-fade-in-fast {
   from { opacity: 0; }

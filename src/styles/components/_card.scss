@@ -27,15 +27,15 @@
   margin: 0;
   min-block-size: 0;
   overflow: hidden;
-  background: var(--color-well-static);
+  background: var(--color-surface-static);
   padding: var(--card-padding-static);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 /* Image and video go to the edge; other figure content keeps the padding. */
-.card > [data-slot="card-figure"][data-figure-kind="image"],
-.card > [data-slot="card-figure"][data-figure-kind="video"] {
+.card > [data-slot="card-figure"][data-figure-kind="image"]
+, .card > [data-slot="card-figure"][data-figure-kind="video"] {
   padding: 0;
 }
 
@@ -47,8 +47,8 @@
   display: flex;
   flex-direction: column;
 }
-.card > [data-slot="card-figure"] img,
-.card > [data-slot="card-figure"] video {
+.card > [data-slot="card-figure"] img
+, .card > [data-slot="card-figure"] video {
   flex: 1 1 auto;
   min-block-size: 0;
   inline-size: 100%;
@@ -65,10 +65,10 @@
   min-block-size: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--space-step-static) * 1.0);
+  gap: calc(var(--space-unit-static) * 1.0);
 }
 .card > [data-slot="card-figure"] [data-textarea-root] label {
-  font-size: calc(var(--text-base-static) * 0.75);
+  font-size: calc(var(--text-size-body-static) * 0.75);
   color: var(--color-muted-foreground-static);
 }
 .card > [data-slot="card-figure"] [data-textarea-root] textarea {
@@ -77,8 +77,8 @@
   resize: none;
 }
 .card > [data-slot="card-figure"] figcaption {
-  padding: calc(var(--space-step-static) * 2.0) var(--card-padding-static);
-  font-size: calc(var(--text-base-static) * 0.75);
+  padding: calc(var(--space-unit-static) * 2.0) var(--card-padding-static);
+  font-size: calc(var(--text-size-body-static) * 0.75);
   color: var(--card-description-color-static);
 }
 
@@ -86,20 +86,20 @@
   order: 2;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--space-step-static) * 3.0);
+  gap: calc(var(--space-unit-static) * 3.0);
   padding: var(--card-padding-static);
   box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
 }
 .card > [data-slot="card-content"] > p { margin: 0; }
-.card [data-slot="card-header"] { display: grid; gap: calc(var(--space-step-static) * 1.0); }
+.card [data-slot="card-header"] { display: grid; gap: calc(var(--space-unit-static) * 1.0); }
 .card [data-slot="card-title"] {
   margin: 0;
   font-size: var(--card-title-size-static);
-  font-weight: var(--weight-semibold-static);
+  font-weight: var(--weight-heading-static);
   line-height: var(--line-heading-static);
-  color: var(--color-foreground-static);
+  color: var(--color-text-static);
 }
 
 /* CTA: the Button component supplies the styling; this only positions it. */
@@ -110,14 +110,14 @@
 }
 .card [data-slot="card-description"] {
   margin: 0;
-  font-size: calc(var(--text-base-static) * 0.875);
+  font-size: calc(var(--text-size-body-static) * 0.875);
   color: var(--card-description-color-static);
 }
 .card [data-slot="card-footer"] {
   display: flex;
   align-items: center;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
   margin-block-start: auto;
-  font-size: calc(var(--text-base-static) * 0.875);
+  font-size: calc(var(--text-size-body-static) * 0.875);
   color: var(--card-description-color-static);
 }

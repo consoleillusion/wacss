@@ -1,23 +1,14 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
-
-  type Variant = "info" | "positive" | "warning" | "destructive";
+  import type { AlertProps, AlertVariant } from "./types";
 
   let {
-    variant = "info" as Variant,
-    title,
-    description,
-    children,
-    class: className = "",
-    ...restProps
-  }: {
-    variant?: Variant;
-    title?: string;
-    description?: string;
-    children?: Snippet;
-    class?: string;
-    [key: string]: unknown;
-  } = $props();
+    variant = "info" as AlertVariant
+    , title
+    , description
+    , children
+    , class: className = ""
+    , ...restProps
+  }: AlertProps = $props();
 
   const uid = $props.id();
   const titleId = $derived(title ? `alert-title-${uid}` : undefined);

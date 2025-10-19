@@ -13,12 +13,12 @@
   box-shadow: var(--tooltip-shadow-static);
 }
 /* Opacity-only: bits-ui positions content with an inline transform. */
-[data-tooltip-content][data-state="delayed-open"],
-[data-tooltip-content][data-state="instant-open"] {
-  animation: wacss-fade-in-fast var(--motion-fast-static) var(--ease-out-static);
+[data-tooltip-content][data-state="delayed-open"]
+, [data-tooltip-content][data-state="instant-open"] {
+  animation: wacss-fade-in-fast var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-tooltip-content][data-state="closed"] {
-  animation: wacss-fade-out-fast var(--motion-fast-static) var(--ease-out-static);
+  animation: wacss-fade-out-fast var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 [data-tooltip-content] > svg {

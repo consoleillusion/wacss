@@ -73,97 +73,72 @@ Each aesthetic principle is paired with how it shapes the library.
 
 ## 3. Token hierarchy
 
-Styling is a strict five-layer chain. Only primitives hold real values, and each layer derives from the one above it.
+Styling is a strict five-layer chain. Each layer may reference **only itself and its immediate predecessor** — no layer ever skips a level.
 
-| # | Layer | Holds | Structure |Examples |
-|---|---    |---    |---        |      ---|
-| 1 | **Primitive** | `--<domain>-<name>`            | Raw values: hues, type scale, space, radius, shadow, motion | `--color-aizome`, `--space-4`, `--radius-4`, `--motion-fast` |
-| 2 | **Semantic**  | `--<domain>-<x>`            | Meanings built from primitives | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
-| 3 | **Component** | `--<component>-<property>`  | Component anatomy built from semantic tokens | `--button-background`, `--button-radius`, `--card-radius`, `--dialog-padding` |
-| 4 | **Role**      | `--<component>-<property>-<role>`  | Emphasis: Primary, Secondary, Tertiary, Standard | `--button-background-primary`, `--button-background-standard` |
-| 5 | **State**     | `--<component>-<property>-<role><state>`  | Final per-state values: static, hover, active, focus, selected, open, disabled | `--button-background-standard-hover`, `--input-border-focus`, `--opacity-disabled` |
+| # | Layer | Source | Holds |
+|---|---|---|---|
+| 1 | **Primitive** | `_primitives.scss` (hand-written) | Raw literals only — hues, type scale, space, radius, shadow, motion. No `var()`, ever. |
+| 2 | **Semantic** | `_semantic.scss` (hand-written) | Meanings built from L1 (and same-domain primas): `--color-base`, `--color-accent`, `--font-body`, `--space-unit`, … |
+| 3 | **Component** | `_component.scss` (hand-written) + `_component-source.scss` (generated) | Component anatomy built from L2 only: `--button-background`, `--card-radius`, `--dialog-padding`. The generated file adds `--<semantic>-source` aliases so L4 can reach semantic values without skipping. |
+| 4 | **Role** | `_role.scss` (generated) | One `-role` token per layer-3 property/state pair: `--button-background-static-role`, `--button-background-hover-role`. |
+| 5 | **State** | `_state.scss` (generated) | The final per-state token: `--button-background-static`, `--button-background-hover`, `--input-border-invalid`. |
 
-**Role notes:**
-- Standard aliases Secondary by default and is the choice when no special emphasis is wanted.
-- Primary is the call-to-action style and uses the `pop` colour.
+The component schemas at `src/components/<Name>/schema.ts` are the source of truth for a component's **properties** and **states**. They contain **no CSS** — only declarations:
 
-**Rules:**
-- Lower layers reference higher layers, never raw literals.
-- **Rendered styles consume layer 5 tokens only.** Every affordance a rendered style consumes is final at layer 5; the consuming declarations never reference layers 1–4 directly. Static (no-condition) affordances use the `-static` alias recorded in layer 5; interactive affordances use the layer-5 token carrying the actual affordance name.
+```ts
+export const style =
+{ properties:
+  [ { property: "background", states: ["hover"] }
+  , { property: "border" }
+  , { property: "color", states: ["hover"] }
+  , { property: "radius" }
+  // …one entry per CSS property the component receives
+  ]
+, states: ["static", "hover"]
+} as const;
+```
+
+Each property may declare the states it changes in (`static` is implicit). The generator validates that property and L3 token declarations agree exactly, then emits L4 roles and L5 state tokens from the schema. `_component-source.scss`, `_role.scss`, and `_state.scss` are generated; hand edits are lost on rebuild.
+
+### Reference rules
+
+- **Strict adjacency:** L1 holds literals only; L2 → {L1, L2}; L3 → {L2, L3}; L4 → {L3, L4}; L5 → {L4, L5}. A reference that skips a layer (`L5 → L3`, `L3 → L1`, …) is a build error.
+- **Rendered styles consume layer 5 tokens only.** Static (no-condition) styles consume the `-static` twin; interactive states consume the layer-5 token carrying the state name.
   ```css
-  button       { background: var(--button-background-standard-static); }
-  button:hover { background: var(--button-background-standard-hover); }
+  button       { background: var(--button-background-static); }
+  button:hover { background: var(--button-background-hover); }
   ```
-- **Layer-5 affordance words are a closed set:** `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every layer-5 token name ends in one of these.
-- Many token families, such as a colour theme, derive from a single higher-level token (the prima token for the domain).
-- **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
-- Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle).
-- Each domain (color, spacing, radius, etc.) has a prima token on each layer, which the other tokens within the same category are derived from.
-- `bun run audit:tokens` enforces all of the above mechanically: no token name may contain "state"; every layer references only layers at or above it; no raw literals outside layer 1.
+- **Layer-5 state words are a closed set:** `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every layer-5 token name ends in one of these.
+- **States are declared per property.** A non-colour property that never changes (a size, a radius, a padding) declares no states and gets only a `-static` twin, so no nonsensical values such as `--checkbox-size-checked`.
+- **Variants live in component CSS.** Button (`primary`, `secondary`, `destructive`, `link`), Badge and Alert resolve their variants to layer-5 tokens through local custom properties. No per-variant global tokens are generated.
+- **Themes are attribute-only:** `[data-theme="light"|"dark"]` and `[data-palette="sakura"|"matcha"|…]` on `<html>`. There are no `.theme-*` classes.
+- **Mangling applies to L3–L5 only.** `dist/wacss.css` is the readable expanded sheet; `dist/wacss.min.css` is minified with L3–L5 custom-property names mangled. L1 and L2 names stay readable in both outputs.
+- `bun run verify:tokens` enforces all of the above mechanically: strict adjacency, the L5 state set, L5-only consumption by rendered styles, and no raw literals outside L1.
 
-
+### Example
 
 ```scss
-$palettes: (
-  sakura: oklch(62% 0.085 5),
-  matcha: oklch(62% 0.075 140),
-  sumi: oklch(60% 0.01 260),
-  aizome: oklch(60% 0.075 250),
-  kurenai: oklch(60% 0.095 25),
-);
+/* L1 — primitive: raw literals */
+--color-dark-sumi: oklch(60% 0.01 260deg);
+--space-step: 0.25rem;
 
-:root {
-  /* primitive */
-  @each $name, $color in $palettes {
-    --color-dark-#{$name}: #{$color};
-    --color-light-#{$name}: oklch(from #{$color} calc(l + .1) calc(c * .8) h);
-  }
-  --color-dark-well: #111111;
-  --color-light-well: #fafafa;
+/* L2 — semantic: meanings from L1 */
+--color-accent: var(--color-dark-sumi); // prima
+--color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
+--color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
+--space-unit: var(--space-step);
 
-  /* semantic */
-  --color-well: var(--color-dark-well);
-  --color-accent: var(--color-dark-sumi); // prima
-  /* Neutral pillars: accent hue at ~1% chroma keeps text and surfaces near-neutral. */
-  --color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
-  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
-  @each $name, $color in $palettes {
-    &[data-palette="#{$name}"] {
-      --color-accent: var(--color-dark-#{$name});
-    }
-    &[data-palette="#{$name}"][data-theme="light"] {
-      --color-accent: var(--color-light-#{$name});
-    }
-  }
+/* L3 — component: anatomy from L2 */
+--button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
+--button-padding-inline: calc(var(--space-unit) * 4);
 
-  @media (prefers-color-scheme: light) {
-    --color-base-light: oklch(from var(--color-accent) .97 0.01 h);
-    --color-well: var(--color-light-well);
-  }
-  &[data-theme="light"] {
-    --color-base-light: oklch(from var(--color-accent) .97 0.01 h);
-    --color-well: var(--color-light-well);
-  }
+/* L4 — role: generated from L3 */
+--button-background-static-role: var(--button-background);
+--button-background-hover-role: color-mix(in oklch, var(--button-background-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
 
-  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 2%);
-  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
-  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
-
-  /* component */
-  --button-background: var(--color-accent); // prima
-  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.01 h);
-
-  /* role */
-  --button-background-standard: var(--button-background); // prima
-  --button-color-standard: var(--button-color);
-
-  /* state */
-  --button-background-standard-static: var(--button-background-standard);
-  --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
-}
-
-button       { background: var(--button-background-standard); color: var(--button-color-standard); }
-button:hover { background: var(--button-background-standard-hover); }
+/* L5 — state: generated from L4 */
+--button-background-static: var(--button-background-static-role);
+--button-background-hover: var(--button-background-hover-role);
 ```
 
 ## 4. Themes

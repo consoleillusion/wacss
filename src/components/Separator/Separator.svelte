@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { SeparatorProps } from "../types";
+  import type { SeparatorProps } from "./types";
 
   let {
-    orientation = "horizontal",
-    decorative = true,
-    class: className = "",
-    ...restProps
+    orientation = "horizontal"
+    , decorative = true
+    , class: className = ""
+    , ...restProps
   }: SeparatorProps = $props();
 
   const classes = $derived(["", className].filter(Boolean).join(" "));

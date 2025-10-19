@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { BadgeProps } from "../types";
+  import type { BadgeProps } from "./types";
 
   let {
-    variant = "default",
-    as = "span",
-    href,
-    class: className = "",
-    children,
-    label,
-    ...restProps
+    variant = "default"
+    , as = "span"
+    , href
+    , class: className = ""
+    , children
+    , label
+    , ...restProps
   }: BadgeProps & { label?: string } = $props();
 
   const Tag = $derived(href ? "a" : as);

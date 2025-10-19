@@ -1,38 +1,38 @@
 <script lang="ts">
-  import type { InputProps } from "../types";
+  import type { TextareaProps } from "./types";
   import { persistState } from "../persist.svelte";
 
   let {
-    value = $bindable(""),
-    placeholder,
-    label,
-    description,
-    error,
-    disabled = false,
-    readonly = false,
-    required = false,
-    rows = 4,
-    id,
-    name,
-    storageKey,
-    persist = true,
-    class: className = "",
-    inputClass = "",
-    ...restProps
-  }: InputProps & { rows?: number } = $props();
+    value = $bindable("")
+    , placeholder
+    , label
+    , description
+    , error
+    , disabled = false
+    , readonly = false
+    , required = false
+    , rows = 4
+    , id
+    , name
+    , storageKey
+    , persist = true
+    , class: className = ""
+    , inputClass = ""
+    , ...restProps
+  }: TextareaProps = $props();
 
   const uid = $props.id();
   const textareaId = $derived(id ?? `textarea-${uid}`);
   const helpId = $derived(`${textareaId}-help`);
 
   persistState({
-    get: () => value,
-    set: (next) => {
+    get: () => value
+    , set: (next) => {
       value = next;
-    },
-    key: () => storageKey ?? (id ? `wacss:textarea:${id}` : "wacss:textarea"),
-    enabled: () => persist,
-  });
+    }
+    , key: () => storageKey ?? (id ? `wacss:textarea:${id}` : "wacss:textarea")
+    , enabled: () => persist
+  , });
 </script>
 
 <div data-textarea-root class={className || undefined}>

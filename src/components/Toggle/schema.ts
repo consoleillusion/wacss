@@ -1,11 +1,10 @@
-import { commonAttributes } from "../commonAttributes";
+import { commonAttributes } from "../component";
 
-export default {
-  title: "Toggle",
-  type: "object",
-  properties: {
-    ...commonAttributes,
-    pressed: { type: "boolean", default: false },
-  },
-  additionalProperties: true,
+export const style = { properties: [], states: ["static"] } as const;
+
+export const component =
+{ title: "Toggle"
+, type: "object"
+, properties: { ...commonAttributes, pressed: { type: "boolean", default: false } }
+, additionalProperties: true
 } as const;

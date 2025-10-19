@@ -4,92 +4,92 @@
   import Select from "../Select/Select.svelte";
   import Switch from "../Switch/Switch.svelte";
   import { persistState } from "../persist.svelte";
-  import type { FormProps, JsonSchema } from "../types";
+  import type { FormProps, JsonSchema } from "./types";
   import FormControl from "./FormControl.svelte";
   import {
-    arrayItemSchema,
-    autocompleteFor,
-    coerceScalar,
-    defaultsFromSchema,
-    enumEntries,
-    fieldId,
-    formatName,
-    getPath,
-    getUi,
-    helpFor,
-    includesValue,
-    inferWidget,
-    inputTypeForWidget,
-    isRequired,
-    labelFor,
-    mergeValues,
-    orderedProperties,
-    placeholderFor,
-    resolveSchema,
-    setPath,
-    toggleArrayValue,
-  } from "./infer";
+    arrayItemSchema
+    , autocompleteFor
+    , coerceScalar
+    , defaultsFromSchema
+    , enumEntries
+    , fieldId
+    , formatName
+    , getPath
+    , getUi
+    , helpFor
+    , includesValue
+    , inferWidget
+    , inputTypeForWidget
+    , isRequired
+    , labelFor
+    , mergeValues
+    , orderedProperties
+    , placeholderFor
+    , resolveSchema
+    , setPath
+    , toggleArrayValue
+  , } from "./infer";
 
   let {
-    jsonschema,
-    schema,
-    values = $bindable(
+    jsonschema
+    , schema
+    , values = $bindable(
       defaultsFromSchema((jsonschema ?? schema ?? { type: "object" }) as JsonSchema) as Record<
-        string,
-        unknown
-      >,
-    ),
-    uiSchema,
-    errors,
-    action,
-    method = "post",
-    target,
-    enctype,
-    autocomplete,
-    novalidate = false,
-    id,
-    name,
-    columns = 1,
-    nameFormat = "dot",
-    submitLabel = "Submit",
-    submitVariant = "default",
-    showSubmit = true,
-    resetLabel = "Reset",
-    showReset = false,
-    disabled = false,
-    readonly = false,
-    storageKey,
-    persist = true,
-    class: className = "",
-    onSubmit,
-    onReset,
-    children,
-    ...restProps
+        string
+        , unknown
+      >
+    , )
+    , uiSchema
+    , errors
+    , action
+    , method = "post"
+    , target
+    , enctype
+    , autocomplete
+    , novalidate = false
+    , id
+    , name
+    , columns = 1
+    , nameFormat = "dot"
+    , submitLabel = "Submit"
+    , submitVariant = "default"
+    , showSubmit = true
+    , resetLabel = "Reset"
+    , showReset = false
+    , disabled = false
+    , readonly = false
+    , storageKey
+    , persist = true
+    , class: className = ""
+    , onSubmit
+    , onReset
+    , children
+    , ...restProps
   }: FormProps = $props();
 
   const uid = $props.id();
   const formId = $derived(id ?? `${uid}`);
   const classes = $derived(["", className].filter(Boolean).join(" "));
   const jsonSchema = $derived(
-    (jsonschema ?? schema ?? { type: "object" }) as JsonSchema,
-  );
+    (jsonschema ?? schema ?? { type: "object" }) as JsonSchema
+  , );
   const defaults = $derived(defaultsFromSchema(jsonSchema, jsonSchema));
   const rootSchema = $derived(resolveSchema(jsonSchema, jsonSchema));
   const currentValues = $derived(
-    mergeValues(defaults, values) as Record<string, unknown>,
-  );
+    mergeValues(defaults, values) as Record<string, unknown>
+  , );
 
   let submitting = $state(false);
 
   persistState({
-    get: () => currentValues,
-    set: (next) => {
+    get: () => currentValues
+    , set: (next) => {
       values = next as Record<string, unknown>;
-    },
-    key: () =>
-      storageKey ?? (jsonSchema.$id ? `wacss:form:${jsonSchema.$id}` : "wacss:form"),
-    enabled: () => persist,
-  });
+    }
+    , key: () =>
+      storageKey ?? (jsonSchema.$id ? `wacss:form:${jsonSchema.$id}` : "wacss:form")
+    , enabled: () => persist
+  , });
 
   function valueAt(path: string[]): unknown {
     return getPath(currentValues, path);
@@ -121,9 +121,9 @@
 </script>
 
 {#snippet renderField(
-  path: string[],
-  fieldSchema: JsonSchema,
-  required: boolean,
+  path: string[]
+, fieldSchema: JsonSchema
+, required: boolean
 )}
   {@const resolved = resolveSchema(fieldSchema, jsonSchema)}
   {@const ui = getUi(uiSchema, path)}
@@ -165,9 +165,9 @@
       <div data-columns={ui?.columns ?? 1}>
         {#each orderedProperties(resolved, uiSchema, path) as [key, childSchema] (key)}
           {@render renderField(
-            [...path, key],
-            childSchema,
-            isRequired(resolved, key),
+            [...path, key]
+          , childSchema
+          , isRequired(resolved, key)
           )}
         {/each}
       </div>
@@ -251,9 +251,9 @@
         required={required}
         persist={false}
         triggerProps={{
-          id: controlId,
-          "aria-describedby": error || help ? `${controlId}-help` : undefined,
-          "aria-invalid": error ? "true" : undefined,
+          id: controlId
+        , "aria-describedby": error || help ? `${controlId}-help` : undefined
+        , "aria-invalid": error ? "true" : undefined
         }}
         onValueChange={(next) => {
           const entry = entries.find((item) => item.value === next);
