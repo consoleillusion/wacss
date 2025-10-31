@@ -48,16 +48,14 @@ export const componentSchema =
 { $schema: "https://json-schema.org/draft/2020-12/schema"
 , $id: "https://wacss.dev/schema/component.json"
 , title: "WacssComponentSchemaModule"
-, description:
-    "The shape of a src/components/<Name>/schema.ts module: a named `style` export and a component definition."
+, description: "The shape of a src/components/<Name>/schema.ts module: a named `style` export and a component definition."
 , type: "object"
 , required: ["style", "component"]
 , additionalProperties: false
 , properties:
     { style:
         { title: "ComponentStyle"
-        , description:
-            "The CSS properties and states for one component. Declares structure only — never CSS values."
+        , description: "The CSS properties and states for one component. Declares structure only — never CSS values."
         , type: "object"
         , required: ["properties", "states"]
         , additionalProperties: false
@@ -144,4 +142,4 @@ export const componentSchema =
             }
         }
     }
-};
+}
