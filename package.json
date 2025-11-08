@@ -1,6 +1,6 @@
 {
   "name": "wacss",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
   "type": "module",
   "private": false,
@@ -23,11 +23,11 @@
     "./islands/*": "./src/islands/*"
   },
   "scripts": {
-    "build": "bun scripts/emit-tokens.mjs && bun scripts/build.js",
-    "build:demo": "bun scripts/emit-tokens.mjs && bun scripts/build.js && astro build",
-    "emit:tokens": "bun scripts/emit-tokens.mjs",
-    "verify:tokens": "bun scripts/emit-tokens.mjs --check && bun scripts/audit-tokens.mjs",
-    "tokens:show": "bun scripts/emit-tokens.mjs --show",
+    "build": "bun scripts/emit-tokens.ts && bun scripts/build.js",
+    "build:demo": "bun scripts/emit-tokens.ts && bun scripts/build.js && astro build",
+    "emit:tokens": "bun scripts/emit-tokens.ts",
+    "verify:tokens": "bun scripts/emit-tokens.ts --check && bun scripts/audit-tokens.mjs",
+    "tokens:show": "bun scripts/emit-tokens.ts --show",
     "dev": "astro dev",
     "preview": "astro preview",
     "audit:tokens": "bun scripts/audit-tokens.mjs"
@@ -57,6 +57,7 @@
     "@svar-ui/svelte-grid": "^2.7.6",
     "@xyflow/svelte": "^1.7.1",
     "bits-ui": "^2.20.6",
+    "change-case": "^5.4.4",
     "cssnano": "^9.9.0",
     "elkjs": "^0.12.1",
     "lightningcss": "^1.33.0",

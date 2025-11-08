@@ -157,7 +157,7 @@ const showcase =
         </p>
       </header>
 
-      <section class="grid" data-fit style="--min: 22rem;">
+      <section class="grid" data-fit data-bleed style="--min: 22rem;">
           {showcase.map((item) => {
             const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key === "pertchart" ? "pertChart" : item.key === "nodelinkdiagram" ? "nodeLinkDiagram" : item.key;
             const schema = (schemas as any)[schemaKey];

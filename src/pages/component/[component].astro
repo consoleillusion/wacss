@@ -318,7 +318,10 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "image" && <Image client:load src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop" alt="Matcha tea" />}
             {entry === "video" && <Video client:load src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" />}
             {entry === "input" && (
-              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." required />
+              <form onsubmit="event.preventDefault(); alert('Valid email submitted');">
+                <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." required />
+                <button type="submit" class="card-cta" style="display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);margin-block-start:var(--space-4);border:var(--border-width) solid var(--color-border);border-radius:var(--radius-pill);background:transparent;color:var(--color-foreground);cursor:pointer;">Save</button>
+              </form>
             )}
             {entry === "form" && <FormDemo client:load />}
             {entry === "label" && <Label client:load for="demo-label" text="Label" />}
