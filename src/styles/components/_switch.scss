@@ -6,27 +6,27 @@ button[data-switch-root]
 , button[role="switch"] {
   position: relative;
   display: block;
-  width: var(--switch-width-static);
-  height: var(--switch-height-static);
-  min-height: var(--switch-height-static);
+  width: var(--switch-width-standard-static);
+  height: var(--switch-height-standard-static);
+  min-height: var(--switch-height-standard-static);
   padding: 0;
   border-radius: var(--radius-full-static);
-  background: var(--switch-track-static);
+  background: var(--switch-track-standard-static);
   border: var(--border-width-static) solid transparent;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static);
 }
 button[data-switch-root]:hover
 , button[role="switch"]:hover {
-  background: var(--switch-track-hover);
+  background: var(--switch-track-standard-hover);
 }
 button[data-switch-root][data-state="checked"]
 , button[role="switch"][data-state="checked"] {
-  background: var(--switch-track-checked);
+  background: var(--switch-track-standard-checked);
 }
 button[data-switch-root]:focus-visible
 , button[role="switch"]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 button[data-switch-root][data-disabled]
 , button[data-switch-root][aria-disabled="true"]
@@ -45,10 +45,10 @@ button[data-switch-root] > *
   inset-inline-start: calc(var(--space-unit-static) * 0.5);
   translate: 0 -50%;
   display: block;
-  width: var(--switch-thumb-size-static);
-  height: var(--switch-thumb-size-static);
+  width: var(--switch-thumb-size-standard-static);
+  height: var(--switch-thumb-size-standard-static);
   border-radius: 50%;
-  background: var(--switch-thumb-static);
+  background: var(--switch-thumb-standard-static);
   box-shadow: var(--shadow-rest-static);
   transition: translate var(--motion-interaction-static) var(--ease-interaction-static)
     , background var(--motion-interaction-static) var(--ease-interaction-static);
@@ -57,8 +57,8 @@ button[data-switch-root][data-state="checked"] > *
 , button[role="switch"][data-state="checked"] > span
 , [data-switch-root][data-state="checked"] [data-switch-thumb]
 , [role="switch"][data-state="checked"] [data-switch-thumb] {
-  background: var(--switch-thumb-checked);
+  background: var(--switch-thumb-standard-checked);
   translate: calc(
-    var(--switch-width-static) - var(--switch-thumb-size-static) - calc(var(--space-unit-static) * 1.0) - 2 * var(--border-width-static)
+    var(--switch-width-standard-static) - var(--switch-thumb-size-standard-static) - calc(var(--space-unit-static) * 1.0) - 2 * var(--border-width-static)
   ) -50%;
 }

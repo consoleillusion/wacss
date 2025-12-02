@@ -1,13 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "track" }
-    , { property: "range" }
-    , { property: "thumb" }
-    , { property: "thumb-border" }
-    , { property: "thumb-size" }
-    ]
+export const meta =
+{ name: "slider"
+, cssProperties: ["track", "range", "thumb", "thumb-border", "thumb-size"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

@@ -4,34 +4,34 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--tabs-height-static);
+  height: var(--tabs-height-standard-static);
   padding: calc(var(--space-unit-static) * 1.0);
   border-radius: var(--radius-control-static);
-  background: var(--tabs-list-background-static);
-  color: var(--tabs-list-color-static);
+  background: var(--tabs-list-background-standard-static);
+  color: var(--tabs-list-color-standard-static);
 }
 [data-tabs-trigger], [role="tab"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  padding: var(--tabs-trigger-padding-block-static) var(--tabs-trigger-padding-inline-static);
+  padding: var(--tabs-trigger-padding-block-standard-static) var(--tabs-trigger-padding-inline-standard-static);
   border-radius: calc(var(--radius-control-static) - 2px);
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-ui-static);
   border: var(--border-width-static) solid transparent;
-  background: var(--tabs-trigger-background-static);
-  color: var(--tabs-trigger-color-static);
+  background: var(--tabs-trigger-background-standard-static);
+  color: var(--tabs-trigger-color-standard-static);
   min-height: auto;
   transition: color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-tabs-trigger]:hover, [role="tab"]:hover {
-  background: var(--tabs-trigger-background-static);
-  color: var(--tabs-trigger-color-hover);
+  background: var(--tabs-trigger-background-standard-static);
+  color: var(--tabs-trigger-color-standard-hover);
 }
 [data-tabs-trigger][data-state="active"], [role="tab"][aria-selected="true"] {
-  background: var(--tabs-trigger-background-active);
-  color: var(--tabs-trigger-color-active);
+  background: var(--tabs-trigger-background-standard-active);
+  color: var(--tabs-trigger-color-standard-active);
   box-shadow: var(--shadow-rest-static);
 }
 [data-tabs-trigger][data-disabled], [role="tab"][aria-disabled="true"] {

@@ -2,18 +2,18 @@
    This file holds dropdown-specific parts. */
 
 [data-dropdown-menu-trigger] {
-  background: var(--button-background-static);
-  color: var(--button-color-static);
-  border-color: var(--button-border-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  border-color: var(--button-border-standard-static);
   box-shadow: var(--shadow-rest-static);
 }
 [data-dropdown-menu-trigger]:hover {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 [data-dropdown-menu-trigger][data-state="open"] {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 /* Submenu triggers carry a chevron */

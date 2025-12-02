@@ -1,16 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "radius" }
-    , { property: "shadow" }
-    , { property: "padding" }
-    , { property: "min-width" }
-    , { property: "z" }
-    ]
+export const meta =
+{ name: "popover"
+, cssProperties: ["background", "border", "color", "radius", "shadow", "padding", "min-width", "z"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

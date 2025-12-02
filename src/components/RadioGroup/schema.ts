@@ -1,13 +1,10 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background", states: ["checked"] }
-    , { property: "border", states: ["checked"] }
-    , { property: "dot" }
-    , { property: "size" }
-    ]
-, states: ["static", "checked"]
+export const meta =
+{ name: "radio"
+, cssProperties: ["background", "border", "dot", "size"]
+, roles: ["standard"]
+, states: ["static", "hover", "checked"]
 } as const;
 
 export const component =

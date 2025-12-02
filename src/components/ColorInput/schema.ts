@@ -1,6 +1,11 @@
 import { commonAttributes } from "../component";
 
-export const style = { properties: [], states: ["static"] } as const;
+export const meta =
+{ name: "color-input"
+, cssProperties: []
+, roles: ["standard"]
+, states: ["static"]
+} as const;
 
 export const component =
 { title: "Color"
