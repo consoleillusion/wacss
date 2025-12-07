@@ -320,7 +320,7 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "input" && (
               <form onsubmit="event.preventDefault(); alert('Valid email submitted');">
                 <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." required />
-                <button type="submit" class="card-cta" style="display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);margin-block-start:var(--space-4);border:var(--border-width) solid var(--color-border);border-radius:var(--radius-pill);background:transparent;color:var(--color-foreground);cursor:pointer;">Save</button>
+                <Button type="submit" variant="secondary" label="Save" />
               </form>
             )}
             {entry === "form" && <FormDemo client:load />}
