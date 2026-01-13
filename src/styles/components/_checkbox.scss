@@ -9,8 +9,8 @@ label:has(input[type="checkbox"]) {
   font-weight: var(--weight-body-static);
 }
 input[type="checkbox"] {
-  width: var(--checkbox-size-static);
-  height: var(--checkbox-size-static);
+  width: var(--checkbox-size-standard-static);
+  height: var(--checkbox-size-standard-static);
   accent-color: var(--color-accent-static);
 }
 
@@ -37,12 +37,12 @@ input[type="checkbox"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--checkbox-size-static);
-  block-size: var(--checkbox-size-static);
+  inline-size: var(--checkbox-size-standard-static);
+  block-size: var(--checkbox-size-standard-static);
   flex-shrink: 0;
-  border: var(--border-width-static) solid var(--checkbox-border-static);
-  border-radius: var(--checkbox-radius-static);
-  background: var(--checkbox-background-static);
+  border: var(--border-width-static) solid var(--checkbox-border-standard-static);
+  border-radius: var(--checkbox-radius-standard-static);
+  background: var(--checkbox-background-standard-static);
   color: transparent;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static)
     , border-color var(--motion-interaction-static) var(--ease-interaction-static)
@@ -59,11 +59,12 @@ input[type="checkbox"] {
 }
 [data-checkbox-root] > span[data-state="checked"]
 , [data-checkbox-root] > span[data-state="indeterminate"] {
-  background: var(--checkbox-background-checked);
-  border-color: var(--checkbox-border-checked);
-  color: var(--checkbox-color-static);
+  background: var(--checkbox-background-standard-checked);
+  border-color: var(--checkbox-border-standard-checked);
+  color: var(--checkbox-color-standard-static);
 }
+/* checked + hover: compound states are out of the matrix; mixed explicitly here. */
 [data-checkbox-root]:hover > span[data-state="checked"]
 , [data-checkbox-root]:hover > span[data-state="indeterminate"] {
-  background: color-mix(in oklch, var(--checkbox-background-checked), var(--color-base-light-inverse-static) 10%);
+  background: color-mix(in oklab, var(--checkbox-background-standard-checked), var(--color-interaction-static) 10%);
 }

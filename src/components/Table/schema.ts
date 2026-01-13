@@ -1,14 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "head-color" }
-    , { property: "head-weight" }
-    , { property: "cell-padding-block" }
-    , { property: "cell-padding-inline" }
-    , { property: "row-border" }
-    , { property: "row-background", states: ["hover"] }
-    ]
+export const meta =
+{ name: "table"
+, cssProperties: ["head-color", "head-weight", "cell-padding-block", "cell-padding-inline", "row-border", "row-background"]
+, roles: ["standard"]
 , states: ["static", "hover"]
 } as const;
 

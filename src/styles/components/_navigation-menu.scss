@@ -12,19 +12,19 @@
 
 [data-navigation-menu-trigger] {
   background: transparent;
-  color: var(--nav-trigger-color-static);
+  color: var(--nav-trigger-color-standard-static);
   border-color: transparent;
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-ui-static);
   min-height: var(--control-height-sm-static);
 }
 [data-navigation-menu-trigger]:hover {
-  background: var(--button-background-hover);
-  color: var(--nav-trigger-color-active);
+  background: var(--button-background-standard-hover);
+  color: var(--nav-trigger-color-standard-active);
 }
 [data-navigation-menu-trigger][data-state="open"]
 , [data-navigation-menu-trigger][data-active] {
-  color: var(--nav-trigger-color-active);
+  color: var(--nav-trigger-color-standard-active);
 }
 
 [data-navigation-menu-link] {
@@ -32,7 +32,7 @@
   gap: calc(var(--space-unit-static) * 1.0);
   padding: calc(var(--space-unit-static) * 2.0);
   border-radius: calc(var(--radius-increment-static) * 2);
-  color: var(--nav-link-color-static);
+  color: var(--nav-link-color-standard-static);
   text-decoration: none;
   font-size: var(--text-size-ui-static);
   line-height: var(--line-body-static);
@@ -40,21 +40,21 @@
 }
 [data-navigation-menu-link]:hover
 , [data-navigation-menu-link][data-active] {
-  background: var(--menu-item-background-highlighted);
+  background: var(--menu-item-background-standard-highlighted);
 }
 [data-navigation-menu-link] > span:last-child:not(:only-child) {
-  color: var(--nav-link-description-color-static);
+  color: var(--nav-link-description-color-standard-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
 }
 
 [data-navigation-menu-content] {
   position: absolute;
-  z-index: var(--popover-z-static);
-  border-radius: var(--nav-content-radius-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
-  background: var(--nav-content-background-static);
-  padding: var(--nav-content-padding-static);
-  box-shadow: var(--nav-content-shadow-static);
+  z-index: var(--popover-z-standard-static);
+  border-radius: var(--nav-content-radius-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
+  background: var(--nav-content-background-standard-static);
+  padding: var(--nav-content-padding-standard-static);
+  box-shadow: var(--nav-content-shadow-standard-static);
 }
 [data-navigation-menu-content] ul {
   display: grid;
@@ -67,12 +67,12 @@
 
 [data-navigation-menu-viewport] {
   position: absolute;
-  z-index: calc(var(--popover-z-static) - 1);
+  z-index: calc(var(--popover-z-standard-static) - 1);
   overflow: hidden;
-  border-radius: var(--nav-content-radius-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
-  background: var(--nav-content-background-static);
-  box-shadow: var(--nav-content-shadow-static);
+  border-radius: var(--nav-content-radius-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
+  background: var(--nav-content-background-standard-static);
+  box-shadow: var(--nav-content-shadow-standard-static);
 }
 
 [data-navigation-menu-indicator] {
@@ -85,8 +85,8 @@
 [data-navigation-menu-indicator] > div {
   inline-size: calc(var(--space-unit-static) * 3.0);
   block-size: calc(var(--space-unit-static) * 1.5);
-  background: var(--nav-content-background-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
+  background: var(--nav-content-background-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
   border-block-end: none;
   border-start-start-radius: calc(var(--radius-increment-static) * 1);
   border-start-end-radius: calc(var(--radius-increment-static) * 1);

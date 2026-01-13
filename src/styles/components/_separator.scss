@@ -2,7 +2,7 @@
 
 [role="separator"], [data-separator-root], hr {
   flex-shrink: 0;
-  background: var(--separator-color-static);
+  background: var(--separator-color-standard-static);
   border: none;
 }
 [role="separator"][data-orientation="horizontal"]

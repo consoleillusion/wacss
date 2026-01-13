@@ -1,16 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "trigger-color", states: ["active"] }
-    , { property: "content-background" }
-    , { property: "content-border" }
-    , { property: "content-radius" }
-    , { property: "content-shadow" }
-    , { property: "content-padding" }
-    , { property: "link-color" }
-    , { property: "link-description-color" }
-    ]
+export const meta =
+{ name: "nav"
+, cssProperties: ["trigger-color", "content-background", "content-border", "content-radius", "content-shadow", "content-padding", "link-color", "link-description-color"]
+, roles: ["standard"]
 , states: ["static", "active"]
 } as const;
 

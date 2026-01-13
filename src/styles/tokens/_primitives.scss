@@ -27,6 +27,12 @@
   --color-dark-well: #111111;
   --color-light-well: #fafafa;
 
+  /* --- Interaction scale (prima: --interaction-base; step retunes every state) ---
+     Percentages only: the state recipes mix a role colour toward the theme's
+     interaction pole by these amounts. No ramp — a base plus one step. */
+  --interaction-base: 10%;
+  --interaction-step: 4%;
+
   /* --- Type scale (prima: --text-base) --- */
   --text-base: 1rem;
 

@@ -1,17 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "radius" }
-    , { property: "padding-block" }
-    , { property: "padding-inline" }
-    , { property: "font-size" }
-    , { property: "line-height" }
-    , { property: "font-weight" }
-    ]
+export const meta =
+{ name: "badge"
+, cssProperties: ["background", "border", "color", "radius", "padding-block", "padding-inline", "font-size", "line-height", "font-weight"]
+, roles: ["standard", "secondary", "tertiary", "positive", "danger"]
 , states: ["static"]
 } as const;
 
@@ -21,7 +13,7 @@ export const component =
 , properties:
     { ...commonAttributes
     , as: { type: "string", default: "span" }
-    , variant: { type: "string", enum: ["default", "positive", "neutral", "negative"] }
+    , variant: { type: "string", enum: ["default", "secondary", "destructive", "outline", "positive", "neutral", "negative"] }
     }
 , additionalProperties: true
 } as const;

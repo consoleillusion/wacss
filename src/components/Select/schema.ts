@@ -1,17 +1,10 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "item-background", states: ["highlighted"] }
-    , { property: "item-color", states: ["highlighted"] }
-    , { property: "item-radius" }
-    , { property: "radius" }
-    , { property: "height" }
-    ]
-, states: ["static", "highlighted"]
+export const meta =
+{ name: "select"
+, cssProperties: ["background", "border", "color", "item-background", "item-color", "item-radius", "radius", "height"]
+, roles: ["standard"]
+, states: ["static", "hover", "highlighted"]
 } as const;
 
 export const component =

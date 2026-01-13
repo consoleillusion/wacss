@@ -1,13 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "size" }
-    , { property: "size-sm" }
-    , { property: "size-lg" }
-    , { property: "fallback-background" }
-    , { property: "fallback-color" }
-    ]
+export const meta =
+{ name: "avatar"
+, cssProperties: ["size", "size-sm", "size-lg", "fallback-background", "fallback-color"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

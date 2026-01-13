@@ -1,139 +1,66 @@
 ---
 import "../../dist/wacss.min.css";
-import { Card } from "../components";
 import SiteNav from "../components/SiteNav.astro";
-import { schemas } from "../spec/index";
-import { collectTokenLayers } from "../spec/tokens";
+import Alert from "../components/Alert/Alert.svelte";
+import Badge from "../components/Badge/Badge.svelte";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb.svelte";
+import Button from "../components/Button/Button.svelte";
+import Input from "../components/Input/Input.svelte";
+import Pagination from "../components/Pagination/Pagination.svelte";
+import Progress from "../components/Progress/Progress.svelte";
+import Tabs from "../components/Tabs/Tabs.svelte";
+import Accordion from "../components/Accordion/Accordion.astro";
 import { ClientRouter } from "astro:transitions";
 import ThemeScript from "../components/ThemeScript.astro";
 
-const accordionItems =
-[ { value: "one", title: "Token driven", content: "Change tokens, restyle the interface." }
-, { value: "two", title: "Data driven", content: "Pass data props, get a full UI." }
+const principles =
+[ { index: "01", name: "Wa", title: "Harmony first"
+  , body: "Native behaviour before invented behaviour. Buttons are buttons, details open, inputs validate. The library follows the platform so it feels familiar before it looks designed."
+  }
+, { index: "02", name: "Kanso", title: "Remove the unnecessary"
+  , body: "Semantic HTML carries the structure; one global stylesheet carries the look. No utility soup, no variant classes — a small, strict token set does the work."
+  }
+, { index: "03", name: "Ma", title: "Space is material"
+  , body: "Whitespace is not what is left over. Spacing derives from a single unit, so rhythm stays calm while layouts grow, reflow and settle."
+  }
 ];
 
-const selectOptions =
-[ { value: "sakura", label: "Sakura" }
-, { value: "matcha", label: "Matcha" }
-, { value: "sumi", label: "Sumi" }
-, { value: "aizome", label: "Aizome" }
-, { value: "kurenai", label: "Kurenai" }
+const layers =
+[ { layer: "L1", name: "Primitive", holds: "Raw values only: the palette, a space step, one radius, one motion curve." }
+, { layer: "L2", name: "Semantic", holds: "Meaning from primitives: base, surface, accent, text, borders and status hues." }
+, { layer: "L3", name: "Component", holds: "Anatomy for each component, expressed only in semantic tokens." }
+, { layer: "L4", name: "Role", holds: "One generated token per property and role — the contract between anatomy and variants." }
+, { layer: "L5", name: "State", holds: "The tokens rendered CSS consumes, and the only layer it is allowed to touch." }
 ];
 
 const tabs =
-[ { value: "overview", label: "Overview", content: "Composable, token-driven components." }
-, { value: "tokens", label: "Tokens", content: "Primitive → alias → component → state." }
-];
-
-const navMenuItems =
-[ { label: "Getting started"
-  , links:
-      [ { href: "/component/", label: "Introduction", description: "Explore components." }
-      , { href: "/component/button/", label: "Button", description: "Actions and variants." }
-      ]
+[ { value: "structure", label: "Structure"
+  , content: "Semantic elements carry the document; layout stays intrinsic and reflows without special cases."
   }
-, { label: "Components", href: "/component/" }
+, { value: "colour", label: "Colour"
+  , content: "Hues are derived, never ramped. One accent sets the mood and status colours keep their meaning."
+  }
+, { value: "motion", label: "Motion"
+  , content: "Motion marks state, then gets out of the way. Reduced-motion preferences are respected by default."
+  }
 ];
 
-const datatableColumns =
-[ { id: "version", header: "Version", width: 84, sort: true }
-, { id: "title", header: "Release", flexgrow: 1, editor: "text" }
-, { id: "status", header: "Status", width: 80 }
+const accordionItems =
+[ { value: "token", title: "Change a token, not a selector"
+  , content: "Every visual value resolves through the five-layer chain, so one semantic edit reaches every component that consumes it."
+  }
+, { value: "state", title: "States are tokens too"
+  , content: "Hover, focus, checked and invalid each own a generated state token. Nothing is styled twice."
+  }
+, { value: "theme", title: "Themes are attributes"
+  , content: "Light and dark, and the palette families, are switched with data attributes on the root element — no theme classes."
+  }
 ];
-const datatableRows =
-[ { id: 1, version: "0.2.0", title: "DataTable", status: "Current" }
-, { id: 2, version: "0.1.0", title: "Components", status: "Shipped" }
-, { id: 3, version: "0.0.9", title: "Token rules", status: "Shipped" }
-];
-const tokenLayers = collectTokenLayers();
 
 const breadcrumbItems =
 [ { label: "Home", href: "/" }
 , { label: "Components", href: "/component/" }
-, { label: "Homepage" }
-];
-
-const pertTasks =
-[ { id: "A", name: "Requirements", optimistic: 3, likely: 5, pessimistic: 9 }
-, { id: "B", name: "Design", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["A"] }
-, { id: "C", name: "Frontend", optimistic: 5, likely: 8, pessimistic: 14, dependsOn: ["B"] }
-, { id: "D", name: "Backend", optimistic: 4, likely: 6, pessimistic: 10, dependsOn: ["B"] }
-, { id: "E", name: "QA", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["C"] }
-];
-
-const showcase =
-[ { key: "button", figure: { title: "Button", variant: "default", label: "Primary action" } }
-, { key: "badge", figure: { title: "Badge", label: "Badge" } }
-, { key: "avatar", figure: { title: "Avatar", alt: "Ada Lovelace", fallback: "AL" } }
-, { key: "input"
-  , figure:
-      { title: "Input"
-      , label: "Email"
-      , type: "email"
-      , placeholder: "you@example.com"
-      , required: true
-      }
-  }
-, { key: "slider", figure: { component: "Slider", value: 40 } }
-, { key: "colorpicker", figure: { component: "ColorPicker", label: "Color", value: "#6d9469" } }
-, { key: "datepicker", figure: { component: "DatePicker", label: "Date" } }
-, { key: "navigationmenu", figure: { component: "NavigationMenu", items: navMenuItems } }
-, { key: "datatable"
-  , figure: { component: "DataTable", data: { columns: datatableColumns, data: datatableRows } }
-  }
-, { key: "pertchart", figure: { component: "PertChart", data: { tasks: pertTasks } } }
-, { key: "nodelinkdiagram"
-  , figure: { component: "NodeLinkDiagram", data: { layers: tokenLayers } }
-  }
-, { key: "alert"
-  , figure:
-      { component: "Alert", title: "Heads up", description: "This is an informational alert." }
-  }
-, { key: "breadcrumb", figure: { component: "Breadcrumb", items: breadcrumbItems } }
-, { key: "pagination", figure: { component: "Pagination", total: 87 } }
-, { key: "skeleton", figure: { component: "Skeleton", lines: 3 } }
-, { key: "textarea"
-  , figure: { component: "Textarea", label: "Notes", placeholder: "Write something…" }
-  }
-, { key: "checkbox"
-  , figure: { title: "Checkbox", label: "Accept terms", description: "Remembered in localStorage." }
-  }
-, { key: "switch", figure: { title: "Switch", label: "Notifications" } }
-, { key: "select"
-  , figure:
-      { title: "Select"
-      , options: selectOptions
-      , placeholder: "Choose accent"
-      , accentSelector: true
-      , storageKey: "wacss:accent"
-      }
-  }
-, { key: "progress", figure: { title: "Progress", value: 62, label: "Progress", showValue: true } }
-, { key: "separator", figure: { title: "Separator" } }
-, { key: "tabs", figure: { title: "Tabs", tabs } }
-, { key: "accordion", figure: { title: "Accordion", items: accordionItems } }
-, { key: "label", figure: { title: "Label", text: "Label", required: true } }
-, { key: "image"
-  , figure:
-      { title: "Image"
-      , src:
-          "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop"
-      , alt: "Matcha tea"
-      }
-  }
-, { key: "video"
-  , figure:
-      { title: "Video"
-      , src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-      }
-  }
-, { key: "audio"
-  , figure:
-      { title: "Audio"
-      , src: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
-      , caption: "Sample audio"
-      }
-  }
+, { label: "Card" }
 ];
 ---
 <html lang="en">
@@ -142,36 +69,166 @@ const showcase =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <ClientRouter />
-    <title>wacss</title>
+    <title>wacss · a token-driven component library</title>
     <ThemeScript />
   </head>
   <body>
     <SiteNav current="/" />
-    <main>
-      <header>
-        <p><small>wacss · token-driven components</small></p>
-        <h1>Calm interfaces, one token set</h1>
-        <p>
-          Data-driven components styled by a global token hierarchy. Each card below renders a component
-          from schema-described data.
+    <main class="page-flow">
+      <header class="page-hero">
+        <p class="page-eyebrow">wacss · a token-driven component library</p>
+        <h1>Calm interfaces, one token set.</h1>
+        <p class="page-lede">
+          wacss is a semantic, data-driven component library with a single global stylesheet.
+          Pass data and get a complete, accessible UI. Style the elements, then change the tokens —
+          never the selectors.
         </p>
+        <div class="cluster">
+          <Button href="/component/">Browse the components</Button>
+          <Button href="#philosophy" variant="secondary">Read the philosophy</Button>
+        </div>
       </header>
 
-      <section class="grid" data-fit data-bleed style="--min: 22rem;">
-          {showcase.map((item) => {
-            const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key === "pertchart" ? "pertChart" : item.key === "nodelinkdiagram" ? "nodeLinkDiagram" : item.key;
-            const schema = (schemas as any)[schemaKey];
-            return schema ? (
-              <Card
-                client:load
-                header={schema.title}
-                text={schema.description}
-                figure={item.figure}
-                href={`/component/${item.key}/`}
-              />
-            ) : null;
-          })}
-        </section>
+      <section class="page-section" id="philosophy">
+        <p class="page-eyebrow">Philosophy</p>
+        <h2>Harmony first, decoration last.</h2>
+        <p class="page-lede">
+          The name comes from 和 (wa): harmony, balance and conformity within a group. Here that
+          means harmony with users, developers and web standards, drawn from Wabi-Sabi and
+          editorial minimalism.
+        </p>
+        <div data-columns="3">
+          {principles.map((principle) => (
+            <article class="page-note">
+              <p class="page-eyebrow">{principle.index} · {principle.name}</p>
+              <h3>{principle.title}</h3>
+              <p>{principle.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="page-section">
+        <p class="page-eyebrow">Token hierarchy</p>
+        <h2>Five layers, no shortcuts.</h2>
+        <p class="page-lede">
+          Each layer references only itself and the layer before it. Rendered CSS consumes layer
+          five and nothing else, so a change at the top arrives everywhere with intent.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Layer</th>
+              <th scope="col">Name</th>
+              <th scope="col">Holds</th>
+            </tr>
+          </thead>
+          <tbody>
+            {layers.map((layer) => (
+              <tr>
+                <td>{layer.layer}</td>
+                <th scope="row">{layer.name}</th>
+                <td>{layer.holds}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section class="page-section">
+        <p class="page-eyebrow">In use</p>
+        <h2>A few of the parts.</h2>
+        <p class="page-lede">
+          These are the real components, rendered from props and dressed only by tokens. Change
+          the theme or the accent and every one of them follows.
+        </p>
+
+        <div class="grid" data-fit>
+          <article class="card">
+            <div data-slot="card-content">
+              <div data-slot="card-header">
+                <h3 data-slot="card-title">Alerts carry a mood</h3>
+              </div>
+              <p data-slot="card-description">
+                Status hues become opaque, readable surfaces — distinct in both themes.
+              </p>
+              <div class="stack">
+                <Alert title="Heads up" description="This is an informational alert." />
+                <Alert variant="positive" title="Saved" description="Your changes were stored locally." />
+                <Alert variant="destructive" title="Not enough tokens" description="Add at least three items before removing one." />
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div data-slot="card-content">
+              <div data-slot="card-header">
+                <h3 data-slot="card-title">Forms stay quiet</h3>
+              </div>
+              <p data-slot="card-description">
+                Native inputs and labels, dressed with semantic tokens and validated by the platform.
+              </p>
+              <Input client:load label="Email" type="email" placeholder="you@example.com" description="Stored in localStorage by default." />
+              <Progress client:load value={62} label="Token coverage" showValue />
+              <div data-gap="2">
+                <Badge>Default</Badge>
+                <Badge variant="secondary">Secondary</Badge>
+                <Badge variant="outline">Outline</Badge>
+                <Badge variant="positive">Positive</Badge>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div data-slot="card-content">
+              <div data-slot="card-header">
+                <h3 data-slot="card-title">Tabs remember where you were</h3>
+              </div>
+              <p data-slot="card-description">
+                Value-like state can persist to localStorage under a key you choose.
+              </p>
+              <Tabs client:load tabs={tabs} storageKey="wacss:home-tabs" />
+            </div>
+          </article>
+
+          <article class="card">
+            <div data-slot="card-content">
+              <div data-slot="card-header">
+                <h3 data-slot="card-title">Details, without scripts</h3>
+              </div>
+              <p data-slot="card-description">
+                The accordion is native, animated with CSS, and open to the keyboard.
+              </p>
+              <Accordion items={accordionItems} />
+            </div>
+          </article>
+
+          <article class="card">
+            <div data-slot="card-content">
+              <div data-slot="card-header">
+                <h3 data-slot="card-title">Wayfinding, quietly</h3>
+              </div>
+              <p data-slot="card-description">
+                Breadcrumbs and pagination share the same muted palette and motion.
+              </p>
+              <Breadcrumb items={breadcrumbItems} />
+              <Pagination client:load total={87} perPage={10} />
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <p class="page-eyebrow">Next</p>
+        <h2>Read the components. Change one token.</h2>
+        <p class="page-lede">
+          The grid collects every component with a live preview and its schema. Start there, then
+          edit a semantic token and watch the whole surface follow.
+        </p>
+        <div class="cluster">
+          <Button href="/component/">Explore all components</Button>
+        </div>
+      </section>
     </main>
   </body>
 </html>

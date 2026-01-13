@@ -1,7 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties: [{ property: "gap" }, { property: "description-color" }]
+export const meta =
+{ name: "field"
+, cssProperties: ["gap", "description-color"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

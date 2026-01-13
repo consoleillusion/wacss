@@ -1,15 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "list-background" }
-    , { property: "list-color" }
-    , { property: "trigger-background", states: ["active"] }
-    , { property: "trigger-color", states: ["hover", "active"] }
-    , { property: "height" }
-    , { property: "trigger-padding-block" }
-    , { property: "trigger-padding-inline" }
-    ]
+export const meta =
+{ name: "tabs"
+, cssProperties: ["list-background", "list-color", "trigger-background", "trigger-color", "height", "trigger-padding-block", "trigger-padding-inline"]
+, roles: ["standard"]
 , states: ["static", "hover", "active"]
 } as const;
 

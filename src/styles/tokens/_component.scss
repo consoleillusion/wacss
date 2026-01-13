@@ -10,18 +10,18 @@
   --accordion-transition: var(--motion-reveal);
 
   /* --- alert --- */
-  --alert-icon-info: var(--color-info);
-  --alert-icon-warning: var(--color-warning);
-  --alert-icon-positive: var(--color-positive);
-  --alert-icon-destructive: var(--color-destructive);
-  --alert-background-info: color-mix(in oklch, var(--color-info) 8%, var(--color-clear));
-  --alert-background-warning: color-mix(in oklch, var(--color-warning) 8%, var(--color-clear));
-  --alert-background-positive: color-mix(in oklch, var(--color-positive) 8%, var(--color-clear));
-  --alert-background-destructive: color-mix(in oklch, var(--color-destructive) 8%, var(--color-clear));
-  --alert-border-info: color-mix(in oklch, var(--color-info) 35%, var(--color-clear));
-  --alert-border-warning: color-mix(in oklch, var(--color-warning) 35%, var(--color-clear));
-  --alert-border-positive: color-mix(in oklch, var(--color-positive) 35%, var(--color-clear));
-  --alert-border-destructive: color-mix(in oklch, var(--color-destructive) 35%, var(--color-clear));
+  --alert-icon: var(--color-info);
+  --alert-icon-positive-value: var(--color-positive);
+  --alert-icon-warn-value: var(--color-warning);
+  --alert-icon-danger-value: var(--color-destructive);
+  --alert-background: var(--color-info-surface);
+  --alert-background-positive-value: var(--color-positive-surface);
+  --alert-background-warn-value: var(--color-warning-surface);
+  --alert-background-danger-value: var(--color-destructive-surface);
+  --alert-border: color-mix(in oklch, var(--color-info) 55%, var(--color-clear));
+  --alert-border-positive-value: color-mix(in oklch, var(--color-positive) 55%, var(--color-clear));
+  --alert-border-warn-value: color-mix(in oklch, var(--color-warning) 55%, var(--color-clear));
+  --alert-border-danger-value: color-mix(in oklch, var(--color-destructive) 55%, var(--color-clear));
 
   /* --- avatar --- */
   --avatar-size: calc(var(--space-unit) * 10);
@@ -32,8 +32,16 @@
 
   /* --- badge --- */
   --badge-background: var(--color-accent);
+  --badge-background-secondary-value: var(--color-muted);
+  --badge-background-tertiary-value: var(--color-muted);
+  --badge-background-positive-value: var(--color-positive-surface);
+  --badge-background-danger-value: var(--color-destructive-surface);
   --badge-border: var(--color-clear);
   --badge-color: var(--color-on-accent);
+  --badge-color-secondary-value: var(--color-text);
+  --badge-color-tertiary-value: var(--color-muted-foreground);
+  --badge-color-positive-value: var(--color-positive-on-surface);
+  --badge-color-danger-value: var(--color-destructive-on-surface);
   --badge-radius: var(--radius-full);
   --badge-padding-block: calc(var(--space-unit) * 0.5);
   --badge-padding-inline: calc(var(--space-unit) * 2.0);
@@ -43,8 +51,16 @@
 
   /* --- button --- */
   --button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
+  --button-background-primary-value: var(--color-pop);
+  --button-background-secondary-value: var(--color-muted);
+  --button-background-danger-value: var(--color-destructive);
+  --button-background-tertiary-value: var(--color-clear);
   --button-border: var(--color-clear);
   --button-color: var(--color-text);
+  --button-color-primary-value: var(--color-on-accent);
+  --button-color-secondary-value: var(--color-text);
+  --button-color-danger-value: var(--color-destructive-foreground);
+  --button-color-tertiary-value: var(--color-text);
   --button-radius: var(--radius-control);
   --button-padding-block: calc(var(--space-unit) * 2.0);
   --button-padding-inline: calc(var(--space-unit) * 4.0);
@@ -57,6 +73,7 @@
 
   /* --- card --- */
   --card-background: var(--color-surface);
+  --card-figure-background: var(--color-well);
   --card-border: var(--color-border);
   --card-color: var(--color-text);
   --card-description-color: var(--color-muted-foreground);
@@ -67,9 +84,9 @@
 
   /* --- checkbox --- */
   --checkbox-background: var(--color-clear);
-  --checkbox-background-checked-value: var(--color-accent);
+  --checkbox-background-standard-checked-value: var(--color-accent);
   --checkbox-border: var(--color-border);
-  --checkbox-border-checked-value: var(--color-accent);
+  --checkbox-border-standard-checked-value: var(--color-accent);
   --checkbox-color: var(--color-on-accent);
   --checkbox-size: calc(var(--space-unit) * 4.0);
   --checkbox-radius: calc(var(--radius-increment) * 1);
@@ -125,7 +142,7 @@
 
   /* --- nav --- */
   --nav-trigger-color: var(--color-text);
-  --nav-trigger-color-active-value: var(--color-text);
+  --nav-trigger-color-standard-active-value: var(--color-text);
   --nav-content-background: var(--color-surface);
   --nav-content-border: var(--color-border);
   --nav-content-radius: var(--radius-surface);
@@ -136,9 +153,9 @@
 
   /* --- pagination --- */
   --pagination-background: var(--color-clear);
-  --pagination-background-selected-value: var(--color-accent);
+  --pagination-background-standard-selected-value: var(--color-accent);
   --pagination-color: var(--color-muted-foreground);
-  --pagination-color-selected-value: var(--color-on-accent);
+  --pagination-color-standard-selected-value: var(--color-on-accent);
   --pagination-gap: calc(var(--space-unit) * 1.0);
 
   /* --- popover --- */
@@ -158,9 +175,9 @@
 
   /* --- radio --- */
   --radio-background: var(--color-clear);
-  --radio-background-checked-value: var(--color-accent);
+  --radio-background-standard-checked-value: var(--color-accent);
   --radio-border: var(--color-border);
-  --radio-border-checked-value: var(--color-accent);
+  --radio-border-standard-checked-value: var(--color-accent);
   --radio-dot: var(--color-on-accent);
   --radio-size: calc(var(--space-unit) * 4.0);
 
@@ -189,9 +206,9 @@
 
   /* --- switch --- */
   --switch-track: color-mix(in oklch, var(--color-text) 20%, var(--color-clear));
-  --switch-track-checked-value: var(--color-accent);
+  --switch-track-standard-checked-value: var(--color-accent);
   --switch-thumb: var(--color-base);
-  --switch-thumb-checked-value: var(--color-on-accent);
+  --switch-thumb-standard-checked-value: var(--color-on-accent);
   --switch-width: calc(var(--space-unit) * 9);
   --switch-height: calc(var(--space-unit) * 5.0);
   --switch-thumb-size: calc(var(--space-unit) * 4.0);
@@ -203,15 +220,15 @@
   --table-cell-padding-inline: calc(var(--space-unit) * 3.0);
   --table-row-border: var(--color-border);
   --table-row-background: var(--color-clear);
-  --table-row-background-hover-value: var(--color-muted);
+  --table-row-background-standard-hover-value: var(--color-muted);
 
   /* --- tabs --- */
   --tabs-list-background: color-mix(in oklch, var(--color-text) 6%, var(--color-clear));
   --tabs-list-color: var(--color-muted-foreground);
   --tabs-trigger-background: var(--color-clear);
   --tabs-trigger-color: var(--color-muted-foreground);
-  --tabs-trigger-background-active-value: var(--color-base);
-  --tabs-trigger-color-active-value: var(--color-text);
+  --tabs-trigger-background-standard-active-value: var(--color-base);
+  --tabs-trigger-color-standard-active-value: var(--color-text);
   --tabs-height: calc(var(--space-unit) * 9);
   --tabs-trigger-padding-block: calc(var(--space-unit) * 1.0);
   --tabs-trigger-padding-inline: calc(var(--space-unit) * 3.0);

@@ -2,15 +2,15 @@
 
 [role="progressbar"], [data-progress-root] {
   position: relative;
-  height: var(--progress-height-static);
+  height: var(--progress-height-standard-static);
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-full-static);
-  background: var(--progress-track-static);
+  background: var(--progress-track-standard-static);
 }
 [role="progressbar"] > div, [data-progress-indicator] {
   height: 100%;
-  background: var(--progress-indicator-static);
+  background: var(--progress-indicator-standard-static);
   border-radius: inherit;
   transition: width var(--motion-surface-static) var(--ease-interaction-static), transform var(--motion-surface-static) var(--ease-interaction-static);
 }

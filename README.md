@@ -77,40 +77,90 @@ Styling is a strict five-layer chain. Each layer may reference **only itself and
 
 | # | Layer | Source | Holds |
 |---|---|---|---|
-| 1 | **Primitive** | `_primitives.scss` (hand-written) | Raw literals only — hues, type scale, space, radius, shadow, motion. No `var()`, ever. |
+| 1 | **Primitive** | `_primitives.scss` (hand-written) | Raw literals only — hues, type scale, space, radius, shadow, motion. No `var()`, ever. No ramps: use a base plus a step (addition) or ratio (multiplication), e.g. `--radius` and `--radius-step`. |
 | 2 | **Semantic** | `_semantic.scss` (hand-written) | Meanings built from L1 (and same-domain primas): `--color-base`, `--color-accent`, `--font-body`, `--space-unit`, … |
 | 3 | **Component** | `_component.scss` (hand-written) + `_component-source.scss` (generated) | Component anatomy built from L2 only: `--button-background`, `--card-radius`, `--dialog-padding`. The generated file adds `--<semantic>-source` aliases so L4 can reach semantic values without skipping. |
-| 4 | **Role** | `_role.scss` (generated) | One `-role` token per layer-3 property/state pair: `--button-background-static-role`, `--button-background-hover-role`. |
-| 5 | **State** | `_state.scss` (generated) | The final per-state token: `--button-background-static`, `--button-background-hover`, `--input-border-invalid`. |
+| 4 | **Role** | `_role.scss` (generated) | One token per component property × role: `--button-background-primary`, `--alert-border-danger`. Aliases the L3 base, or an explicit `--<name>-<property>-<role>-value` override. |
+| 5 | **State** | `_state.scss` (generated) | The final token per property × role × state: `--button-background-primary-hover`, `--input-border-standard-focus`, `--alert-icon-informational-static`. |
 
-The component schemas at `src/components/<Name>/schema.ts` are the source of truth for a component's **properties** and **states**. They contain **no CSS** — only declarations:
+The component schemas at `src/components/<Name>/schema.ts` are the source of truth for a component's **shape**. They contain **no CSS values** — only declarations:
 
 ```ts
-export const style =
-{ properties:
-  [ { property: "background", states: ["hover"] }
-  , { property: "border" }
-  , { property: "color", states: ["hover"] }
-  , { property: "radius" }
-  // …one entry per CSS property the component receives
-  ]
+/*
+ * states: "Defines the required L5 tokens for this component. static, focus, hover, etc"
+ * roles: "Defines the required L4 tokens for this component."
+ * cssProperties: "Defines the required L3 tokens for this component. A list of css properties"
+ */
+export const meta =
+{ name: "button"
+, cssProperties: ["background", "border", "color", "radius", "padding-block"]
+, roles: ["standard", "primary", "secondary", "danger", "tertiary"]
 , states: ["static", "hover"]
 } as const;
+
+export const component = { /* data and config used at runtime */ }
 ```
 
-Each property may declare the states it changes in (`static` is implicit). The generator validates that property and L3 token declarations agree exactly, then emits L4 roles and L5 state tokens from the schema. `_component-source.scss`, `_role.scss`, and `_state.scss` are generated; hand edits are lost on rebuild.
+The generator expands the schema to the full matrix — `cssProperties × roles × states`:
+
+```
+button-background → primary   → static, hover
+                  → secondary → static, hover
+button-radius     → primary   → static, hover
+                  → secondary → static, hover
+```
+
+which serialises as:
+
+```css
+--button-background-primary-static
+--button-background-primary-hover
+--button-background-secondary-static
+--button-background-secondary-hover
+--button-radius-primary-static
+/* … */
+```
+
+Roles are a closed set: `standard`, `primary`, `secondary`, `tertiary`, `positive`, `warn`, `danger`, `informational`. States are a closed set: `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every component declares `static`; additional states are opt-in per component.
+
+The generator validates that the schema and the L3 declarations agree exactly, then emits L4 roles and L5 states. `_component-source.scss`, `_role.scss`, and `_state.scss` are generated; hand edits are lost on rebuild.
+
+### L3 overrides
+
+A component's L3 file holds the base value for every declared property (`--<name>-<property>`). Two optional L3 primas refine the matrix:
+
+- `--<name>-<property>-<role>-value` — a different value for a non-base role. Without it the role aliases the base. Components whose first role owns the base (Alert's `informational`, Badge's `standard`) need no override.
+- `--<name>-<property>-<role>-<state>-value` — an explicit state value that replaces the shared recipe. The generator emits the adjacent L4 helper `--<name>-<property>-<role>-<state>-role` so L5 still references L4 only.
+
+Ink properties (background, border, color, ring, …) get a recipe per state; non-colour properties (radius, padding, size, transition) alias their role token unchanged. A `box-shadow` is not a colour and is never mixed either.
+
+### State recipes
+
+State values are generated, not hand-written. Colour states mix their role colour toward **`--color-interaction`** — white on dark themes, black on light ones — in oklab, so status and accent hues keep their hue. The mix amount is read from the mix scale:
+
+| state | recipe |
+|---|---|
+| `static` | role token unchanged |
+| `highlighted` | base − step — 6% |
+| `hover`, `open` | base — 10% (`--mix-hover`, `--mix-open`) |
+| `selected`, `checked`, `current` | base + ½ step — 12% |
+| `active`, `pressed` | base + 2 steps — 18% |
+| `focus` | `--color-ring` |
+| `invalid` | role mixed 85% toward `--color-destructive` |
+| `disabled`, `loading` | role token unchanged (opacity is applied at the element) |
+
+Both are ordinary, readable L2 tokens, and the mix scale derives from two L1 primitives, `--interaction-base` (10%) and `--interaction-step` (4%). Override `--color-interaction` (on `:root` or any subtree) or the `--mix-*` scale at runtime and every generated state token follows — no per-component hover/focus values need to be set by hand. Components declare a state explicitly only where the shared recipe cannot produce the value (`--<name>-<property>-<role>-<state>-value`); compound states such as checked + hover are declared explicitly in the component's SCSS.
 
 ### Reference rules
 
 - **Strict adjacency:** L1 holds literals only; L2 → {L1, L2}; L3 → {L2, L3}; L4 → {L3, L4}; L5 → {L4, L5}. A reference that skips a layer (`L5 → L3`, `L3 → L1`, …) is a build error.
-- **Rendered styles consume layer 5 tokens only.** Static (no-condition) styles consume the `-static` twin; interactive states consume the layer-5 token carrying the state name.
+- **Rendered styles consume layer 5 tokens only.** Static (no-condition) styles consume the `-static` twin; interactive states consume the layer-5 token carrying the state name. Non-base roles are bound through component-local custom properties.
   ```css
-  button       { background: var(--button-background-static); }
-  button:hover { background: var(--button-background-hover); }
+  button                    { background: var(--button-background-standard-static); }
+  button:hover              { background: var(--button-background-standard-hover); }
+  button[data-variant="primary"] { background: var(--button-background-primary-static); }
   ```
-- **Layer-5 state words are a closed set:** `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every layer-5 token name ends in one of these.
-- **States are declared per property.** A non-colour property that never changes (a size, a radius, a padding) declares no states and gets only a `-static` twin, so no nonsensical values such as `--checkbox-size-checked`.
-- **Variants live in component CSS.** Button (`primary`, `secondary`, `destructive`, `link`), Badge and Alert resolve their variants to layer-5 tokens through local custom properties. No per-variant global tokens are generated.
+- **Variants map to roles.** Button `primary`/`secondary`/`destructive`/`link`, Badge variants and Alert variants bind the matching role's L5 tokens in component CSS. No per-variant global tokens are generated.
 - **Themes are attribute-only:** `[data-theme="light"|"dark"]` and `[data-palette="sakura"|"matcha"|…]` on `<html>`. There are no `.theme-*` classes.
 - **Mangling applies to L3–L5 only.** `dist/wacss.css` is the readable expanded sheet; `dist/wacss.min.css` is minified with L3–L5 custom-property names mangled. L1 and L2 names stay readable in both outputs.
 - `bun run verify:tokens` enforces all of the above mechanically: strict adjacency, the L5 state set, L5-only consumption by rendered styles, and no raw literals outside L1.
@@ -121,24 +171,32 @@ Each property may declare the states it changes in (`static` is implicit). The g
 /* L1 — primitive: raw literals */
 --color-dark-sumi: oklch(60% 0.01 260deg);
 --space-step: 0.25rem;
+--interaction-base: 10%;
+--interaction-step: 4%;
 
 /* L2 — semantic: meanings from L1 */
 --color-accent: var(--color-dark-sumi); // prima
---color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
 --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
+--color-interaction: var(--color-white); // black in light themes
+--mix-hover: var(--interaction-base);
+--mix-active: calc(var(--interaction-base) + var(--interaction-step) * 2);
 --space-unit: var(--space-step);
 
 /* L3 — component: anatomy from L2 */
 --button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
+--button-background-primary-value: var(--color-accent);
 --button-padding-inline: calc(var(--space-unit) * 4);
 
 /* L4 — role: generated from L3 */
---button-background-static-role: var(--button-background);
---button-background-hover-role: color-mix(in oklch, var(--button-background-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
+--button-background-standard: var(--button-background);
+--button-background-primary: var(--button-background-primary-value);
+--button-padding-inline-primary: var(--button-padding-inline);
 
 /* L5 — state: generated from L4 */
---button-background-static: var(--button-background-static-role);
---button-background-hover: var(--button-background-hover-role);
+--button-background-standard-static: var(--button-background-standard);
+--button-background-standard-hover: color-mix(in oklab, var(--button-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+--button-background-primary-hover: color-mix(in oklab, var(--button-background-primary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+--button-padding-inline-primary-hover: var(--button-padding-inline-primary);
 ```
 
 ## 4. Themes
