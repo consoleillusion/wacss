@@ -2,7 +2,23 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "switch"
-, cssProperties: ["track", "thumb", "width", "height", "thumb-size"]
+, cssProperties:
+    [ "track"
+    , "thumb"
+    , "width"
+    , "height"
+    , "thumb-size"
+    , "border-radius"
+    , "border"
+    , "transition"
+    , "box-shadow-focus-ring-span"
+    , "opacity"
+    , "inset-inline-start"
+    , "box-shadow"
+    , "transition-2"
+    , "translate-space"
+    , "translate-border-width"
+    ]
 , roles: ["standard"]
 , states: ["static", "hover", "checked"]
 } as const;

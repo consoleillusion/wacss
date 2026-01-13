@@ -2,7 +2,22 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "input"
-, cssProperties: ["background", "border", "color", "placeholder-color", "radius", "padding-block", "padding-inline", "height", "font-size", "ring"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "placeholder-color"
+    , "border-radius"
+    , "padding-block"
+    , "padding-inline"
+    , "height"
+    , "font-size"
+    , "ring"
+    , "field-description-font-size"
+    , "field-error-font-size"
+    , "field-error-color"
+    , "gap"
+    ]
 , roles: ["standard"]
 , states: ["static", "focus", "invalid"]
 } as const;

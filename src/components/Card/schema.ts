@@ -2,7 +2,29 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "card"
-, cssProperties: ["background", "figure-background", "border", "color", "description-color", "radius", "padding", "shadow", "title-size"]
+, cssProperties:
+    [ "background"
+    , "figure-background"
+    , "border-color"
+    , "color"
+    , "description-color"
+    , "border-radius"
+    , "padding"
+    , "box-shadow"
+    , "title-font-size"
+    , "border-width"
+    , "textarea-gap"
+    , "label-font-size"
+    , "label-color"
+    , "figcaption-padding-space"
+    , "figcaption-font-size"
+    , "gap"
+    , "slot-card-header-gap"
+    , "font-weight"
+    , "line-height"
+    , "font-size"
+    , "slot-card-footer-gap"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

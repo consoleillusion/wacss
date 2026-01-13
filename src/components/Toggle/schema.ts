@@ -2,7 +2,9 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "toggle"
-, cssProperties: []
+, cssProperties:
+    [ "svg-color"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

@@ -2,7 +2,9 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "label"
-, cssProperties: []
+, cssProperties:
+    [ 
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

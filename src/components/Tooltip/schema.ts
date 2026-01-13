@@ -2,7 +2,19 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "tooltip"
-, cssProperties: ["background", "border", "color", "radius", "shadow", "padding-block", "padding-inline", "font-size"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "border-radius"
+    , "box-shadow"
+    , "padding-block"
+    , "padding-inline"
+    , "font-size"
+    , "content-border-width"
+    , "content-animation"
+    , "content-closed-animation"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

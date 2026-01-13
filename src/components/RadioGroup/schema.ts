@@ -2,7 +2,18 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "radio"
-, cssProperties: ["background", "border", "dot", "size"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "dot"
+    , "size"
+    , "group-gap"
+    , "group-item-border-width"
+    , "group-item-transition"
+    , "group-item-outline"
+    , "group-item-opacity"
+    , "input-accent-color"
+    ]
 , roles: ["standard"]
 , states: ["static", "hover", "checked"]
 } as const;

@@ -2,7 +2,12 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "separator"
-, cssProperties: ["color"]
+, cssProperties:
+    [ "color"
+    , "height"
+    , "width"
+    , "hr-margin"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

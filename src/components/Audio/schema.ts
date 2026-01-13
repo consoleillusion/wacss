@@ -2,7 +2,13 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "audio"
-, cssProperties: []
+, cssProperties:
+    [ "background"
+    , "border-radius"
+    , "background-color"
+    , "webkit-media-controls-timeline-container-background-color"
+    , "webkit-media-controls-volume-slider-background-color"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

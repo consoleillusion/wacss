@@ -2,7 +2,23 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "accordion"
-, cssProperties: ["border", "trigger-color", "content-color", "trigger-padding-block", "transition"]
+, cssProperties:
+    [ "border-color"
+    , "trigger-color"
+    , "content-color"
+    , "trigger-padding-block"
+    , "transition"
+    , "details-border-block-end-border-width"
+    , "summary-padding-space"
+    , "summary-font-size"
+    , "summary-font-weight"
+    , "summary-transition"
+    , "summary-color"
+    , "svg-transition"
+    , "details-transition-ease"
+    , "content-font-size"
+    , "content-padding-block-end"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

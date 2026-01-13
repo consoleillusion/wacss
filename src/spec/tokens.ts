@@ -2,9 +2,7 @@
  * Build-time token collection: parses the five token layers from the SCSS sources
  * and returns them grouped as TokenLayer[] (as consumed by the NodeLinkDiagram component).
  *
- * The chain is strict: L1 → L2 → L3 → L4 → L5. Layer 3 is split across a
- * hand-authored file (`_component.scss`) and generated source aliases
- * (`_component-source.scss`); both belong to L3 for the graph.
+ * The chain is strict: L1 → L2 → L3 → L4 → L5, all generated from src/tokens.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -19,13 +17,11 @@ export interface TokenFamily { family: string; tokens: TokenNode[]; }
 export interface TokenLayer { layer: string; families: TokenFamily[]; }
 
 const FILES: Array<[string, string[]]> =
-[ ["L1 · Primitive", ["src/styles/tokens/_primitives.scss"]]
-, ["L2 · Semantic", ["src/styles/tokens/_semantic.scss"]]
-, [ "L3 · Component"
-  , ["src/styles/tokens/_component.scss", "src/styles/tokens/_component-source.scss"]
-  ]
-, ["L4 · Role", ["src/styles/tokens/_role.scss"]]
-, ["L5 · State", ["src/styles/tokens/_state.scss"]]
+[ ["L1 · Primitive", ["src/styles/tokens/_l1-primitives.scss"]]
+, ["L2 · Semantic", ["src/styles/tokens/_l2-semantic.scss"]]
+, ["L3 · Component", ["src/styles/tokens/_l3-component.scss"]]
+, ["L4 · Role", ["src/styles/tokens/_l4-role.scss"]]
+, ["L5 · State", ["src/styles/tokens/_l5-state.scss"]]
 ];
 
 /** First hyphen-segment is the token family (button, space, color…). */

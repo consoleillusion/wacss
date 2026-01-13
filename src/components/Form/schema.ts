@@ -2,7 +2,17 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "form"
-, cssProperties: ["gap", "columns-min"]
+, cssProperties:
+    [ "gap"
+    , "columns-min"
+    , "legend-font-size"
+    , "legend-font-weight"
+    , "legend-margin-block-end"
+    , "p-font-size"
+    , "p-color"
+    , "div-gap"
+    , "opacity"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

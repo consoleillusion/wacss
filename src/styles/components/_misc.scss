@@ -1,38 +1,44 @@
 /* Misc editorial surfaces: links, code, blockquotes, kbd, selection. */
-
 /* Links */
 a {
   color: inherit;
   text-decoration: underline;
   text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
   text-underline-offset: 3px;
-  transition: text-decoration-color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--page-a-transition-standard-static);
 }
-a:hover { text-decoration-color: currentColor; }
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
 nav a, article[data-card] a, a[data-variant] {
   text-decoration: none;
 }
 
 /* Inline code and code blocks */
 code, kbd, samp, pre {
-  font-family: var(--font-code-static);
+  font-family: var(--page-code-font-family-standard-static);
   font-size: 0.875em;
 }
+
 code {
-  background: var(--color-muted-static);
-  border-radius: calc(var(--radius-increment-static) * 1);
+  background: var(--page-code-background-standard-static);
+  border-radius: var(--page-code-border-radius-standard-static);
   padding: 0.125rem 0.375rem;
 }
+
 pre {
-  background: var(--color-muted-static);
-  border: var(--border-width-static) solid var(--color-border-static);
-  border-radius: var(--radius-surface-static);
-  padding: calc(var(--space-unit-static) * 4.0);
-  margin-block: calc(var(--space-unit-static) * 4.0);
+  background: var(--page-pre-background-standard-static);
+  border: var(--page-pre-border-standard-static);
+  border-radius: var(--page-pre-border-radius-standard-static);
+  padding: var(--page-pre-padding-standard-static);
+  margin-block: var(--page-pre-margin-block-standard-static);
   overflow-x: auto;
-  font-size: var(--text-size-ui-static);
-  line-height: var(--line-body-static);
+  font-size: var(--page-pre-font-size-standard-static);
+  line-height: var(--page-pre-line-height-standard-static);
 }
+
 pre code {
   background: transparent;
   padding: 0;
@@ -46,26 +52,26 @@ kbd {
   min-inline-size: 1.5rem;
   text-align: center;
   padding: 0.125rem 0.375rem;
-  border: var(--border-width-static) solid var(--color-border-static);
+  border: var(--page-kbd-border-standard-static);
   border-block-end-width: 2px;
-  border-radius: calc(var(--radius-increment-static) * 2);
-  background: var(--color-muted-static);
-  font-size: calc(var(--text-size-body-static) * 0.75);
+  border-radius: var(--page-kbd-border-radius-standard-static);
+  background: var(--page-kbd-background-standard-static);
+  font-size: var(--page-kbd-font-size-standard-static);
   line-height: 1.2;
 }
 
 /* Blockquote: quiet, editorial */
 blockquote {
-  margin: calc(var(--space-unit-static) * 4.0) 0;
-  padding-inline-start: calc(var(--space-unit-static) * 4.0);
-  border-inline-start: 2px solid var(--color-border-static);
-  color: var(--color-muted-foreground-static);
+  margin: var(--page-blockquote-margin-standard-static);
+  padding-inline-start: var(--page-blockquote-padding-inline-start-standard-static);
+  border-inline-start: var(--page-blockquote-border-inline-start-standard-static);
+  color: var(--page-blockquote-color-standard-static);
   font-style: italic;
 }
 
 /* Text selection carries the accent */
 ::selection {
-  background: color-mix(in oklch, var(--color-accent-static) 25%, transparent);
+  background: var(--page-background-standard-static);
 }
 
 /* Motion respects user preference */

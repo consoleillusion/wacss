@@ -14,12 +14,12 @@ const minPath = path.join(outDir, "wacss.min.css");
 // Layers 1 (_primitives.scss) and 2 (_semantic.scss) stay fully readable.
 // Every other custom property declared in the build is renamed to a tiny
 // string in the minified sheet only:
-//   L3/L4/L5 tokens (_component.scss, _role.scss, _state.scss), and
+//   L3/L4/L5 tokens (_l3-component.scss, _l4-role.scss, _l5-state.scss), and
 //   stylesheet-local custom properties declared by rendered styles
 //   (e.g. --alert-accent) — they are not part of the documented token API.
 // Runtime-coupled names (anything also referenced outside src/styles, e.g.
 // --xy-* consumed by @xyflow/svelte) are kept verbatim and logged.
-const READABLE_LAYERS = ["src/styles/tokens/_primitives.scss", "src/styles/tokens/_semantic.scss"];
+const READABLE_LAYERS = ["src/styles/tokens/_l1-primitives.scss", "src/styles/tokens/_l2-semantic.scss"];
 
 /** Declared custom property names in a token layer source file. */
 const declaredNames = async (file) => {
@@ -71,6 +71,8 @@ const scanForNames = async (names) => {
       // src/styles is the input to this build; its occurrences are rewritten
       // consistently in both sheets, so it is not a runtime coupling.
       if (rel.startsWith("src/styles/")) continue;
+      // Token sources (src/tokens, component tokens.ts/schema.ts) are build inputs too.
+      if (rel.startsWith("src/tokens/") || /^src\/components\/[^/]+\/(tokens|schema)\.ts$/.test(rel)) continue;
       const text = await readFile(full, "utf8").catch(() => "");
       if (!text) continue;
       for (const m of text.matchAll(nameRe)) mark(rel, m[1]);
@@ -205,7 +207,7 @@ const { out: mangledCss, map } = mangleCss(minified.code.toString("utf8"), candi
 verifyRoundTrip(mangledCss, "dist/wacss.min.css");
 
 // No manglable name may survive unrenamed (unless excluded as runtime-coupled).
-const survivors = [...candidates].filter((n) => mangledCss.includes(n));
+const survivors = [...candidates].filter((n) => new RegExp(`(?<![\\w-])${n}(?![\\w-])`).test(mangledCss));
 if (survivors.length) {
   throw new Error(`dist/wacss.min.css: ${survivors.length} manglable names survived: ${survivors.slice(0, 5).join(", ")}`);
 }

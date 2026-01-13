@@ -2,7 +2,9 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "context-menu"
-, cssProperties: []
+, cssProperties:
+    [ "svg-transition"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

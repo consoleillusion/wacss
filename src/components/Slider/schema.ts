@@ -2,7 +2,18 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "slider"
-, cssProperties: ["track", "range", "thumb", "thumb-border", "thumb-size"]
+, cssProperties:
+    [ "track"
+    , "range"
+    , "thumb"
+    , "thumb-border-color"
+    , "thumb-size"
+    , "track-border-radius"
+    , "thumb-box-shadow"
+    , "thumb-transition"
+    , "thumb-focus-visible-box-shadow"
+    , "opacity"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

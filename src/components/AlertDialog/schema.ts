@@ -2,7 +2,16 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "alert-dialog"
-, cssProperties: []
+, cssProperties:
+    [ "content-border-width"
+    , "overlay-animation"
+    , "content-animation"
+    , "content-closed-animation"
+    , "title-font-size"
+    , "title-font-weight"
+    , "title-line-height"
+    , "description-font-size"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

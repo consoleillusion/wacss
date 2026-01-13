@@ -1,24 +1,30 @@
 /* Progress */
-
-[role="progressbar"], [data-progress-root] {
+[role=progressbar], [data-progress-root] {
   position: relative;
   height: var(--progress-height-standard-static);
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-full-static);
+  border-radius: var(--progress-border-radius-standard-static);
   background: var(--progress-track-standard-static);
 }
-[role="progressbar"] > div, [data-progress-indicator] {
+
+[role=progressbar] > div, [data-progress-indicator] {
   height: 100%;
   background: var(--progress-indicator-standard-static);
   border-radius: inherit;
-  transition: width var(--motion-surface-static) var(--ease-interaction-static), transform var(--motion-surface-static) var(--ease-interaction-static);
+  transition: var(--progress-div-transition-standard-static);
 }
-[data-indeterminate] [role="progressbar"] > div {
+
+[data-indeterminate] [role=progressbar] > div {
   width: 40%;
-  animation: wacss-progress-indeterminate var(--motion-indeterminate-static) infinite var(--ease-ambient-static);
+  animation: var(--progress-div-animation-standard-static);
 }
+
 @keyframes wacss-progress-indeterminate {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(250%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
 }

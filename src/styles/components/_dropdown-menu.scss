@@ -1,17 +1,18 @@
 /* Dropdown menu - shares the menu surface styles in _popover.scss.
    This file holds dropdown-specific parts. */
-
 [data-dropdown-menu-trigger] {
   background: var(--button-background-standard-static);
   color: var(--button-color-standard-static);
-  border-color: var(--button-border-standard-static);
-  box-shadow: var(--shadow-rest-static);
+  border-color: var(--button-border-color-standard-static);
+  box-shadow: var(--menu-dropdown-menu-trigger-box-shadow-standard-static);
 }
+
 [data-dropdown-menu-trigger]:hover {
   background: var(--button-background-standard-hover);
   color: var(--button-color-standard-hover);
 }
-[data-dropdown-menu-trigger][data-state="open"] {
+
+[data-dropdown-menu-trigger][data-state=open] {
   background: var(--button-background-standard-hover);
   color: var(--button-color-standard-hover);
 }
@@ -20,19 +21,21 @@
 [data-dropdown-menu-sub-trigger] {
   cursor: default;
 }
-[data-dropdown-menu-sub-trigger][data-state="open"] > svg {
+
+[data-dropdown-menu-sub-trigger][data-state=open] > svg {
   transform: rotate(90deg);
 }
+
 [data-dropdown-menu-sub-trigger] > svg {
   margin-inline-start: auto;
-  transition: transform var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--menu-svg-transition-standard-static);
 }
 
 /* Shortcut hint aligned to the end */
-[data-dropdown-menu-item] > [data-shortcut]
-, [data-dropdown-menu-shortcut] {
+[data-dropdown-menu-item] > [data-shortcut],
+[data-dropdown-menu-shortcut] {
   margin-inline-start: auto;
-  font-size: calc(var(--text-size-body-static) * 0.75);
-  color: var(--color-muted-foreground-static);
+  font-size: var(--menu-shortcut-font-size-standard-static);
+  color: var(--menu-shortcut-color-standard-static);
   letter-spacing: 0.05em;
 }

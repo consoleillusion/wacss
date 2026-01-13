@@ -1,0 +1,62 @@
+import type { Meta, Overrides } from "../generate";
+
+export const meta: Meta =
+{ name: "page"
+, cssProperties:
+    [ "body-background"
+    , "body-color"
+    , "body-font-family"
+    , "body-font-size"
+    , "body-line-height"
+    , "a-transition"
+    , "code-font-family"
+    , "code-background"
+    , "code-border-radius"
+    , "pre-background"
+    , "pre-border"
+    , "pre-border-radius"
+    , "pre-padding"
+    , "pre-margin-block"
+    , "pre-font-size"
+    , "pre-line-height"
+    , "kbd-border"
+    , "kbd-border-radius"
+    , "kbd-background"
+    , "kbd-font-size"
+    , "blockquote-margin"
+    , "blockquote-padding-inline-start"
+    , "blockquote-border-inline-start"
+    , "blockquote-color"
+    , "background"
+    ]
+, roles: ["standard"]
+, states: ["static"]
+};
+
+export const tokens: Overrides =
+{ "body-background": "var(--color-base)"
+, "body-color": "var(--color-text)"
+, "body-font-family": "var(--font-family)"
+, "body-font-size": "var(--font-size)"
+, "body-line-height": "var(--line-height)"
+, "a-transition": "text-decoration-color var(--duration) var(--ease)"
+, "code-font-family": "var(--font-family-code)"
+, "code-background": "var(--color-muted)"
+, "code-border-radius": "calc(var(--border-radius-small) * 1)"
+, "pre-background": "var(--color-muted)"
+, "pre-border": "var(--border-width) solid var(--color-border)"
+, "pre-border-radius": "var(--border-radius-surface)"
+, "pre-padding": "calc(var(--space) * 4)"
+, "pre-margin-block": "calc(var(--space) * 4)"
+, "pre-font-size": "var(--font-size-ui)"
+, "pre-line-height": "var(--line-height)"
+, "kbd-border": "var(--border-width) solid var(--color-border)"
+, "kbd-border-radius": "calc(var(--border-radius-small) * 2)"
+, "kbd-background": "var(--color-muted)"
+, "kbd-font-size": "calc(var(--font-size) * 0.75)"
+, "blockquote-margin": "calc(var(--space) * 4) 0"
+, "blockquote-padding-inline-start": "calc(var(--space) * 4)"
+, "blockquote-border-inline-start": "2px solid var(--color-border)"
+, "blockquote-color": "var(--color-muted-foreground)"
+, "background": "color-mix(in oklch, var(--color-accent) 25%, transparent)"
+};

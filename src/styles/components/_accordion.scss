@@ -1,12 +1,13 @@
 /* Accordion - native details/summary, pure CSS animation per the README:
    interpolate-size + ::details-content height 0 -> auto. */
-
-[data-accordion-root] { width: 100%; }
+[data-accordion-root] {
+  width: 100%;
+}
 
 [data-accordion-root] details {
   interpolate-size: allow-keywords;
   overflow: clip;
-  border-block-end: var(--border-width-static) solid var(--accordion-border-standard-static);
+  border-block-end: var(--accordion-details-border-block-end-border-width-standard-static) solid var(--accordion-border-color-standard-static);
 }
 
 [data-accordion-root] details summary {
@@ -14,15 +15,21 @@
   cursor: pointer;
   position: relative;
   list-style: none;
-  padding: var(--accordion-trigger-padding-block-standard-static) calc(var(--space-unit-static) * 8.0) var(--accordion-trigger-padding-block-standard-static) 0;
-  font-size: var(--text-size-body-static);
-  font-weight: var(--weight-ui-static);
+  padding: var(--accordion-trigger-padding-block-standard-static) calc(var(--accordion-summary-padding-space-standard-static) * 8) var(--accordion-trigger-padding-block-standard-static) 0;
+  font-size: var(--accordion-summary-font-size-standard-static);
+  font-weight: var(--accordion-summary-font-weight-standard-static);
   color: var(--accordion-trigger-color-standard-static);
   text-align: start;
-  transition: color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--accordion-summary-transition-standard-static);
 }
-[data-accordion-root] details summary::-webkit-details-marker { display: none; }
-[data-accordion-root] details summary:hover { color: var(--color-muted-foreground-static); }
+
+[data-accordion-root] details summary::-webkit-details-marker {
+  display: none;
+}
+
+[data-accordion-root] details summary:hover {
+  color: var(--accordion-summary-color-standard-static);
+}
 
 /* Chevron rides on the summary's end edge. */
 [data-accordion-root] details summary > svg {
@@ -31,22 +38,29 @@
   inset-block-start: 50%;
   translate: 0 -50%;
   opacity: 0.7;
-  transition: transform var(--motion-surface-static) var(--ease-interaction-static);
+  transition: var(--accordion-svg-transition-standard-static);
 }
-[data-accordion-root] details[open] > summary > svg { transform: rotate(180deg); }
+
+[data-accordion-root] details[open] > summary > svg {
+  transform: rotate(180deg);
+}
 
 [data-accordion-root] details::details-content {
   height: 0;
   overflow-y: clip;
-  transition:
-    content-visibility var(--accordion-transition-standard-static) allow-discrete
-    , height var(--accordion-transition-standard-static) var(--ease-interaction-static);
+  transition: content-visibility var(--accordion-transition-standard-static) allow-discrete, height var(--accordion-transition-standard-static) var(--accordion-details-transition-ease-standard-static);
 }
-[data-accordion-root] details[open]::details-content { height: auto; }
+
+[data-accordion-root] details[open]::details-content {
+  height: auto;
+}
 
 [data-accordion-content] {
-  font-size: var(--text-size-body-static);
+  font-size: var(--accordion-content-font-size-standard-static);
   color: var(--accordion-content-color-standard-static);
-  padding-block-end: calc(var(--space-unit-static) * 4.0);
+  padding-block-end: var(--accordion-content-padding-block-end-standard-static);
 }
-[data-accordion-content] > :first-child { margin-block-start: 0; }
+
+[data-accordion-content] > :first-child {
+  margin-block-start: 0;
+}

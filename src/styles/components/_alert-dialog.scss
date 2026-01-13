@@ -1,16 +1,16 @@
 /* Alert dialog - dialog variant (bits-ui data-alert-dialog-* parts). */
-
 [data-alert-dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--dialog-z-standard-static);
+  z-index: var(--dialog-z-index-standard-static);
   background: var(--dialog-overlay-standard-static);
 }
+
 [data-alert-dialog-content] {
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: var(--dialog-z-standard-static);
+  z-index: var(--dialog-z-index-standard-static);
   display: grid;
   gap: var(--dialog-gap-standard-static);
   width: 100%;
@@ -18,27 +18,38 @@
   max-height: var(--dialog-max-height-standard-static);
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: var(--border-width-static) solid var(--dialog-border-standard-static);
+  border: var(--alert-dialog-content-border-width-standard-static) solid var(--dialog-border-color-standard-static);
   background: var(--dialog-background-standard-static);
   color: var(--dialog-color-standard-static);
   padding: var(--dialog-padding-standard-static);
-  border-radius: var(--dialog-radius-standard-static);
-  box-shadow: var(--dialog-shadow-standard-static);
+  border-radius: var(--dialog-border-radius-standard-static);
+  box-shadow: var(--dialog-box-shadow-standard-static);
 }
-[data-alert-dialog-overlay][data-state="open"] { animation: wacss-fade-in var(--motion-surface-static) var(--ease-interaction-static); }
-[data-alert-dialog-content][data-state="open"] { animation: wacss-pop-in var(--motion-surface-static) var(--ease-interaction-static); }
-[data-alert-dialog-content][data-state="closed"] { animation: wacss-pop-out var(--motion-interaction-static) var(--ease-interaction-static); }
+
+[data-alert-dialog-overlay][data-state=open] {
+  animation: var(--alert-dialog-overlay-animation-standard-static);
+}
+
+[data-alert-dialog-content][data-state=open] {
+  animation: var(--alert-dialog-content-animation-standard-static);
+}
+
+[data-alert-dialog-content][data-state=closed] {
+  animation: var(--alert-dialog-content-closed-animation-standard-static);
+}
 
 [data-alert-dialog-title] {
-  font-size: calc(var(--text-size-body-static) * 1.125);
-  font-weight: var(--weight-heading-static);
-  line-height: var(--line-heading-static);
+  font-size: var(--alert-dialog-title-font-size-standard-static);
+  font-weight: var(--alert-dialog-title-font-weight-standard-static);
+  line-height: var(--alert-dialog-title-line-height-standard-static);
 }
+
 [data-alert-dialog-description] {
-  font-size: var(--text-size-ui-static);
+  font-size: var(--alert-dialog-description-font-size-standard-static);
   color: var(--field-description-color-standard-static);
 }
-[data-alert-dialog-action][data-variant="destructive"]
-, [data-alert-dialog-cancel] {
+
+[data-alert-dialog-action][data-variant=destructive],
+[data-alert-dialog-cancel] {
   min-height: var(--button-height-standard-static);
 }

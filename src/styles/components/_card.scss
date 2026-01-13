@@ -1,6 +1,5 @@
 /* Card - token-driven surface; intrinsically sized per the README.
    Cards use a simple .card class (no semantic element exists for a card). */
-
 .card {
   display: grid;
   grid-template-rows: auto;
@@ -9,20 +8,20 @@
   overflow: hidden;
   background: var(--card-background-standard-static);
   color: var(--card-color-standard-static);
-  border: var(--border-width-static) solid var(--card-border-standard-static);
-  border-radius: var(--card-radius-standard-static);
-  box-shadow: var(--card-shadow-standard-static);
+  border: var(--card-border-width-standard-static) solid var(--card-border-color-standard-static);
+  border-radius: var(--card-border-radius-standard-static);
+  box-shadow: var(--card-box-shadow-standard-static);
 }
 
 /* Geometry: card is 3 units wide and 4 units high. Content comes first in
    source order (correct document outline) and is reordered with CSS:
    figure 3/7 of the height, body 4/7. */
-.card:has(> [data-slot="card-figure"]) {
-  aspect-ratio: 3 / 4;
+.card:has(> [data-slot=card-figure]) {
+  aspect-ratio: 3/4;
   grid-template-rows: minmax(0, 3fr) minmax(0, 4fr);
 }
 
-.card > [data-slot="card-figure"] {
+.card > [data-slot=card-figure] {
   order: 1;
   margin: 0;
   min-block-size: 0;
@@ -33,91 +32,108 @@
   align-items: center;
   justify-content: center;
 }
+
 /* Image and video go to the edge; other figure content keeps the padding. */
-.card > [data-slot="card-figure"][data-figure-kind="image"]
-, .card > [data-slot="card-figure"][data-figure-kind="video"] {
+.card > [data-slot=card-figure][data-figure-kind=image],
+.card > [data-slot=card-figure][data-figure-kind=video] {
   padding: 0;
 }
 
 /* Media components render their own figure; it fills the card figure. */
-.card > [data-slot="card-figure"] figure {
+.card > [data-slot=card-figure] figure {
   margin: 0;
   inline-size: 100%;
   block-size: 100%;
   display: flex;
   flex-direction: column;
 }
-.card > [data-slot="card-figure"] img
-, .card > [data-slot="card-figure"] video {
+
+.card > [data-slot=card-figure] img,
+.card > [data-slot=card-figure] video {
   flex: 1 1 auto;
   min-block-size: 0;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
 }
-.card > [data-slot="card-figure"] audio {
+
+.card > [data-slot=card-figure] audio {
   inline-size: 100%;
 }
+
 /* Textarea figure: fill the figure so the notes component reads in place */
-.card > [data-slot="card-figure"] [data-textarea-root] {
+.card > [data-slot=card-figure] [data-textarea-root] {
   inline-size: 100%;
   block-size: 100%;
   min-block-size: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--space-unit-static) * 1.0);
+  gap: var(--card-textarea-gap-standard-static);
 }
-.card > [data-slot="card-figure"] [data-textarea-root] label {
-  font-size: calc(var(--text-size-body-static) * 0.75);
-  color: var(--color-muted-foreground-static);
+
+.card > [data-slot=card-figure] [data-textarea-root] label {
+  font-size: var(--card-label-font-size-standard-static);
+  color: var(--card-label-color-standard-static);
 }
-.card > [data-slot="card-figure"] [data-textarea-root] textarea {
+
+.card > [data-slot=card-figure] [data-textarea-root] textarea {
   flex: 1 1 auto;
   min-block-size: 0;
   resize: none;
 }
-.card > [data-slot="card-figure"] figcaption {
-  padding: calc(var(--space-unit-static) * 2.0) var(--card-padding-standard-static);
-  font-size: calc(var(--text-size-body-static) * 0.75);
+
+.card > [data-slot=card-figure] figcaption {
+  padding: calc(var(--card-figcaption-padding-space-standard-static) * 2) var(--card-padding-standard-static);
+  font-size: var(--card-figcaption-font-size-standard-static);
   color: var(--card-description-color-standard-static);
 }
 
-.card > [data-slot="card-content"] {
+.card > [data-slot=card-content] {
   order: 2;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--space-unit-static) * 3.0);
+  gap: var(--card-gap-standard-static);
   padding: var(--card-padding-standard-static);
   box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
 }
-.card > [data-slot="card-content"] > p { margin: 0; }
-.card [data-slot="card-header"] { display: grid; gap: calc(var(--space-unit-static) * 1.0); }
-.card [data-slot="card-title"] {
+
+.card > [data-slot=card-content] > p {
   margin: 0;
-  font-size: var(--card-title-size-standard-static);
-  font-weight: var(--weight-heading-static);
-  line-height: var(--line-heading-static);
-  color: var(--color-text-static);
+}
+
+.card [data-slot=card-header] {
+  display: grid;
+  gap: var(--card-slot-card-header-gap-standard-static);
+}
+
+.card [data-slot=card-title] {
+  margin: 0;
+  font-size: var(--card-title-font-size-standard-static);
+  font-weight: var(--card-font-weight-standard-static);
+  line-height: var(--card-line-height-standard-static);
+  color: var(--card-color-standard-static);
 }
 
 /* CTA: the Button component supplies the styling; this only positions it. */
-[data-slot="card-cta"] {
+[data-slot=card-cta] {
   align-self: start;
   justify-self: start;
   margin-block-start: auto;
 }
-.card [data-slot="card-description"] {
+
+.card [data-slot=card-description] {
   margin: 0;
-  font-size: calc(var(--text-size-body-static) * 0.875);
+  font-size: var(--card-font-size-standard-static);
   color: var(--card-description-color-standard-static);
 }
-.card [data-slot="card-footer"] {
+
+.card [data-slot=card-footer] {
   display: flex;
   align-items: center;
-  gap: calc(var(--space-unit-static) * 2.0);
+  gap: var(--card-slot-card-footer-gap-standard-static);
   margin-block-start: auto;
-  font-size: calc(var(--text-size-body-static) * 0.875);
+  font-size: var(--card-font-size-standard-static);
   color: var(--card-description-color-standard-static);
 }

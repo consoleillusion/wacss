@@ -2,7 +2,25 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "checkbox"
-, cssProperties: ["background", "border", "color", "size", "radius"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "size"
+    , "border-radius"
+    , "label-gap"
+    , "label-font-size"
+    , "label-font-weight"
+    , "input-accent-color"
+    , "gap"
+    , "color-2"
+    , "font-size"
+    , "font-weight"
+    , "hover-color"
+    , "span-border-width"
+    , "span-transition"
+    , "span-background-lightness"
+    ]
 , roles: ["standard"]
 , states: ["static", "checked"]
 } as const;

@@ -1,0 +1,33 @@
+import type { Overrides } from "../../tokens/generate";
+
+/** Hand-authored overrides of generated L3–L5 tokens (keys are relative to "dialog"). */
+export const tokens: Overrides =
+{ "background": "var(--color-surface)"
+, "border-color": "var(--color-border)"
+, "color": "var(--color-text)"
+, "overlay": "var(--color-overlay)"
+, "border-radius": "var(--border-radius-surface)"
+, "box-shadow": "var(--box-shadow-overlay)"
+, "padding": "calc(var(--space) * 6.0)"
+, "gap": "calc(var(--space) * 4.0)"
+, "max-width": "calc(var(--space) * 128)"
+, "max-height": "min(85vh, calc(var(--space) * 160))"
+, "z-index": "var(--z-index-overlay)"
+, "content-border-width": "var(--border-width)"
+, "overlay-animation": "wacss-fade-in var(--duration-surface) var(--ease)"
+, "overlay-closed-animation": "wacss-fade-out var(--duration) var(--ease)"
+, "content-animation": "wacss-pop-in var(--duration-surface) var(--ease)"
+, "content-closed-animation": "wacss-pop-out var(--duration) var(--ease)"
+, "title-font-size": "calc(var(--font-size) * 1.125)"
+, "title-font-weight": "var(--font-weight-heading)"
+, "title-line-height": "var(--line-height-heading)"
+, "description-font-size": "var(--font-size-ui)"
+, "header-gap": "calc(var(--space) * 2)"
+, "body-gap": "calc(var(--space) * 2)"
+, "body-font-size": "var(--font-size-ui)"
+, "footer-gap": "calc(var(--space) * 2)"
+, "close-right": "calc(var(--space) * 4)"
+, "close-top": "calc(var(--space) * 4)"
+, "close-border-radius": "calc(var(--border-radius-small) * 2)"
+, "close-padding": "calc(var(--space) * 1)"
+};

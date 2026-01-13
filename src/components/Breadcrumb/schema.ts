@@ -2,7 +2,19 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "breadcrumb"
-, cssProperties: []
+, cssProperties:
+    [ "ol-gap"
+    , "ol-font-size"
+    , "li-gap"
+    , "li-color"
+    , "a-transition"
+    , "a-color"
+    , "color"
+    , "font-weight"
+    , "separator-color"
+    , "svg-inline-size"
+    , "svg-block-size"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;
