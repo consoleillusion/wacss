@@ -1,7 +1,9 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "table"
+, element: "table"
 , cssProperties:
     [ "head-color"
     , "head-font-weight"
@@ -17,9 +19,17 @@ export const meta =
     , "td-border-block-end-border-width"
     , "tr-transition"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static", "hover"]
-} as const;
+, channels: { hover: ["row-background"] }
+, structure:
+  { static:
+    { width: "100%"
+    , "border-collapse": "collapse"
+    , "caption-side": "bottom"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Table"

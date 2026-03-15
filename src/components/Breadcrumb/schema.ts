@@ -1,23 +1,20 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "breadcrumb"
 , cssProperties:
-    [ "ol-gap"
-    , "ol-font-size"
-    , "li-gap"
-    , "li-color"
-    , "a-transition"
-    , "a-color"
+    [ "gap"
+    , "font-size"
     , "color"
     , "font-weight"
-    , "separator-color"
-    , "svg-inline-size"
-    , "svg-block-size"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+  { static: { display: "block" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Breadcrumb"

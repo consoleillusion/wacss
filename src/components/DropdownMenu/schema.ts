@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -5,10 +6,14 @@ export const meta =
 , cssProperties:
     [ "background"
     , "border-color"
-    , "color"
+    , "border-width"
     , "border-radius"
     , "box-shadow"
+    , "color"
     , "padding"
+    , "opacity"
+    , "animation-duration"
+    , "animation-timing-function"
     , "item-border-radius"
     , "item-padding-block"
     , "item-padding-inline"
@@ -21,10 +26,24 @@ export const meta =
     , "svg-transition"
     , "shortcut-font-size"
     , "shortcut-color"
+    , "dropdown-menu-item-opacity"
+    , "dropdown-menu-separator-height"
+    , "dropdown-menu-separator-background"
+    , "dropdown-menu-separator-margin-space"
+    , "dropdown-menu-group-heading-padding-space"
+    , "dropdown-menu-group-heading-font-size"
+    , "dropdown-menu-group-heading-font-weight"
+    , "dropdown-menu-group-heading-color"
+    , "dropdown-menu-checkbox-item-indicator-inset-inline-start"
     ]
-, roles: ["standard"]
-, states: ["static", "highlighted"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "highlighted", "open", "disabled"]
+, structure:
+  { static: { overflow: "hidden", "border-style": "solid" }
+  , open: { "animation-name": "wacss-fade-in-fast" }
+  , disabled: { "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "DropdownMenu"

@@ -1,11 +1,28 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "meter"
-, cssProperties: []
-, roles: ["standard"]
+, element: "meter"
+, cssProperties:
+    [ "background"
+    , "color"
+    , "border-color"
+    , "border-width"
+    , "border-radius"
+    , "block-size"
+    , "inline-size"
+    ]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { display: "block"
+        , "border-style": "solid"
+        , overflow: "hidden"
+        }
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "Meter"

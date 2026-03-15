@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -13,10 +14,24 @@ export const meta =
     , "thumb-transition"
     , "thumb-focus-visible-box-shadow"
     , "opacity"
+    , "outline-color"
+    , "outline-offset"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "focus", "disabled"]
+, structure:
+  { static:
+    { position: "relative"
+    , display: "flex"
+    , "align-items": "center"
+    , width: "100%"
+    , "touch-action": "none"
+    , "user-select": "none"
+    , "outline-style": "solid"
+    }
+  , disabled: { "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Slider"

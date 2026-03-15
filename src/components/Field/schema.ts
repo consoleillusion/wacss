@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -6,9 +7,12 @@ export const meta =
     [ "gap"
     , "description-color"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+  { static: { display: "grid" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Field"

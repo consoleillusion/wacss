@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -5,16 +6,20 @@ export const meta =
 , cssProperties:
     [ "background"
     , "gap"
-    , "circle-animation"
-    , "circle-inline-size"
-    , "circle-block-size"
-    , "circle-border-radius"
-    , "bar-block-size"
-    , "bar-border-radius"
+    , "animation-duration"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+  { static:
+    { display: "grid"
+    , "inline-size": "100%"
+    , "animation-name": "wacss-skeleton-pulse"
+    , "animation-timing-function": "cubic-bezier(0.65, 0, 0.35, 1)"
+    , "animation-iteration-count": "infinite"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Skeleton"

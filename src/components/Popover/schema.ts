@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -5,29 +6,25 @@ export const meta =
 , cssProperties:
     [ "background"
     , "border-color"
-    , "color"
+    , "border-width"
     , "border-radius"
     , "box-shadow"
+    , "color"
     , "padding"
-    , "min-width"
-    , "z-index"
-    , "content-border-width"
-    , "content-animation"
-    , "content-closed-animation"
-    , "dropdown-menu-item-opacity"
-    , "dropdown-menu-separator-height"
-    , "dropdown-menu-separator-background"
-    , "dropdown-menu-separator-margin-space"
-    , "dropdown-menu-group-heading-padding-space"
-    , "dropdown-menu-group-heading-font-size"
-    , "dropdown-menu-group-heading-font-weight"
-    , "dropdown-menu-group-heading-color"
-    , "dropdown-menu-checkbox-item-indicator-inset-inline-start"
     , "content-padding"
+    , "min-width"
+    , "inline-size"
+    , "z-index"
+    , "animation-duration"
+    , "animation-timing-function"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "open"]
+, structure:
+  { static: { overflow: "hidden", "border-style": "solid" }
+  , open: { "animation-name": "wacss-fade-in-fast" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Popover"

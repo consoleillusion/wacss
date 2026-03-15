@@ -1,9 +1,12 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
-{ name: "nav"
+{ name: "navigation-menu"
 , cssProperties:
-    [ "trigger-color"
+    [ "background"
+    , "transform"
+    , "trigger-color"
     , "content-background"
     , "content-border-color"
     , "content-border-radius"
@@ -32,9 +35,14 @@ export const meta =
     , "div-border-start-start-radius"
     , "div-border-start-end-radius"
     ]
-, roles: ["standard"]
-, states: ["static", "active"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "open", "active"]
+, channels:
+  { hover: ["background"]
+  , open: ["trigger-color"]
+  , active: ["transform"]
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "NavigationMenu"

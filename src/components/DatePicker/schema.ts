@@ -1,9 +1,14 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "datepicker"
 , cssProperties:
-    [ "date-field-input-gap"
+    [ "border-color"
+    , "outline-color"
+    , "box-shadow"
+    , "opacity"
+    , "date-field-input-gap"
     , "date-field-input-border-width"
     , "date-field-input-box-shadow-focus-ring-span"
     , "date-field-segment-padding"
@@ -36,9 +41,16 @@ export const meta =
     , "calendar-day-selected-color"
     , "calendar-day-color-2"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "focus", "selected", "disabled", "invalid"]
+, channels:
+  { hover: ["box-shadow"]
+  , focus: ["outline-color"]
+  , selected: ["calendar-day-background", "calendar-day-color"]
+  , disabled: ["opacity"]
+  , invalid: ["border-color"]
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "DatePicker"

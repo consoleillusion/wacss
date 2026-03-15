@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -5,20 +6,18 @@ export const meta =
 , cssProperties:
     [ "background"
     , "border-color"
-    , "color"
-    , "overlay"
+    , "border-width"
     , "border-radius"
     , "box-shadow"
+    , "color"
     , "padding"
     , "gap"
     , "max-width"
     , "max-height"
     , "z-index"
-    , "content-border-width"
-    , "overlay-animation"
-    , "overlay-closed-animation"
-    , "content-animation"
-    , "content-closed-animation"
+    , "overlay"
+    , "animation-duration"
+    , "animation-timing-function"
     , "title-font-size"
     , "title-font-weight"
     , "title-line-height"
@@ -31,10 +30,24 @@ export const meta =
     , "close-top"
     , "close-border-radius"
     , "close-padding"
+    , "close-opacity"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "open"]
+, structure:
+  { static:
+    { position: "fixed"
+    , left: "50%"
+    , top: "50%"
+    , display: "grid"
+    , width: "100%"
+    , "overflow-y": "auto"
+    , transform: "translate(-50%, -50%)"
+    , "border-style": "solid"
+    }
+  , open: { "animation-name": "wacss-pop-in" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Dialog"

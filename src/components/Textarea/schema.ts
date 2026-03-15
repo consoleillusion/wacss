@@ -1,13 +1,42 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "textarea"
+, element: "textarea"
 , cssProperties:
-    [ 
+    [ "background"
+    , "border-color"
+    , "border-width"
+    , "color"
+    , "border-radius"
+    , "padding-block"
+    , "padding-inline"
+    , "min-block-size"
+    , "font-size"
+    , "outline-color"
+    , "outline-width"
+    , "outline-offset"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "focus", "invalid", "disabled"]
+, structure:
+  { static:
+    { "border-style": "solid"
+    , "outline-style": "solid"
+    , "inline-size": "100%"
+    , resize: "vertical"
+    }
+  , disabled: { cursor: "not-allowed", "pointer-events": "none" }
+  }
+, pseudoElements:
+  { "::placeholder": ["color"]
+  }
+, pseudoStructure:
+  { "::placeholder": { static: { opacity: "1" } }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Textarea"

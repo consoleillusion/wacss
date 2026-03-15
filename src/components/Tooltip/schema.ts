@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -5,19 +6,27 @@ export const meta =
 , cssProperties:
     [ "background"
     , "border-color"
-    , "color"
+    , "border-width"
     , "border-radius"
     , "box-shadow"
+    , "color"
     , "padding-block"
     , "padding-inline"
     , "font-size"
-    , "content-border-width"
-    , "content-animation"
-    , "content-closed-animation"
+    , "max-inline-size"
+    , "animation-duration"
+    , "animation-timing-function"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+  { static:
+    { width: "fit-content"
+    , "border-style": "solid"
+    , "animation-name": "wacss-fade-in-fast"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Tooltip"

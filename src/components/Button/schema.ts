@@ -1,26 +1,54 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "button"
+, element: "button"
 , cssProperties:
     [ "background"
-    , "border-color"
     , "color"
+    , "border-color"
+    , "border-width"
     , "border-radius"
     , "padding-block"
     , "padding-inline"
     , "font-size"
+    , "font-size-small"
+    , "accent-color"
     , "gap"
     , "height"
     , "height-sm"
     , "height-lg"
     , "height-icon"
-    , "variant-color"
-    , "variant-font-size"
+    , "outline-color"
+    , "outline-width"
+    , "outline-offset"
+    , "transform"
+    , "opacity"
+    , "filter"
+    , "transition-duration"
+    , "text-decoration-line"
+    , "text-underline-offset"
     ]
-, roles: ["standard", "primary", "secondary", "danger", "tertiary"]
-, states: ["static", "hover"]
-} as const;
+, variants: ["secondary", "primary", "tertiary", "danger"]
+, states: ["static", "hover", "focus", "active", "disabled", "loading"]
+, structure:
+  { static:
+    { appearance: "none"
+    , display: "inline-flex"
+    , "align-items": "center"
+    , "justify-content": "center"
+    , "white-space": "nowrap"
+    , "border-style": "solid"
+    , "outline-style": "solid"
+    , "line-height": "1"
+    , cursor: "pointer"
+    , "transition-property": "background, color, border-color, transform"
+    }
+  , disabled: { cursor: "not-allowed" }
+  , loading: { position: "relative" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Button"

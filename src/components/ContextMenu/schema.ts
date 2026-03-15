@@ -1,13 +1,15 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "context-menu"
 , cssProperties:
-    [ "svg-transition"
+    [ "min-width"
+    , "svg-transition"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+} as const satisfies Meta;
 
 export const component =
 { title: "ContextMenu"

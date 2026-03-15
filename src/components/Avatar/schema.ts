@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -6,15 +7,27 @@ export const meta =
     [ "size"
     , "size-sm"
     , "size-lg"
-    , "fallback-background"
-    , "fallback-color"
+    , "inline-size"
+    , "block-size"
+    , "background"
+    , "color"
     , "border-radius"
-    , "image-font-size"
-    , "image-font-weight"
+    , "font-size"
+    , "font-weight"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { position: "relative"
+        , display: "inline-flex"
+        , "align-items": "center"
+        , "justify-content": "center"
+        , "flex-shrink": "0"
+        , overflow: "hidden"
+        }
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "Avatar"

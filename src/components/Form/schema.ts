@@ -1,7 +1,9 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "form"
+, element: "form"
 , cssProperties:
     [ "gap"
     , "columns-min"
@@ -13,9 +15,13 @@ export const meta =
     , "div-gap"
     , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "disabled"]
+, structure:
+  { static: { display: "grid" }
+  , disabled: { "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Form"

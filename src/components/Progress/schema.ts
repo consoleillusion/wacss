@@ -1,18 +1,27 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "progress"
 , cssProperties:
-    [ "track"
-    , "indicator"
+    [ "background"
+    , "color"
     , "height"
     , "border-radius"
-    , "div-transition"
-    , "div-animation"
+    , "transition-duration"
+    , "animation-duration"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "disabled"]
+, structure:
+  { static:
+    { position: "relative"
+    , overflow: "hidden"
+    , "inline-size": "100%"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Progress"
