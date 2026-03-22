@@ -18,5 +18,6 @@ export const tokens: Overrides =
 , "hover-color": "var(--color-text)"
 , "span-border-width": "var(--border-width)"
 , "span-transition": "background var(--duration) var(--ease), border-color var(--duration) var(--ease), color var(--duration) var(--ease)"
-, "span-background-lightness": "var(--lightness)"
+  // Old `--lightness` is now the spec interaction colour bridge.
+, "span-interaction": "var(--interaction)"
 };
