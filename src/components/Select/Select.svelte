@@ -44,8 +44,7 @@
       try {
         const c = localStorage.getItem("wacss:accent-color");
         if (c) {
-          document.documentElement.style.setProperty("--color-theme", c);
-          document.documentElement.style.setProperty("--color-accent", c);
+          document.documentElement.style.setProperty("--color-palette", c);
           emitAccentChange({ source: "custom", color: c });
         }
       } catch {}
@@ -59,8 +58,7 @@
     }
     const root = document.documentElement;
     root.removeAttribute("data-palette");
-    root.style.removeProperty("--color-theme");
-    root.style.removeProperty("--color-accent");
+    root.style.removeProperty("--color-palette");
     if (ACCENT_THEME_NAMES.includes(next)) root.setAttribute("data-palette", next);
     try {
       localStorage.setItem("wacss:accent", next);
@@ -101,7 +99,7 @@
   data-type={type}
   onValueChange={(next: string | string[]) => { value = next; onValueChange?.(next); if (accentSelector) applyAccent(next, true); }}
 >
-  <BitsSelect.Trigger id={id} {...triggerProps} data-select-trigger>
+  <BitsSelect.Trigger id={id} {...triggerProps} class="select" data-select-trigger>
     <BitsSelect.Value {placeholder} />
     <svg
       data-select-icon

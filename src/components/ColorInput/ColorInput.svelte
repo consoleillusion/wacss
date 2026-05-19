@@ -31,7 +31,7 @@
   const uid = $props.id();
   const inputId = $derived(id ?? `${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["", "", className].filter(Boolean).join(" "));
+  const classes = $derived(["color-input", className].filter(Boolean).join(" "));
   const inputClasses = $derived(["", inputClass].filter(Boolean).join(" "));
 
   let hue = $state<number>(150);
@@ -114,7 +114,7 @@
     <label for={inputId}>{label}</label>
   {/if}
   {#if accentSelector}
-    <div>
+    <div style="display: contents;">
       <Slider
         min={0}
         max={360}
@@ -134,7 +134,7 @@
       />
     </div>
   {:else}
-    <div>
+    <div style="display: contents;">
       <input
         {...restProps}
         id={inputId}

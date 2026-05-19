@@ -12,9 +12,12 @@
 
   const uid = $props.id();
   const titleId = $derived(title ? `alert-title-${uid}` : undefined);
+  const variantClasses: Record<string, string | undefined> =
+    { info: "informational", positive: "positive", warning: "warning", destructive: "danger" };
+  const classes = $derived(["alert", variantClasses[variant], className].filter(Boolean).join(" "));
 </script>
 
-<div role="alert" data-alert-root data-variant={variant} class={className || undefined} aria-labelledby={titleId} {...restProps}>
+<div role="alert" data-alert-root class={classes} aria-labelledby={titleId} {...restProps}>
   <div data-alert-icon aria-hidden="true">
     {#if variant === "info"}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">

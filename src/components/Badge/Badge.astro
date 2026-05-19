@@ -1,4 +1,9 @@
 ---
-const { as: Tag = "span", variant = "default", ...attrs } = Astro.props;
+const { as: Tag = "span", variant = "default", class: className = "", ...attrs } = Astro.props;
+const variantClass =
+  ({ default: "", secondary: "", outline: "tertiary", neutral: "tertiary"
+   , info: "informational", warning: "warning", positive: "positive"
+   , destructive: "danger", negative: "danger" })[variant];
+const classes = ["badge", variantClass, className].filter(Boolean).join(" ");
 ---
-<Tag data-badge data-variant={variant} {...attrs}><slot /></Tag>
+<Tag data-badge class={classes} {...attrs}><slot /></Tag>

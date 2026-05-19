@@ -6,10 +6,11 @@
     , class: className = ""
     , ...restProps
   }: BreadcrumbProps = $props();
+  const classes = $derived(["breadcrumb", className].filter(Boolean).join(" "));
 </script>
 
 {#if items.length}
-  <nav data-breadcrumb-root class={className || undefined} {...restProps} aria-label="Breadcrumb">
+  <nav data-breadcrumb-root class={classes} {...restProps} aria-label="Breadcrumb">
     <ol>
       {#each items as item, i (item.label + i)}
         {#if i > 0}

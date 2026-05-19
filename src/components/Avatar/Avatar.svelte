@@ -24,14 +24,23 @@
         .join("") || "?"
     );
   });
-  const classes = $derived(["", className].filter(Boolean).join(" "));
+  // The spec has no size axis: the size prop overrides the component's L3 tokens.
+  const sizeToken = $derived(
+    size === "sm" ? "--avatar-size-sm" : size === "lg" ? "--avatar-size-lg" : "--avatar-size"
+  );
+  const classes = $derived(["avatar", className].filter(Boolean).join(" "));
 </script>
 
-<span {...restProps} class={classes} data-avatar data-size={size}>
+<span
+  {...restProps}
+  class={classes}
+  style={`--avatar-inline-size: var(${sizeToken}); --avatar-block-size: var(${sizeToken});`}
+>
   {#if showImage}
     <img
       {src}
       {alt}
+      style="inline-size: 100%; block-size: 100%; aspect-ratio: 1 / 1; object-fit: cover;"
       onerror={() => (error = true)}
     />
   {:else}

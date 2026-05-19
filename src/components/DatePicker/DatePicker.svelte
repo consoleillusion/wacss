@@ -31,7 +31,7 @@
   const uid = $props.id();
   const inputId = $derived(id ?? `${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["", "", className].filter(Boolean).join(" "));
+  const classes = $derived(["datepicker", className].filter(Boolean).join(" "));
 
   function toDateValue(v: string): DateValue | undefined {
     if (!v) return undefined;

@@ -25,7 +25,7 @@ export interface LayoutPoint {
   y: number;
 }
 
-const LAYER_PARTITION = { L1: 0, L2: 1, L3: 2, L4: 3, L5: 4 };
+const LAYER_PARTITION: Record<string, number> = { L1: 0, L2: 1, L3: 2, L4: 3, L5: 4 };
 
 // ELK runs in a dedicated worker so laying out the full graph (~1000 nodes)
 // never blocks the UI thread. The worker bundle is loaded on demand and the

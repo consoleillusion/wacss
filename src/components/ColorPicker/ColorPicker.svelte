@@ -20,7 +20,7 @@
   const uid = $props.id();
   const inputId = $derived(id ?? `${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["", "", className].filter(Boolean).join(" "));
+  const classes = $derived(["color-picker", className].filter(Boolean).join(" "));
   const inputClasses = $derived(["", inputClass].filter(Boolean).join(" "));
 
   function normalizeHex(v: string): string | null {
@@ -44,7 +44,7 @@
   {#if label}
     <label for={inputId}>{label}</label>
   {/if}
-  <div>
+  <div style="display: contents;">
     <input
       {...restProps}
       id={inputId}

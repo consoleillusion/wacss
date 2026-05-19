@@ -18,7 +18,7 @@
     [key: string]: unknown;
   } = $props();
 
-  const classes = $derived(["", className].filter(Boolean).join(" "));
+  const classes = $derived(["navigation-menu", className].filter(Boolean).join(" "));
 </script>
 
 <NavigationMenu.Root class={classes} {...restProps}>

@@ -33,10 +33,11 @@
   , });
 </script>
 
-<div data-field class={className || undefined}>
+<div data-field class={["field", className].filter(Boolean).join(" ")}>
   <div style="display:flex;align-items:center;gap:0.5rem;">
     <BitsCheckbox.Root
       {...restProps}
+      class="checkbox"
       bind:checked
       bind:indeterminate
       {disabled}

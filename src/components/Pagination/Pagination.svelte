@@ -25,7 +25,7 @@
   } = $props();
 </script>
 
-<nav data-pagination-root class={className || undefined} aria-label="Pagination" {...restProps}>
+<nav data-pagination-root class={["pagination", className].filter(Boolean).join(" ")} aria-label="Pagination" {...restProps}>
   <Pagination.Root count={total} {perPage} {siblingCount} {loop} bind:page>
     {#snippet children({ pages, range: _range, currentPage })}
       <Pagination.PrevButton aria-label="Previous page" data-pagination-prev>

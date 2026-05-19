@@ -8,13 +8,13 @@
     , ...restProps
   }: SeparatorProps = $props();
 
-  const classes = $derived(["", className].filter(Boolean).join(" "));
+  const classes = $derived(["separator", className].filter(Boolean).join(" "));
 </script>
 
-<div
+<hr
   {...restProps}
   class={classes}
   data-orientation={orientation}
   role={decorative ? "none" : "separator"}
   aria-orientation={decorative ? undefined : orientation}
-></div>
+/>

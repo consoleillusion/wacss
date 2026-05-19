@@ -27,7 +27,11 @@
 
   <BitsDialog.Portal>
     <BitsDialog.Overlay data-dialog-overlay />
-    <BitsDialog.Content {...restProps} class={className || undefined} data-dialog-content>
+    <BitsDialog.Content
+      {...restProps}
+      class={["dialog", className].filter(Boolean).join(" ")}
+      data-dialog-content
+    >
       <header data-dialog-header>
         {#if title}
           <BitsDialog.Title data-dialog-title>{title}</BitsDialog.Title>

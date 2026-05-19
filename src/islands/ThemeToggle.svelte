@@ -51,7 +51,6 @@
 
 <button
   type="button"
-  data-variant="secondary"
   data-size="sm"
   class="theme-toggle"
   onclick={toggle}

@@ -35,7 +35,7 @@
   , });
 </script>
 
-<div data-textarea-root class={className || undefined}>
+<div data-textarea-root class={["field", className].filter(Boolean).join(" ")}>
   {#if label}
     <label for={textareaId}>
       {label}
