@@ -1,0 +1,15 @@
+/* Source entry point for the WACSS stylesheet. Generated files are built by
+   `bun run build`; this file only assembles them in cascade-layer order. */
+@layer wacss.reset, wacss.elements, wacss.components, wacss.layout;
+
+@import "./tokens/l1-primitives.css";
+@import "./tokens/l2-semantic.css";
+@import "./tokens/l3-component.css";
+@import "./tokens/l4-variant.css";
+@import "./tokens/l5-state.css";
+@import "./helpers/reset.css" layer(wacss.reset);
+@import "./generated/elements.css" layer(wacss.elements);
+@import "./generated/components.css" layer(wacss.components);
+@import "./helpers/layout.css" layer(wacss.layout);
+@import "./helpers/keyframes.css" layer(wacss.layout);
+@import "./helpers/reduced-motion.css" layer(wacss.layout);

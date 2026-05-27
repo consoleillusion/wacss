@@ -1,0 +1,21 @@
+/* Minimal reset. Helper CSS may reference L2 tokens and its own properties only. */
+*, *::before, *::after { box-sizing: border-box; }
+
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd { margin: 0; }
+
+img, video, canvas, audio, iframe { display: block; max-width: 100%; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+body {
+  background: var(--color-base);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
+:focus-visible {
+  outline: var(--outline-width) solid var(--color-ring);
+  outline-offset: var(--outline-offset);
+}
