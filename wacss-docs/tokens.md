@@ -15,7 +15,7 @@
 - `<state>` is a state name: `static`, `hover`, See [states](/states).
 - Bridges use the same L3/L4 patterns with an L2 name in the `<property>` slot. See [generation](/generation).
 
-## 2.2 The matrix
+## The matrix
 
 Each component generates exactly:
 
@@ -25,7 +25,7 @@ Each component generates exactly:
 
 …plus its bridges at L3 and L4. Every combination exists, even when its value only passes through the level below.
 
-## 2.3 Reference rules
+## Reference rules
 
 A token may reference tokens at its own level and the level directly below it. Nothing else.
 
@@ -38,10 +38,9 @@ A token may reference tokens at its own level and the level directly below it. N
 | L5 | L4, L5 of the same component |
 
 A reference that skips a level, or reaches into another component's tokens, fails the build.
-A reference that skips a level, or reaches into another component's tokens, fails the build.
 
 
-## 2.4 Themable values
+## Themable values
 
 A themable token at L2–L5 is an expression over the level below plus literals:
 
@@ -58,7 +57,9 @@ Literals as arguments are expected (`5%`, `* 4`, `in oklab`). Most generated val
 
 A themable L2–L5 token without a reference is allowed only where the value has no meaningful source, such as `transparent`. Those cases are listed in L2.
 
-## 2.5 Structural values
+Retheming means changing L2 variables, not adding increasingly specific selectors. Component overrides are exceptions for values a particular component genuinely needs to own.
+
+## Structural values
 
 Some properties are not themable. A component needs them in order to work, and their value is the same in every theme: `display`, `position`, `inset`, flex and grid structure, `overflow`, `white-space`, `appearance`, `user-select`, `pointer-events`, `box-sizing`, `content`, `cursor`, `animation-name`.
 
@@ -72,7 +73,7 @@ Structural properties:
 
 The test: if a designer would change the value when rethemeing or rebranding, or it differs by variant, it is themable. If changing it would break the component, it is structural.
 
-## 2.6 Units
+## Units
 
 - **Component lengths** (padding, gap, radius, heights, offsets) are in `em`. A component scales with the font size of its context, so a button inside a small card is small.
 - **Page-level lengths** (layout helpers, page spacing) are in `rem`. They do not scale with context.

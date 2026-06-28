@@ -1,6 +1,6 @@
-# 11. Build and verification
+# Build and verification
 
-## 11.1 Commands
+## Commands
 
 | Command | Does |
 | --- | --- |
@@ -10,16 +10,16 @@
 
 Verification is part of `build`. There is no separate verify step to forget.
 
-## 11.2 Checks
+## Checks
 
 The build fails if any of these fail.
 
 **Schema**
-- Every check in [07-component-schema.md](07-component-schema.md#76-validation).
+- Every check in [component-schema](component-schema.md#validation).
 
 **Tokens**
 - L1 values contain no `var()`.
-- Every reference obeys the adjacency table in [02-tokens.md](02-tokens.md#23-reference-rules), and stays within its component.
+- Every reference obeys the adjacency table in [tokens](tokens.md#reference-rules), and stays within its component.
 - Every reference resolves to a declared token.
 - No reference cycles.
 - Each component's tokens are exactly its matrix plus inferred bridges. No extra names.
@@ -36,7 +36,7 @@ The build fails if any of these fail.
 - Helper CSS references only L2 tokens and its own option properties.
 - No class name is shared between a component, a variant and a helper.
 
-## 11.3 Outputs and mangling
+## Outputs and mangling
 
 - `dist/wacss.css`: readable.
 - `dist/wacss.min.css`: minified. L3–L5 names are replaced with short names. L1 and L2 names stay readable so consumers can retheme at runtime.
@@ -45,7 +45,7 @@ The build fails if any of these fail.
 
 Size is not optimised yet. Every matrix token is emitted, including pass-throughs. Pruning unused pass-throughs is a later optimisation and must not change computed styles.
 
-## 11.4 Token graph
+## Token graph
 
 The demo site shows the token dependency graph built from `dist/tokens.json`:
 
@@ -56,6 +56,6 @@ The demo site shows the token dependency graph built from `dist/tokens.json`:
 
 The graph is how a person confirms the architecture is working: every L5 token reaches L1 through L4, L3 and L2, with no edge skipping a column. The build already enforces this. The graph makes it visible.
 
-## 11.5 Generated files
+## Generated files
 
 Generated files carry a header saying they are generated and must not be edited. They are rebuilt on every build.

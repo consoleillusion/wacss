@@ -1,8 +1,8 @@
-# 8. Generation
+# Generation
 
 The generator is JavaScript/TypeScript (`src/tokens/generate.ts`, run by `scripts/build.ts`). It reads each component's `meta` and optional `tokens.ts`, and writes the L3–L5 tokens and the component CSS.
 
-## 8.1 Names: the hierarchy
+## Names: the hierarchy
 
 ```ts
 import * as R from "ramda";
@@ -46,17 +46,17 @@ button-color:
 , "--button-color-primary-static", "--button-color-primary-hover" ]
 ```
 
-These names, and the bridges in 8.4, are the complete token set for the component.
+These names, and the bridges described under Bridges, are the complete token set for the component.
 
-## 8.2 Values
+## Values
 
 | Level | Value |
 | --- | --- |
 | L3 `--c-p` | Override if present, else `var(--p)` (the L2 property default). |
-| L4 `--c-p-v` | Override if present, else the variant recipe ([05-variants.md](05-variants.md#54-variant-recipes)). |
-| L5 `--c-p-v-s` | Override if present, else the state recipe if `p` is in the channel of `s` ([06-states.md](06-states.md#64-recipes)), else `var(--c-p-v)`. |
+| L4 `--c-p-v` | Override if present, else the variant recipe ([variants](variants.md#variant-recipes)). |
+| L5 `--c-p-v-s` | Override if present, else the state recipe if `p` is in the channel of `s` ([states](states.md#recipes)), else `var(--c-p-v)`. |
 
-## 8.3 Worked example
+## Worked example
 
 ```css
 /* L2 */
@@ -88,7 +88,7 @@ These names, and the bridges in 8.4, are the complete token set for the componen
   color-mix(in oklab, var(--button-background-primary), var(--button-interaction-primary) var(--button-mix-hover-primary));
 ```
 
-## 8.4 Bridges
+## Bridges
 
 Recipes need L2 values: a variant's tone, the interaction colour, a mix amount. Referencing L2 from L4 or L5 would skip levels, so each component carries those values down as its own tokens:
 
@@ -100,13 +100,13 @@ Recipes need L2 values: a variant's tone, the interaction colour, a mix amount. 
 - **Inferred, not declared.** The generator creates a bridge for every L2 name used by a recipe or an override. A component only has the bridges it uses.
 - **Bridges are not CSS.** They never appear in the generated component CSS.
 - **They can be retuned per component or per variant**, e.g. a softer hover for cards only: override `mix-hover` in `src/components/Card/tokens.ts`.
-- **Collisions fail the build.** A bridge name must not equal a matrix name. Using the L2 names from [04-semantic.md](04-semantic.md) (`tone-*`, `interaction`, `mix-*`, `ring`, `selection`, …), which are not CSS property names, avoids collisions by construction.
+- **Collisions fail the build.** A bridge name must not equal a matrix name. Using the L2 names from [semantic](semantic.md) (`tone-*`, `interaction`, `mix-*`, `ring`, `selection`, …), which are not CSS property names, avoids collisions by construction.
 
-## 8.5 L2 lookups
+## L2 lookups
 
 An L3 property token defaults to the L2 token of the same name: `padding-inline` → `--padding-inline`. Third-party properties (`--wx-background`) and any property without an L2 default must have an L3 override. The build fails otherwise.
 
-## 8.6 Overrides
+## Overrides
 
 A component may replace any generated token in `src/components/<Name>/tokens.ts`:
 
@@ -126,6 +126,6 @@ export const tokens =
 - An override follows the reference rules for its level. It may introduce bridges by naming them (`var(--card-tone-primary)`).
 - A key that matches no generated token fails the build.
 
-## 8.7 Emission
+## Emission
 
-Tokens are written per level (`l3.css`, `l4.css`, `l5.css`) on `:root`, grouped by component. L1 and L2 are compiled from SCSS. Component CSS is written separately ([09-css-output.md](09-css-output.md)). `dist/tokens.json` records each token's level, component, value and references.
+Tokens are written per level (`l3.css`, `l4.css`, `l5.css`) on `:root`, grouped by component. L1 and L2 are compiled from SCSS. Component CSS is written separately ([css-output](css-output.md)). `dist/tokens.json` records each token's level, component, value and references.

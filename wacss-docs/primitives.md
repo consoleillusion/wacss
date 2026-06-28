@@ -1,15 +1,15 @@
-# 3. L1 — Primitives
+# L1 — Primitives
 
 Primitives quantise the design space. They are the only tokens chosen by judgement rather than calculation, so they are hand-authored and kept few.
 
-## 3.1 Rules
+## Rules
 
 - Literals only. No `var()`.
 - No ramps (`radius-1…12`, `color-50…950`). A scale is a **base** plus a **step** (added) or a **ratio** (multiplied). L2 computes the points it needs.
 - One value per colour hue. Light and dark variants are computed in L2.
 - Units belong where the quantity is physical (`px` for hairlines, `ms` for time). A spacing step is unitless so L2 can apply it in `em` or `rem`.
 
-## 3.2 The set
+## The set
 
 ```scss
 :root {
@@ -79,7 +79,7 @@ Primitives quantise the design space. They are the only tokens chosen by judgeme
 }
 ```
 
-## 3.3 Why these values
+## Why these values
 
 | Primitive | Reason |
 | --- | --- |

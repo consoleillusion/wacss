@@ -55,7 +55,7 @@ For a property `p` of component `c`, each L4 token is generated from L3:
 | `primary`, `positive`, `warning`, `danger`, `informational` | `var(--c-tone-<variant>)` | `var(--c-tone-<variant>-ink)` | `var(--c-tone-<variant>)` | `var(--c-p)` |
 | `tertiary` | `var(--c-tone-tertiary)` | `var(--c-tone-tertiary-ink)` | `var(--c-tone-tertiary)` | `var(--c-p)` |
 
-`--c-tone-…` are bridges from the L2 variant tones (see [08-generation.md](08-generation.md#84-bridges)).
+`--c-tone-…` are bridges from the L2 variant tones (see [generation](generation.md#bridges)).
 
 Some components want a tinted surface rather than a solid fill for their status variants: alerts, badges, callouts. They override the fill and ink with the surface bridges:
 
@@ -78,4 +78,4 @@ export const tokens =
 | Inputs (input, select, checkbox) | secondary |
 | Structure (separator, skeleton, layout) | secondary |
 
-Final variant lists are decided per component (see [12-components-and-api.md](12-components-and-api.md)).
+Final variant lists are decided per component (see [components-and-api](components-and-api.md)).

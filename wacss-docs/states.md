@@ -1,8 +1,8 @@
-# 6. States (L4 → L5)
+# States (L4 → L5)
 
 A state is a UI condition. Its name fills the `<state>` slot: `--button-background-primary-hover`.
 
-## 6.1 The set
+## The set
 
 | State | Kind | Meaning |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ A state is a UI condition. Its name fills the `<state>` slot: `--button-backgrou
 
 A component lists the states it supports, always including `static`. Tokens exist for every listed state.
 
-## 6.2 Selectors
+## Selectors
 
 The generator emits each state as a `:where()` selector, so every state rule has the same specificity as the component's base rule plus its variant class. The selector covers native pseudo-classes and the ARIA and `data-*` attributes Bits UI sets.
 
@@ -44,7 +44,9 @@ The generator emits each state as a `:where()` selector, so every state rule has
 | `loading` | `[aria-busy="true"]` |
 | `disabled` | `:disabled, [aria-disabled="true"], [data-disabled]` |
 
-## 6.3 Co-occurring states and channels
+Selector order is tag, then ARIA or HTML state, then plain attributes. Use `[data-*]` only when no semantic equivalent exists and styling the base element would break semantic best practice.
+
+## Co-occurring states and channels
 
 Almost any states can apply at once: a checked checkbox can be hovered, focused and pressed at the same time. The only exclusive pair is `checked`/`unchecked`.
 
@@ -77,9 +79,9 @@ Examples:
 - **Button** (secondary/primary; static, hover, focus, active, disabled): hover → `background`, focus → `outline-color`, active → `transform`, disabled → `opacity`.
 - **Checkbox** (static, hover, focus, checked, disabled): checked takes `background`, `color` and `border-color`. Hover falls back to `box-shadow`.
 
-A component can set channels explicitly with `meta.channels`, which the generator validates in the same way (see [07-component-schema.md](07-component-schema.md)).
+A component can set channels explicitly with `meta.channels`, which the generator validates in the same way (see [component-schema](component-schema.md)).
 
-## 6.4 Recipes
+## Recipes
 
 When a property is in a state's channel, its L5 value is generated from its L4 token (`L4`) and the component's bridges (`b(name)` = `var(--<component>-<name>-<variant>)`):
 
@@ -98,10 +100,10 @@ When a property is in a state's channel, its L5 value is generated from its L4 t
 | `disabled` | `opacity` | `calc(var(L4) * b(opacity-disabled))` |
 | any | outside the channel | `var(L4)` |
 
-The interaction colour flips with the theme (white on dark, black on light; see [04-semantic.md](04-semantic.md#46-themes)), so hover lightens on dark and darkens on light with no per-theme tokens.
+The interaction colour flips with the theme (white on dark, black on light; see [semantic](semantic.md#themes)), so hover lightens on dark and darkens on light with no per-theme tokens.
 
 `transform`, `box-shadow` and `filter` build on L4 because their L2 defaults are identity values.
 
-## 6.5 Rule order
+## Rule order
 
 Channels are disjoint, so order does not decide which value wins. It is fixed anyway, for stable output: static, then the order in the channel table, reversed (interactions before conditions).

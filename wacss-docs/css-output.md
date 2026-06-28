@@ -1,4 +1,4 @@
-# 9. Generated CSS
+# Generated CSS
 
 The CSS that applies tokens is generated from each schema. It contains only:
 
@@ -7,7 +7,7 @@ The CSS that applies tokens is generated from each schema. It contains only:
 
 No other values appear in it.
 
-## 9.1 Selectors
+## Selectors
 
 | Component kind | Base selector | Variant | State |
 | --- | --- | --- | --- |
@@ -20,7 +20,9 @@ No other values appear in it.
 
 Class count: one per class component, plus one per distinct variant name (the variant classes are shared), plus the helper classes.
 
-## 9.2 Example
+Selector order is tag, then ARIA or HTML state, then plain attributes. Use `[data-*]` only when no semantic equivalent exists and styling the base element would break semantic best practice.
+
+## Example
 
 Card here declares `channels: { hover: ["box-shadow"] }`, so hovering lifts the card instead of tinting it.
 
@@ -71,7 +73,7 @@ Card here declares `channels: { hover: ["box-shadow"] }`, so hovering lifts the 
 
 A primary button that is hovered, focused and pressed at once shows all three changes: a lighter background, an outline and a slight scale.
 
-## 9.3 Cascade layers
+## Cascade layers
 
 ```css
 @layer wacss.reset, wacss.elements, wacss.components, wacss.layout;
@@ -90,7 +92,7 @@ Tokens (L1–L5) are unlayered custom properties on `:root`.
 - A layout helper beats both, so `.stack` spacing applies to cards inside it.
 - Consumer CSS outside any layer beats all of WACSS.
 
-## 9.4 Containment
+## Containment
 
 A button inside a card is styled by the `button` element rules. The card influences it only through inheritance:
 
@@ -99,7 +101,7 @@ A button inside a card is styled by the `button` element rules. The card influen
 
 A button that must look different inside a card is a different component, or a variant.
 
-## 9.5 Generation rules
+## Generation rules
 
 For each component:
 
