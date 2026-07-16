@@ -1,0 +1,27 @@
+nav {
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  
+  .start {
+    justify-self: start;
+    grid-column: 1;
+  }
+
+  .center {
+    justify-self: center;
+    grid-column: 2;
+  }
+
+  .end {
+    justify-self: end;
+    grid-column: 3;
+  }
+
+  .start:empty,
+  .center:empty,
+  .end:empty {
+    display: none;
+  }
+}
