@@ -1,0 +1,30 @@
+@use "./layouts";
+
+@layer typography {
+  section.hero {
+    .eyebrow{}
+    h1 {}
+    p {}
+    button {}
+  }
+}
+
+@layer theme {
+  section.hero {
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+}
+
+@layer layout {
+  section.hero {
+    @include stack();
+    &:.left {
+      
+    }
+    &:.right {
+    }
+    &:.overlay {
+    }
+  }
+}

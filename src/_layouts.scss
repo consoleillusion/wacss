@@ -1,0 +1,53 @@
+@mixin stack(){
+  .stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    > * {
+      margin-block: 0;
+    }
+    > * + * {
+      margin-block-start: var(--space,1.5rem)
+    }
+  }
+}
+
+
+:root {
+  --s1: 2em;
+  --s2: 4em;
+}
+
+.cover {
+  --space: var(--s1);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  padding: var(--space);
+  > * {
+    margin-block: var(--s1);
+  }
+
+  > :first-child:not(.cover-principal){
+    margin-block-start: 0;
+  }
+  > :last-child:not(.cover-principal){
+    margin-block-end: 0;
+  }
+  .cover-principal {
+    margin-block: auto;
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /*
+  box-sizing: content-box;
+  max-inline-size: 60ch;
+  margin-inline: auto;
+  padding-inline-start: var(--s1);
+  padding-inline-end: var(--s1);
+  */
+}
