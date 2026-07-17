@@ -1,0 +1,35 @@
+@layer typography {
+  .avatar {
+    font: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+}
+
+@layer theme {
+  .avatar {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+}
+
+@layer layout {
+  .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--avatar-size, 2.5rem);
+    block-size: var(--avatar-size, 2.5rem);
+    border: 1px solid;
+    border-radius: 999px;
+    overflow: hidden;
+
+    > img {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+}

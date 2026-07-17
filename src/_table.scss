@@ -1,0 +1,55 @@
+@layer typography {
+  table {
+    font: var(--font-body);
+
+    th {
+      font-weight: 600;
+      text-align: start;
+    }
+
+    caption {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+@layer theme {
+  table {
+    color: var(--color-text);
+
+    caption {
+      color: var(--color-muted);
+    }
+
+    th,
+    td {
+      border-color: var(--color-border);
+    }
+
+    thead th {
+      background: var(--color-surface);
+    }
+
+    tbody tr:hover {
+      background: var(--color-surface-hover);
+    }
+  }
+}
+
+@layer layout {
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+
+    caption {
+      padding-block-end: 0.5rem;
+      text-align: start;
+    }
+
+    th,
+    td {
+      padding: 0.625rem 0.75rem;
+      border-block-end: 1px solid;
+    }
+  }
+}
