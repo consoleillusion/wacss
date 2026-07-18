@@ -1,3 +1,4 @@
+@use "./normalize";
 @use "./navbar";
 @use "./button";
 @use "./card";
@@ -10,7 +11,3 @@
 @use "./avatar";
 @use "./breadcrumb";
 @use "./color";
-
-* {
-  transition: all 250ms ease-in-out;
-}

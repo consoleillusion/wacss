@@ -28,7 +28,7 @@ async function build(options) {
   await Bun.write("dist/wacss-" + (options.name || options.layers.join('_')) + ".css", result.code)
 }
 
-await build({layers: ["layout"],name:"basic"})
-await build({layers: ["layout","theme","typography"],name:"full"})
+await build({layers: ["normalize","layout"],name:"basic"})
+await build({layers: ["normalize","layout","theme","typography"],name:"full"})
 
 await rm("dist/full.css")
