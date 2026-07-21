@@ -1,27 +1,42 @@
-nav {
+@layer typography {
+  nav {
+    font: var(--font-body);
+  }
+}
 
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+@layer theme {
+  nav {
+    background: var(--include-bg);
+    color: var(--include-fg);
+  }
+}
+
+@layer layout {
+  nav {
+    padding: .5rem 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
   
-  .start {
-    justify-self: start;
-    grid-column: 1;
-  }
+    .start {
+      justify-self: start;
+      grid-column: 1;
+    }
 
-  .center {
-    justify-self: center;
-    grid-column: 2;
-  }
+    .center {
+      justify-self: center;
+      grid-column: 2;
+    }
 
-  .end {
-    justify-self: end;
-    grid-column: 3;
-  }
+    .end {
+      justify-self: end;
+      grid-column: 3;
+    }
 
-  .start:empty,
-  .center:empty,
-  .end:empty {
-    display: none;
+    .start:empty,
+    .center:empty,
+    .end:empty {
+      display: none;
+    }
   }
 }
