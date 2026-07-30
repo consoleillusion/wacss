@@ -1,0 +1,41 @@
+title: OpeningHours
+#$id: "./schema.yaml"
+type: object
+description: OpeningHours component accepts an object containing an array of daily opening-hour entries, each specifying the day of the week and optional opening and closing times.
+required: ["hours","component","block"]
+additionalProperties: false
+properties:
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: true
+  component:
+    type: string
+    default: OpeningHours
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+    required: true
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","opening hours","data display"]
+  hours:
+    type: array
+    description: A list of opening-hour entries for each day of the week.
+    items:
+      type: object
+      required: ["dayOfWeek"]
+      additionalProperties: false
+      properties:
+        dayOfWeek:
+          type: string
+          description: The day of the week.
+          enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        opens:
+          type: string
+          format: time
+          description: Opening time in HH:MM format.
+        closes:
+          type: string
+          format: time
+          description: Closing time in HH:MM format.

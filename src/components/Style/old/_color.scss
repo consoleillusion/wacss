@@ -1,0 +1,153 @@
+@use "sass:map";
+@mixin background-and-contrast($background) {
+  --background-color: #{$background};
+  --color: oklch(from var(--background-color) calc((l - .6) * -9999) 0 h / .9);
+  background: var(--background-color);
+  color: var(--color);
+}
+@mixin lighten-background($background,$percent: 20) {
+  --background-color: #{$background};
+  background: oklch(from var(--background-color) calc(l * (1 + $percent / 100)) calc(c * (1 + $percent / 100)) h / 1);
+  background: oklch(from var(--background-color) calc(l + sign(.6 - l) / 5) c h / 1)
+}
+@mixin lighten-background-2($background1,$background2,$percent: 90) {
+  --color-background-1: #{$background1};
+  --color-background-2: #{$background2};
+  --background-color: #{$background1};
+  --mix: #{$percent};
+  background: color-mix(in oklch, var(--color-background-1), var(--color-background-2) calc(var(--mix) * 1%) );
+  background: oklch(from var(--background-color) calc(l + sign(.6 - l) / 10) c h / 1)
+}
+/*
+*/
+html {
+  --color-background: rgba(255,255,255,0);
+  --color-text: oklch(from var(--color-background) calc((l - .5) * -9999) c h / .9);
+  background: var(--color-background);
+  color: var(--color-text);
+
+  /*
+  --color-base: var(--snow-white);
+  --color-surface: var(--greenish-white);
+  --color-accent: var(--apple-green);
+  --color-accent-2: var(--pistachio-green);
+  --color-accent-3: "";
+  */
+}
+
+$werner-colors: (
+  (name: "white-snow", color: #FFFFFF, tags: ()),
+  (name: "white-reddish", color: #F5E8E8, tags: ()),
+  (name: "white-purplish", color: #F1E8F1, tags: ()),
+  (name: "white-yellowish", color: #FDF9E3, tags: ()),
+  (name: "orange-white", color: #FCEFD6, tags: ()),
+  (name: "white-greenish", color: #EDF5EF, tags: ()),
+  (name: "white-skimmed-milk", color: #EDF0F5, tags: ()),
+  (name: "white-greyish", color: #F0F0F0, tags: ()),
+  (name: "grey-ash", color: #e5e4dd, tags: ()),
+  (name: "grey-smoke", color: #A39F9D, tags: ()),
+  (name: "grey-french", color: #C0C0C8, tags: ()),
+  (name: "grey-pearl", color: #C8C0D8, tags: ()),
+  (name: "grey-yellowish", color: #C8C2A8, tags: ()),
+  (name: "grey-bluish", color: #A9B9C9, tags: ()),
+  (name: "grey-greenish", color: #B2C2B2, tags: ()),
+  (name: "grey-blackish", color: #888C94, tags: ()),
+  (name: "black-greyish", color: #2E2E2E, tags: ()),
+  (name: "black-bluish", color: #1C1F2B, tags: ()),
+  (name: "black-greenish", color: #2C2F1C, tags: ()),
+  (name: "black-brownish", color: #2E1E1C, tags: ()),
+  (name: "black-reddish", color: #301E1E, tags: ()),
+  (name: "black-raven", color: #0C0C1C, tags: ()),
+  (name: "black-velvet", color: #000000, tags: ()),
+  (name: "blue-indigo", color: #1A237E, tags: ()),
+  (name: "blue-prussian", color: #003153, tags: ()),
+  (name: "blue-china", color: #A0C4FF, tags: ()),
+  (name: "blue-azure", color: #069AF3, tags: ()),
+  (name: "blue-ultramarine", color: #5566FE, tags: ()),
+  (name: "blue-flax-flower", color: #61c2Fe, tags: ()),
+  (name: "blue-berlin", color: #5FBEFC, tags: ()),
+  (name: "blue-verditter", color: #5DADEC, tags: ()),
+  (name: "blue-greenish", color: #6699CC, tags: ()),
+  (name: "blue-greyish", color: #B0C4DE, tags: ()),
+  (name: "purple-bluish-lilac", color: #B9AEDC, tags: ()),
+  (name: "purple-bluish", color: #6A0DAD, tags: ()),
+  (name: "purple-violet", color: #8F00FF, tags: ()),
+  (name: "purple-pansy", color: #78184A, tags: ()),
+  (name: "purple-campanula", color: #7C6DB0, tags: ()),
+  (name: "purple-imperial", color: #602F6B, tags: ()),
+  (name: "purple-auricula", color: #6A317F, tags: ()),
+  (name: "purple-plum", color: #8E4585, tags: ()),
+  (name: "purple-red-lilac", color: #E0B0FF, tags: ()),
+  (name: "purple-lavender", color: #967BB6, tags: ()),
+  (name: "purple-pale-bluish", color: #C8A2C8, tags: ()),
+  (name: "green-celindine", color: #BCE27F, tags: ()),
+  (name: "green-mountain", color: #3EB489, tags: ()),
+  (name: "green-leek", color: #6B8E23, tags: ()),
+  (name: "green-blackish", color: #1F3D1F, tags: ()),
+  (name: "green-verdigris", color: #43B3AE, tags: ()),
+  (name: "green-bluish", color: #00CCCC, tags: ()),
+  (name: "green-apple", color: #8DB600, tags: ()),
+  (name: "green-emerald", color: #50C878, tags: ()),
+  (name: "green-grass", color: #7CFC00, tags: ()),
+  (name: "green-duck", color: #3A9D23, tags: ()),
+  (name: "green-sap", color: #507D2A, tags: ()),
+  (name: "green-pistachio", color: #93C572, tags: ()),
+  (name: "green-asparagus", color: #87A96B, tags: ()),
+  (name: "green-olive", color: #808000, tags: ()),
+  (name: "green-oil", color: #9C9A40, tags: ()),
+  (name: "green-siskin", color: #C0E860, tags: ()),
+  (name: "yellow-sulphur", color: #FFFF66, tags: ()),
+  (name: "yellow-primrose", color: #F6EABE, tags: ()),
+  (name: "yellow-wax", color: #FADA5E, tags: ()),
+  (name: "yellow-lemon", color: #FFF44F, tags: ()),
+  (name: "yellow-gamboge", color: #E49B0F, tags: ()),
+  (name: "yellow-kings", color: #FFD700, tags: ()),
+  (name: "yellow-saffron", color: #F4C430, tags: ()),
+  (name: "yellow-gallstone", color: #E1C16E, tags: ()),
+  (name: "yellow-honey", color: #FFC30B, tags: ()),
+  (name: "yellow-straw", color: #E4D96F, tags: ()),
+  (name: "yellow-wine", color: #FAF0BE, tags: ()),
+  (name: "yellow-sienna", color: #A0522D, tags: ()),
+  (name: "yellow-ochre", color: #CC7722, tags: ()),
+  (name: "yellow-cream", color: #FFFDD0, tags: ()),
+  (name: "orange-dutch", color: #FFA500, tags: ()),
+  (name: "orange-buff", color: #F0DC82, tags: ()),
+  (name: "orange-orpiment", color: #F28500, tags: ()),
+  (name: "orange-brownish", color: #CC5500, tags: ()),
+  (name: "orange-reddish", color: #E25822, tags: ()),
+  (name: "orange-deep-reddish", color: #D9381E, tags: ()),
+  (name: "red-tile", color: #B22222, tags: ()),
+  (name: "red-hyacinth", color: #C21E56, tags: ()),
+  (name: "red-scarlet", color: #FF2400, tags: ()),
+  (name: "red-vermilion", color: #E34234, tags: ()),
+  (name: "red-aurora", color: #C72C48, tags: ()),
+  (name: "red-arterial-blood", color: #990000, tags: ()),
+  (name: "red-flesh", color: #FFDAB9, tags: ()),
+  (name: "red-rose", color: #FF007F, tags: ()),
+  (name: "red-peach-blossom", color: #FFB7C5, tags: ()),
+  (name: "red-carmine", color: #960018, tags: ()),
+  (name: "red-lake", color: #B60000, tags: ()),
+  (name: "red-crimson", color: #DC143C, tags: ()),
+  (name: "red-cochineal", color: #9D2933, tags: ()),
+  (name: "red-veinous-blood", color: #8A0303, tags: ()),
+  (name: "red-brownish-purple", color: #6B4226, tags: ()),
+  (name: "red-chocolate", color: #7B3F00, tags: ()),
+  (name: "red-brownish", color: #A52A2A, tags: ()),
+  (name: "brown-deep-orange", color: #8B4000, tags: ()),
+  (name: "brown-deep-reddish", color: #7B3F00, tags: ()),
+  (name: "brown-umber", color: #635147, tags: ()),
+  (name: "brown-chesnut", color: #954535, tags: ()),
+  (name: "brown-yellowish", color: #9B7E4D, tags: ()),
+  (name: "brown-wood", color: #826644, tags: ()),
+  (name: "brown-liver", color: #674C47, tags: ()),
+  (name: "brown-hair", color: #5C4033, tags: ()),
+  (name: "brown-broccoli", color: #7A5230, tags: ()),
+  (name: "brown-olive", color: #645E4E, tags: ()),
+  (name: "brown-blackish", color: #3B2F2F, tags: ())
+);
+
+:root {
+  @each $color-map in $werner-colors {
+    --color-#{map.get($color-map,name)}: #{map.get($color-map, color)};
+  }
+}

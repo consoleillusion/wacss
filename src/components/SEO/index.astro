@@ -1,0 +1,38 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props.meta)
+const p = props
+---
+
+{/*General*/}
+{p.title && <title>{p.title}</title>}
+{p.description && <meta name="description" content={p.description} />}
+{p.keywords && <meta name="keywords" content={p.keywords} />}
+{p.robots && <meta name="robots" content={p.robots} />}
+{p.fbAppId && <meta property="fb:app_id" content={p.fbAppId} />}
+{p.author && <meta name="author" content={p.author} />}
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+{/*Open Graph*/}
+{p.title && <meta property="og:title" content={p.title} />}
+{p.description && <meta property="og:description" content={p.description} />}
+{p.ogType && <meta property="og:type" content={p.ogType} />}
+{p.image && <meta property="og:image" content={p.image} />}
+{p.url && <meta property="og:url" content={p.url} />}
+{(p.iso_language && p.iso_country) && <meta property="og:locale" content={`${p.iso_language}_${p.iso_country}`} />}
+
+{/*Twitter*/}
+{p.title && <meta name="twitter:title" content={p.title} />}
+{p.description && <meta name="twitter:description" content={p.description} />}
+{p.image && <meta name="twitter:image" content={p.image} />}
+{p.card && <meta name="twitter:card" content={p.card} />}
+{p.url && <meta name="twitter:url" content={p.url} />}
+{p.social?.twitter && <meta name="twitter:site" content={p.social.twitter} />}
+{p.author && <meta name="twitter:creator" content={p.author} />}
+
+{/*Icons*/}
+{p.base && p.icon?.main && <link rel="shortcut icon" type="image/svg+xml" href={`${p.base}${p.icon.main}`} />}
+{p.base && p.icon?.legacy && <link rel="icon" sizes="32x32" href={`${p.base}${p.icon.legacy}`} />}
+{p.base && (p.icon?.large || p.icon?.main) && <link rel="apple-touch-icon" href={`${p.base}${p.icon.large || p.icon.main}`} />}

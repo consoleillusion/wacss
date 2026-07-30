@@ -1,0 +1,77 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+/*
+import { loadPropDefaults } from '../../loadPropDefaults.js';
+// Recommended to at least set, title, description, image, icon, author, url
+*/
+/*
+const {
+  title,
+  author,
+  description,
+  keywords,
+  image,
+  iso_language,
+  iso_country,
+  fonts,
+  color,
+  icon = {},
+  card,
+  url,
+  type,
+  twitterHandle,
+  robots,
+  fbAppId,
+  latitude,
+  longitude,
+  social,
+  revenge
+  } = Astro.props 
+  */
+
+const base = import.meta.env.BASE_URL
+---
+
+<!-- General -->
+<title>{props.title}</title>
+<meta name="description" content={props.description} />
+<meta name="keywords"    content={props.keywords} />
+<meta name="robots" content={props.robots}>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+{ props.fbAppId && 
+  <meta property="fb:app_id" content={props.fbAppId} />
+}
+{ props.author && 
+  <meta name="author" content={props.author} />
+}
+
+<!-- Open Graph -->
+<meta property="og:title"             content={props.title} />
+<meta property="og:description"       content={props.description} />
+<meta property="og:type"              content={props.ogType} />
+<meta property="og:image"             content={props.image} />
+<meta property="og:url"               content={props.url}>
+<meta property="og:locale"            content={props.iso_language + '_' + props.iso_country} />
+
+<!-- Twitter -->
+<meta property="twitter:title"        content={props.title} / >
+<meta property="twitter:description"  content={props.description} />
+<meta property="twitter:image"        content={props.image} />
+<meta name="twitter:card"             content={props.card} />
+<meta name="twitter:url"              content={props.url}>
+
+{ (props.social && props.social.twitter)
+? (<meta name="twitter:site"           content={props.social.twitter} />)
+: ("")
+}
+{ props.author && 
+  <meta name="twitter:creator"        content={props.author} />
+}
+
+<!-- Icons --> 
+<link href={props.base + (props.icon.small || props.icon.main)}     rel="shortcut icon" type="image/svg+xml">
+{props.icon.legacy ? <link href={props.base + props.icon.legacy}    rel="icon"          sizes="32x32"> : ""}
+<link href={props.base + (props.icon.large || props.icon.main)}     rel="apple-touch-icon">

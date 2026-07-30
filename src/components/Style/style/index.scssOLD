@@ -1,0 +1,8 @@
+  /*
+  @for $i from 1 through $iterations {
+    --color-#{$name}-#{$i}: hsl(from var(--color-#{$name}) h s calc(l + (var(--ramp-#{$name}-max-lightness) - l) * (#{$iterations - $i + 1}) / #{$iterations}));
+  }
+  @for $i from 1 through $iterations {
+    --color-#{$name}-#{$i + $iterations}: hsl(from var(--color-#{$name}) h s calc(l - (l - var(--ramp-#{$name}-min-lightness)) * (#{$i}) / #{$iterations}));
+  }
+  */

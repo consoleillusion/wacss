@@ -1,0 +1,22 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+---
+
+<a href={props.href}>{props.text}</a>
+
+<style>
+a {  
+  * {transition: all 300ms ease-in-out;}
+  position: relative;
+  text-decoration: underline;
+  color: var(--color-accent);
+  &:visited {
+    color: var(--color-accent);
+  }
+  &:hover{
+    color: var(--color-accent);
+  }
+}
+</style>

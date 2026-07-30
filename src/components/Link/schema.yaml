@@ -1,0 +1,26 @@
+title: "Link"
+#$id: "./schema.yaml"
+type: object
+required: ["text","href","component","block"]
+additionalProperties: false
+properties:
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  component:
+    type: string
+    default: Link
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","link","navigation","typography"]
+  text:
+    type: string
+    description: The visible text of the link.
+  href:
+    type: string
+    format: uri
+    description: The destination URL of the link.

@@ -1,0 +1,126 @@
+title: SEO
+#$id: "./schema.yaml"
+type: object
+description: "A head management component that dynamically injects SEO meta tags, Open Graph, and Twitter card data based on the provided `meta` properties."
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: SEO
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+    required: true
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  title:
+    type: string
+    description: The page or site title.
+    default: ""
+    x-generator: llm
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","seo","meta"]
+
+  author:
+    type: string
+    description: The author name for meta tags.
+    default: null
+
+  keywords:
+    type: string
+    description: Meta keywords
+    default: null
+    x-generator: llm
+
+  description:
+    type: string
+    description: Short description for SEO and social previews.
+    default: ""
+    examples:
+    - >
+      A backpacker’s journal of slow travel, mountain trails, and offbeat adventures around the world.
+      Tips, stories, and inspiration for life on the move.
+
+  image:
+    type: string
+    format: uri
+    description: URL of the preview image used in Open Graph and Twitter cards.
+    x-generator: vector
+    default:  ""
+
+  iso_language:
+    type: string
+    default: "en"
+    x-generator: default
+  iso_country:
+    type: string
+    default: "US"
+    x-generator: default
+
+  card:
+    type: string
+    enum: [summary, summary_large_image, app, player]
+    description: The Twitter card type.
+    default: "summary_large_image"
+
+  url:
+    type: string
+    format: uri
+    description: The canonical URL of the page.
+    default: ""
+
+  ogType:
+    type: string
+    description: Open Graph type (e.g., website, article, profile).
+    default: "website"
+
+  social:
+    type: object
+    default: {}
+    properties:
+      twitter:
+        type: string
+        description: Twitter handle (with @) for attribution.
+        default: ""
+
+  robots:
+    type: string
+    description: Robots meta tag content.
+    default: "index, follow"
+
+  fbAppId:
+    type: string
+    description: Facebook App ID for Open Graph integration.
+    default: ""
+
+  latitude:
+    type: string
+    description: Optional latitude for geotagging.
+    default: ""
+
+  longitude:
+    type: string
+    description: Optional longitude for geotagging.
+    default: ""
+
+  icon:
+    type: object
+    description: Icon and favicon configuration.
+    default: {}
+    properties:
+      main:
+        type: string
+        default: "/favicon.svg"
+      legacy:
+        type: string
+        default: "/favicon.ico"
+      small:
+        type: string
+        default: "/favicon.svg"
+      large:
+        type: string
+        default: "/favicon.svg"

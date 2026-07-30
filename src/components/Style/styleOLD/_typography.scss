@@ -1,0 +1,108 @@
+@use "node_modules/@consoleillusion/what-revenge/src/html_element_categories" as element_categories;
+
+/* Elements that are on the same level as paragraphs, that contain visible content and are in the block flow.
+https://html.spec.whatwg.org/multipage/dom.html#paragraphs
+It is never actually said what these elements are in the spec, but we want default margin around them;
+*/
+$paragraph-level: p, h1, h2, h3, h4, h5, h6, ul, ol, form;
+
+:root {
+  --margin-paragraph-level: 2rem;
+  --measure: 60ch;
+  --font-size-base: calc(9px + .6vw);
+
+  --ratio: 1.61803;
+  --ratio: calc(pow(2, 1 / 12));
+  --ratio-font: var(--ratio);
+  --ratio-spacing: var(--ratio);
+  @media (min-width: 400px) {  --ratio: calc(pow(2, 2 / 12)); }
+  @media (min-width: 1000px) { --ratio: calc(pow(2, 3 / 12)); }
+  @media (min-width: 1800px) { --ratio: calc(pow(2, 4 / 12)); }
+
+  --font-xs: calc(var(--font-size-base) * pow(var(--ratio-font), -1));
+  --font-sm: calc(var(--font-size-base) * pow(var(--ratio-font), 0));
+  --font-md: calc(var(--font-size-base) * pow(var(--ratio-font), 1));
+  --font-lg: calc(var(--font-size-base) * pow(var(--ratio-font), 2));
+  --font-xl: calc(var(--font-size-base) * pow(var(--ratio-font), 3));
+  --font-2xl: calc(var(--font-size-base) * pow(var(--ratio-font), 4));
+  --font-3xl: calc(var(--font-size-base) * pow(var(--ratio-font), 5));
+  --font-4xl: calc(var(--font-size-base) * pow(var(--ratio-font), 6));
+  --font-5xl: calc(var(--font-size-base) * pow(var(--ratio-font), 7));
+  
+  --spacing-size-base: 1rem;
+  --spacing-xs: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), -1));
+  --spacing-sm: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 0));
+  --spacing-md: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 1));
+  --spacing-lg: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 2));
+  --spacing-xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 3));
+  --spacing-2xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 4));
+  --spacing-3xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 5));
+  --spacing-4xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 6));
+  --spacing-5xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 7));
+}
+
+html {
+  line-height: var(--golden-ratio);
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+  font-size: var(--font-size-base);
+}
+body {
+  font-family: var(--font-body);
+}
+h1 {
+  font-family: var(--font-display, var(--font-heading, var(--font-body)));
+  text-wrap: balance;
+}
+h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading, var(--font-body));
+  text-wrap: balance;
+}
+h1 {font-size: var(--font-5xl);}
+h2 {font-size: var(--font-4xl);}
+h3 {font-size: var(--font-3xl);}
+h4 {font-size: var(--font-2xl);}
+h5 {font-size: var(--font-xl);}
+h6 {font-size: var(--font-lg);}
+body {font-size: var(--font-md);}
+small {font-size: var(--font-sm);}
+
+article:has(#{$paragraph-level}) {
+  //margin-inline: auto;
+}
+
+
+:is(#{element_categories.$text}, #{$paragraph-level}, article) {
+  max-width: var(--measure);
+}
+li {
+  margin-left: var(--margin-paragraph-level);
+}
+#{$paragraph-level}, article {
+  margin-top: var(--margin-paragraph-level);
+}
+/*
+
+*/
+
+input, textarea {
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-text);
+}
+
+form {
+  display: grid;
+}
+/*
+#{$paragraph-level} {
+  max-width: var(--measure);
+  margin-left: var(--margin-paragraph-level);
+  margin-right: var(--margin-paragraph-level);
+}
+:is(#{$paragraph-level}):first-child {
+  margin-top: var(--margin-paragraph-level);
+  margin-bottom: var(--margin-paragraph-level);
+}
+:is(#{$paragraph-level}) + :is(#{$paragraph-level}) {
+  margin-bottom: var(--margin-paragraph-level);
+}
+*/

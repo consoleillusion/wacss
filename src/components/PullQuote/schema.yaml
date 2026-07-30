@@ -1,0 +1,29 @@
+title: PullQuote
+#$id: "./schema.yaml"
+type: object
+description: "A Pullquote is for an internal source, a blockquote for external, see https://heydonworks.com/article/the-blockquote-element"
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: PullQuote
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+    required: true
+  block:
+    description: Whether this is a block component or not
+    default: true
+    type: boolean
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","pull quote","data display","typography"]
+  cite:
+    type: string
+    default: ""
+  text:
+    type: string
+    default: ""
+
+examples: [{ cite: "Fern Willow", "text": "Grow wild, stay grounded, and keep branching out."}]

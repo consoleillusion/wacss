@@ -1,0 +1,28 @@
+name: ColorSwitcher
+type: object
+description: ""
+additionalProperties: false
+properties:
+  id:
+    type: string
+    description: Specify an id attribute for the component
+    default: null
+  component:
+    type: string
+    default: ColorSwitcher
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","action","theme","color","palette"]
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  headline:
+    type: string
+    description: A header for this component
+  subheadline:
+    type: string
+    description: A subheadline for this component

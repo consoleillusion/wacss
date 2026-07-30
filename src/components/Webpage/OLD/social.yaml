@@ -1,0 +1,44 @@
+title: "SocialButton"
+type: object
+description: Social buttons configuration
+x-generator: "none"
+patternProperties:
+
+  "^facebook$":
+    type: object
+    required: [handle, icon]
+    properties:
+      icon:
+        description: "The Facebook Icon to Use"
+        type: "string"
+        default: "ri:facebook-fill"
+      handle:
+        description: "The Facebook to Use"
+        type: "string"
+        pattern: '^[a-zA-Z0-9\.]{5,50}$'
+
+  "^twitter$":
+    type: object
+    required: [handle, icon]
+    properties:
+      icon:
+        description: "The Twitter Icon to Use"
+        type: "string"
+        default: "ri:twitter-x"
+      handle:
+        description: "The Handle to Use"
+        type: "string"
+        pattern: '^[A-Za-z0-9_]{1,15}$'
+
+  "^[a-zA-Z0-9_]+$":
+    type: object
+    required: [handle, icon]
+    properties:
+      handle:
+        type: string
+      icon:
+        type: string
+    additionalProperties: true
+
+additionalProperties: false
+

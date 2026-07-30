@@ -1,0 +1,36 @@
+title: Tabs
+type: object
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: "string"
+    default: "Tabs"
+    description: "This specifies which component and schema is being used. It's mostly for internal purposes."
+  block:
+    type: "boolean"
+    description: "Whether this is a block component or not"
+    default: false
+  id:
+    type: "string"
+    default: ""
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","tabs","data display"]
+  name:
+    type: "string"
+    default: ""
+    description: "A name given to the tabs group. It links the tabs so that only one is open at a time. Generally it should be set to something meaningful, but it will be set to a random string if not supplied."
+    x-generator: "randomId"
+  items:
+    type: "array"
+    summary:
+      type: string
+      default: ""
+      description: "The tab label. Use Safe Markdown."
+    details:
+      type: string
+      default: ""
+      description: "The tab content. Use MDX."

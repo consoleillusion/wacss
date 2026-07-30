@@ -1,0 +1,35 @@
+@use "node_modules/@consoleillusion/what-revenge/src/html_element_categories" as element_categories;
+
+* + * {
+  margin-top: var(--s0);
+}
+:is(#{element_categories.$text}) {
+  max-width: var(--measure);
+}
+
+/*
+header, p {
+}
+*/
+p + p {
+  margin-top: var(--s0); 
+}
+
+html {
+  font-size: 125%;
+  line-height: var(--golden-ratio);
+  //font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+  color: var(--color-text);
+  font-size: calc(.6rem + .8vw);
+}
+body {
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  text-wrap: balance;
+  //text-align: center;
+}
+.block {
+  padding: 1rem;
+}

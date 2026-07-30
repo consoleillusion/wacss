@@ -1,0 +1,115 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+
+import { Font } from 'astro:assets'
+import {kebabCase} from 'change-case'
+import "./style/index.scss"
+import Z from "@consoleillusion/zamda"
+
+const props = await loadPropDefaults(schema,Astro.props)
+
+//const systemFonts = ["system-ui", "transitional", "old-style", "humanist", "geometric-humanist", "classical-humanist", "neo-grotesque", "monospace-slab-serif", "monospace-code", "industrial", "rounded-sans", "slab-serif", "antique", "didone", "handwritten"]
+const systemFonts =
+{ "system-ui": "system-ui, sans-serif;"
+, "transitional": "Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;"
+, "old-style": "'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;"
+, "humanist": "Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;"
+, "geometric-humanist": "Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;"
+, "classical-humanist": "Optima, Candara, 'Noto Sans', sans-serif;"
+, "neo-grotesque": "Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;"
+, "monospace-slab-serif": "'Nimbus Mono PS', 'Courier New', monospace;"
+, "monospace-code": "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;"
+, "industrial": "Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif;"
+, "rounded-sans": "ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif;"
+, "slab-serif": "Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif;"
+, "antique": "Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif;"
+, "didone": "Didot, 'Bodoni MT', 'Noto Serif Display', 'URW Palladio L', P052, Sylfaen, serif;"
+, "handwritten": "'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive;"
+}
+
+//const props = Astro.props 
+const fontVars = (props.font).map( f => "--font-"+kebabCase(f['function']) + ": var(--font-" + kebabCase(f['family']) + ");").join('')
+const colorVars = Object.entries(props.palette).map( f => "--color-"+kebabCase(f[0]) + ": " + f[1] + ";").join('')
+const [usedSystemFonts,usedAstroFonts] = Z.partition
+  ( x => Object.keys(systemFonts).includes(kebabCase(x.family))
+  , Object.values(props.font)
+  )
+const usedSystemFontVars = usedSystemFonts.map(f => '--font-'+kebabCase(f.family)+': "'+systemFonts[kebabCase(f.family)]+'"')
+/*
+
+const colorVars = toColorVars(props.theme.palette)
+const fontVars = toFontVars(props.theme.typography.font)
+
+
+
+const unicodeRange =
+  text => ([...new Set(
+    [...text].map(ch =>
+      `U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`
+      )
+   )].sort().join(','))
+   */
+---
+<style set:html={":root{"+colorVars+fontVars+"}"}></style>
+
+
+  <!-- 
+    <Font> component doesnt work in an astro *library* as it triggers Astro/Vite internal build tool? It's not a true component
+
+{ usedAstroFonts.map( font =>
+  <Font cssVariable={'--font-' + kebabCase(font.family)}  />
+  )
+}
+  -->
+
+
+
+
+<!--
+<pre><code>
+  {JSON.stringify(Astro.props.theme,null,2)}
+</code></pre>
+
+-->
+  
+
+
+
+<!--
+  <link rel="preload" href="./src/styles/niconne_5.2.8/niconne_subset/subset-Niconne-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  System Fonts eg:
+  --font-geometric-humanist: "Avenir... sans-serif;"
+  //./styles/niconne_5.2.8/niconne_subset/subset-Niconne-Regular.woff2
+<style set:html={":root{"+usedSystemFontVars + "}"}></style>
+<style>
+@font-face {
+    font-family: 'Niconne';
+    src: url('./src/styles/niconne_5.2.8/niconne_subset/subset-Niconne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+  :root {
+    --font-niconne: "Niconne"
+  }
+
+</style>
+-->
+
+<!--
+  Astro Fonts eg:
+  --font-roboto: "Roboto.12334585947... sans-serif;"
+        //, unicodeRange: ["U+26"]
+<meta name="theme-color" content={props.color.theme} >
+<meta name="theme-color" content={props.color.themeLight} media="(prefers-color-scheme: light)" >
+<meta name="theme-color" content={props.color.themeDark} media="(prefers-color-scheme: dark)" >
+{ (props?.theme?.font)
+? Object.entries(props.theme.font).map( font => 
+  (<Font cssVariable={'--font-' + kebabCase(font[1])} preload />
+    <style set:html={ ":root{" + toFontVars(props.theme.font) + toColorVars(props.theme.palette) +"}"}></style>
+  ))
+  : (<style set:html={":root{font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;}" }></style>)
+}
+-->

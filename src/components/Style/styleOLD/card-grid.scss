@@ -1,0 +1,14 @@
+@use './layout';
+
+.card-grid{
+  @include layout.stack();
+  text-wrap: balance;
+  text-align: center;
+  align-items: center;
+  header {
+    @include layout.stack();
+  }
+  .content {
+    @include layout.switcher();
+  }
+}

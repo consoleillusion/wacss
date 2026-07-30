@@ -1,0 +1,124 @@
+# Note
+#
+# x-generator is the method that will be used to create a sample. Required is 
+#
+type: object
+description: "A structured configuration object containing global website metadata, SEO settings, social tags, theming options, geolocation data, and icon resources used for generating the site's head section and shared site-wide settings."
+required: ["title","description","iso_country","iso_language","keywords","card","type","robots"]
+properties:
+  title:
+    description: "The primary title of the website or page, used for browser tabs, search engine results, and social preview titles."
+    type: "string"
+    default: null
+    x-generator: "llm"
+  description:
+    description: "A concise meta description summarizing the website’s purpose or content, used for SEO, social sharing previews, and search engine indexing."
+    type: "string"
+    default: null
+    x-generator: "llm"
+  author:
+    description: "The name of the individual, business, or organization responsible for creating or managing the website’s content."
+    type: "string"
+    default: null
+    x-generator: "none"
+  image:
+    description: "A URL pointing to the primary image used for social media previews, link sharing, and as the website’s main hero image."
+    type: "string"
+    format: "uri"
+    default: null
+    x-generator: "vector"
+  iso_country:
+    description: "The ISO-3166-1 alpha-2 country code representing the website’s primary geographic location or target audience."
+    type: "string"
+    enum: {$ref: ./isoCountry.json}
+    default: "US"
+    x-generator: "default"
+  iso_language:
+    description: "The ISO 639-1 language code indicating the primary language used throughout the website."
+    type: "string"
+    enum: {$ref: ./isoLanguage.json}
+    default: "en"
+    x-generator: "default"
+  keywords:
+    description: "A string containing a comma-separated list of relevant keywords and key phrases that accurately represent the main topics, themes, and content of the website. These keywords help search engines categorize and rank the site, improving its visibility and discoverability in search results. Properly curated keywords contribute to effective SEO by targeting the terms potential visitors are likely to use when searching."
+    type: "string"
+    default: null
+    x-generator: "llm"
+  card:
+    description: "A string specifying the type of Twitter Card to be used when sharing the website’s link on Twitter. Valid options include 'summary' for a small preview card, 'summary_large_image' for a larger image-focused card, 'app' for showcasing a mobile application, and 'player' for embedding video or audio media. The default is 'summary_large_image', which provides an engaging large image preview to enhance link visibility and click-through rates."
+    type: "string"
+    enum: ["summary", "summary_large_image", "app", "player"]
+    default: "summary_large_image"
+    x-generator: "default"
+
+  url:
+    description: "A fully qualified canonical URL of the webpage that will be shared on social media platforms. This URL is used by Open Graph (og:url) and Twitter Card (twitter:url) tags to ensure that links direct users to the correct page, improving link consistency, SEO, and social media sharing accuracy."
+    type: "string"
+    format: "uri"
+    default: null
+    x-generator: "llm"
+
+  type:
+    description: "A string defining the Open Graph object type of the webpage, which helps social media platforms understand the nature of the content being shared. Common values include 'website', 'article', 'video', and 'profile', allowing platforms to display appropriate previews and metadata based on the content type."
+    type: "string"
+    default: "website"
+    x-generator: "default"
+
+  robots:
+    description: "A string specifying directives for web crawlers and search engines on how to index and crawl the webpage. Common values include 'index' to allow indexing, 'noindex' to prevent indexing, 'follow' to allow following links, and 'nofollow' to prevent following links. Additional directives control caching, snippet display, translation, and image indexing. These instructions help control the webpage’s visibility and behavior in search engine results."
+    type: "string"
+    default: "index, follow"
+    x-generator: "default"
+
+  fbAppId:
+    description: "Facebook AppId if this is a Facebook App."
+    type: "string"
+    default: null
+    x-generator: "default"
+
+  latitude:
+    description: "Latitude of the physical address."
+    type: "number"
+    minimum: -90
+    maximum: 90
+    default: null
+    x-generator: "default"
+  longitude:
+    description: "Longitude of the physical address."
+    type: "number"
+    minimum: -180
+    maximum: 180
+    default: null
+    x-generator: "default"
+
+  revenge:
+    description: "Include a CSS File that shows bad practices"
+    type: "boolean"
+    default: false
+    x-generator: "default"
+
+  theme:
+    $ref: "./theme.yaml"
+  icon:
+    description: "The icons for the website."
+    type: "object"
+    default: {main: "/favicon.svg", legacy: "/favicon.ico", small: "/favicon.svg", large: "/favicon.svg"}
+    properties:
+      main: 
+        description: "The icons for the website."
+        type: string
+        default: "/favicon.svg"
+      legacy:
+        description: "The icons for the website."
+        type: string
+        default: "/favicon.ico"
+      small:
+        description: "The icons for the website."
+        type: string
+        default: "/favicon.svg"
+      large:
+        description: "The icons for the website."
+        type: string
+        default: "/favicon.svg"
+  social:
+    $ref: "./social.yaml"

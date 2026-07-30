@@ -1,0 +1,14 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+---
+
+<article>
+  <header>
+    <h3>{props.title}</h3>
+    <p>Reviewed by <cite>{props.name}</cite> on <time datetime={props.date}>{props.date}</time></p>
+    <p>Rating: <meter min={props.minimum} max={props.maximum} value={props.rating}>{props.rating} stars</meter></p>
+  </header>
+  <p>{props.body}</p>
+</article>

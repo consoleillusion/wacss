@@ -1,0 +1,25 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+import Figure from "../Figure/index.astro"
+const figureProps =
+  { imgSrc: props.imgSrc
+  , icon: props.icon
+  , chart: props.chart
+  , code: props.code
+  }
+---
+
+<div class="card" >
+  <h3>{props.headline}</h3>
+  <p>{props.subheadline}</p>
+  <p>{props.text}</p>
+  <Figure {...figureProps} />
+</div>
+
+<style>
+  .card {
+    width: 30rem;
+  }
+</style>

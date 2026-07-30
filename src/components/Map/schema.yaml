@@ -1,0 +1,60 @@
+title: Map
+#$id: "./schema.yaml"
+type: object
+description: A Svelte Map component made with Leaflet
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: Map
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","map"]
+  markers:
+    type: array
+    default: []
+    items:
+      type: object
+      properties:
+        latitude:
+          type: number
+          default: 40.730610
+        longitude:
+          type: number
+          default: -73.935242
+  latitude:
+    type: number
+    default: 40.730610
+  longitude:
+    type: number
+    default: -73.935242
+  center:
+    type: object
+    default: { latitude: 40.730610, longitude: -73.935242}
+    properties:
+      latitude:
+        type: number
+        default: 40.730610
+      longitude:
+        type: number
+        default: -73.935242
+  zoom:
+    type: integer
+    default: 12
+  height: 
+    type: number
+    default: "20rem"
+  width:
+    type: string
+    default: "100%"
+  sensitivity: 
+    type: integer
+    default: 500

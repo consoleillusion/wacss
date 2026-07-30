@@ -1,0 +1,89 @@
+---
+import * as Components from '../../../index.js'
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import {mergeDeepRight} from 'ramda'
+
+import webpageSchema from "./schema.js"
+const defaults = await loadPropDefaults(webpageSchema,{})
+const {site,path} = Astro.props
+/*
+const page2 = site['pages'][path]//await loadPropDefaults(schema,site['pages'][path])
+const orig = await loadPropDefaults(schema,site['pages'][path])
+*/
+const page = mergeDeepRight({meta: site.meta})({...(await loadPropDefaults(webpageSchema,site['pages'][path]))})
+
+//const page = {meta:{},blocks:{},global:{},...Astro.props.page}
+/*
+console.log(schema)
+import {mergeDeepRight} from 'ramda'
+const page  = await loadPropDefaults("./schema.js",Astro.props.page)
+import SpeedInsights  from "@vercel/speed-insights/astro"
+import SEO from "../SEO/index.astro"
+import Style from "../Style/index.astro"
+import { kebabCase } from 'change-case'
+const toVars =
+  fonts => Object.entries(fonts).map( f => "--font-"+kebabCase(f[0]) + ": var(--font-" + kebabCase(f[1]) + ");").join('')
+
+{JSON.stringify(site)}
+    { page.blocks.filter(x=>x.include !== false).map( block => {
+      const Component = components[block.component]
+      return <Component {page} {...block} />
+    })}
+
+    */
+
+const components =
+  Object.entries( import.meta.glob('../**/*.astro'
+                , { eager: true })
+                ).reduce
+                   ( (acc,cur) => {
+                       const name = (cur[0].split('/').slice(-2,-1))
+                       acc[name] = cur[1].default 
+                       return acc
+                     }
+                   , {}
+                   )
+
+---
+
+<!doctype html>
+<html lang={(page.meta.iso_language || 'EN') + '-' + (page.meta.iso_country || 'US')}>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Astro">
+    <components.Style />
+  </head>
+
+  <body>
+    { page.blocks.map( (block) => {
+        const Component = Components[block.component];
+        return Component ? <Component {...block} /> : null
+      })
+    }
+    <slot/>
+  </body>
+</html>
+    <!--
+<hr>
+{JSON.stringify(site)}
+{JSON.stringify(orig)}
+{JSON.stringify((page))}
+  {JSON.stringify(site['pages'][path])}</div>
+    <html>
+<div style="color: red">
+  {JSON.stringify(defaults)}</div>
+<div style="color: green">
+  {JSON.stringify(page)}
+  </div>
+</html>
+    -->
+
+
+
+    <!--
+    <components.Style {...page.meta.theme} />
+    <components.SEO meta={page.meta} />
+      { meta.vercelSpeedInsights && <SpeedInsights/> }
+    -->

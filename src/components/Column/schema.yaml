@@ -1,0 +1,31 @@
+title: Column
+#$id: "./schema.yaml"
+type: object
+description: ""
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: Column
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: true
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["block","layout"]
+  background:
+    type: string
+    default: ""
+  text:
+    type: string
+    default: ""
+  heading:
+    type: string
+    default: ""
+#  children:
+#    description: Child components for the slot

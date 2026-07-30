@@ -1,0 +1,132 @@
+$just-intonation:
+	( "P1": 1
+	, "m2": calc(17 / 16)
+	, "M2": calc(9 / 8)
+	, "m3": calc(19 / 16)
+	, "M3": calc(5 / 4)
+	, "P4": calc(4 / 3)
+	, "A4": calc(17 / 12)
+	, "d5": calc(17 / 12)
+	, "P5": calc(3 / 2)
+	, "m6": calc(19 / 12)
+  , "M6": calc(5 / 3)
+	, "m7": calc(16 / 9)
+	, "M7": calc(15 / 8)
+	, "P8": 2
+  );
+
+$equal-temperament:
+	( "P1": 1
+  , "m2": 1.0594630943592953
+	, "M2": 1.122462048309373
+	, "m3": 1.1892071150027212
+	, "M3": 1.2599210498948734
+	, "P4": 1.3348398541700346
+	, "A4": 1.4142135623730954
+	, "d5": 1.4142135623730954
+	, "P5": 1.498307076876682
+	, "m6": 1.5874010519682
+	, "M6": 1.6817928305074297
+	, "m7": 1.7817974362806794
+	, "M7": 1.887748625363388
+	, "P8": 2
+  );
+
+$ratio-list:
+	( 1
+	, calc(17 / 16)
+	, calc(9 / 8)
+	, calc(19 / 16)
+	, calc(5 / 4)
+	, calc(4 / 3)
+	, calc(17 / 12)
+	, calc(17 / 12)
+	, calc(3 / 2)
+	, calc(19 / 12)
+  , calc(5 / 3)
+	, calc(16 / 9)
+	, calc(15 / 8)
+	, 2
+  );
+
+$musical-tuning: $just-intonation; // just-intonation or equal-temperament
+
+/*****************************
+ * Abbreviations
+ *****************************/
+
+$golden_ratio: 1.61803398874989484;
+$gr: $golden_ratio;
+
+$P1: map-get($musical-tuning,"P1");
+$m2: map-get($musical-tuning,"m2");
+$M2: map-get($musical-tuning,"M2");
+$m3: map-get($musical-tuning,"m3");
+$M3: map-get($musical-tuning,"M3");
+$P4: map-get($musical-tuning,"P4");
+$A4: map-get($musical-tuning,"A4");
+$d5: map-get($musical-tuning,"d5");
+$P5: map-get($musical-tuning,"P5");
+$m6: map-get($musical-tuning,"m6");
+$M6: map-get($musical-tuning,"M6");
+$m7: map-get($musical-tuning,"m7");
+$M7: map-get($musical-tuning,"M7");
+$P8: map-get($musical-tuning,"P8");
+
+$perfect-unison: $P1;
+$minor-second: $m2;
+$major-second: $M2;
+$minor-third: $m3;
+$major-third: $M3;
+$perfect-fourth: $P4;
+$augmented-fourth: $A4;
+$diminished-fifth: $d5;
+$perfect-fifth: $P5;
+$minor-sixth: $m6;
+$major-sixth: $M6;
+$minor-seventh: $m7;
+$major-seventh: $M7;
+$perfect-octave: $P8;
+
+:root {
+	--ratio-perfect-unison: #{$perfect-unison};
+	--ratio-minor-second: #{$minor-second};
+	--ratio-major-second: #{$major-second};
+	--ratio-minor-third: #{$minor-third};
+	--ratio-major-third: #{$major-third};
+	--ratio-perfect-fourth: #{$perfect-fourth};
+	--ratio-augmented-fourth: #{$augmented-fourth};
+	--ratio-diminished-fifth: #{$diminished-fifth};
+	--ratio-perfect-fifth: #{$perfect-fifth};
+	--ratio-minor-sixth: #{$minor-sixth};
+	--ratio-major-sixth: #{$major-sixth};
+	--ratio-minor-seventh: #{$minor-seventh};
+	--ratio-major-seventh: #{$major-seventh};
+	--ratio-perfect-octave: #{$perfect-octave};
+  --ratio-golden: #{$golden-ratio};
+}
+
+/*******************************
+ * Modes
+ *******************************/
+
+$ionic: $P1 $M2 $M3 $P4 $P5 $M6 $M7 $P8;
+$dorian: $P1 $M2 $m3 $P4 $P5 $M6 $m7 $P8;
+$phrygian: $P1 $m2 $m3 $P4 $P5 $m6 $m7 $P8;
+$lydian: $P1 $M2 $M3 $A4 $P5 $M6 $M7 $P8;
+$mixolydian: $P1 $M2 $M3 $P4 $P5 $M6 $m7 $P8;
+$aeolian: $P1 $M2 $m3 $P4 $P5 $m6 $m7 $P8;
+$locrian: $P1 $m2 $m3 $P4 $d5 $m6 $m7 $P8;
+
+/*
+@function get-scale( $octaves: 3, $mode: $ionic, $scale-number-of-points: 6){
+  $all-scale-points: ();
+	@for $i from 1 through $octaves {
+	  @for $j from 1 through length($mode) {
+      $all-scale-points: join($all-scale-points, nth($mode,$j) * $j);
+    }
+  }
+  @return $all-scale-points;
+}
+*/
+
