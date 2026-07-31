@@ -1,0 +1,45 @@
+@mixin color-ramp(
+  $name,
+  $color,
+  $max-chroma: 0.15,
+  $min-chroma: 0.02
+) {
+  $min-lightness: 0.12;
+  $max-lightness: 0.98;
+
+  $lightness-range: $max-lightness - $min-lightness;
+  $chroma-range: $max-chroma - $min-chroma;
+  $ramp-size: 12;
+
+  @for $i from 0 through $ramp-size {
+    $t: calc($i / $ramp-size);
+
+    $l: $max-lightness - $lightness-range * $t;
+    $c: $min-chroma + (1 - pow(2 * $t - 1, 2)) * $chroma-range;
+
+    --color-#{$name}-#{$i}: oklch(
+      from var(--color-#{$name})
+      #{$l}
+      #{$c}
+      h
+    );
+  }
+}
+:root{
+  //--color-accent:oklch(43.5% 0.077 150);
+  //--color-accent:oklch(0.7325 0.0253 145);
+  --color-accent:oklch(50% 0.0253 145);
+  --color-neutral:oklch(99% 0 80);
+  --color-neutral-2:oklch(96% 0 106);
+  --color-success: oklch(50.5% 0.095 150);
+  --color-warn: oklch(80% 0.15 88);
+  --color-error: oklch(50.5% 0.150 27);
+  --color-info: oklch(50.5% 0.095 250);
+  /*
+  */
+  @include color-ramp("accent",var(--color-accent),.02,.0);
+  @include color-ramp("neutral",var(--color-neutral),0,0);
+}
+
+
+
