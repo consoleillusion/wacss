@@ -8,6 +8,7 @@ Developers hand-author a small set of foundational tokens (L1, L2) and one schem
 
 | File | Covers |
 | --- | --- |
+| [philosophy](philosophy) | Aesthetic direction and principles |
 | [architecture](architecture) | What is hand-authored, what is generated, the pipeline |
 | [tokens](tokens) | The five levels, naming, reference rules, themable vs structural |
 | [primitives](primitives) | L1: the full primitive set |
@@ -17,11 +18,11 @@ Developers hand-author a small set of foundational tokens (L1, L2) and one schem
 | [component-schema](component-schema) | The `meta` shape every component exports |
 | [generation](generation) | The generator: hierarchy, values, bridges, overrides |
 | [css-output](css-output) | The generated CSS: selectors, classes, cascade layers, order |
-| [layout](layout) | Hand-authored layout helpers |
 | [build-and-verification](build-and-verification) | Build outputs, mangling, checks, the token graph |
-| [components-and-api](components-and-api) | Component API, registries, demo site |
+| [layout](layout) | Hand-authored layout helpers |
+| [components-and-api](components-and-api) | Component API, registries and components |
+| [demo-site](demo-site) | Representing the demo site as data |
 | [ux-and-accessibility](ux-and-accessibility) | UX practice and accessibility requirements |
-| [philosophy](philosophy) | Aesthetic direction and principles |
 | [open-questions](open-questions) | Decisions not yet made |
 
 ## Core rules
