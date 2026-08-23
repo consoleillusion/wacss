@@ -1,0 +1,96 @@
+title: Style
+#$id: "./schema.yaml"
+type: object
+description: ""
+additionalProperties: false
+required: ["component","block","font","palette"]
+properties:
+  component:
+    type: string
+    default: Style
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+    required: true
+  id:
+    type: string
+    description: Specify an id attribute for the component
+    default: null
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","style","meta"]
+
+  font:
+    description: The Fonts for the site's theme
+    type: 'array'
+    additionalProperties: false
+    default:
+    - function: "heading"
+      family: "Inter"
+      line-height: '1.618rem'
+    - function: "body"
+      family: "ClassicalHumanist"
+      line-height: '1.618rem'
+
+    items:
+      type: 'object'
+      properties:
+        function:
+          type: 'string'
+        family:
+          type: 'string'
+        line-height:
+          type: 'string'
+  palette:
+    type: object
+    description: Core color system for the site's theme.
+    additionalProperties: true
+    default:
+#      base: "#fcfcfc"
+#      surface: "#f1ebe1"
+#      surface1: "#f1ebe1"
+#      surface2: "#f1ebe1"
+#      accent-1: "#111"
+#      accent-2: "#222"
+#      accent-3: "#333"
+#      muted: "#6a6a6a"
+    properties:
+#      base:
+#        type: string
+#        description: "The Base color is used as the primary background of the page"
+#        default: "fcfcfc"
+#      surface:
+#        type: string
+#        description: "The Surface color is used for background colors of large sections which are above the base"
+#        default: "#f1ebe1"
+#      accent-1:
+#        type: string
+#        description: "The Accent color is used for brand items, secondary buttons, and UI"
+#        default: "#c0cfb2"
+#      accent-2:
+#        type: string
+#        description: "This is used for more important, primary buttons, like a cta"
+#        default: "#44624a"
+#      accent-3:
+#        type: string
+#        description: "Additional Highlights and blends"
+#        default: "#8ba888"
+
+#      theme:
+#        type: string
+#        default: "oklch(99% 1% 230deg)"
+#      themeLight:
+#        type: string
+#        default: "oklch(99% 1% 230deg)"
+#      themeDark:
+#        type: string
+#        default: "oklch(1% 2% 30deg)"
+
+  revenge:
+    type: boolean
+    description: Include What Revenge css warnings.
+    default: false

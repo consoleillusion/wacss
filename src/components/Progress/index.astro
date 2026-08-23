@@ -1,0 +1,7 @@
+---
+import {loadPropDefaults} from "../../loadPropDefaults.js"
+import schema from "./schema.yaml"
+const props = await loadPropDefaults(schema,Astro.props)
+---
+
+<progress {...props}></progress>

@@ -1,0 +1,64 @@
+:root {
+  /* Fundamentals */
+  --ratio-golden: 1.618;
+  --ratio-semitone: calc(pow(2, 1 / 12));
+
+  /* Globals */
+  --ratio: calc(pow(2, 1 / 12));
+  @media (min-width: 400px) {  --ratio: calc(pow(2, 2 / 12)); }
+  @media (min-width: 1000px) { --ratio: calc(pow(2, 3 / 12)); }
+  @media (min-width: 1800px) { --ratio: calc(pow(2, 4 / 12)); }
+
+  --ratio-font: var(--ratio);
+  --font-size-base: calc(9px + .6vw);
+  --font-xs: calc(var(--font-size-base) * pow(var(--ratio-font), -1));
+  --font-sm: calc(var(--font-size-base) * pow(var(--ratio-font), 0));
+  --font-md: calc(var(--font-size-base) * pow(var(--ratio-font), 1));
+  --font-lg: calc(var(--font-size-base) * pow(var(--ratio-font), 2));
+  --font-xl: calc(var(--font-size-base) * pow(var(--ratio-font), 3));
+  --font-2xl: calc(var(--font-size-base) * pow(var(--ratio-font), 4));
+  --font-3xl: calc(var(--font-size-base) * pow(var(--ratio-font), 5));
+  --font-4xl: calc(var(--font-size-base) * pow(var(--ratio-font), 6));
+  --font-5xl: calc(var(--font-size-base) * pow(var(--ratio-font), 7));
+
+  --ratio-spacing: var(--ratio);
+  --spacing-size-base: 1rem;
+  --spacing-xs: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), -1));
+  --spacing-sm: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 0));
+  --spacing-md: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 1));
+  --spacing-lg: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 2));
+  --spacing-xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 3));
+  --spacing-2xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 4));
+  --spacing-3xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 5));
+  --spacing-4xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 6));
+  --spacing-5xl: calc(var(--spacing-size-base) * pow(var(--ratio-spacing), 7));
+
+  --border-radius-0: 0rem;
+  --border-radius-xs: .1rem;
+  --border-radius-sm: .2rem;
+  --border-radius-md: .4rem;
+  --border-radius-lg: .6rem;
+  --border-radius-xl: .8rem;
+  --border-radius-2xl: 1rem;
+  --border-radius-3xl: 1.4rem;
+  --border-radius-4xl: 1.8rem;
+  --border-radius-5xl: 2.2rem;
+  --border-radius-circle: 50%;
+  --border-radius-pill: 99999rem;
+    
+  --line-height: var(--golden-ratio);
+  --margin-paragraph-level: 2rem;
+
+  --measure-one-column: 66ch;
+  --measure: var(--measure-one-column);
+  --measure-5xs: 40ch;
+  --measure-4xs: 45ch;
+  --measure-3xs: 50ch;
+  --measure-2xs: 55ch;
+  --measure-sm: 60ch;
+  --measure-md: 65ch;
+  --measure-lg: 70ch;
+  --measure-xl: 75ch;
+  --measure-2xl: 80ch;
+
+}

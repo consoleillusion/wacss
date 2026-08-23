@@ -1,0 +1,45 @@
+:root{
+  --tap: 2rem;
+  --accent: rgba(50,100,50,1);
+  --line-2: rgba(210,210,210,1);
+  --paper: white;
+  --range-track-thickness: 0.5rem;
+  --range-thumb-block-size: 1.618rem;
+  --range-thumb-inline-size: 2.618rem;
+  --range-thumb-border-radius: 5px;
+  --range-thumb-border: 2px solid hsl(from var(--accent) h s calc(l*.8));
+}
+
+@mixin range-track {
+  block-size: var(--range-track-thickness);
+  border-radius: var(--radius-pill);
+  background: var(--line-2);
+}
+@mixin range-thumb {
+  inline-size: var(--range-thumb-inline-size);
+  block-size:  var(--range-thumb-block-size);
+  border-radius: var(--range-thumb-border-radius);
+  background: var(--accent);
+  border: var(--range-thumb-border)
+}
+@mixin range-thumb-focus {
+  outline: var(--ring);
+  outline-offset: var(--ring-offset);
+}
+input[type="range"] {
+  inline-size: 100%;
+  min-height: var(--tap);
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  &::-webkit-slider-runnable-track { @include range-track; }
+  &::-moz-range-track { @include range-track; }
+  &::-webkit-slider-thumb {
+    @include range-thumb;
+    appearance: none;
+    margin-top: calc((var(--range-track-thickness) - var(--range-thumb-block-size)) / 2);
+  }
+  &::-moz-range-thumb { @include range-thumb; }
+  &:focus-visible::-webkit-slider-thumb { @include range-thumb-focus; }
+  &:focus-visible::-moz-range-thumb { @include range-thumb-focus; }
+}

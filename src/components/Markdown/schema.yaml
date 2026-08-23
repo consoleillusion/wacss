@@ -1,0 +1,37 @@
+title: Markdown
+#$id: "./schema.yaml"
+type: object
+description: ""
+additionalProperties: false
+required: ["component","block"]
+properties:
+  component:
+    type: string
+    default: Markdown
+    description: This specifies which component and schema is being used. It's mostly for internal purposes.
+  block:
+    type: boolean
+    description: Whether this is a block component or not
+    default: false
+  tags:
+    type: "array"
+    items: {type: "string"}
+    description: "Holds information about this component type"
+    default: ["inline","markdown","typography"]
+  id:
+    type: string
+    default: ""
+  text:
+    type: string
+    default: ""
+  variables:
+    type: object
+    description: Variables to interplate the markdown.
+    default: {}
+  rules:
+    enum: ["gfm","inline"]
+    description: Which ruleset will be used for the markdown.
+    default: "gfm"
+  components:
+    type: array
+    description: What components to allow in the markdown.
