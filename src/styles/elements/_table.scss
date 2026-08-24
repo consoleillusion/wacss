@@ -1,0 +1,19 @@
+table { width: 100%; }
+th, td {
+  padding: calc(var(--space-3) * 4) calc(var(--space-3) * 4);
+  border-block-end: var(--border-width) solid var(--table-border);
+  text-align: start;
+  vertical-align: top;
+}
+th {
+  background: var(--table-header-background);
+  font-weight: 600;
+}
+caption {
+  caption-side: bottom;
+  padding-block-start: calc(var(--space-2) * 4);
+  color: var(--color-text-muted);
+  font-size: var(--text-size-sm);
+  text-align: start;
+}
+tbody tr:hover { background: var(--table-row-background-hover); }

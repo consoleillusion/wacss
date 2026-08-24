@@ -3,6 +3,8 @@ node_modules
 
 # output
 out
+demo-dist/
+dist-demo/
 *.tgz
 
 # code coverage
@@ -25,6 +27,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .eslintcache
 .cache
 *.tsbuildinfo
+.astro/
+
 
 # IntelliJ based IDEs
 .idea

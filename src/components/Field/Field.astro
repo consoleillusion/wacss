@@ -1,0 +1,13 @@
+---
+const { id, label, help, error, required = false, class: className, ...attrs } = Astro.props;
+const helpId = help ? `${id}-help` : undefined;
+const errorId = error ? `${id}-error` : undefined;
+const describedBy = [helpId, errorId].filter(Boolean).join(" ") || undefined;
+---
+<div class={className} {...attrs}>
+  {label && <label for={id}>{label}{required ? " *" : ""}</label>}
+  <slot />
+  {help && <p id={helpId} data-wacss-help>{help}</p>}
+  {error && <p id={errorId} data-wacss-error>{error}</p>}
+</div>
+{/* Consumer should set id={id}, aria-describedby={describedBy}, aria-invalid={Boolean(error)} on the control when using this wrapper. */}

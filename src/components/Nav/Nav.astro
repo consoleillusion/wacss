@@ -1,0 +1,4 @@
+---
+const { label, ...attrs } = Astro.props;
+---
+<nav aria-label={label} {...attrs}><slot /></nav>
