@@ -1,27 +1,164 @@
-label { display: inline-block; margin-block-end: var(--space-1); }
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+label,
+[data-wacss="label"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-label);
+  color: var(--text-label);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-label);
+  user-select: none;
+}
+
+[data-wacss="label-required"] {
+  color: var(--text-label-required);
+}
+
+[data-wacss="input"] {
+  display: grid;
+  gap: var(--gap-input);
+  inline-size: 100%;
+}
+
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"])),
 textarea,
-select {
-  width: 100%;
-  padding: var(--field-padding-block) var(--field-padding-inline);
-  border: var(--border-width) solid var(--field-border);
-  border-radius: var(--field-radius);
-  background: var(--field-background);
-  color: var(--field-text);
-  transition: border-color var(--motion-fast) var(--ease-calm);
+select,
+[data-wacss="input-control"] {
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--padding-input-block) var(--padding-input-inline);
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--text-input);
+  font-size: var(--font-size-input);
+  font-weight: var(--font-weight-input);
+  outline: none;
+  transition:
+    background var(--motion-ui) var(--ease-ui),
+    border-color var(--motion-ui) var(--ease-ui),
+    box-shadow var(--motion-ui) var(--ease-ui);
 }
-textarea { min-block-size: 8rem; resize: vertical; }
-input:hover, textarea:hover, select:hover { border-color: var(--field-border-hover); }
-input:focus-visible, textarea:focus-visible, select:focus-visible { border-color: var(--field-border-focus); }
-input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"],
-input:user-invalid, textarea:user-invalid, select:user-invalid {
-  border-color: var(--field-border-invalid);
+
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"])),
+select,
+[data-wacss="input-control"] {
+  block-size: var(--height-input);
 }
+
+textarea {
+  min-block-size: var(--min-height-textarea);
+  resize: vertical;
+}
+
+@media (min-width: 48rem) {
+  input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"])),
+  textarea,
+  select,
+  [data-wacss="input-control"] {
+    font-size: var(--font-size-small);
+  }
+}
+
+input::placeholder,
+textarea::placeholder,
+[data-wacss="input-control"]::placeholder {
+  color: var(--placeholder-input);
+}
+
+input[type="file"] {
+  padding-block: var(--padding-input-file-block);
+  padding-inline: var(--padding-input-inline);
+  border: var(--border-width-ui) solid var(--border-input-file);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--text-input-file);
+  font-size: var(--font-size-input);
+}
+
+input[type="file"]::file-selector-button {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--height-input-file);
+  margin-inline-end: var(--gap-input-file);
+  padding-inline: var(--gap-input-file);
+  border: 0;
+  border-radius: var(--radius-input-file);
+  background: var(--background-input-file);
+  color: var(--text-input-file);
+  font-size: var(--font-size-input-file);
+  font-weight: var(--font-weight-input-file);
+}
+
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"])):hover,
+textarea:hover,
+select:hover,
+[data-wacss="input-control"]:hover {
+  border-color: var(--border-input-hover);
+}
+
+input:where(:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"])):focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[data-wacss="input-control"]:focus-visible {
+  border-color: var(--border-input-focus);
+  outline: var(--ring-input-width) solid var(--ring-input-focus);
+  outline-offset: 0;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"],
+[data-wacss="input-control"][aria-invalid="true"] {
+  border-color: var(--border-input-invalid);
+  outline: var(--ring-input-width) solid var(--ring-input-invalid-focus);
+  outline-offset: 0;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+[data-wacss="input-control"]:disabled {
+  background: var(--background-input-disabled);
+  border-color: var(--border-input-disabled);
+  color: var(--text-input-disabled);
+  cursor: not-allowed;
+  opacity: var(--opacity-input-disabled);
+  pointer-events: none;
+}
+
+[data-wacss="input-description"] {
+  margin: 0;
+  color: var(--text-input-description);
+  font-size: var(--font-size-input-help);
+}
+
+[data-wacss="input-error"] {
+  margin: 0;
+  color: var(--text-input-invalid);
+  font-size: var(--font-size-input-help);
+  font-weight: var(--font-weight-form-error);
+}
+
 fieldset {
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-2);
-  padding: calc(var(--space-4) * 4);
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  padding: var(--padding-fieldset);
 }
-legend { padding-inline: calc(var(--space-2) * 4) }
-[data-wacss-help] { color: var(--field-help-text); font-size: var(--text-size-sm); margin-block-start: var(--space-1); }
-[data-wacss-error] { color: var(--field-error-text); font-size: var(--text-size-sm); margin-block-start: var(--space-1); }
+
+legend {
+  padding-inline: var(--padding-fieldset-legend);
+}
+
+[data-wacss-help] {
+  color: var(--text-input-description);
+  font-size: var(--font-size-input-help);
+  margin-block-start: var(--margin-field-help);
+}
+
+[data-wacss-error] {
+  color: var(--text-input-invalid);
+  font-size: var(--font-size-input-help);
+  font-weight: var(--font-weight-form-error);
+  margin-block-start: var(--margin-field-help);
+}

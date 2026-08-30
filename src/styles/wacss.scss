@@ -1,10 +1,8 @@
-/* WaCSS v0 - global, semantic, token-driven styles. No scoped component styles. */
+/* WaCSS - global, token-driven styles. No scoped component styles. */
 @use "./tokens/primitives";
-@use "./tokens/semantic";
+@use "./tokens/alias";
 @use "./tokens/components";
 @use "./tokens/states";
-@use "./themes/sakura";
-@use "./themes/matcha";
 @use "./base/reset";
 @use "./base/global";
 @use "./base/typography";
@@ -16,3 +14,11 @@
 @use "./elements/badge";
 @use "./patterns/card";
 @use "./patterns/nav";
+@use "./patterns/site-nav";
+@use "./components/accordion";
+@use "./components/checkbox";
+@use "./components/dialog";
+@use "./components/form" as form-component;
+@use "./components/select";
+@use "./components/switch";
+@use "./components/tabs";

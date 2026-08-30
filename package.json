@@ -13,7 +13,8 @@
     "scripts"
   ],
   "exports": {
-    ".": "./src/spec/index.ts",
+    ".": "./src/components/index.ts",
+    "./components": "./src/components/index.ts",
     "./spec": "./src/spec/index.ts",
     "./styles": "./dist/wacss.css",
     "./styles.min": "./dist/wacss.min.css",
@@ -49,10 +50,7 @@
     }
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.5",
     "bits-ui": "^2.20.6",
-    "lightningcss": "^1.32.0",
-    "tailwindcss": "^4.3.5",
-    "tailwindcss-animate": "^1.0.7"
+    "lightningcss": "^1.32.0"
   }
 }
