@@ -1,132 +1,89 @@
-details {
+[wacss="accordion"] details {
   interpolate-size: allow-keywords;
   overflow: clip;
-  margin-top: 0.125em;
-  border: 1px solid #dddddd;
-  background: #ffffff;
-  color: #333333;
-  border-radius: 3px;
+  border-block-end: var(--state-border-width) solid var(--state-accordion-item-border);
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
-details summary {
-  display: block;
-  cursor: pointer;
-  position: relative;
-  padding: 0.5em 0.5em 0.5em 0.7em;
-  background: #ededed;
-  color: #2b2b2b;
-  border-radius: 3px 3px 0 0;
-}
-
-/*
-details:not([open]) summary:hover,
-details:not([open]) summary:focus {
-  background: #f6f6f6;
-  color: #454545;
-}
-*/
-
-details[open] summary {
-  outline: 1px solid #003eff;
-  background: #007fff;
-  color: #ffffff;
-}
-
-details[open]::details-content {
-  height: auto;
-}
-
-details::details-content {
-  height: 0;
-  overflow-y: clip;
-  transition: content-visibility 475ms allow-discrete, height 475ms;
-}
-
-
-[data-wacss="accordion"] details {
-  interpolate-size: allow-keywords;
-  overflow: clip;
-  border-block-end: var(--border-width-ui) solid var(--border-accordion-item);
-}
-
-[data-wacss="accordion"] details:last-child {
+[wacss="accordion"] details:last-child {
   border-block-end: 0;
 }
 
-[data-wacss="accordion"] summary {
+[wacss="accordion"] summary {
   display: block;
   cursor: pointer;
   position: relative;
-  padding: var(--padding-accordion-trigger);
-  color: var(--text-accordion-trigger);
-  font-size: var(--font-size-accordion-trigger);
-  font-weight: var(--font-weight-accordion-trigger);
-  line-height: var(--line-ui);
+  padding: var(--state-accordion-trigger-padding);
+  color: var(--state-accordion-trigger-fg);
+  font-size: var(--state-accordion-trigger-font-size);
+  font-weight: var(--state-accordion-trigger-font-weight);
+  line-height: var(--state-body-line);
   list-style: none;
-  border-radius: var(--radius-accordion-trigger);
+  border-radius: var(--state-accordion-trigger-radius);
+  background: var(--state-accordion-trigger-bg);
+  border: none;
+  outline: none;
+  padding-inline-end: calc(var(--state-accordion-icon-size) + var(--state-accordion-trigger-gap));
 }
 
-[data-wacss="accordion"] summary::-webkit-details-marker {
+[wacss="accordion"] details[open] > summary {
+  color: var(--state-accordion-trigger-fg);
+  background: var(--state-accordion-trigger-bg);
+}
+
+[wacss="accordion"] summary::-webkit-details-marker {
   display: none;
 }
 
-[data-wacss="accordion"] summary::marker {
+[wacss="accordion"] summary::marker {
   content: "";
 }
 
-[data-wacss="accordion"] details:not([open]) summary:hover {
+[wacss="accordion"] details:not([open]) > summary:hover {
+  color: var(--state-accordion-trigger-fg-hover);
+  background: var(--state-accordion-trigger-bg-hover);
   text-decoration: underline;
 }
 
-[data-wacss="accordion"] details[open] > summary {
-  /* keep token styling */
-}
-
-[data-wacss="accordion"] details[open]::details-content {
+[wacss="accordion"] details[open]::details-content {
   height: auto;
 }
 
-[data-wacss="accordion"] details::details-content {
+[wacss="accordion"] details::details-content {
   height: 0;
   overflow-y: clip;
-  transition: content-visibility 475ms allow-discrete, height 475ms;
+  transition: content-visibility var(--state-accordion-motion) allow-discrete, height var(--state-accordion-motion);
 }
 
-[data-wacss="accordion"] details > summary,
-[data-wacss="accordion"] details > [data-wacss="accordion-content"] {
-  /* content spacing handled by tokens */
+[wacss="accordion"] details > div {
+  padding: var(--state-accordion-content-padding);
+  color: var(--state-accordion-content-fg);
+  font-size: var(--state-accordion-content-font-size);
 }
 
-[data-wacss="accordion"] [data-wacss="accordion-content"] {
-  padding: var(--padding-accordion-content);
-  color: var(--text-accordion-content);
-  font-size: var(--font-size-accordion-content);
-}
-
-[data-wacss="accordion"] [data-wacss="accordion-content"] > :first-child {
+[wacss="accordion"] details > div > :first-child {
   margin-block-start: 0;
 }
 
-[data-wacss="accordion"] [data-wacss="accordion-content"] > :last-child {
+[wacss="accordion"] details > div > :last-child {
   margin-block-end: 0;
 }
 
-[data-wacss="accordion"] [data-wacss="accordion-icon"] {
+[wacss="accordion"] summary > svg[aria-hidden="true"] {
   position: absolute;
   inset-inline-end: 0;
   inset-block-start: 50%;
-  inline-size: var(--size-accordion-icon);
-  block-size: var(--size-accordion-icon);
-  color: var(--color-accordion-icon);
+  inline-size: var(--state-accordion-icon-size);
+  block-size: var(--state-accordion-icon-size);
+  color: var(--state-accordion-icon-fg);
   transform: translateY(-50%);
-  transition: transform 475ms var(--ease-ui);
+  transition: transform 475ms var(--state-ease);
   pointer-events: none;
 }
 
-[data-wacss="accordion"] details[open] [data-wacss="accordion-icon"] {
+[wacss="accordion"] details[open] > summary > svg[aria-hidden="true"] {
+  color: var(--state-accordion-icon-open-fg);
   transform: translateY(-50%) rotate(180deg);
-}
-
-[data-wacss="accordion"] summary {
-  padding-inline-end: calc(var(--size-accordion-icon) + var(--gap-accordion-trigger));
 }

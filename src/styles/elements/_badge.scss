@@ -2,31 +2,61 @@
 [data-wacss="badge"] {
   display: inline-flex;
   align-items: center;
-  padding: var(--padding-badge-block) var(--padding-badge-inline);
-  border: var(--border-width-ui) solid var(--border-badge);
-  border-radius: var(--radius-badge);
-  background: var(--background-badge);
-  color: var(--text-badge);
-  font-family: var(--font-family-ui);
-  font-size: var(--font-size-badge);
+  justify-content: center;
+  gap: var(--primitive-space-1);
+  padding: var(--state-badge-py) var(--state-badge-px);
+  border: var(--state-border-width) solid var(--state-badge-border);
+  border-radius: var(--state-badge-radius);
+  background: var(--state-badge-bg);
+  color: var(--state-badge-fg);
+  font-family: var(--state-font-ui);
+  font-size: var(--state-badge-font-size);
+  font-weight: var(--state-badge-font-weight);
   line-height: 1.3;
   white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background var(--state-motion) var(--state-ease),
+    color var(--state-motion) var(--state-ease),
+    border-color var(--state-motion) var(--state-ease);
+}
+
+[data-wacss="badge"][data-variant="secondary"] {
+  background: var(--state-badge-secondary-bg);
+  border-color: var(--alias-transparent);
+  color: var(--state-badge-secondary-fg);
+}
+
+[data-wacss="badge"][data-variant="destructive"] {
+  background: var(--state-badge-destructive-bg);
+  border-color: var(--alias-transparent);
+  color: var(--state-badge-destructive-fg);
+}
+
+[data-wacss="badge"][data-variant="outline"] {
+  background: var(--state-badge-outline-bg);
+  border-color: var(--state-badge-outline-border);
+  color: var(--state-badge-outline-fg);
 }
 
 [data-wacss-badge][data-wacss-variant="positive"],
 [data-wacss="badge"][data-variant="positive"] {
   background: var(--background-badge-positive);
+  border-color: var(--color-transparent);
   color: var(--text-badge-positive);
 }
 
 [data-wacss-badge][data-wacss-variant="neutral"],
 [data-wacss="badge"][data-variant="neutral"] {
   background: var(--background-badge-neutral);
+  border-color: var(--color-transparent);
   color: var(--text-badge-neutral);
 }
 
 [data-wacss-badge][data-wacss-variant="negative"],
 [data-wacss="badge"][data-variant="negative"] {
   background: var(--background-badge-negative);
+  border-color: var(--color-transparent);
   color: var(--text-badge-negative);
 }
+

@@ -1,4 +1,61 @@
 ---
-const { as: Tag = "article", ...attrs } = Astro.props;
+import Accordion from "../Accordion/Accordion.astro";
+
+const components: Record<string, any> = { Accordion };
+
+const {
+  as: Tag = "article",
+  title,
+  description,
+  footer,
+  media,
+  content,
+  component,
+  data = {},
+  class: className = "",
+  ...rest
+} = Astro.props as any;
+
+const Comp = component ? components[component] : content?.component ? components[content.component] : null;
+const compData = component ? data : content?.data ?? {};
+const textContent = typeof content === "string" ? content : content?.text;
+const hasContent = Boolean(media || Comp || textContent || Astro.slots.has("default"));
 ---
-<Tag data-wacss-card {...attrs}><slot /></Tag>
+<Tag wacss="card" class={className || undefined} {...rest}>
+  {(title || description) && (
+    <header wacss="card-header">
+      {title && <h3 wacss="card-title">{title}</h3>}
+      {description && <p wacss="card-description">{description}</p>}
+    </header>
+  )}
+  {hasContent && (
+    <div wacss="card-content">
+      {media?.type === "image" && (
+        <figure wacss="card-media">
+          <img src={media.src} alt={media.alt ?? ""} />
+          {media.caption && <figcaption>{media.caption}</figcaption>}
+        </figure>
+      )}
+      {media?.type === "video" && (
+        <figure wacss="card-media">
+          <video src={media.src} poster={media.poster} controls={media.controls ?? true} autoplay={media.autoplay} loop={media.loop} muted={media.muted} playsinline={media.playsinline} preload={media.preload}>
+            {media.sources?.map((s: any) => <source src={s.src} type={s.type} />)}
+          </video>
+          {media.caption && <figcaption>{media.caption}</figcaption>}
+        </figure>
+      )}
+      {media?.type === "audio" && (
+        <figure wacss="card-media">
+          <audio src={media.src} controls={media.controls ?? true} autoplay={media.autoplay} loop={media.loop} muted={media.muted} preload={media.preload}>
+            {media.sources?.map((s: any) => <source src={s.src} type={s.type} />)}
+          </audio>
+          {media.caption && <figcaption>{media.caption}</figcaption>}
+        </figure>
+      )}
+      {Comp && <Comp {...compData} />}
+      {textContent && <p>{textContent}</p>}
+      <slot />
+    </div>
+  )}
+  {footer && <footer wacss="card-footer">{footer}</footer>}
+</Tag>

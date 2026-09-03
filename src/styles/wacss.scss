@@ -2,6 +2,7 @@
 @use "./tokens/primitives";
 @use "./tokens/alias";
 @use "./tokens/components";
+@use "./tokens/roles";
 @use "./tokens/states";
 @use "./base/reset";
 @use "./base/global";
@@ -12,13 +13,16 @@
 @use "./elements/table";
 @use "./elements/disclosure";
 @use "./elements/badge";
+@use "./elements/separator";
 @use "./patterns/card";
 @use "./patterns/nav";
 @use "./patterns/site-nav";
 @use "./components/accordion";
+@use "./components/avatar";
 @use "./components/checkbox";
 @use "./components/dialog";
 @use "./components/form" as form-component;
+@use "./components/progress";
 @use "./components/select";
 @use "./components/switch";
 @use "./components/tabs";

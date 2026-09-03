@@ -39,15 +39,55 @@ export type ButtonProps = {
 
 export type CardTag = "article" | "section" | "div";
 
+export type CardMediaType = "image" | "video" | "audio";
+
+export type CardMedia = {
+  type: CardMediaType;
+  src?: string;
+  sources?: { src: string; type?: string }[];
+  alt?: string;
+  poster?: string;
+  controls?: boolean;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  playsinline?: boolean;
+  preload?: "none" | "metadata" | "auto";
+  caption?: string;
+  [key: string]: unknown;
+};
+
+export type CardContent =
+  | string
+  | {
+      component: string;
+      data?: Record<string, unknown>;
+    }
+  | {
+      text?: string;
+      html?: string;
+    };
+
 export type CardProps = {
   as?: CardTag;
   title?: string;
   description?: string;
   footer?: string;
-  class?: string;
+  /** Data-driven media (image, video, audio). */
+  media?: CardMedia;
+  /** Data-driven body content. */
+  content?: CardContent;
+  /** Render a registered component by name with data (e.g. component="Tabs" data={...}). */
+  component?: string;
+  /** Data passed to the named component. */
+  data?: Record<string, unknown>;
+  /** Back-compat: composed children snippet. Prefer data props. */
   children?: Snippet;
+  /** Back-compat: header snippet. Prefer title/description data. */
   header?: Snippet;
+  /** Back-compat: footer snippet. Prefer footer text data. */
   footerSnippet?: Snippet;
+  class?: string;
   [key: string]: unknown;
 };
 
@@ -193,6 +233,57 @@ export type TabsProps = WacssPersistProps & {
   listClass?: string;
   contentClass?: string;
   children?: Snippet<[{ tab: TabsItem; index: number }]>;
+  [key: string]: unknown;
+};
+
+/* Badge ------------------------------------------------------------------- */
+
+export type BadgeVariant =
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "outline"
+  | "positive"
+  | "neutral"
+  | "negative";
+
+export type BadgeProps = {
+  variant?: BadgeVariant;
+  as?: "span" | "div" | "a";
+  href?: string;
+  class?: string;
+  children?: Snippet;
+  [key: string]: unknown;
+};
+
+/* Separator --------------------------------------------------------------- */
+
+export type SeparatorProps = {
+  orientation?: "horizontal" | "vertical";
+  decorative?: boolean;
+  class?: string;
+  [key: string]: unknown;
+};
+
+/* Progress ---------------------------------------------------------------- */
+
+export type ProgressProps = {
+  value?: number | null;
+  max?: number;
+  label?: string;
+  showValue?: boolean;
+  class?: string;
+  [key: string]: unknown;
+};
+
+/* Avatar ------------------------------------------------------------------ */
+
+export type AvatarProps = {
+  src?: string;
+  alt?: string;
+  fallback?: string;
+  size?: "sm" | "md" | "lg";
+  class?: string;
   [key: string]: unknown;
 };
 

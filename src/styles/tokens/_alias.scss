@@ -1,123 +1,147 @@
+@use "sass:map";
+
 /* ==========================================================================
-   ALIAS TOKENS
-   Semantic roles. References primitives only. This is the layer to replace
-   when you want a different overall palette.
+   LEVEL 2 — ALIAS / SEMANTIC
+   Semantic roles derived from primitives only.
+   Paste an alias/semantic set here to re-theme meaning without touching primitives.
    ========================================================================== */
 
+$alias-light: (
+  "background": var(--primitive-color-white),
+  "foreground": var(--primitive-color-zinc-950),
+  "card": var(--primitive-color-white),
+  "card-foreground": var(--primitive-color-zinc-950),
+  "popover": var(--primitive-color-white),
+  "popover-foreground": var(--primitive-color-zinc-950),
+  "primary": var(--primitive-color-zinc-900),
+  "primary-foreground": var(--primitive-color-zinc-50),
+  "secondary": var(--primitive-color-zinc-100),
+  "secondary-foreground": var(--primitive-color-zinc-900),
+  "muted": var(--primitive-color-zinc-100),
+  "muted-foreground": var(--primitive-color-zinc-500),
+  "accent": var(--primitive-color-zinc-100),
+  "accent-foreground": var(--primitive-color-zinc-900),
+  "destructive": var(--primitive-color-red),
+  "destructive-foreground": var(--primitive-color-white),
+  "border": var(--primitive-color-zinc-200),
+  "input": var(--primitive-color-zinc-200),
+  "ring": var(--primitive-color-zinc-400),
+  "overlay": var(--primitive-color-black-50),
+  "positive": var(--primitive-color-green),
+  "positive-foreground": var(--primitive-color-white),
+  "neutral": var(--primitive-color-amber),
+  "neutral-foreground": var(--primitive-color-black),
+  "negative": var(--primitive-color-red),
+  "negative-foreground": var(--primitive-color-white),
+  "transparent": var(--primitive-color-transparent),
+);
+
+$alias-dark: (
+  "background": var(--primitive-color-zinc-950),
+  "foreground": var(--primitive-color-zinc-50),
+  "card": var(--primitive-color-zinc-900),
+  "card-foreground": var(--primitive-color-zinc-50),
+  "popover": var(--primitive-color-zinc-900),
+  "popover-foreground": var(--primitive-color-zinc-50),
+  "primary": var(--primitive-color-zinc-200),
+  "primary-foreground": var(--primitive-color-zinc-900),
+  "secondary": var(--primitive-color-zinc-800),
+  "secondary-foreground": var(--primitive-color-zinc-50),
+  "muted": var(--primitive-color-zinc-800),
+  "muted-foreground": var(--primitive-color-zinc-400),
+  "accent": var(--primitive-color-zinc-800),
+  "accent-foreground": var(--primitive-color-zinc-50),
+  "destructive": var(--primitive-color-red-dark),
+  "destructive-foreground": var(--primitive-color-white),
+  "border": var(--primitive-color-white-10),
+  "input": var(--primitive-color-white-15),
+  "ring": var(--primitive-color-zinc-500),
+  "overlay": var(--primitive-color-black-50),
+  "positive": var(--primitive-color-green),
+  "positive-foreground": var(--primitive-color-black),
+  "neutral": var(--primitive-color-amber),
+  "neutral-foreground": var(--primitive-color-black),
+  "negative": var(--primitive-color-red-dark),
+  "negative-foreground": var(--primitive-color-white),
+  "transparent": var(--primitive-color-transparent),
+);
+
+@mixin wacss-emit-alias($map) {
+  @each $name, $value in $map {
+    --alias-#{$name}: #{$value};
+    --color-#{$name}: var(--alias-#{$name});
+  }
+
+  /* Compatibility aliases */
+  --color-base: var(--alias-background);
+  --color-surface: var(--alias-card);
+  --color-pop: var(--alias-muted);
+  --color-text: var(--alias-foreground);
+  --color-text-muted: var(--alias-muted-foreground);
+  --color-focus: var(--alias-ring);
+  --color-scrim: var(--alias-overlay);
+  --color-positive-text: var(--alias-positive-foreground);
+  --color-neutral-text: var(--alias-neutral-foreground);
+  --color-negative-text: var(--alias-negative-foreground);
+}
+
 @mixin wacss-light-theme {
-  /* shadcn-svelte light theme. */
-  --color-background: var(--color-white);
-  --color-foreground: var(--color-zinc-950);
-  --color-card: var(--color-white);
-  --color-card-foreground: var(--color-zinc-950);
-  --color-popover: var(--color-white);
-  --color-popover-foreground: var(--color-zinc-950);
-  --color-primary: var(--color-zinc-900);
-  --color-primary-foreground: var(--color-zinc-50);
-  --color-secondary: var(--color-zinc-100);
-  --color-secondary-foreground: var(--color-zinc-900);
-  --color-muted: var(--color-zinc-100);
-  --color-muted-foreground: var(--color-zinc-500);
-  --color-accent: var(--color-zinc-100);
-  --color-accent-foreground: var(--color-zinc-900);
-  --color-destructive: var(--color-red);
-  --color-destructive-foreground: var(--color-white);
-  --color-border: var(--color-zinc-200);
-  --color-input: var(--color-zinc-200);
-  --color-ring: var(--color-zinc-400);
-  --color-overlay: var(--color-black-50);
-
-  /* Status roles. */
-  --color-positive: var(--color-green);
-  --color-positive-text: var(--color-white);
-  --color-neutral: var(--color-amber);
-  --color-neutral-text: var(--color-black);
-  --color-negative: var(--color-destructive);
-  --color-negative-text: var(--color-destructive-foreground);
-
-  /* Compatibility aliases used by older markup. */
-  --color-base: var(--color-background);
-  --color-surface: var(--color-card);
-  --color-pop: var(--color-muted);
-  --color-text: var(--color-foreground);
-  --color-text-muted: var(--color-muted-foreground);
-  --color-focus: var(--color-ring);
-  --color-scrim: var(--color-overlay);
-  --color-transparent: transparent;
+  @include wacss-emit-alias($alias-light);
 }
 
 @mixin wacss-dark-theme {
-  /* shadcn-svelte dark theme. */
-  --color-background: var(--color-zinc-950);
-  --color-foreground: var(--color-zinc-50);
-  --color-card: var(--color-zinc-900);
-  --color-card-foreground: var(--color-zinc-50);
-  --color-popover: var(--color-zinc-900);
-  --color-popover-foreground: var(--color-zinc-50);
-  --color-primary: var(--color-zinc-200);
-  --color-primary-foreground: var(--color-zinc-900);
-  --color-secondary: var(--color-zinc-800);
-  --color-secondary-foreground: var(--color-zinc-50);
-  --color-muted: var(--color-zinc-800);
-  --color-muted-foreground: var(--color-zinc-400);
-  --color-accent: var(--color-zinc-800);
-  --color-accent-foreground: var(--color-zinc-50);
-  --color-destructive: var(--color-red-dark);
-  --color-destructive-foreground: var(--color-white);
-  --color-border: var(--color-white-10);
-  --color-input: var(--color-white-15);
-  --color-ring: var(--color-zinc-500);
-  --color-overlay: var(--color-black-50);
-
-  /* Status roles. */
-  --color-positive: var(--color-green);
-  --color-positive-text: var(--color-black);
-  --color-neutral: var(--color-amber);
-  --color-neutral-text: var(--color-black);
-  --color-negative: var(--color-destructive);
-  --color-negative-text: var(--color-destructive-foreground);
-
-  /* Compatibility aliases used by older markup. */
-  --color-base: var(--color-background);
-  --color-surface: var(--color-card);
-  --color-pop: var(--color-muted);
-  --color-text: var(--color-foreground);
-  --color-text-muted: var(--color-muted-foreground);
-  --color-focus: var(--color-ring);
-  --color-scrim: var(--color-overlay);
-  --color-transparent: transparent;
+  @include wacss-emit-alias($alias-dark);
 }
 
 :root {
   @include wacss-light-theme;
 
-  /* Typography roles. */
-  --font-body: var(--font-sans);
-  --font-ui: var(--font-sans);
-  --font-heading: var(--font-sans);
-  --text-size-body: var(--text-base);
-  --text-size-sm: var(--text-sm);
-  --text-size-h1: var(--text-3xl);
-  --text-size-h2: var(--text-2xl);
-  --text-size-h3: var(--text-xl);
-  --line-body: var(--leading-normal);
-  --line-heading: var(--leading-tight);
+  /* Typography, shape, motion, elevation aliases derived from primitives */
+  --alias-font-body: var(--primitive-font-sans);
+  --alias-font-ui: var(--primitive-font-sans);
+  --alias-font-heading: var(--primitive-font-sans);
+  --alias-font-mono: var(--primitive-font-mono);
+  --alias-text-body: var(--primitive-text-base);
+  --alias-text-sm: var(--primitive-text-sm);
+  --alias-text-h1: var(--primitive-text-3xl);
+  --alias-text-h2: var(--primitive-text-2xl);
+  --alias-text-h3: var(--primitive-text-xl);
+  --alias-line-body: var(--primitive-leading-normal);
+  --alias-line-heading: var(--primitive-leading-tight);
+  --alias-radius-control: var(--primitive-radius-5);
+  --alias-radius-surface: var(--primitive-radius-6);
+  --alias-radius-popover: var(--primitive-radius-4);
+  --alias-radius-pill: var(--primitive-radius-12);
+  --alias-motion-interaction: var(--primitive-motion-1);
+  --alias-ease-interaction: var(--primitive-ease-out);
+  --alias-shadow-surface: var(--primitive-shadow-2);
+  --alias-shadow-overlay: var(--primitive-shadow-3);
+  --alias-shadow-modal: var(--primitive-shadow-4);
+  --alias-shadow-control: var(--primitive-shadow-1);
+  --alias-border-width: var(--primitive-border-width-1);
+  --alias-measure: var(--primitive-measure);
 
-  /* Shape roles. */
-  --radius-control: var(--radius-lg);
-  --radius-surface: var(--radius-xl);
-  --radius-popover: var(--radius-md);
-  --radius-pill: var(--radius-full);
-
-  /* Motion roles. */
-  --motion-interaction: var(--motion-fast);
-  --ease-interaction: var(--ease-out);
-
-  /* Elevation roles. */
-  --shadow-surface: var(--shadow-sm);
-  --shadow-overlay: var(--shadow-md);
-  --shadow-modal: var(--shadow-lg);
-  --shadow-control: var(--shadow-xs);
+  /* Compatibility */
+  --font-body: var(--alias-font-body);
+  --font-ui: var(--alias-font-ui);
+  --font-heading: var(--alias-font-heading);
+  --text-size-body: var(--alias-text-body);
+  --text-size-sm: var(--alias-text-sm);
+  --text-size-h1: var(--alias-text-h1);
+  --text-size-h2: var(--alias-text-h2);
+  --text-size-h3: var(--alias-text-h3);
+  --line-body: var(--alias-line-body);
+  --line-heading: var(--alias-line-heading);
+  --radius-control: var(--alias-radius-control);
+  --radius-surface: var(--alias-radius-surface);
+  --radius-popover: var(--alias-radius-popover);
+  --radius-pill: var(--alias-radius-pill);
+  --motion-interaction: var(--alias-motion-interaction);
+  --ease-interaction: var(--alias-ease-interaction);
+  --shadow-surface: var(--alias-shadow-surface);
+  --shadow-overlay: var(--alias-shadow-overlay);
+  --shadow-modal: var(--alias-shadow-modal);
+  --shadow-control: var(--alias-shadow-control);
 }
 
 .dark {

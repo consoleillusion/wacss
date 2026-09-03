@@ -1,414 +1,207 @@
 /* ==========================================================================
-   COMPONENT TOKENS
-   References alias tokens only. Normal component styles use these tokens.
+   LEVEL 3 — COMPONENT
+   Component anatomy and base values derived from alias/semantic tokens.
+   Paste a component set here to adjust component structure without changing meaning.
    ========================================================================== */
 
 :root {
+  /* Emphasis bases (consumed by role layer) */
+  --component-emphasis-primary-bg: var(--alias-primary);
+  --component-emphasis-primary-fg: var(--alias-primary-foreground);
+  --component-emphasis-primary-border: var(--alias-transparent);
+  --component-emphasis-primary-ring: var(--alias-ring);
+
+  --component-emphasis-secondary-bg: var(--alias-secondary);
+  --component-emphasis-secondary-fg: var(--alias-secondary-foreground);
+  --component-emphasis-secondary-border: var(--alias-transparent);
+  --component-emphasis-secondary-ring: var(--alias-ring);
+
+  --component-emphasis-tertiary-bg: var(--alias-muted);
+  --component-emphasis-tertiary-fg: var(--alias-muted-foreground);
+  --component-emphasis-tertiary-border: var(--alias-border);
+  --component-emphasis-tertiary-ring: var(--alias-ring);
+
+  --component-emphasis-destructive-bg: var(--alias-destructive);
+  --component-emphasis-destructive-fg: var(--alias-destructive-foreground);
+  --component-emphasis-destructive-border: var(--alias-transparent);
+  --component-emphasis-destructive-ring: var(--alias-destructive);
+
+  --component-emphasis-positive-bg: var(--alias-positive);
+  --component-emphasis-positive-fg: var(--alias-positive-foreground);
+  --component-emphasis-neutral-bg: var(--alias-neutral);
+  --component-emphasis-neutral-fg: var(--alias-neutral-foreground);
+  --component-emphasis-negative-bg: var(--alias-negative);
+  --component-emphasis-negative-fg: var(--alias-negative-foreground);
+
+  /* Shared UI atoms */
+  --component-border-width: var(--alias-border-width);
+  --component-radius-control: var(--alias-radius-control);
+  --component-radius-surface: var(--alias-radius-surface);
+  --component-radius-popover: var(--alias-radius-popover);
+  --component-radius-pill: var(--alias-radius-pill);
+  --component-shadow-surface: var(--alias-shadow-surface);
+  --component-shadow-overlay: var(--alias-shadow-overlay);
+  --component-shadow-modal: var(--alias-shadow-modal);
+  --component-shadow-control: var(--alias-shadow-control);
+  --component-motion: var(--alias-motion-interaction);
+  --component-ease: var(--alias-ease-interaction);
+  --component-font-ui: var(--alias-font-ui);
+  --component-font-body: var(--alias-font-body);
+  --component-font-heading: var(--alias-font-heading);
+  --component-font-mono: var(--alias-font-mono);
+  --component-line: var(--alias-line-body);
+  --component-line-heading: var(--alias-line-heading);
+
   /* Button */
-  --background-button: var(--color-primary);
-  --text-button: var(--color-primary-foreground);
-  --border-button: var(--color-transparent);
-  --radius-button: var(--radius-lg);
-  --height-button: 2rem;
-  --height-button-sm: 1.75rem;
-  --height-button-lg: 2.25rem;
-  --height-button-icon: 2rem;
-  --padding-button-inline: var(--space-2-5);
-  --padding-button-inline-sm: var(--space-2-5);
-  --padding-button-inline-lg: var(--space-4);
-  --font-size-button: var(--text-sm);
-  --font-size-button-sm: var(--text-xs);
-  --font-size-button-lg: var(--text-sm);
-  --font-weight-button: 500;
-  --gap-button: var(--space-1-5);
-  --ring-button: var(--color-ring);
-  --ring-button-width: 3px;
-  --ring-button-destructive: var(--color-destructive);
-  --translate-button-active: 1px;
-
-  --background-button-secondary: var(--color-secondary);
-  --text-button-secondary: var(--color-secondary-foreground);
-  --border-button-secondary: var(--color-transparent);
-
-  --background-button-outline: var(--color-background);
-  --text-button-outline: var(--color-foreground);
-  --border-button-outline: var(--color-border);
-
-  --background-button-ghost: var(--color-transparent);
-  --text-button-ghost: var(--color-foreground);
-  --border-button-ghost: var(--color-transparent);
-
-  --background-button-destructive: var(--color-destructive);
-  --text-button-destructive: var(--color-destructive-foreground);
-  --border-button-destructive: var(--color-transparent);
-
-  --background-button-link: var(--color-transparent);
-  --text-button-link: var(--color-primary);
-  --border-button-link: var(--color-transparent);
-
-  --size-button-spinner: 1rem;
-  --border-width-button-spinner: 2px;
-  --radius-button-spinner: var(--radius-pill);
+  --component-button-height: 2rem;
+  --component-button-height-sm: 1.75rem;
+  --component-button-height-lg: 2.25rem;
+  --component-button-height-icon: 2rem;
+  --component-button-padding-inline: var(--primitive-space-2-5);
+  --component-button-padding-inline-sm: var(--primitive-space-2-5);
+  --component-button-padding-inline-lg: var(--primitive-space-4);
+  --component-button-font-size: var(--primitive-text-sm);
+  --component-button-font-size-sm: var(--primitive-text-xs);
+  --component-button-font-size-lg: var(--primitive-text-sm);
+  --component-button-font-weight: var(--primitive-weight-medium);
+  --component-button-gap: var(--primitive-space-1-5);
+  --component-button-radius: var(--component-radius-control);
+  --component-button-ring-width: var(--primitive-border-width-3);
+  --component-button-translate-active: 1px;
+  --component-button-spinner-size: 1rem;
+  --component-button-spinner-border: var(--primitive-border-width-2);
 
   /* Card */
-  --background-card: var(--color-card);
-  --text-card: var(--color-card-foreground);
-  --border-card: var(--color-border);
-  --radius-card: var(--radius-surface);
-  --padding-card: 0;
-  --padding-card-inline: var(--space-6);
-  --padding-card-block: var(--space-6);
-  --gap-card: var(--space-6);
-  --shadow-card: var(--shadow-surface);
-  --text-card-title: var(--color-card-foreground);
-  --font-size-card-title: var(--text-base);
-  --font-weight-card-title: 600;
-  --line-card-title: 1;
-  --text-card-description: var(--color-muted-foreground);
-  --font-size-card-description: var(--text-sm);
-  --text-card-footer: var(--color-muted-foreground);
-  --font-size-card-footer: var(--text-sm);
-  --padding-card-header: 0 var(--padding-card-inline);
-  --padding-card-content: 0 var(--padding-card-inline);
-  --padding-card-footer: 0 var(--padding-card-inline);
-  --gap-card-header: var(--space-1-5);
-  --gap-card-content: var(--space-4);
+  --component-card-padding-block: var(--primitive-space-6);
+  --component-card-padding-inline: var(--primitive-space-6);
+  --component-card-gap: var(--primitive-space-6);
+  --component-card-gap-header: var(--primitive-space-1-5);
+  --component-card-gap-content: var(--primitive-space-4);
+  --component-card-radius: var(--component-radius-surface);
+  --component-card-shadow: var(--component-shadow-surface);
 
   /* Accordion */
-  --background-accordion: var(--color-transparent);
-  --text-accordion: var(--color-foreground);
-  --border-accordion: var(--color-border);
-  --radius-accordion: 0;
-  --gap-accordion: 0;
-  --background-accordion-item: var(--color-transparent);
-  --border-accordion-item: var(--color-border);
-  --background-accordion-trigger: var(--color-transparent);
-  --text-accordion-trigger: var(--color-foreground);
-  --border-accordion-trigger: var(--color-transparent);
-  --radius-accordion-trigger: var(--radius-md);
-  --padding-accordion-trigger: var(--space-4) 0;
-  --font-size-accordion-trigger: var(--text-sm);
-  --font-weight-accordion-trigger: 500;
-  --text-accordion-content: var(--color-foreground);
-  --font-size-accordion-content: var(--text-sm);
-  --padding-accordion-content: 0 0 var(--space-4);
-  --color-accordion-icon: var(--color-muted-foreground);
-  --size-accordion-icon: 1rem;
-  --ring-accordion: var(--color-ring);
-  --ring-accordion-width: 3px;
-  --border-accordion-content: var(--color-transparent);
-  --padding-accordion-item: 0;
-  --gap-accordion-trigger: var(--space-4);
-  --motion-accordion: 320ms;
+  --component-accordion-trigger-padding: var(--primitive-space-4) 0;
+  --component-accordion-content-padding: 0 0 var(--primitive-space-4);
+  --component-accordion-gap: var(--primitive-space-0);
+  --component-accordion-trigger-gap: var(--primitive-space-4);
+  --component-accordion-icon-size: 1rem;
+  --component-accordion-radius: 0;
+  --component-accordion-trigger-radius: var(--primitive-radius-4);
+  --component-accordion-motion: var(--primitive-motion-4);
 
   /* Input */
-  --background-input: var(--color-transparent);
-  --text-input: var(--color-foreground);
-  --placeholder-input: var(--color-muted-foreground);
-  --border-input: var(--color-input);
-  --radius-input: var(--radius-lg);
-  --height-input: 2rem;
-  --padding-input-block: var(--space-1);
-  --padding-input-inline: var(--space-2-5);
-  --font-size-input: var(--text-base);
-  --font-weight-input: 400;
-  --background-input-disabled: color-mix(in oklch, var(--color-input), transparent 50%);
-  --text-input-disabled: var(--color-foreground);
-  --border-input-disabled: var(--color-input);
-  --border-input-invalid: var(--color-destructive);
-  --text-input-invalid: var(--color-destructive);
-  --text-input-description: var(--color-muted-foreground);
-  --font-size-input-help: var(--text-sm);
-  --gap-input: var(--space-2);
-  --min-height-textarea: 5rem;
-  --accent-input: var(--color-ring);
-  --ring-input: var(--color-ring);
-  --ring-input-width: 3px;
-  --ring-input-invalid: var(--color-destructive);
-  --background-input-file: var(--color-muted);
-  --text-input-file: var(--color-foreground);
-  --border-input-file: var(--color-input);
-  --radius-input-file: var(--radius-sm);
-  --height-input-file: 1.5rem;
-  --font-weight-input-file: 500;
-  --padding-input-file-block: var(--space-1);
-  --gap-input-file: var(--space-2);
-  --font-size-input-file: var(--text-sm);
+  --component-input-height: 2rem;
+  --component-input-padding-block: var(--primitive-space-1);
+  --component-input-padding-inline: var(--primitive-space-2-5);
+  --component-input-radius: var(--component-radius-control);
+  --component-input-font-size: var(--primitive-text-base);
+  --component-input-gap: var(--primitive-space-2);
+  --component-textarea-min-height: 5rem;
+  --component-input-ring-width: var(--primitive-border-width-3);
 
   /* Form */
-  --background-form: var(--color-transparent);
-  --text-form: var(--color-foreground);
-  --gap-form: var(--space-6);
-  --gap-form-fields: var(--space-6);
-  --gap-form-group: var(--space-2);
-  --gap-form-item: var(--space-2);
-  --gap-form-actions: var(--space-2);
-  --gap-form-checkboxes: var(--space-2);
-  --padding-form-group: 0;
-  --text-form-legend: var(--color-foreground);
-  --font-size-form-legend: var(--text-sm);
-  --font-weight-form-legend: 500;
-  --text-form-description: var(--color-muted-foreground);
-  --font-size-form-description: var(--text-sm);
-  --font-weight-form-error: 500;
-  --text-form-error: var(--color-destructive);
+  --component-form-gap: var(--primitive-space-6);
+  --component-form-fields-gap: var(--primitive-space-6);
+  --component-form-group-gap: var(--primitive-space-2);
+  --component-form-item-gap: var(--primitive-space-2);
+  --component-form-actions-gap: var(--primitive-space-2);
+  --component-form-checkboxes-gap: var(--primitive-space-2);
 
   /* Label */
-  --text-label: var(--color-foreground);
-  --font-size-label: var(--text-sm);
-  --font-weight-label: 500;
-  --line-label: 1;
-  --gap-label: var(--space-2);
-  --text-label-muted: var(--color-muted-foreground);
-  --text-label-required: var(--color-destructive);
+  --component-label-gap: var(--primitive-space-2);
+  --component-label-font-size: var(--primitive-text-sm);
+  --component-label-font-weight: var(--primitive-weight-medium);
 
   /* Checkbox */
-  --size-checkbox: 1rem;
-  --background-checkbox: var(--color-transparent);
-  --border-checkbox: var(--color-input);
-  --radius-checkbox: 4px;
-  --color-checkbox-icon: var(--color-primary-foreground);
-  --size-checkbox-icon: 0.75rem;
-  --background-checkbox-checked: var(--color-primary);
-  --border-checkbox-checked: var(--color-primary);
-  --text-checkbox-label: var(--color-foreground);
-  --font-size-checkbox-label: var(--text-sm);
-  --text-checkbox-description: var(--color-muted-foreground);
-  --font-size-checkbox-description: var(--text-sm);
-  --gap-checkbox: var(--space-2);
-  --padding-checkbox: 0;
-  --ring-checkbox: var(--color-ring);
-  --ring-checkbox-width: 3px;
-  --shadow-checkbox: var(--shadow-control);
+  --component-checkbox-size: 1rem;
+  --component-checkbox-icon-size: 0.75rem;
+  --component-checkbox-radius: 4px;
+  --component-checkbox-gap: var(--primitive-space-2);
+  --component-checkbox-ring-width: var(--primitive-border-width-3);
 
   /* Switch */
-  --width-switch: 2rem;
-  --height-switch: 1.15rem;
-  --background-switch: var(--color-input);
-  --background-switch-checked: var(--color-primary);
-  --radius-switch: var(--radius-full);
-  --size-switch-thumb: 1rem;
-  --background-switch-thumb: var(--color-background);
-  --background-switch-thumb-checked: var(--color-primary-foreground);
-  --shadow-switch-thumb: var(--shadow-control);
-  --padding-switch: 0;
-  --offset-switch-thumb: calc(var(--width-switch) - var(--size-switch-thumb) - 2px);
-  --text-switch-label: var(--color-foreground);
-  --font-size-switch-label: var(--text-sm);
-  --text-switch-description: var(--color-muted-foreground);
-  --font-size-switch-description: var(--text-sm);
-  --gap-switch: var(--space-2);
-  --ring-switch: var(--color-ring);
-  --ring-switch-width: 3px;
-  --motion-switch-thumb: var(--motion-base);
+  --component-switch-width: 2rem;
+  --component-switch-height: 1.15rem;
+  --component-switch-thumb-size: 1rem;
+  --component-switch-radius: var(--component-radius-pill);
+  --component-switch-gap: var(--primitive-space-2);
+  --component-switch-ring-width: var(--primitive-border-width-3);
 
   /* Select */
-  --background-select: var(--color-transparent);
-  --text-select: var(--color-foreground);
-  --placeholder-select: var(--color-muted-foreground);
-  --border-select: var(--color-input);
-  --radius-select: var(--radius-lg);
-  --height-select: 2rem;
-  --padding-select-inline: var(--space-2-5);
-  --font-size-select: var(--text-sm);
-  --shadow-select: var(--shadow-control);
-  --background-select-content: var(--color-popover);
-  --text-select-content: var(--color-popover-foreground);
-  --border-select-content: var(--color-border);
-  --radius-select-content: var(--radius-popover);
-  --shadow-select-content: var(--shadow-overlay);
-  --padding-select-content: var(--space-1);
-  --min-width-select-content: 8rem;
-  --max-height-select-content: 20rem;
-  --z-select-content: var(--z-popover);
-  --background-select-item: var(--color-transparent);
-  --text-select-item: var(--color-popover-foreground);
-  --padding-select-item: var(--space-1-5);
-  --padding-select-item-inline: var(--space-2);
-  --padding-select-item-end: var(--space-8);
-  --radius-select-item: var(--radius-sm);
-  --font-size-select-item: var(--text-sm);
-  --color-select-icon: var(--color-muted-foreground);
-  --color-select-item-check: var(--color-foreground);
-  --size-select-icon: 1rem;
-  --size-select-item-check: 1rem;
-  --gap-select: var(--space-2);
-  --accent-select: var(--color-ring);
-  --ring-select: var(--color-ring);
-  --ring-select-width: 3px;
+  --component-select-height: 2rem;
+  --component-select-padding-inline: var(--primitive-space-2-5);
+  --component-select-radius: var(--component-radius-control);
+  --component-select-content-radius: var(--component-radius-popover);
+  --component-select-item-radius: var(--primitive-radius-2);
+  --component-select-content-padding: var(--primitive-space-1);
+  --component-select-item-padding-block: var(--primitive-space-1-5);
+  --component-select-item-padding-inline: var(--primitive-space-2);
+  --component-select-item-padding-end: var(--primitive-space-8);
+  --component-select-gap: var(--primitive-space-2);
+  --component-select-icon-size: 1rem;
+  --component-select-ring-width: var(--primitive-border-width-3);
 
   /* Dialog */
-  --background-dialog-overlay: var(--color-overlay);
-  --background-dialog: var(--color-background);
-  --text-dialog: var(--color-foreground);
-  --border-dialog: var(--color-border);
-  --radius-dialog: var(--radius-lg);
-  --padding-dialog: var(--space-6);
-  --shadow-dialog: var(--shadow-modal);
-  --gap-dialog: var(--space-4);
-  --max-width-dialog: 32rem;
-  --text-dialog-title: var(--color-foreground);
-  --font-size-dialog-title: var(--text-lg);
-  --font-weight-dialog-title: 600;
-  --line-dialog-title: 1;
-  --text-dialog-description: var(--color-muted-foreground);
-  --font-size-dialog-description: var(--text-sm);
-  --text-dialog-close: var(--color-foreground);
-  --opacity-dialog-close: 0.7;
-  --size-dialog-close: 1rem;
-  --radius-dialog-close: var(--radius-sm);
-  --background-dialog-close: var(--color-transparent);
-  --padding-dialog-close: 0;
-  --inset-dialog-close: var(--space-4);
-  --text-dialog-body: var(--color-foreground);
-  --font-size-dialog-body: var(--text-sm);
-  --gap-dialog-footer: var(--space-2);
-  --z-dialog-overlay: var(--z-overlay);
-  --z-dialog-content: var(--z-modal);
-  --ring-dialog: var(--color-ring);
-  --ring-dialog-width: 2px;
-  --ring-dialog-offset: 2px;
-  --motion-dialog: var(--motion-base);
+  --component-dialog-padding: var(--primitive-space-6);
+  --component-dialog-gap: var(--primitive-space-4);
+  --component-dialog-radius: var(--primitive-radius-5);
+  --component-dialog-max-width: 32rem;
+  --component-dialog-close-size: 1rem;
+  --component-dialog-close-inset: var(--primitive-space-4);
+  --component-dialog-footer-gap: var(--primitive-space-2);
+  --component-dialog-inset: var(--primitive-space-4);
 
   /* Tabs */
-  --background-tabs: var(--color-transparent);
-  --text-tabs: var(--color-foreground);
-  --border-tabs: var(--color-transparent);
-  --radius-tabs: var(--radius-lg);
-  --gap-tabs: var(--space-4);
-  --height-tabs-list: 2.25rem;
-  --background-tabs-list: var(--color-muted);
-  --border-tabs-list: var(--color-transparent);
-  --radius-tabs-list: var(--radius-lg);
-  --padding-tabs-list: 3px;
-  --gap-tabs-list: 0;
-  --gap-tabs-trigger: var(--space-1-5);
-  --background-tabs-trigger: var(--color-transparent);
-  --text-tabs-trigger: var(--color-muted-foreground);
-  --border-tabs-trigger: var(--color-transparent);
-  --radius-tabs-trigger: var(--radius-md);
-  --padding-tabs-trigger: var(--space-1) var(--space-2);
-  --font-size-tabs-trigger: var(--text-sm);
-  --font-weight-tabs-trigger: 500;
-  --shadow-tabs-trigger: var(--shadow-control);
-  --background-tabs-trigger-active: var(--color-background);
-  --text-tabs-trigger-active: var(--color-foreground);
-  --border-tabs-trigger-active: var(--color-transparent);
-  --shadow-tabs-trigger-active: var(--shadow-control);
-  --background-tabs-content: var(--color-transparent);
-  --text-tabs-content: var(--color-foreground);
-  --padding-tabs-content: 0;
-  --gap-tabs-content: var(--space-3);
-  --ring-tabs: var(--color-ring);
-  --ring-tabs-width: 3px;
-
-  /* Shared component primitives */
-  --border-width-ui: var(--border-width);
-  --motion-ui: var(--motion-interaction);
-  --ease-ui: var(--ease-interaction);
-  --accent-ui: var(--color-accent);
-  --accent-text-ui: var(--color-accent-foreground);
-  --surface-ui: var(--color-muted);
-  --border-invalid-ui: var(--color-destructive);
-  --ring-invalid-ui: var(--color-destructive);
-  --font-family-body: var(--font-body);
-  --font-family-ui: var(--font-ui);
-  --font-family-mono: var(--font-mono);
-  --line-ui: var(--line-body);
-  --line-heading-ui: var(--line-heading);
-  --font-size-body: var(--text-size-body);
-  --font-size-small: var(--text-size-sm);
-  --font-size-heading-1: var(--text-size-h1);
-  --font-size-heading-2: var(--text-size-h2);
-  --font-size-heading-3: var(--text-size-h3);
-  --measure-prose: var(--measure);
-
-  /* Base / global */
-  --background-body: var(--color-background);
-  --text-body: var(--color-foreground);
-  --text-muted: var(--color-muted-foreground);
-  --ring-global: var(--color-ring);
-  --ring-global-width: 2px;
-  --ring-global-offset: 2px;
-  --background-selection: var(--color-primary);
-  --text-selection: var(--color-primary-foreground);
-  --text-link: var(--color-primary);
-  --font-family-heading: var(--font-heading);
-  --text-heading: var(--color-foreground);
-  --background-pre: var(--color-muted);
-  --text-pre: var(--color-foreground);
-  --border-pre: var(--color-border);
-  --radius-pre: var(--radius-md);
-  --padding-pre: var(--space-4);
-  --border-blockquote: var(--color-border);
-  --text-blockquote: var(--color-muted-foreground);
-  --border-hr: var(--color-border);
-  --padding-blockquote: var(--space-4);
-  --margin-flow: var(--space-4);
-  --margin-hr: var(--space-6);
-  --margin-figcaption: var(--space-2);
-  --margin-heading-1: var(--space-4);
-  --margin-heading-2-start: var(--space-7);
-  --margin-heading-2-end: var(--space-3);
-  --margin-heading-3-start: var(--space-6);
-  --margin-heading-3-end: var(--space-2);
-  --padding-fieldset: var(--space-4);
-  --padding-fieldset-legend: var(--space-2);
-  --margin-field-help: var(--space-1);
-  --inset-dialog: var(--space-4);
-
-  /* Table */
-  --border-table: var(--color-border);
-  --background-table-header: var(--color-muted);
-  --text-table-header: var(--color-foreground);
-  --background-table-row: var(--color-transparent);
-  --padding-table-cell-block: var(--space-3);
-  --padding-table-cell-inline: var(--space-3);
-  --padding-table-caption: var(--space-2);
-  --text-table-caption: var(--color-muted-foreground);
-  --font-size-table-caption: var(--text-sm);
+  --component-tabs-gap: var(--primitive-space-4);
+  --component-tabs-list-height: 2.25rem;
+  --component-tabs-list-padding: 3px;
+  --component-tabs-list-radius: var(--primitive-radius-5);
+  --component-tabs-trigger-radius: var(--primitive-radius-4);
+  --component-tabs-trigger-padding: var(--primitive-space-1) var(--primitive-space-2);
+  --component-tabs-trigger-gap: var(--primitive-space-1-5);
+  --component-tabs-ring-width: var(--primitive-border-width-3);
 
   /* Badge */
-  --background-badge: var(--color-primary);
-  --text-badge: var(--color-primary-foreground);
-  --border-badge: var(--color-transparent);
-  --radius-badge: var(--radius-md);
-  --padding-badge-block: var(--space-0-5);
-  --padding-badge-inline: var(--space-2);
-  --font-size-badge: var(--text-xs);
-  --font-weight-badge: 500;
-  --background-badge-positive: var(--color-positive);
-  --text-badge-positive: var(--color-positive-text);
-  --background-badge-neutral: var(--color-neutral);
-  --text-badge-neutral: var(--color-neutral-text);
-  --background-badge-negative: var(--color-negative);
-  --text-badge-negative: var(--color-negative-text);
+  --component-badge-padding-block: var(--primitive-space-0-5);
+  --component-badge-padding-inline: var(--primitive-space-2);
+  --component-badge-radius: var(--primitive-radius-4);
+  --component-badge-font-size: var(--primitive-text-xs);
+  --component-badge-font-weight: var(--primitive-weight-medium);
 
-  /* Nav */
-  --gap-nav: var(--space-3);
-  --text-nav-link: var(--color-muted-foreground);
-  --text-nav-link-current: var(--color-foreground);
-  --border-nav-link-current: var(--color-foreground);
+  /* Progress */
+  --component-progress-height: 0.5rem;
+  --component-progress-radius: var(--component-radius-pill);
+
+  /* Avatar */
+  --component-avatar-size-sm: 2rem;
+  --component-avatar-size-md: 2.5rem;
+  --component-avatar-size-lg: 3.5rem;
+  --component-avatar-radius: var(--component-radius-pill);
+
+  /* Table */
+  --component-table-cell-padding-block: var(--primitive-space-3);
+  --component-table-cell-padding-inline: var(--primitive-space-3);
+  --component-table-caption-padding: var(--primitive-space-2);
 
   /* Disclosure */
-  --background-disclosure: var(--color-card);
-  --border-disclosure: var(--color-border);
-  --radius-disclosure: var(--radius-lg);
-  --padding-disclosure: var(--space-4);
-  --text-disclosure: var(--color-foreground);
-  --font-weight-disclosure-summary: 500;
-  --gap-disclosure: var(--space-2);
+  --component-disclosure-padding: var(--primitive-space-4);
+  --component-disclosure-radius: var(--primitive-radius-5);
+  --component-disclosure-gap: var(--primitive-space-2);
+
+  /* Nav */
+  --component-nav-gap: var(--primitive-space-3);
 }
 
-/* Dark-only component values. */
+/* Dark-only component base adjustments */
 @mixin wacss-dark-component-overrides {
-  --background-input-disabled: color-mix(in oklch, var(--color-input), transparent 20%);
-  --background-checkbox: color-mix(in oklch, var(--color-input), transparent 70%);
-  --background-switch-thumb: var(--color-foreground);
-  --background-tabs-trigger-active: color-mix(in oklch, var(--color-input), transparent 70%);
-  --border-tabs-trigger-active: var(--color-input);
-  --background-button-outline: color-mix(in oklch, var(--color-input), transparent 70%);
-  --border-button-outline: var(--color-input);
+  --component-input-disabled-mix: 20%;
+  --component-checkbox-bg-mix: 70%;
+}
+
+:root {
+  --component-input-disabled-mix: 50%;
+  --component-checkbox-bg-mix: 100%;
 }
 
 .dark {
