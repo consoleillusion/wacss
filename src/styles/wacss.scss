@@ -8,6 +8,7 @@
 @use "./base/global";
 @use "./base/typography";
 @use "./base/prose";
+@use "./layout/layout";
 @use "./elements/button";
 @use "./elements/form";
 @use "./elements/table";
@@ -17,6 +18,7 @@
 @use "./patterns/card";
 @use "./patterns/nav";
 @use "./patterns/site-nav";
+@use "./patterns/demo";
 @use "./components/accordion";
 @use "./components/avatar";
 @use "./components/checkbox";

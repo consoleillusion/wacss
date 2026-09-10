@@ -1,78 +1,44 @@
-@use "sass:map";
-
 /* ==========================================================================
    LEVEL 2 — ALIAS / SEMANTIC
-   Semantic roles derived from primitives only.
-   Paste an alias/semantic set here to re-theme meaning without touching primitives.
+   Semantic roles derived from primitives only. No color ramps: single base
+   hues + deviations via color-mix(in oklch, base, var(--color-mix) <p>%).
+   --color-mix depends on light/dark mode.
+   Themes: Matcha (default, stone-white base + matcha accent), Sakura, Sumi.
    ========================================================================== */
 
-$alias-light: (
-  "background": var(--primitive-color-white),
-  "foreground": var(--primitive-color-zinc-950),
-  "card": var(--primitive-color-white),
-  "card-foreground": var(--primitive-color-zinc-950),
-  "popover": var(--primitive-color-white),
-  "popover-foreground": var(--primitive-color-zinc-950),
-  "primary": var(--primitive-color-zinc-900),
-  "primary-foreground": var(--primitive-color-zinc-50),
-  "secondary": var(--primitive-color-zinc-100),
-  "secondary-foreground": var(--primitive-color-zinc-900),
-  "muted": var(--primitive-color-zinc-100),
-  "muted-foreground": var(--primitive-color-zinc-500),
-  "accent": var(--primitive-color-zinc-100),
-  "accent-foreground": var(--primitive-color-zinc-900),
-  "destructive": var(--primitive-color-red),
-  "destructive-foreground": var(--primitive-color-white),
-  "border": var(--primitive-color-zinc-200),
-  "input": var(--primitive-color-zinc-200),
-  "ring": var(--primitive-color-zinc-400),
-  "overlay": var(--primitive-color-black-50),
-  "positive": var(--primitive-color-green),
-  "positive-foreground": var(--primitive-color-white),
-  "neutral": var(--primitive-color-amber),
-  "neutral-foreground": var(--primitive-color-black),
-  "negative": var(--primitive-color-red),
-  "negative-foreground": var(--primitive-color-white),
-  "transparent": var(--primitive-color-transparent),
-);
+@mixin wacss-emit-alias {
+  --color-theme: var(--alias-theme);
+  --alias-background: var(--primitive-color-charcoal);
+  --alias-foreground: oklch(96% 0.01 160);
+  --alias-card: color-mix(in oklch, var(--primitive-color-white) 6%, var(--primitive-color-charcoal));
+  --alias-card-foreground: var(--alias-foreground);
+  --alias-popover: var(--alias-card);
+  --alias-popover-foreground: var(--alias-foreground);
+  --alias-primary: var(--alias-theme);
+  --alias-primary-foreground: var(--primitive-color-charcoal);
+  --alias-secondary: color-mix(in oklch, var(--alias-theme) 14%, var(--primitive-color-charcoal));
+  --alias-secondary-foreground: var(--alias-foreground);
+  --alias-muted: color-mix(in oklch, var(--alias-theme) 10%, var(--primitive-color-charcoal));
+  --alias-muted-foreground: color-mix(in oklch, var(--alias-foreground) 65%, var(--alias-background));
+  --alias-accent: color-mix(in oklch, var(--alias-theme) 16%, var(--primitive-color-charcoal));
+  --alias-accent-foreground: var(--alias-foreground);
+  --alias-destructive: var(--primitive-color-red);
+  --alias-destructive-foreground: var(--primitive-color-white);
+  --alias-border: color-mix(in oklch, var(--alias-foreground) 14%, transparent);
+  --alias-input: color-mix(in oklch, var(--alias-foreground) 18%, transparent);
+  --alias-ring: color-mix(in oklch, var(--alias-theme) 70%, var(--primitive-color-white));
+  --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  --alias-positive: var(--primitive-color-green);
+  --alias-positive-foreground: var(--primitive-color-black);
+  --alias-neutral: var(--primitive-color-amber);
+  --alias-neutral-foreground: var(--primitive-color-black);
+  --alias-negative: var(--primitive-color-red);
+  --alias-negative-foreground: var(--primitive-color-white);
+  --alias-transparent: var(--primitive-color-transparent);
 
-$alias-dark: (
-  "background": var(--primitive-color-zinc-950),
-  "foreground": var(--primitive-color-zinc-50),
-  "card": var(--primitive-color-zinc-900),
-  "card-foreground": var(--primitive-color-zinc-50),
-  "popover": var(--primitive-color-zinc-900),
-  "popover-foreground": var(--primitive-color-zinc-50),
-  "primary": var(--primitive-color-zinc-200),
-  "primary-foreground": var(--primitive-color-zinc-900),
-  "secondary": var(--primitive-color-zinc-800),
-  "secondary-foreground": var(--primitive-color-zinc-50),
-  "muted": var(--primitive-color-zinc-800),
-  "muted-foreground": var(--primitive-color-zinc-400),
-  "accent": var(--primitive-color-zinc-800),
-  "accent-foreground": var(--primitive-color-zinc-50),
-  "destructive": var(--primitive-color-red-dark),
-  "destructive-foreground": var(--primitive-color-white),
-  "border": var(--primitive-color-white-10),
-  "input": var(--primitive-color-white-15),
-  "ring": var(--primitive-color-zinc-500),
-  "overlay": var(--primitive-color-black-50),
-  "positive": var(--primitive-color-green),
-  "positive-foreground": var(--primitive-color-black),
-  "neutral": var(--primitive-color-amber),
-  "neutral-foreground": var(--primitive-color-black),
-  "negative": var(--primitive-color-red-dark),
-  "negative-foreground": var(--primitive-color-white),
-  "transparent": var(--primitive-color-transparent),
-);
-
-@mixin wacss-emit-alias($map) {
-  @each $name, $value in $map {
-    --alias-#{$name}: #{$value};
+  @each $name in ("background", "foreground", "card", "card-foreground", "popover", "popover-foreground", "primary", "primary-foreground", "secondary", "secondary-foreground", "muted", "muted-foreground", "accent", "accent-foreground", "destructive", "destructive-foreground", "border", "input", "ring", "overlay", "positive", "positive-foreground", "neutral", "neutral-foreground", "negative", "negative-foreground", "transparent", "theme") {
     --color-#{$name}: var(--alias-#{$name});
   }
-
-  /* Compatibility aliases */
   --color-base: var(--alias-background);
   --color-surface: var(--alias-card);
   --color-pop: var(--alias-muted);
@@ -85,18 +51,60 @@ $alias-dark: (
   --color-negative-text: var(--alias-negative-foreground);
 }
 
-@mixin wacss-light-theme {
-  @include wacss-emit-alias($alias-light);
+@mixin wacss-mode-light {
+  --color-mix: var(--primitive-color-white);
+  @include wacss-emit-alias;
 }
 
-@mixin wacss-dark-theme {
-  @include wacss-emit-alias($alias-dark);
+@mixin wacss-mode-dark {
+  --color-mix: var(--primitive-color-black);
+  --alias-background: color-mix(in oklch, var(--alias-theme) 8%, var(--primitive-color-charcoal));
+  --alias-foreground: oklch(96% 0.01 160);
+  --alias-card: color-mix(in oklch, var(--alias-theme) 10%, color-mix(in oklch, var(--primitive-color-white) 6%, var(--primitive-color-charcoal)));
+  --alias-card-foreground: var(--alias-foreground);
+  --alias-popover: var(--alias-card);
+  --alias-popover-foreground: var(--alias-foreground);
+  --alias-primary: var(--alias-theme);
+  --alias-primary-foreground: var(--primitive-color-charcoal);
+  --alias-secondary: color-mix(in oklch, var(--alias-theme) 14%, var(--alias-background));
+  --alias-secondary-foreground: var(--alias-foreground);
+  --alias-muted: color-mix(in oklch, var(--alias-theme) 10%, var(--alias-background));
+  --alias-muted-foreground: color-mix(in oklch, var(--alias-foreground) 65%, var(--alias-background));
+  --alias-accent: color-mix(in oklch, var(--alias-theme) 16%, var(--alias-background));
+  --alias-accent-foreground: var(--alias-foreground);
+  --alias-destructive: color-mix(in oklch, var(--primitive-color-red) 80%, var(--primitive-color-white));
+  --alias-destructive-foreground: var(--primitive-color-white);
+  --alias-border: color-mix(in oklch, var(--alias-foreground) 14%, transparent);
+  --alias-input: color-mix(in oklch, var(--alias-foreground) 18%, transparent);
+  --alias-ring: color-mix(in oklch, var(--alias-theme) 70%, var(--primitive-color-white));
+  --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  --alias-positive: var(--primitive-color-green);
+  --alias-positive-foreground: var(--primitive-color-black);
+  --alias-neutral: var(--primitive-color-amber);
+  --alias-neutral-foreground: var(--primitive-color-black);
+  --alias-negative: color-mix(in oklch, var(--primitive-color-red) 80%, var(--primitive-color-white));
+  --alias-negative-foreground: var(--primitive-color-white);
+  --alias-transparent: var(--primitive-color-transparent);
+
+  @each $name in ("background", "foreground", "card", "card-foreground", "popover", "popover-foreground", "primary", "primary-foreground", "secondary", "secondary-foreground", "muted", "muted-foreground", "accent", "accent-foreground", "destructive", "destructive-foreground", "border", "input", "ring", "overlay", "positive", "positive-foreground", "neutral", "neutral-foreground", "negative", "negative-foreground", "transparent", "theme") {
+    --color-#{$name}: var(--alias-#{$name});
+  }
+  --color-base: var(--alias-background);
+  --color-surface: var(--alias-card);
+  --color-pop: var(--alias-muted);
+  --color-text: var(--alias-foreground);
+  --color-text-muted: var(--alias-muted-foreground);
+  --color-focus: var(--alias-ring);
+  --color-scrim: var(--alias-overlay);
+  --color-positive-text: var(--alias-positive-foreground);
+  --color-neutral-text: var(--alias-neutral-foreground);
+  --color-negative-text: var(--alias-negative-foreground);
 }
 
 :root {
-  @include wacss-light-theme;
+  --alias-theme: var(--primitive-color-matcha);
+  @include wacss-mode-light;
 
-  /* Typography, shape, motion, elevation aliases derived from primitives */
   --alias-font-body: var(--primitive-font-sans);
   --alias-font-ui: var(--primitive-font-sans);
   --alias-font-heading: var(--primitive-font-sans);
@@ -121,7 +129,6 @@ $alias-dark: (
   --alias-border-width: var(--primitive-border-width-1);
   --alias-measure: var(--primitive-measure);
 
-  /* Compatibility */
   --font-body: var(--alias-font-body);
   --font-ui: var(--alias-font-ui);
   --font-heading: var(--alias-font-heading);
@@ -144,12 +151,22 @@ $alias-dark: (
   --shadow-control: var(--alias-shadow-control);
 }
 
-.dark {
-  @include wacss-dark-theme;
+.dark { @include wacss-mode-dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) { @include wacss-mode-dark; }
 }
 
+.theme-sakura { --alias-theme: var(--primitive-color-sakura); }
+.theme-sakura, .theme-sakura.dark { /* theme set on element; modes below apply */ }
+.theme-sakura:not(.dark) { @include wacss-mode-light; }
+.theme-sakura.dark { @include wacss-mode-dark; }
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    @include wacss-dark-theme;
-  }
+  :root.theme-sakura:not(.light) { @include wacss-mode-dark; }
+}
+
+.theme-sumi { --alias-theme: var(--primitive-color-sumi); }
+.theme-sumi:not(.dark) { @include wacss-mode-light; }
+.theme-sumi.dark { @include wacss-mode-dark; }
+@media (prefers-color-scheme: dark) {
+  :root.theme-sumi:not(.light) { @include wacss-mode-dark; }
 }
