@@ -103,7 +103,40 @@ Based on the codebase, established decisions, and the direction set in this proj
 - Intent: For cases like rendering named components or media from data, use explicit, library-controlled mappings/registries and typed schemas rather than ad-hoc embedded component trees.
 In short: wacss aims to be a data-driven, globally themed, token-governed Svelte/Astro component library that achieves shadcn-like polish without Tailwind or scoped styles, favors native/accessible mechanics, and is designed so that changing values at the right token level (with compact, SCSS-generated definitions) can restyle the entire interface consistently.
 12. Color ramps should not be declared. Instead, compoonents on a more applied level deviate from the more general level by using color-mix or calc functions.
+13. Intrinsic Web Design styling principles and modern CSS.
+14. Try to stick to HTML5 Standards. That means target base elements, types, attributes
+15. Don't use [data-x] type selectors unless absolutely necessary, always try to style base elements unless it is not possible or breaks semantic html best practices.
+
+## Card
+Purpose / behavior
+- A data-driven surface used to present content (e.g. on the home page in a grid), where placing components inside a card does not require special per-instance logic.
+- The home page presents components in cards arranged in a grid (using the .grid layout, full-width, intrinsically sized so it auto-flows on resize/drawer without special logic). Each card contains one component shown in a figure.
+- The card can link to its respective component page. While linked:
+- Text remains selectable (cursor is the text-selection cursor over selectable text, not the pointer; pointer is for following the link).
+- Figure interactions still work (e.g. you can pause/play a video inside the figure without the link following through).
+Accepted props / content model
+The card accepts:
+1. Header
+- The card’s heading/title content.
+2. Text
+- Descriptive/body text shown below the figure.
+- For component showcase cards, this description must come from the component’s schema file (e.g. schema.description) and must not be duplicated elsewhere in the card/page markup.
+3. Figure (encompasses the component/media)
+- Takes data that has the schema of any wacss component.
+- The schema of every wacss component is accepted (not just media).
+- The passed schema/data is identified because it has a title property (the component/schema is recognized via that title).
+- Especially common cases are Video / Image / Audio, but any wacss component schema is valid.
+- The figure wraps/renders the component (e.g. a Video/Image/Audio player or another wacss component) inside the card.
+Related component requirements given
+- Video, Image, and Audio components must exist as wacss components (with schemas), preferably using links/sources that actually work.
+- Their schemas are accepted by the card’s figure like any other wacss component schema.
+Layout/presentation context (home page)
+- Cards are laid out in a grid of component cards.
+- Each card includes: a header, a figure containing one component, and description text below sourced from that component’s schema.
+- Grid is full-width and intrinsically sized for automatic reflow (no special logic for drawers/resizing).
+
 
 ## Forms from JSON Schema
 
 Declarative forms with jsonschema.
+
