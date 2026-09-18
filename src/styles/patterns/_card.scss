@@ -1,12 +1,11 @@
 [wacss="card"],
-article[data-wacss-card],
-section[data-wacss-card],
+[data-wacss="card"],
 [data-wacss-card] {
   display: flex;
   flex-direction: column;
   gap: var(--gap-card);
   padding-block: var(--padding-card-block);
-  padding-inline: var(--padding-card-inline);
+  block-size: 100%;
   background: var(--background-card);
   color: var(--text-card);
   border: var(--border-width-ui) solid var(--border-card);
@@ -14,20 +13,13 @@ section[data-wacss-card],
   box-shadow: var(--shadow-card);
 }
 
-[wacss="card"] > :last-child,
-[data-wacss-card] > :last-child {
-  margin-block-end: 0;
-}
-
-[wacss="card-header"],
-[wacss="card"] > header {
+[data-wacss="card-header"] {
   display: grid;
   gap: var(--gap-card-header);
   padding: var(--padding-card-header);
 }
 
-[wacss="card-title"],
-[wacss="card"] > header > h3 {
+[data-wacss="card-title"] {
   margin: 0;
   color: var(--text-card-title);
   font-size: var(--font-size-card-title);
@@ -35,48 +27,46 @@ section[data-wacss-card],
   line-height: var(--line-card-title);
 }
 
-[wacss="card-description"],
-[wacss="card"] > header > p {
-  margin: 0;
-  color: var(--text-card-description);
-  font-size: var(--font-size-card-description);
+[data-wacss="card"][data-href] {
+  cursor: pointer;
 }
 
-[wacss="card-content"] {
+[data-wacss="card"][data-href] [data-wacss="card-text"],
+[data-wacss="card"][data-href] [data-wacss="card-description"],
+[data-wacss="card"][data-href] p,
+[data-wacss="card"][data-href] h3,
+[data-wacss="card"][data-href] figcaption {
+  cursor: text;
+}
+
+[data-wacss="card-link"] {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+[data-wacss="card-link"]:hover {
+  text-decoration: underline;
+}
+
+[data-wacss="card-content"] {
   display: grid;
   gap: var(--gap-card-content);
   padding: var(--padding-card-content);
 }
 
-[wacss="card-content"] > :last-child {
-  margin-block-end: 0;
-}
-
-[wacss="card-media"] {
+[data-wacss="card-figure"] {
   margin: 0;
-  display: grid;
-  gap: var(--space-2);
+  padding: 0;
 }
 
-[wacss="card-media"] img,
-[wacss="card-media"] video {
-  inline-size: 100%;
-  block-size: auto;
-  border-radius: calc(var(--radius-card) - var(--space-1));
-  display: block;
-}
-
-[wacss="card-media"] audio {
-  inline-size: 100%;
-}
-
-[wacss="card-media"] figcaption {
+[data-wacss="card-text"] {
+  margin: 0;
   color: var(--text-card-description);
   font-size: var(--font-size-card-description);
 }
 
-[wacss="card-footer"],
-[wacss="card"] > footer {
+[data-wacss="card-footer"] {
   display: flex;
   align-items: center;
   padding: var(--padding-card-footer);

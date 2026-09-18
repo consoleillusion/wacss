@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { Select as BitsSelect } from "bits-ui";
   import type { SelectProps } from "../types";
   import { persistState } from "../persist.svelte";
+  import { ACCENT_THEME_NAMES, emitAccentChange, readAccentState, subscribeAccentChange } from "../accent";
 
   let {
     options = [],
@@ -17,19 +19,71 @@
     class: className = "",
     contentClass = "",
     triggerProps,
+    onValueChange,
+    accentSelector = false,
     ...restProps
-  }: SelectProps = $props();
+  }: SelectProps & { onValueChange?: (value: string | string[]) => void; accentSelector?: boolean } = $props();
 
   const classes = $derived(["wacss-select", className].filter(Boolean).join(" "));
   const contentClasses = $derived(
     ["wacss-select-content", contentClass].filter(Boolean).join(" "),
   );
 
+  const items = $derived(
+    accentSelector
+      ? [
+          ...options.map((o) => ({ value: o.value, label: o.label, disabled: o.disabled })),
+          { value: "custom", label: "Custom" },
+        ]
+      : options,
+  );
+
+  function applyAccent(next: string | string[], fromUser = false) {
+    if (!accentSelector || Array.isArray(next)) return;
+    if (next === "custom") {
+      try {
+        const c = localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent");
+        if (c) {
+          document.documentElement.style.setProperty("--alias-theme", c);
+          document.documentElement.style.setProperty("--alias-accent", c);
+        }
+      } catch {}
+      emitAccentChange({ source: "custom", color: localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent") ?? "" });
+      return;
+    }
+    // Don't clobber an active custom accent unless user explicitly picks a preset.
+    if (!fromUser) {
+      try {
+        if (localStorage.getItem("wacss:accent") === "custom") return;
+      } catch {}
+    }
+    const root = document.documentElement;
+    for (const t of ACCENT_THEME_NAMES) root.classList.remove(`theme-${t}`);
+    root.style.removeProperty("--alias-theme");
+    root.style.removeProperty("--alias-accent");
+    if (ACCENT_THEME_NAMES.includes(next)) root.classList.add(`theme-${next}`);
+    try {
+      localStorage.setItem("wacss:accent", next);
+      localStorage.removeItem("wacss:accent-color");
+    } catch {}
+    emitAccentChange({ source: "preset", theme: next });
+  }
+
+  // Accent-aware selects reflect the currently applied accent, and stay in sync.
+  onMount(() => {
+    if (!accentSelector) return () => {};
+    const sync = (state: { source: string; theme?: string; color?: string }) => {
+      if (state.source === "preset" && state.theme) value = state.theme;
+      else if (state.source === "custom") value = "custom";
+    };
+    const state = readAccentState();
+    if (state.source !== "none") sync(state);
+    return subscribeAccentChange(sync);
+  });
+
   persistState({
     get: () => value,
-    set: (next) => {
-      value = next;
-    },
+    set: (next) => { value = next; if (!accentSelector) return; if (typeof next === "string" && next === "custom") return; onValueChange?.(next); applyAccent(next, false); },
     key: () => storageKey,
     enabled: () => persist,
   });
@@ -42,10 +96,11 @@
   {disabled}
   {required}
   {name}
-  items={options}
+  items={accentSelector ? [...options.map((o) => ({ value: o.value, label: o.label, disabled: o.disabled })), { value: "custom", label: "Custom" }] : options}
   class={classes}
   data-wacss="select"
   data-type={type}
+  onValueChange={(next: string | string[]) => { value = next; onValueChange?.(next); if (accentSelector) applyAccent(next, true); }}
 >
   <BitsSelect.Trigger id={id} {...triggerProps} data-wacss="select-trigger">
     <BitsSelect.Value {placeholder} />
@@ -68,7 +123,7 @@
   <BitsSelect.Portal>
     <BitsSelect.Content class={contentClasses} data-wacss="select-content">
       <BitsSelect.Viewport data-wacss="select-viewport">
-        {#each options as option (option.value)}
+        {#each items as option (option.value)}
           <BitsSelect.Item
             value={option.value}
             label={option.label}

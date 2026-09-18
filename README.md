@@ -1,142 +1,168 @@
 # wacss
 
-A high-level, data-driven Svelte component library with a single global, token-driven stylesheet. Pass data, get a complete accessible UI.
+A high-level, data-driven component library with a single global, token-driven stylesheet. Pass data, get a complete accessible UI.
 
-The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, accessibility, calm defaults, and a small public surface over configuration.
+The **wa** comes from **和 (wa)**: harmony, balance, and conformity within a group. Here that means harmony with users, developers, and web standards. The design draws on Japanese Wabi-Sabi and Western editorial minimalism.
 
-## Token hierarchy
+The library follows globally recognised accessibility standards, is pleasant for users, and is frictionless for developers. It styles elements rather than classes, and it encourages real semantic HTML over invented classes. JavaScript is used only where accessibility needs it.
 
-Styling is a strict five-layer cascade. A layer may only reference the layer above it; component normal states use component tokens and interactive states use state tokens.
+---
 
-1. **Primitive** — raw values only: hues, type scale, space, radius, shadow, motion (`--color-zinc`, `--space-4`, `--radius-md`, `--motion-fast`).
-2. **Alias** — semantic roles built from primitives (`--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body`, `--shadow-surface`).
-3. **Component** — component roles built from alias tokens (`--background-button`, `--text-button`, `--radius-card`, `--padding-dialog`).
-4. **Role** . Primary, Secondary, Tertiary, Standard. This is a layer that allows for emphasis. (`--background-button-standard`, `--background-button-primary`). Just use standard if you do not want any special emphasis. A standard button will be a reference to secondary by default. A standard button has standard styling. A primary button has call to action styling and the `pop` color.
-5. **State** — hover, active, focus, selected, and disabled values derived from component tokens (`--background-button-hover`, `--ring-input-focus`, `--opacity-switch-disabled`).
+## 1. Philosophy
+
+Each aesthetic principle is paired with how it shapes the library.
+
+| Principle | Meaning | In practice |
+|---|---|---|
+| **Wa (和)** | Harmony with users, developers, and standards | Use native browser behaviour and platform conventions. Be accessible by default. Keep the public surface small. |
+| **Kanso (簡素)** | Simplicity; remove what is unnecessary | Classless styling, semantic HTML, few tokens edited at the right level. Clarity over decoration. |
+| **Ma (間)** | Space, interval, timing | Whitespace is an active element that creates rhythm and hierarchy. |
+| **Fukinsei (不均斉)** | Asymmetry | Balance without mirror symmetry; layouts need not be uniform. |
+| **Shizen (自然)** | Naturalness | Intrinsic sizing, soft borders and shadows, organic motion. |
+| **Kokō (古高)** | Weathered grace | Faded, mature surfaces that feel enduring rather than pristine. |
+| **Yūgen (幽玄)** | Beauty felt more than seen | Suggestion over statement; restrained colour. |
+| **Datsuzoku (脱俗)** | Freedom from convention | Occasional quiet surprises that stay graceful. |
+| **Shibui (渋い)** | Restrained depth | Understated beauty that reveals itself over time. |
+| **Seijaku (静寂)** | Energized calm | Nothing moves without purpose; the result is a quiet the reader can rest in. |
+
+**Hidden detail** (Yūgen, Shibui, Datsuzoku): small discoveries that reward attention, such as swatch names appearing on hover.
+
+---
+
+## 2. Design rules
+
+### Markup and semantics
+- **Semantic HTML is enough.** Good HTML should need little CSS and little extra markup.
+- **Stick to HTML5.** Target base elements, input types, and standard attributes.
+- **Classless by default.** Style native elements, not utility or component classes.
+- **Select by tag, then ARIA or HTML state, then plain attributes.** Use `[data-*]` only when no semantic equivalent exists and styling the base element would break semantic best practice.
+- **Prefer native mechanics.** For example, an accordion is `<details>/<summary>` with CSS-only animation.
+
+### Accessibility
+- Accessibility is part of the system, not an enhancement. Meet global standards by default.
+
+### Styling
+- **One global stylesheet.** SCSS in `src/styles/**` builds to `dist/wacss.css`. No Tailwind, and no scoped `<style>` blocks in Astro where possible, Svete elsewhere.
+- **Tokens, not overrides.** Customise through variables rather than increasingly specific selectors.
+- **Compact SCSS.** Generate scales and families (spacing, radius 1–12, themes) with loops, maps, and mixins.
+- **Intrinsic web design and modern CSS.** Components size to their content and layouts reflow without special logic.
+- **Match shadcn-svelte** in default look and behaviour, using wacss's own SCSS and tokens.
+
+### Colour
+- Desaturated, earthy, muted palettes with a neutral foundation and limited accents that carry meaning.
+- **Never declare colour ramps.** Derive variations with `color-mix()`, `calc()`, `pow()` or  other css functions.
+
+### Motion and surfaces
+- Motion communicates state or interaction. It is smooth, measured, quiet, and never distracting.
+- Borders and shadows are soft and subtle.
+
+### JavaScript
+- Use CSS whenever it can do the job. Use JS only for accessibility behaviour that CSS cannot provide.
+
+### Component API
+- **Data-driven, one-line usage.** Components render fully from props (`items`, `tabs`, `jsonschema`, `media`, `component` + `data`) instead of nested markup or long attribute lists.
+  ```svelte
+  <Accordion items={...} />
+  <Tabs tabs={...} />
+  <Form {jsonschema} action={...} />
+  <Card component="..." data={...} />
+  ```
+- **Registries over component trees.** Named components and media resolve from library-controlled registries and typed schemas, never ad-hoc embedded trees.
+- **Predictable state.** Value components are controlled or bindable and can optionally persist (storage key and default).
+- **Built-in affordances.** Light/dark toggle (top right) with persisted preference and flash prevention, plus a consistent navbar, all styled through the same tokens.
+
+---
+
+## 3. Token hierarchy
+
+Styling is a strict five-layer chain. Only primitives hold real values, and each layer derives from the one above it.
+
+| # | Layer | Holds | Examples |
+|---|---|---|---|
+| 1 | **Primitive** | Raw values: hues, type scale, space, radius, shadow, motion | `--color-indigo`, `--space-4`, `--radius-md`, `--motion-fast` |
+| 2 | **Semantic** | Meanings built from primitives | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
+| 3 | **Component** | Component anatomy built from semantic tokens | `--background-button`, `--text-button`, `--radius-card`, `--padding-dialog` |
+| 4 | **Role** | Emphasis: Primary, Secondary, Tertiary, Standard | `--background-button-primary`, `--background-button-standard` |
+| 5 | **State** | Final per-state values: default, hover, active, focus, selected, open, disabled | `--background-button-hover`, `--ring-input-focus`, `--opacity-switch-disabled` |
+
+**Role notes:**
+- Standard aliases Secondary by default and is the choice when no special emphasis is wanted.
+- Primary is the call-to-action style and uses the `pop` colour.
+
+**Rules:**
+- Lower layers reference higher layers, never raw literals.
+- Rendered styles consume layer 5 (final state tokens).
+- Many token families, such as a colour theme, derive from a single higher-level token.
+- **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
+- Light and dark values follow `prefers-color-scheme`. Add a `light` or `dark` class on `<html>` to override.
 
 ```css
 :root {
-  /* primitive */
-  --color-indigo: oklch(58.5% 0.19 275);
-
-  /* alias */
-  --color-accent: var(--color-indigo);
-  --color-accent-text: var(--color-white);
-
-  /* component */
-  --background-button: var(--color-accent);
-  --text-button: var(--color-accent-text);
-
-  /* state */
-  --background-button-hover: color-mix(in oklch, var(--background-button), var(--mix-color) 10%);
+  --color-indigo: oklch(58.5% 0.19 275);                       /* primitive */
+  --color-accent: var(--color-indigo);                         /* semantic  */
+  --background-button: var(--color-accent);                    /* component */
+  --background-button-standard: var(--background-button);      /* role      */
+  --background-button-standard-hover:                          /* state     */
+    color-mix(in oklch, var(--background-button-standard), var(--mix-color) 10%);
 }
 
-button {
-  background: var(--background-button);
-  color: var(--text-button);
-}
-
-button:hover {
-  background: var(--background-button-hover);
-}
+button       { background: var(--background-button-standard); color: var(--text-button); }
+button:hover { background: var(--background-button-standard-hover); }
 ```
 
-Because every component style consumes these tokens, restyling the library means replacing one token set at `:root`. Light and dark values follow `prefers-color-scheme`; add the `light` or `dark` class to `<html>` to override.
+---
 
-## Attribute hooks
+## 4. Themes
 
-Semantic attributes (`aria-*`, `data-state`, `data-disabled`) come from the native elements or bits-ui. Visual hooks are namespaced as `data-wacss="..."` so they never collide with user content:
+| Theme | Description |
+|---|---|
+| **Matcha (抹茶)** | Fresh green from powdered green tea; natural vibrancy, clean and balanced. |
+| **Sakura (桜)** | Delicate cherry-blossom pink; light, warm, welcoming. |
+| **Sumi (墨)** | Ink black, as in Japanese calligraphy. |
+| **Aizome (藍染)** | Indigo-dyed blues; traditional textiles, refined and timeless. |
+| **Kurenai (紅)** | Vivid crimson; energetic and confident. |
+| **Yakisugi (焼杉)** | Charred wood; deep black and smoky grey, rustic and minimalist. |
 
-## Aesthetic direction
+---
 
-Calming, spacious, faded, and readable: muted palettes, gentle surfaces, subtle borders and shadows, and transitions that help usability without demanding attention. The default look follows shadcn-svelte; the token hierarchy is what makes it yours.
+## 5. Components
 
-## Principles, Goals, and Purposes of wacss
-Based on the codebase, established decisions, and the direction set in this project, the library aims to follow these principles and goals:
-1. Data-driven, high-level (“one-line”) component APIs
-- Goal: Components should be usable by passing data, not by assembling lots of markup or child components.
-- Pattern: Provide fully rendered UI from props like items, options, tabs, values, jsonschema/uiSchema, media, component + data, etc. (e.g. `<Accordion items={...} />`, `<Tabs tabs={...} />`, `<Form jsonschema={...} />`, `<Card component="..." data={...} />`).
-- Intent: Minimize boilerplate and imperative composition; favor declarative data/configuration over “500 attributes” or deeply nested wrapper components.
-2. Global, classless-first styling (no Tailwind, no scoped component styles)
-- Goal: All styling lives in global SCSS (src/styles/** → built to dist/wacss.css), not in Tailwind utilities or Svelte/Astro scoped `<style>` blocks.
-- Intent: A single, coherent global stylesheet/theme that can style the interface consistently.
-- Direction (in progress): Prefer semantic tags and ARIA/HTML state attributes for targeting; avoid data-* hooks where a tag or ARIA/semantic attribute expresses the same thing, and use plain (non-data-* ) attributes only where no semantic equivalent exists.
-3. Strict, hierarchical design-token system (styling source of truth)
-- Goal: All visual decisions flow through a disciplined token hierarchy so the UI is systematically themeable and consistent.
-- Five levels (in order of derivation):
-1. Primitive / global — real/raw values only; no references upward.
-2. Alias / semantic — semantic meanings derived from primitives (e.g. background/foreground/primary/muted).
-3. Component — component anatomy and base values derived from alias/semantic tokens.
-4. Role — emphasis roles derived from component tokens (e.g. primary, secondary, tertiary, normal; normal aliases secondary).
-5. State — finalized, state-specific tokens (default/hover/active/focus/disabled/selected/open, etc.) derived from role/component/alias/primitive.
-- Rules/intent:
-- Only primitives hold real values. Higher levels reference lower levels, never raw literals (except where structurally necessary during definition).
-- All styling consumes finalized state tokens (the end of the chain) so appearance is controlled through the token system.
-- No hierarchy confusion: each level has a clear responsibility and derivation direction.
-4. Whole-interface theming by “paste-at-any-level” overrides
-- Goal: A user should be able to paste/override a token set at any single level (primitives, alias/semantic, component, role, or state) and restyle the whole interface coherently.
-- Intent: Make re-theming, branding, and customization simple and predictable without hunting through component CSS.
-5. Compact, maintainable token definitions (SCSS-driven)
-- Goal: Keep higher-level token files (and styling) concise and easy to modify with few changes.
-- Means: Use SCSS features—loops, maps, mixins, and variables—to generate scales and families (e.g. spacing, radius 1–12, color ramps, theme maps) instead of repetitive hand-written declarations.
-- Intent: Small edits at the right level should propagate broadly.
-6. Visual and behavioral alignment with shadcn-svelte (without Tailwind)
-- Goal: Default look-and-feel should match shadcn-svelte’s design language and component behavior as closely as practical.
-- Constraint: Achieve that parity using the library’s own global SCSS and token system, not Tailwind classes or copied utility patterns.
-7. Prefer native, simple, and accessible platform features
-- Goal: Use built-in HTML/CSS capabilities when they satisfy the need, reducing JavaScript and complexity.
-- Examples/intent:
-- Accordion: native <details>/<summary> with CSS-only open/close animation (no JavaScript for toggling/animation).
-- Leverage semantic elements, form controls, and ARIA/HTML states for behavior and styling hooks where appropriate.
-- Purpose: Better accessibility, robustness, performance, and progressive behavior.
-8. Built-in theming and user experience affordances
-- Goal: Provide first-class, ready-to-use experience primitives.
-- Examples/intent: Light/dark theme support with a top-right toggle, persisted preference (e.g. localStorage) and flash-prevention, and a consistent navbar/site chrome—all styled through the same token/global-SCSS system.
-9. Consistent state, persistence, and interactivity model
-- Goal: Value/stateful components behave predictably and can preserve user state where appropriate.
-- Intent: Components support controlled/bindable values and, where relevant, optional persistence (e.g. storage keys/defaults) as part of a coherent interaction model.
-10. Svelte and Astro compatibility as a component library
-- Goal: Deliver components usable in Svelte and/or Astro contexts with a unified styling system and exports/types.
-- Intent: One library (wacss) with shared tokens/CSS and component implementations appropriate to each environment (e.g. .svelte islands, .astro components where native/SSR-friendly).
-11. Extensibility through structured data and registries (where needed)
-- Goal: Enable rich composition without markup composition by resolving known building blocks from data.
-- Intent: For cases like rendering named components or media from data, use explicit, library-controlled mappings/registries and typed schemas rather than ad-hoc embedded component trees.
-In short: wacss aims to be a data-driven, globally themed, token-governed Svelte/Astro component library that achieves shadcn-like polish without Tailwind or scoped styles, favors native/accessible mechanics, and is designed so that changing values at the right token level (with compact, SCSS-generated definitions) can restyle the entire interface consistently.
-12. Color ramps should not be declared. Instead, compoonents on a more applied level deviate from the more general level by using color-mix or calc functions.
-13. Intrinsic Web Design styling principles and modern CSS.
-14. Try to stick to HTML5 Standards. That means target base elements, types, attributes
-15. Don't use [data-x] type selectors unless absolutely necessary, always try to style base elements unless it is not possible or breaks semantic html best practices.
+| Group | Components |
+|---|---|
+| Blocks | Navbar, Gallery |
+| Typography | Blockquote, Code Block, Link |
+| Buttons | Button, Close Button, Icon Button |
+| Date and time | Date Picker, Calendar |
+| Forms | Form (declarative, from a JSON Schema), Checkbox, Input, Number Input, Password Input |
+| Disclosure | Accordion, Breadcrumb, Carousel |
+| Data display | Avatar, Badge, Card, Image, Data List, Icon, Table, Tag |
+| Media (required, with schemas) | Video, Image, Audio, using links that actually work |
 
-## Card
-Purpose / behavior
-- A data-driven surface used to present content (e.g. on the home page in a grid), where placing components inside a card does not require special per-instance logic.
-- The home page presents components in cards arranged in a grid (using the .grid layout, full-width, intrinsically sized so it auto-flows on resize/drawer without special logic). Each card contains one component shown in a figure.
-- The card can link to its respective component page. While linked:
-- Text remains selectable (cursor is the text-selection cursor over selectable text, not the pointer; pointer is for following the link).
-- Figure interactions still work (e.g. you can pause/play a video inside the figure without the link following through).
-Accepted props / content model
-The card accepts:
-1. Header
-- The card’s heading/title content.
-2. Text
-- Descriptive/body text shown below the figure.
-- For component showcase cards, this description must come from the component’s schema file (e.g. schema.description) and must not be duplicated elsewhere in the card/page markup.
-3. Figure (encompasses the component/media)
-- Takes data that has the schema of any wacss component.
-- The schema of every wacss component is accepted (not just media).
-- The passed schema/data is identified because it has a title property (the component/schema is recognized via that title).
-- Especially common cases are Video / Image / Audio, but any wacss component schema is valid.
-- The figure wraps/renders the component (e.g. a Video/Image/Audio player or another wacss component) inside the card.
-Related component requirements given
-- Video, Image, and Audio components must exist as wacss components (with schemas), preferably using links/sources that actually work.
-- Their schemas are accepted by the card’s figure like any other wacss component schema.
-Layout/presentation context (home page)
-- Cards are laid out in a grid of component cards.
-- Each card includes: a header, a figure containing one component, and description text below sourced from that component’s schema.
-- Grid is full-width and intrinsically sized for automatic reflow (no special logic for drawers/resizing).
+### Card
 
+A data-driven surface for presenting content. Placing a component in a card needs no per-instance logic.
 
-## Forms from JSON Schema
+**Props**
 
-Declarative forms with jsonschema.
+| Prop | Content |
+|---|---|
+| Header | The card's title. |
+| Text | Body text below the figure. For showcase cards, it comes from the component's schema (`schema.description`) and appears nowhere else in the card or page. |
+| Figure | Data matching any wacss component schema, recognised by its `title` property. Video, Image, and Audio are the common cases. The figure renders that component inside the card. |
 
+**Behaviour when linked to a component page**
+- Text stays selectable and shows the text cursor. The pointer cursor is reserved for following the link.
+- Figure controls still work (for example, pausing a video does not follow the link).
+
+**Home-page layout**
+- Cards sit in a full-width `.grid`, intrinsically sized so it reflows on resize or drawer toggle without special logic.
+- Each card has a header, a figure containing one component, and its schema description below.
+
+---
+
+## 6. Open questions
+
+Inconsistencies in the source notes that need a decision:
+
+2. **State-token derivation.** One section says a layer references only the layer above it, and that state derives from component tokens. Another says state derives from "role/component/alias/primitive", and the example derives state from role. The chain should be role → state.
+3. **Classless vs components.** Classless styling and a component library overlap. State when Svelte or Astro components are expected and when plain HTML should suffice.

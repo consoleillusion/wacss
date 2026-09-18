@@ -127,20 +127,20 @@
   --state-button-spinner-border: var(--component-button-spinner-border);
 
   /* Input (final/state) */
-  --state-input-bg: var(--alias-transparent);
+  --state-input-bg: var(--alias-card);
   --state-input-fg: var(--alias-foreground);
   --state-input-placeholder: var(--alias-muted-foreground);
   --state-input-border: var(--alias-input);
-  --state-input-border-hover: var(--state-input-border);
+  --state-input-border-hover: color-mix(in oklch, var(--alias-ring) 40%, var(--alias-input));
   --state-input-border-focus: var(--alias-ring);
   --state-input-border-invalid: var(--role-destructive-bg);
   --state-input-ring: var(--alias-ring);
-  --state-input-ring-focus: color-mix(in oklch, var(--state-input-ring), transparent 50%);
+  --state-input-ring-focus: color-mix(in oklch, var(--state-input-ring), transparent 70%);
   --state-input-ring-invalid: var(--role-destructive-bg);
   --state-input-ring-invalid-focus: color-mix(in oklch, var(--state-input-ring-invalid), transparent 80%);
-  --state-input-bg-disabled: color-mix(in oklch, var(--alias-input), transparent var(--component-input-disabled-mix));
-  --state-input-fg-disabled: var(--alias-foreground);
-  --state-input-border-disabled: var(--alias-input);
+  --state-input-bg-disabled: color-mix(in oklch, var(--alias-muted), var(--alias-background));
+  --state-input-fg-disabled: var(--alias-muted-foreground);
+  --state-input-border-disabled: var(--alias-border);
   --state-input-disabled-opacity: var(--primitive-opacity-disabled);
   --state-input-radius: var(--component-input-radius);
   --state-input-height: var(--component-input-height);
@@ -244,14 +244,14 @@
   --state-switch-disabled-opacity: var(--primitive-opacity-disabled);
 
   /* Select (final/state) */
-  --state-select-bg: var(--alias-transparent);
+  --state-select-bg: var(--alias-card);
   --state-select-fg: var(--alias-foreground);
   --state-select-placeholder: var(--alias-muted-foreground);
   --state-select-border: var(--alias-input);
-  --state-select-border-hover: var(--alias-input);
+  --state-select-border-hover: color-mix(in oklch, var(--alias-ring) 40%, var(--alias-input));
   --state-select-border-focus: var(--alias-ring);
   --state-select-ring: var(--alias-ring);
-  --state-select-ring-focus: color-mix(in oklch, var(--state-select-ring), transparent 50%);
+  --state-select-ring-focus: color-mix(in oklch, var(--state-select-ring), transparent 70%);
   --state-select-ring-width: var(--component-select-ring-width);
   --state-select-radius: var(--component-select-radius);
   --state-select-height: var(--component-select-height);
@@ -268,8 +268,8 @@
   --state-select-item-fg: var(--alias-popover-foreground);
   --state-select-item-bg-highlighted: var(--alias-accent);
   --state-select-item-fg-highlighted: var(--alias-accent-foreground);
-  --state-select-item-bg-selected: var(--alias-transparent);
-  --state-select-item-fg-selected: var(--alias-popover-foreground);
+  --state-select-item-bg-selected: var(--alias-accent);
+  --state-select-item-fg-selected: var(--alias-accent-foreground);
   --state-select-item-radius: var(--component-select-item-radius);
   --state-select-item-py: var(--component-select-item-padding-block);
   --state-select-item-px: var(--component-select-item-padding-inline);

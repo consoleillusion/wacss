@@ -55,19 +55,19 @@
   data-size="sm"
   class="theme-toggle"
   onclick={toggle}
-  aria-label={resolved === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-  title={resolved === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+  aria-label={resolved === "dark" ? "Dark mode (switch to light)" : "Light mode (switch to dark)"}
+  title={resolved === "dark" ? "Dark mode (switch to light)" : "Light mode (switch to dark)"}
 >
   {#if resolved === "dark"}
+    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M13.5 8.5a5.5 5.5 0 1 1-6-6 4.5 4.5 0 0 0 6 6Z" />
+    </svg>
+    <span>Dark</span>
+  {:else}
     <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <circle cx="8" cy="8" r="3.25" />
       <path d="M8 1.5v1.5M8 13v1.5M14.5 8H13M3 8H1.5M12.6 3.4l-1.06 1.06M4.46 11.54 3.4 12.6M12.6 12.6l-1.06-1.06M4.46 4.46 3.4 3.4" />
     </svg>
     <span>Light</span>
-  {:else}
-    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M13.5 8.5a5.5 5.5 0 1 1-6-6 4.5 4.5 0 0 0 6 6Z" />
-    </svg>
-    <span>Dark</span>
   {/if}
 </button>
