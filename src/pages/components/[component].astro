@@ -24,6 +24,10 @@ import ContextMenu from "../../components/ContextMenu/ContextMenu.svelte";
 import Slider from "../../components/Slider/Slider.svelte";
 import Meter from "../../components/Meter/Meter.svelte";
 import AspectRatio from "../../components/AspectRatio/AspectRatio.svelte";
+import ColorPicker from "../../components/ColorPicker/ColorPicker.svelte";
+import ColorInput from "../../components/ColorInput/ColorInput.svelte";
+import DatePicker from "../../components/DatePicker/DatePicker.svelte";
+import NavigationMenu from "../../components/NavigationMenu/NavigationMenu.svelte";
 import FormDemo from "../../islands/FormDemo.svelte";
 
 import { schemas } from "../../spec/index";
@@ -73,6 +77,10 @@ const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, un
   slider: { Component: Slider, schema: schemas.slider },
   meter: { Component: Meter, schema: schemas.meter },
   aspectRatio: { Component: AspectRatio, schema: schemas.aspectRatio },
+  color: { Component: ColorInput, schema: schemas.color },
+  colorpicker: { Component: ColorPicker, schema: schemas.colorPicker },
+  datepicker: { Component: DatePicker, schema: schemas.datePicker },
+  navigationmenu: { Component: NavigationMenu, schema: schemas.navigationMenu },
 };
 
 const componentInfo = COMPONENTS[entry];
@@ -103,6 +111,10 @@ export function getStaticPaths() {
     "slider",
     "meter",
     "aspectRatio",
+    "color",
+    "colorpicker",
+    "datepicker",
+    "navigationmenu",
   ].map((key) => ({ params: { component: key } }));
 }
 
@@ -141,13 +153,13 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
       (() => {
         try {
           const stored = localStorage.getItem("wacss:theme");
-          if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+          if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
           const accent = localStorage.getItem("wacss:accent");
           const themes = ["sakura", "shibui", "sumi"];
           if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
           else if (accent === "custom") {
             const c = localStorage.getItem("wacss:accent-color");
-            if (c) { document.documentElement.style.setProperty("--alias-theme", c); document.documentElement.style.setProperty("--alias-accent", c); }
+            if (c) { document.documentElement.style.setProperty("--color-theme", c); document.documentElement.style.setProperty("--color-accent", c); }
           }
         } catch {}
       })();
@@ -223,9 +235,25 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "radioGroup" && <RadioGroup client:load />}
             {entry === "alertDialog" && <AlertDialog client:load />}
             {entry === "contextMenu" && <ContextMenu client:load />}
-            {entry === "slider" && <Slider client:load />}
+            {entry === "slider" && <Slider client:load accentSelector />}
             {entry === "meter" && <Meter client:load />}
             {entry === "aspectRatio" && <AspectRatio client:load />}
+            {entry === "color" && <ColorInput client:load label="Accent" value="#6d9469" accentSelector />}
+            {entry === "colorpicker" && <ColorPicker client:load label="Color" value="#6d9469" />}
+            {entry === "datepicker" && <DatePicker client:load label="Date" />}
+            {entry === "navigationmenu" && (
+              <NavigationMenu client:load items={[
+                { label: "Getting started", links: [
+                  { href: "#", label: "Introduction", description: "Token-driven global CSS components." },
+                  { href: "#", label: "Installation", description: "Add dist/wacss.css to your project." },
+                ]},
+                { label: "Components", links: [
+                  { href: "/components/button/", label: "Button", description: "Actions and variants." },
+                  { href: "/components/form/", label: "Form", description: "JSON Schema-driven forms." },
+                ]},
+                { label: "Docs", href: "/components/" },
+              ]} />
+            )}
           </div>
         </section>
 

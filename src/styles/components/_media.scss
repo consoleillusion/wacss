@@ -10,8 +10,19 @@
 [data-wacss="video"] video {
   inline-size: 100%;
   block-size: auto;
-  border-radius: var(--radius-md);
   display: block;
+}
+
+[data-wacss="image"] img {
+  aspect-ratio: 3 / 4;
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: cover;
+}
+
+[data-wacss="card-figure"] > [data-wacss="image"],
+[data-wacss="card-figure"] [data-wacss="image"] {
+  inline-size: 100%;
 }
 
 [data-wacss="audio"] audio {
@@ -23,4 +34,26 @@
 [data-wacss="audio"] figcaption {
   color: var(--text-muted);
   font-size: var(--text-sm);
+}
+
+/* Edge-to-edge media in card figures; captions keep padding */
+[data-wacss="card-figure"] > [data-wacss="image"],
+[data-wacss="card-figure"] > [data-wacss="video"],
+[data-wacss="card-figure"] > [data-wacss="audio"] {
+  inline-size: 100%;
+}
+
+[data-wacss="card-figure"] [data-wacss="image"] img,
+[data-wacss="card-figure"] [data-wacss="video"] video,
+[data-wacss="card-figure"] [data-wacss="image"],
+[data-wacss="card-figure"] [data-wacss="video"],
+[data-wacss="card-figure"] [data-wacss="audio"] {
+  border-radius: 0;
+}
+
+[data-wacss="card-figure"] [data-wacss="image"] figcaption,
+[data-wacss="card-figure"] [data-wacss="video"] figcaption,
+[data-wacss="card-figure"] [data-wacss="audio"] figcaption {
+  padding-inline: var(--padding-card-inline, 1rem);
+  padding-block-end: var(--space-2);
 }

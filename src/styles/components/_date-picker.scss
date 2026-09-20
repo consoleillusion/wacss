@@ -1,0 +1,164 @@
+/* DatePicker (bits-ui) ---------------------------------------------------- */
+
+[data-wacss="date-picker-field"] {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  inline-size: 100%;
+}
+
+[data-wacss="date-picker-input"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  block-size: var(--height-input);
+  padding: 0 var(--padding-input-inline);
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--text-input);
+  font-size: var(--font-size-input);
+}
+
+[data-wacss="date-picker-input"]:focus-within {
+  border-color: var(--border-input-focus);
+  outline: var(--ring-input-width) solid var(--ring-input-focus);
+  outline-offset: 0;
+}
+
+[data-wacss="date-picker-segment"] {
+  padding: 0.0625rem 0.125rem;
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+[data-wacss="date-picker-segment"][data-placeholder] {
+  color: var(--placeholder-input);
+}
+
+[data-wacss="date-picker-segment"]:focus {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+[data-wacss="date-picker-trigger"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  inline-size: var(--height-input);
+  block-size: var(--height-input);
+  padding: 0;
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition:
+    background var(--motion-ui) var(--ease-ui),
+    border-color var(--motion-ui) var(--ease-ui),
+    color var(--motion-ui) var(--ease-ui);
+}
+
+[data-wacss="date-picker-trigger"]:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+[data-wacss="date-picker-content"] {
+  z-index: var(--z-select-content, 50);
+  padding: var(--space-3);
+  border: var(--border-width-ui) solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-popover, var(--color-card));
+  color: var(--color-popover-foreground, var(--color-card-foreground));
+  box-shadow: var(--shadow-overlay);
+}
+
+[data-wacss="calendar-header"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-block-end: var(--space-2);
+}
+
+[data-wacss="calendar-heading"] {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+[data-wacss="calendar-nav"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border: var(--border-width-ui) solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-foreground);
+  cursor: pointer;
+}
+
+[data-wacss="calendar-nav"]:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+[data-wacss="calendar-grid"] {
+  inline-size: 100%;
+  border-collapse: collapse;
+}
+
+[data-wacss="calendar-head-cell"] {
+  inline-size: 2rem;
+  block-size: 2rem;
+  padding: 0;
+  color: var(--color-muted-foreground);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  text-align: center;
+}
+
+[data-wacss="calendar-cell"] {
+  padding: 0;
+  text-align: center;
+}
+
+[data-wacss="calendar-day"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: var(--radius-control);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+[data-wacss="calendar-day"]:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+[data-wacss="calendar-day"][data-selected] {
+  background: var(--color-primary, var(--color-accent));
+  color: var(--color-primary-foreground, var(--color-accent-foreground));
+}
+
+[data-wacss="calendar-day"][data-outside-month] {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+}
+
+[data-wacss="calendar-day"][data-disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+[data-wacss="calendar-day"][data-today]:not([data-selected]) {
+  border: var(--border-width-ui) solid var(--color-border);
+}

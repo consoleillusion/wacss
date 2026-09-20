@@ -8,27 +8,27 @@ button:not([data-wacss]),
   flex: none;
   align-items: center;
   justify-content: center;
-  gap: var(--state-button-gap);
-  block-size: var(--state-button-height);
+  gap: var(--standard-button-gap);
+  block-size: var(--standard-button-height);
   padding-block: 0;
-  padding-inline: var(--state-button-px);
-  border: var(--state-border-width) solid var(--state-button-border);
-  border-radius: var(--state-button-radius);
-  background: var(--state-button-bg);
-  color: var(--state-button-fg);
-  font-size: var(--state-button-font-size);
-  font-weight: var(--state-button-font-weight);
+  padding-inline: var(--standard-button-px);
+  border: var(--standard-border-width) solid var(--standard-button-border);
+  border-radius: var(--standard-button-radius);
+  background: var(--standard-button-bg);
+  color: var(--standard-button-fg);
+  font-size: var(--standard-button-font-size);
+  font-weight: var(--standard-button-font-weight);
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
   transition:
-    background var(--state-motion) var(--state-ease),
-    border-color var(--state-motion) var(--state-ease),
-    color var(--state-motion) var(--state-ease),
-    box-shadow var(--state-motion) var(--state-ease),
-    transform var(--state-motion) var(--state-ease);
+    background var(--standard-motion) var(--standard-ease),
+    border-color var(--standard-motion) var(--standard-ease),
+    color var(--standard-motion) var(--standard-ease),
+    box-shadow var(--standard-motion) var(--standard-ease),
+    transform var(--standard-motion) var(--standard-ease);
 }
 
 [data-wacss="button"] svg,
@@ -47,7 +47,7 @@ button:not([data-wacss]):hover,
 [type="button"]:not([data-wacss]):hover,
 [type="submit"]:not([data-wacss]):hover,
 [type="reset"]:not([data-wacss]):hover {
-  background: var(--state-button-bg-hover);
+  background: var(--standard-button-bg-hover);
 }
 
 [data-wacss="button"]:active,
@@ -55,8 +55,8 @@ button:not([data-wacss]):active,
 [type="button"]:not([data-wacss]):active,
 [type="submit"]:not([data-wacss]):active,
 [type="reset"]:not([data-wacss]):active {
-  background: var(--state-button-bg-active);
-  transform: translateY(var(--state-button-translate-active));
+  background: var(--standard-button-bg-active);
+  transform: translateY(var(--standard-button-translate-active));
 }
 
 [data-wacss="button"]:focus-visible,
@@ -64,15 +64,15 @@ button:not([data-wacss]):focus-visible,
 [type="button"]:not([data-wacss]):focus-visible,
 [type="submit"]:not([data-wacss]):focus-visible,
 [type="reset"]:not([data-wacss]):focus-visible {
-  border-color: var(--state-button-ring);
-  outline: var(--state-button-ring-width) solid var(--state-button-ring-focus);
+  border-color: var(--standard-button-ring);
+  outline: var(--standard-button-ring-width) solid var(--standard-button-ring-focus);
   outline-offset: 0;
 }
 
 [data-wacss="button"][aria-invalid="true"],
 button:not([data-wacss])[aria-invalid="true"] {
-  border-color: var(--state-role-destructive-bg);
-  outline: var(--state-button-ring-width) solid var(--state-button-destructive-ring-focus);
+  border-color: var(--standard-role-destructive-bg);
+  outline: var(--standard-button-ring-width) solid var(--standard-button-destructive-ring-focus);
   outline-offset: 0;
 }
 
@@ -83,7 +83,7 @@ button:not([data-wacss]):disabled,
 [type="submit"]:not([data-wacss]):disabled,
 [type="reset"]:not([data-wacss]):disabled {
   cursor: not-allowed;
-  opacity: var(--state-button-disabled-opacity);
+  opacity: var(--standard-button-disabled-opacity);
   pointer-events: none;
 }
 

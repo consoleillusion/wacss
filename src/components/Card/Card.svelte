@@ -1,21 +1,25 @@
 <script lang="ts">
   import type { Component } from "svelte";
   import type { CardFigure, CardProps } from "../types";
+  import Accordion from "../Accordion/Accordion.svelte";
   import Audio from "../Audio/Audio.svelte";
   import Avatar from "../Avatar/Avatar.svelte";
   import Badge from "../Badge/Badge.svelte";
   import Button from "../Button/Button.svelte";
   import Checkbox from "../Checkbox/Checkbox.svelte";
-  import Accordion from "../Accordion/Accordion.svelte";
   import ColorInput from "../ColorInput/ColorInput.svelte";
+  import ColorPicker from "../ColorPicker/ColorPicker.svelte";
+  import DatePicker from "../DatePicker/DatePicker.svelte";
   import Dialog from "../Dialog/Dialog.svelte";
   import Form from "../Form/Form.svelte";
   import Image from "../Image/Image.svelte";
   import Input from "../Input/Input.svelte";
   import Label from "../Label/Label.svelte";
-  import Progress from "../Progress/Progress.svelte";
+  import NavigationMenu from "../NavigationMenu/NavigationMenu.svelte";
+import Progress from "../Progress/Progress.svelte";
   import Select from "../Select/Select.svelte";
   import Separator from "../Separator/Separator.svelte";
+  import Slider from "../Slider/Slider.svelte";
   import Switch from "../Switch/Switch.svelte";
   import Tabs from "../Tabs/Tabs.svelte";
   import Video from "../Video/Video.svelte";
@@ -29,14 +33,18 @@
     Checkbox,
     Color: ColorInput,
     ColorInput,
+    ColorPicker,
+    DatePicker,
     Dialog,
     Form,
     Image,
     Input,
     Label,
+    NavigationMenu,
     Progress,
     Select,
     Separator,
+    Slider,
     Switch,
     Tabs,
     Video,
@@ -101,7 +109,9 @@
   });
 
   const hasFigure = $derived(figureInfo.kind !== "none");
+  const hasHeader = $derived(Boolean((header && typeof header !== "string") || headerText));
   const hasBody = $derived(Boolean(bodyText || bodyContent.component || bodyContent.text || children));
+  const hasContent = $derived(hasHeader || hasBody);
 
   function onCardClick(e: MouseEvent) {
     if (!href) return;
@@ -122,30 +132,36 @@
   data-href={href || undefined}
   onclick={onCardClick}
 >
-  {#if header && typeof header !== "string"}
-    {@render header()}
-  {:else if headerText}
-    <header data-wacss="card-header">
-      <h3 data-wacss="card-title">
-        {#if href}<a href={href} data-wacss="card-link">{headerText}</a>{:else}{headerText}{/if}
-      </h3>
-    </header>
-  {/if}
-
-  {#if hasFigure || hasBody}
-    <div data-wacss="card-content">
-      {#if figureInfo.kind === "component"}
-        {@const Comp = registry[figureInfo.name]}
+  {#if hasFigure}
+    {#if figureInfo.kind === "component"}
+      {@const Comp = registry[figureInfo.name]}
+      <figure data-wacss="card-figure">
+        <Comp {...figureInfo.props} />
+      </figure>
+    {:else if figureInfo.kind === "media"}
+      {@const Comp = registry[figureInfo.name]}
+      {#if Comp}
         <figure data-wacss="card-figure">
           <Comp {...figureInfo.props} />
         </figure>
-      {:else if figureInfo.kind === "media"}
-        {@const Comp = registry[figureInfo.name]}
-        {#if Comp}
-          <Comp {...figureInfo.props} />
-        {:else}
-          <figure data-wacss="card-figure"><img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} /></figure>
-        {/if}
+      {:else}
+        <figure data-wacss="card-figure">
+          <img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} />
+        </figure>
+      {/if}
+    {/if}
+  {/if}
+
+  {#if hasContent}
+    <div data-wacss="card-content">
+      {#if header && typeof header !== "string"}
+        <div data-wacss="card-header">{@render header()}</div>
+      {:else if headerText}
+        <div data-wacss="card-header">
+          <h3 data-wacss="card-title">
+            {#if href}<a href={href} data-wacss="card-link">{headerText}</a>{:else}{headerText}{/if}
+          </h3>
+        </div>
       {/if}
 
       {#if bodyText}
