@@ -786,3 +786,38 @@
   --z-dialog-overlay: var(--standard-z-overlay);
   --z-select-content: var(--standard-z-popover);
 }
+
+/* ===== New hierarchy overrides (L5 states derived from role, + compat mappings) ===== */
+:root {
+  --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
+  --button-background-standard-active: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 16%);
+  --button-background-primary-hover: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 10%);
+  --button-background-primary-active: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 16%);
+  --button-background-secondary-hover: color-mix(in oklch, var(--button-background-secondary), var(--color-base-light-inverse) 10%);
+  --button-background-secondary-active: color-mix(in oklch, var(--button-background-secondary), var(--color-base-light-inverse) 16%);
+  --button-background-tertiary-hover: color-mix(in oklch, var(--button-background-tertiary), var(--color-base-light-inverse) 8%);
+  --button-background-tertiary-active: color-mix(in oklch, var(--button-background-tertiary), var(--color-base-light-inverse) 14%);
+
+  /* Re-point key standard/legacy tokens to L4/L5 hierarchy */
+  --standard-button-bg: var(--button-background-standard);
+  --standard-button-fg: var(--button-color-standard);
+  --standard-button-border: var(--button-border-standard);
+  --standard-button-bg-hover: var(--button-background-standard-hover);
+  --standard-button-bg-active: var(--button-background-standard-active);
+  --standard-button-secondary-bg: var(--button-background-secondary);
+  --standard-button-secondary-fg: var(--button-color-secondary);
+  --standard-button-secondary-border: var(--button-border-secondary);
+  --standard-button-secondary-bg-hover: var(--button-background-secondary-hover);
+  --standard-button-secondary-bg-active: var(--button-background-secondary-active);
+
+  --background-button: var(--standard-button-bg);
+  --text-button: var(--standard-button-fg);
+  --border-button: var(--standard-button-border);
+  --background-button-hover: var(--standard-button-bg-hover);
+  --background-button-active: var(--standard-button-bg-active);
+  --background-button-secondary: var(--standard-button-secondary-bg);
+  --text-button-secondary: var(--standard-button-secondary-fg);
+  --border-button-secondary: var(--standard-button-secondary-border);
+  --background-button-secondary-hover: var(--standard-button-secondary-bg-hover);
+  --background-button-secondary-active: var(--standard-button-secondary-bg-active);
+}
