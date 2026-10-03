@@ -171,17 +171,10 @@
    ========================================================================== */
 :root {
   color-scheme: light dark;
-  /* Base/ink: light default, inverted in dark via prefers-color-scheme/data-theme */
-  --color-base-light: #111111;
-  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.05 h);
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-base-light: #fafafa;
-  }
-}
-:root {
-  /* Palette-driven accent (prima). Default sumi (dark variant in dark/system-default, overridden below). */
+  /* Base/ink: follows prefers-color-scheme by default, overridable via data-theme */
+  --color-base-light: #fafafa;
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0 0);
+  /* Palette-driven accent (prima). Default sumi; mode-aware variants applied below. */
   --color-accent: var(--color-dark-sumi);
   --color-theme: var(--color-accent);
   /* Derived semantic colors (prima: --color-base) */
@@ -250,7 +243,12 @@
   --color-negative-text: var(--color-negative-foreground);
 }
 
-/* data-theme overrides for base */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) {
+    color-scheme: dark;
+    --color-base-light: #111111;
+  }
+}
 :root[data-theme=light] {
   color-scheme: light;
   --color-base-light: #fafafa;
@@ -348,6 +346,11 @@
   --color-theme: var(--color-accent);
 }
 
+.theme-aizome {
+  --color-accent: var(--color-dark-aizome);
+  --color-theme: var(--color-accent);
+}
+
 .theme-shibui {
   --color-accent: var(--primitive-color-shibui);
   --color-theme: var(--color-accent);
@@ -363,6 +366,9 @@
   :root:not([data-theme=dark]).theme-sumi, :root:not([data-theme=dark]) .theme-sumi {
     --color-accent: var(--color-light-sumi);
   }
+  :root:not([data-theme=dark]).theme-aizome, :root:not([data-theme=dark]) .theme-aizome {
+    --color-accent: var(--color-light-aizome);
+  }
 }
 :root[data-theme=light].theme-sakura, :root[data-theme=light] .theme-sakura {
   --color-accent: var(--color-light-sakura);
@@ -374,6 +380,10 @@
 
 :root[data-theme=light].theme-sumi, :root[data-theme=light] .theme-sumi {
   --color-accent: var(--color-light-sumi);
+}
+
+:root[data-theme=light].theme-aizome, :root[data-theme=light] .theme-aizome {
+  --color-accent: var(--color-light-aizome);
 }
 
 /* ==========================================================================
