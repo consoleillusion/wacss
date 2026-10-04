@@ -37,7 +37,7 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
           const stored = localStorage.getItem("wacss:theme");
           if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
           const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "shibui", "sumi"];
+          const themes = ["sakura", "matcha", "sumi", "aizome"];
           if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
           else if (accent === "custom") {
             const c = localStorage.getItem("wacss:accent-color");
