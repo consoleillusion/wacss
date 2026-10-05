@@ -1,34 +1,14 @@
 {
   "name": "wacss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
   "type": "module",
   "private": false,
   "files": [
-    "dist",
-    "src/components",
-    "src/islands",
-    "src/spec",
-    "src/styles",
-    "scripts"
   ],
   "exports": {
-    ".": "./src/components/index.ts",
-    "./components": "./src/components/index.ts",
-    "./spec": "./src/spec/index.ts",
-    "./styles": "./dist/wacss.css",
-    "./styles.min": "./dist/wacss.min.css",
-    "./styles/source": "./src/styles/wacss.css",
-    "./components/*": "./src/components/*",
-    "./islands/*": "./src/islands/*"
   },
   "scripts": {
-    "build": "bun scripts/emit-tokens.ts && bun scripts/build.js",
-    "build:demo": "bun scripts/emit-tokens.ts && bun scripts/build.js && astro build",
-    "emit:tokens": "bun scripts/emit-tokens.ts",
-    "tokens:show": "bun scripts/emit-tokens.ts --show",
-    "dev": "astro dev",
-    "preview": "astro preview"
   },
   "devDependencies": {
     "@types/bun": "latest",
