@@ -30,7 +30,7 @@ Helper option custom properties are local to the element. They are not tokens an
 ## Other helpers
 
 - **Reset:** box sizing, margins, media defaults. Kept minimal.
-- **Keyframes:** named `wacss-*` (e.g. `wacss-spin`, `wacss-shimmer`). Components reference them by name in `structure`, with durations as tokens.
+- **Keyframes:** named `wacss-*` (e.g. `wacss-spin`, `wacss-shimmer`). Keyframes are helper definitions; a component opts in by listing `animation-name` and the other animation properties it needs in `cssProperties`.
 - **Reduced motion:** a single `@media (prefers-reduced-motion: reduce)` rule that shortens transitions and stops animations globally.
 
 ## Naming

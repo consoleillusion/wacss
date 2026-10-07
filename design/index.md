@@ -1,17 +1,28 @@
+## Direction
 - [introduction](/introduction)
-- [philosophy](/philosophy)
-- [architecture](/architecture)
-- [tokens](/tokens)
+- [roadmap](/roadmap)
+
+## Deliverables
+- [css-output](/css-output)
+- [build-and-verification](/build-and-verification)
+- [demo-site](/demo-site)
+
+## Code Structure
 - [primitives](/primitives)
 - [semantic](/semantic)
 - [variants](/variants)
 - [states](/states)
+- [components](/components)
+- [layout](/layout)
+
+- [components-and-api](/components-and-api)
+- [architecture](/architecture)
 - [component-schema](/component-schema)
 - [generation](/generation)
-- [css-output](/css-output)
-- [build-and-verification](/build-and-verification)
-- [layout](/layout)
-- [components-and-api](/components-and-api)
-- [demo-site](/demo-site)
+
+## Guiding Principles
+- [tokens](/tokens)
 - [ux-and-accessibility](/ux-and-accessibility)
-- [open-questions](/open-questions)
+
+## Aesthetics
+- [philosophy](/philosophy)

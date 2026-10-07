@@ -99,6 +99,8 @@ Properties that recipes build on (`transform`, `box-shadow`, `filter`) default t
   --opacity: var(--opacity-base);
   --transition-duration: var(--duration-interaction);
   --transition-timing-function: var(--easing);
+  --animation-name: none;                     // identity
+  --animation-duration: 0s;                   // identity
 }
 ```
 

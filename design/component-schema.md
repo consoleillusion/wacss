@@ -59,7 +59,7 @@ structure:
 - Values are literals. No `var()`.
 - A property may not appear in both `structure` and `cssProperties`.
 - Structural declarations are the same for every variant. A value that differs by variant is themable by definition.
-- `animation-name` may name a keyframe from the helpers. Its timing goes in `cssProperties` (`animation-duration`).
+- Animation is not special: a component lists the animation properties it wants (`animation-name`, `animation-duration`, …) in `cssProperties` like any other property, with L2 defaults or overrides. Keyframes are named helpers (`wacss-*`).
 
 ## Third-party custom properties
 

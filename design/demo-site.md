@@ -1,5 +1,7 @@
 ## Demo site
 
+The demo site ships before v1.
+
 ### Routes: HTML as Data
 
 It should be possible to represent the demo site, and any site, in JSON. A site object will need to have a pages property

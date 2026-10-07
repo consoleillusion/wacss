@@ -61,7 +61,7 @@ Retheming means changing L2 variables, not adding increasingly specific selector
 
 ## Structural values
 
-Some properties are not themable. A component needs them in order to work, and their value is the same in every theme: `display`, `position`, `inset`, flex and grid structure, `overflow`, `white-space`, `appearance`, `user-select`, `pointer-events`, `box-sizing`, `content`, `cursor`, `animation-name`.
+Some properties are not themable. A component needs them in order to work, and their value is the same in every theme: `display`, `position`, `inset`, flex and grid structure, `overflow`, `white-space`, `appearance`, `user-select`, `pointer-events`, `box-sizing`, `content`, `cursor`.
 
 Structural properties:
 
@@ -72,6 +72,8 @@ Structural properties:
 - never appear in `cssProperties`.
 
 The test: if a designer would change the value when rethemeing or rebranding, or it differs by variant, it is themable. If changing it would break the component, it is structural.
+
+Animation properties are not special. `animation-name` is themable when a component lists it in `cssProperties` (with an L2 default or an override), and structural only when a fixed literal is placed in `structure`. The same applies to `animation-duration` and the other animation properties.
 
 ## Units
 

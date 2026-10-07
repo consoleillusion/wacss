@@ -14,7 +14,7 @@ Core principles: clarity over decoration; consistency over novelty; accessibilit
 | Respect text scaling | Component lengths in `em`, type in `rem` |
 | Respect reduced motion | Global reduced-motion rule in helpers; motion durations are tokens |
 | Light and dark designed, not inverted | Dark and light L2 values are set deliberately; interaction direction flips with the theme |
-| Sufficient contrast | Ink tokens are computed against their fill (`on-accent`, `tone-*-ink`); contrast is tested on real fill/ink pairs |
+| Sufficient contrast | Ink tokens are computed against their fill (`on-accent`, `tone-*-ink`); the build checks WCAG 2.2 AA on real fill/ink pairs in both themes and all four palettes |
 
 Make hierarchy explicit: users should immediately see what is primary, secondary and tertiary. Use consistent typography, control density, use whitespace to communicate relationships, maintain alignment, use contrast intentionally, avoid unnecessary decoration, and keep one predictable scale for headings, body, labels and supporting text.
 
@@ -31,7 +31,7 @@ Use semantic colours to communicate meaning, not just decoration. Limit accents 
 - Alternative text for informative images.
 - Essential information never depends on animation.
 - Respect text scaling and `prefers-reduced-motion`.
-- Contrast meets WCAG 2.2 AA.
+- Contrast meets WCAG 2.2 AA; this is enforced by the build across both themes and all four palettes.
 - Error messages are associated with their fields.
 - Tested with assistive technology, not only automated tools.
 
