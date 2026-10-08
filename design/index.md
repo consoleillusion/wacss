@@ -26,3 +26,4 @@
 
 ## Aesthetics
 - [philosophy](/philosophy)
+- [aesthetics-in-practice](/aesthetics-in-practice)

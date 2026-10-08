@@ -4,14 +4,13 @@ v1 is the complete library: one generated, verified global stylesheet, the full 
 
 The first four components are **Accordion, Button, Card and Checkbox**. They are built in M4; the remaining components from the full list follow in M5.
 
-## M0 — Spec baseline
-- [x] Clear `design/open-questions.md`: remove the answered rows, and record the single remaining decision — add a WCAG contrast check to the build — in `design/build-and-verification.md` and `design/ux-and-accessibility.md`
-- [x] Confirm the sequencing: start with Accordion, Button, Card and Checkbox, then the rest of the full set, then the demo site — all before v1
+## v.0.1.0 - Spec baseline
+
 - [ ] Record the component folder contract: `<Name>.astro` and `schema.ts` required, `<Name>.svelte` optional for reactivity
 - [ ] Resolve spec inconsistencies: L1/L2 authored in SCSS, card figure/body split of `3fr 4fr`, no size axis, exact `dist/` outputs
 - [ ] Decide whether generated `dist/` files are committed; update `.gitignore` accordingly
 
-## M1 — Foundation and tooling
+## v0.2.0 — Foundation and tooling
 - [ ] Reduce `package.json` to `build`, `tokens:show` and `test` scripts; keep Astro, Sass and Bun types; remove stale dependencies
 - [ ] Install dependencies and commit the lockfile
 - [ ] Set up strict `tsconfig.json` and environment types

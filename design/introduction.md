@@ -9,6 +9,7 @@ Developers hand-author a small set of foundational tokens (L1, L2) and one schem
 | File | Covers |
 | --- | --- |
 | [philosophy](philosophy) | Aesthetic direction and principles |
+| [aesthetics-in-practice](aesthetics-in-practice) | How the principles shape colour, motion, space and arrangement |
 | [architecture](architecture) | What is hand-authored, what is generated, the pipeline |
 | [tokens](tokens) | The five levels, naming, reference rules, themable vs structural |
 | [primitives](primitives) | L1: the full primitive set |
