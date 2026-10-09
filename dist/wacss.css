@@ -178,13 +178,13 @@
   --color-accent: var(--color-dark-sumi);
   --color-theme: var(--color-accent);
   /* Derived semantic colors (prima: --color-base) */
-  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 4%);
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent, var(--color-dark-sumi)) 4%);
   --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
-  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
+  --color-pop: oklch(from var(--color-accent, var(--color-dark-sumi)) l calc(c + 0.01) calc(h + 15));
   /* Common semantic tokens derived from primas */
   --color-background: var(--color-base);
   --color-card: var(--color-surface);
-  --color-popover: color-mix(in oklch, var(--color-accent) 10%, var(--color-base));
+  --color-popover: var(--color-surface);
   --color-text: var(--color-base-light-inverse);
   --color-foreground: var(--color-text);
   --color-card-foreground: var(--color-text);
