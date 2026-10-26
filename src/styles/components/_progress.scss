@@ -1,0 +1,18 @@
+/* Progress */
+[role="progressbar"], [data-progress-root], progress {
+  position: relative;
+  height: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: color-mix(in oklch, var(--color-primary), transparent 80%);
+}
+[data-progress-indicator] {
+  height: 100%; width: 100%; flex: 1;
+  background: var(--color-primary);
+  transition: transform var(--motion-enter) var(--ease-interaction);
+}
+progress { appearance: none; border: none; }
+progress::-webkit-progress-bar { background: color-mix(in oklch, var(--color-primary), transparent 80%); border-radius: var(--radius-full); }
+progress::-webkit-progress-value { background: var(--color-primary); border-radius: var(--radius-full); transition: width var(--motion-enter) var(--ease-interaction); }
+progress::-moz-progress-bar { background: var(--color-primary); border-radius: var(--radius-full); }

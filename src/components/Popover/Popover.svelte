@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<Popover.Root {...rest} data-wacss="popover">
+<Popover.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

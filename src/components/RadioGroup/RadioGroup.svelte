@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<RadioGroup.Root {...rest} data-wacss="radio-group">
+<RadioGroup.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

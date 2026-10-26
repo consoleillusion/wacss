@@ -16,31 +16,29 @@
   );
   const percent = $derived(clamped == null ? 0 : (clamped / safeMax) * 100);
   const indeterminate = $derived(value == null);
-  const classes = $derived(["wacss-progress", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
 <div
   {...restProps}
   class={classes}
-  data-wacss="progress"
   data-indeterminate={indeterminate || undefined}
 >
   {#if label || showValue}
-    <div data-wacss="progress-header">
-      {#if label}<span data-wacss="progress-label">{label}</span>{/if}
+    <div>
+      {#if label}<span>{label}</span>{/if}
       {#if showValue && !indeterminate}
-        <span data-wacss="progress-value">{Math.round(percent)}%</span>
+        <span>{Math.round(percent)}%</span>
       {/if}
     </div>
   {/if}
   <div
-    data-wacss="progress-track"
     role="progressbar"
     aria-valuemin={0}
     aria-valuemax={safeMax}
     aria-valuenow={indeterminate ? undefined : clamped}
     aria-label={label}
   >
-    <div data-wacss="progress-indicator" style={`width: ${indeterminate ? 40 : percent}%`}></div>
+    <div style={`width: ${indeterminate ? 40 : percent}%`}></div>
   </div>
 </div>

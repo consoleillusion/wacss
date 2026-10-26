@@ -203,12 +203,3 @@ A data-driven surface for presenting content. Placing a component in a card need
 **Home-page layout**
 - Cards sit in a full-width `.grid`, intrinsically sized so it reflows on resize or drawer toggle without special logic.
 - Each card has a header, a figure containing one component, and its schema description below.
-
----
-
-## 6. Open questions
-
-Inconsistencies in the source notes that need a decision:
-
-2. **State-token derivation.** One section says a layer references only the layer above it, and that state derives from component tokens. Another says state derives from "role/component/alias/primitive", and the example derives state from role. The chain should be role → state.
-3. **Classless vs components.** Classless styling and a component library overlap. State when Svelte or Astro components are expected and when plain HTML should suffice.

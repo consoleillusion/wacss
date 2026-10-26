@@ -1,0 +1,4 @@
+label { font-size: var(--text-sm); font-weight: 500; line-height: 1; }
+[data-field] { display: grid; gap: var(--space-2); }
+[data-field-description] { font-size: var(--text-sm); color: color-mix(in oklch, var(--color-foreground) 70%, transparent); }
+[data-field-error] { font-size: var(--text-sm); color: var(--color-destructive); }

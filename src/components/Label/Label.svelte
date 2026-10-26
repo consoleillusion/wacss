@@ -10,16 +10,16 @@
     ...restProps
   }: LabelProps = $props();
 
-  const classes = $derived(["wacss-label", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
-<label {...restProps} for={htmlFor} class={classes} data-wacss="label">
+<label {...restProps} for={htmlFor} class={classes}>
   {#if text}
     {text}
   {:else}
     {@render children?.()}
   {/if}
   {#if required}
-    <span data-wacss="label-required" aria-hidden="true">*</span>
+    <span aria-hidden="true">*</span>
   {/if}
 </label>

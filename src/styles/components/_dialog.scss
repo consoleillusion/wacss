@@ -1,0 +1,39 @@
+/* Dialog (bits-ui) styled with L4/L5 tokens */
+[data-dialog-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--color-overlay);
+}
+[data-dialog-content] {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 50;
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 32rem;
+  transform: translate(-50%, -50%);
+  border: var(--border-width) solid var(--dialog-border);
+  background: var(--dialog-background);
+  color: var(--dialog-color);
+  padding: var(--dialog-padding);
+  border-radius: var(--dialog-radius);
+  box-shadow: var(--dialog-shadow);
+}
+[data-dialog-title] { font-size: var(--text-lg); font-weight: 600; line-height: var(--line-heading); }
+[data-dialog-description] { font-size: var(--text-sm); color: color-mix(in oklch, var(--color-foreground) 70%, transparent); }
+[data-dialog-close] {
+  position: absolute;
+  right: var(--space-4);
+  top: var(--space-4);
+  border-radius: var(--radius-2);
+  opacity: 0.7;
+  min-height: auto;
+  padding: 0.25rem;
+  background: transparent;
+  border-color: transparent;
+  color: inherit;
+}
+[data-dialog-close]:hover { opacity: 1; background: var(--button-background-ghost-hover); }

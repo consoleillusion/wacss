@@ -18,10 +18,10 @@
   }: InputProps & { value?: string } = $props();
 
   const uid = $props.id();
-  const inputId = $derived(id ?? `wacss-color-picker-${uid}`);
+  const inputId = $derived(id ?? `${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["wacss-input", "wacss-color-picker", className].filter(Boolean).join(" "));
-  const inputClasses = $derived(["wacss-input-control", inputClass].filter(Boolean).join(" "));
+  const classes = $derived(["", "", className].filter(Boolean).join(" "));
+  const inputClasses = $derived(["", inputClass].filter(Boolean).join(" "));
 
   function normalizeHex(v: string): string | null {
     const m = /^#?([0-9a-f]{6})$/i.exec(v.trim());
@@ -40,11 +40,11 @@
   });
 </script>
 
-<div data-wacss="input" data-wacss-color-picker class={classes}>
+<div class={classes}>
   {#if label}
-    <label data-wacss="label" for={inputId}>{label}</label>
+    <label for={inputId}>{label}</label>
   {/if}
-  <div data-wacss="color-input-row">
+  <div>
     <input
       {...restProps}
       id={inputId}
@@ -55,8 +55,6 @@
       class={inputClasses}
       aria-invalid={error ? "true" : undefined}
       aria-describedby={error || description ? helpId : undefined}
-      data-wacss="input-control"
-      data-wacss-color-swatch
       oninput={(e) => setValue((e.currentTarget as HTMLInputElement).value)}
       onchange={(e) => setValue((e.currentTarget as HTMLInputElement).value)}
     />
@@ -64,7 +62,6 @@
       type="text"
       value={value}
       {disabled}
-      data-wacss="input-control"
       aria-label={label ? `${label} hex value` : "Color hex value"}
       oninput={(e) => {
         const n = normalizeHex((e.currentTarget as HTMLInputElement).value);
@@ -77,8 +74,8 @@
     />
   </div>
   {#if error}
-    <p id={helpId} data-wacss="input-error">{error}</p>
+    <p id={helpId}>{error}</p>
   {:else if description}
-    <p id={helpId} data-wacss="input-description">{description}</p>
+    <p id={helpId}>{description}</p>
   {/if}
 </div>

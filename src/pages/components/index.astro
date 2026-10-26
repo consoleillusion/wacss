@@ -29,12 +29,12 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div data-wacss="page">
+    <div>
       <h1>Components</h1>
-      <p data-wacss="muted mb-5">
+      <p>
         Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
       </p>
-      <ul data-wacss="list-disc">
+      <ul>
         {list.map((item) => (
           <li>
             <a href={`/components/${item.key}/`}>{item.title}</a>

@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<ContextMenu.Root {...rest} data-wacss="context-menu">
+<ContextMenu.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

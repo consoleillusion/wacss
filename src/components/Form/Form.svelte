@@ -68,8 +68,8 @@
   }: FormProps = $props();
 
   const uid = $props.id();
-  const formId = $derived(id ?? `wacss-form-${uid}`);
-  const classes = $derived(["wacss-form", className].filter(Boolean).join(" "));
+  const formId = $derived(id ?? `${uid}`);
+  const classes = $derived(["", className].filter(Boolean).join(" "));
   const jsonSchema = $derived(
     (jsonschema ?? schema ?? { type: "object" }) as JsonSchema,
   );
@@ -149,21 +149,20 @@
     <input type="hidden" name={fieldName} value={asString(fieldValue)} />
   {:else if widget === "group"}
     <fieldset
-      data-wacss="form-group"
       disabled={fieldDisabled}
       aria-describedby={error || help ? `${controlId}-help` : undefined}
     >
       {#if label || help}
-        <legend data-wacss="form-legend">
+        <legend>
           {label}
-          {#if required}<span data-wacss="label-required" aria-hidden="true">*</span>{/if}
+          {#if required}<span aria-hidden="true">*</span>{/if}
         </legend>
         {#if help && !error}
-          <p id={`${controlId}-help`} data-wacss="form-group-description">{help}</p>
+          <p id={`${controlId}-help`}>{help}</p>
         {/if}
       {/if}
 
-      <div data-wacss="form-fields" data-columns={ui?.columns ?? 1}>
+      <div data-columns={ui?.columns ?? 1}>
         {#each orderedProperties(resolved, uiSchema, path) as [key, childSchema] (key)}
           {@render renderField(
             [...path, key],
@@ -174,11 +173,11 @@
       </div>
 
       {#if error}
-        <p id={`${controlId}-help`} data-wacss="form-error">{error}</p>
+        <p id={`${controlId}-help`}>{error}</p>
       {/if}
     </fieldset>
   {:else if widget === "switch"}
-    <div data-wacss-field="" data-wacss="form-field">
+    <div>
       <Switch
         id={controlId}
         name={fieldName}
@@ -192,9 +191,9 @@
         onCheckedChange={(checked) => update(path, checked)}
       />
       {#if error}
-        <p id={`${controlId}-help`} data-wacss="input-error">{error}</p>
+        <p id={`${controlId}-help`}>{error}</p>
       {:else if help}
-        <p id={`${controlId}-help`} data-wacss="input-description">{help}</p>
+        <p id={`${controlId}-help`}>{help}</p>
       {/if}
     </div>
   {:else if widget === "checkboxes"}
@@ -203,20 +202,19 @@
       : resolved}
     {@const entries = itemSchema ? enumEntries(itemSchema, jsonSchema) : []}
     <fieldset
-      data-wacss="form-group"
       disabled={fieldDisabled}
       aria-required={required ? "true" : undefined}
       aria-describedby={error || help ? `${controlId}-help` : undefined}
     >
-      <legend data-wacss="form-legend">
+      <legend>
         {label}
-        {#if required}<span data-wacss="label-required" aria-hidden="true">*</span>{/if}
+        {#if required}<span aria-hidden="true">*</span>{/if}
       </legend>
       {#if help && !error}
-        <p id={`${controlId}-help`} data-wacss="form-group-description">{help}</p>
+        <p id={`${controlId}-help`}>{help}</p>
       {/if}
 
-      <div data-wacss="form-checkboxes">
+      <div>
         {#each entries as entry (entry.value)}
           <Checkbox
             name={fieldName}
@@ -232,17 +230,17 @@
       </div>
 
       {#if error}
-        <p id={`${controlId}-help`} data-wacss="form-error">{error}</p>
+        <p id={`${controlId}-help`}>{error}</p>
       {/if}
     </fieldset>
   {:else if widget === "select"}
     {@const entries = enumEntries(resolved, jsonSchema)}
     {@const selected =
       entries.find((entry) => String(entry.raw) === String(fieldValue))?.value ?? ""}
-    <div data-wacss="input" data-wacss-field="">
-      <label data-wacss="label" for={controlId}>
+    <div>
+      <label for={controlId}>
         {label}
-        {#if required}<span data-wacss="label-required" aria-hidden="true">*</span>{/if}
+        {#if required}<span aria-hidden="true">*</span>{/if}
       </label>
       <Select
         name={fieldName}
@@ -263,9 +261,9 @@
         }}
       />
       {#if error}
-        <p id={`${controlId}-help`} data-wacss="input-error">{error}</p>
+        <p id={`${controlId}-help`}>{error}</p>
       {:else if help}
-        <p id={`${controlId}-help`} data-wacss="input-description">{help}</p>
+        <p id={`${controlId}-help`}>{help}</p>
       {/if}
     </div>
   {:else}
@@ -312,12 +310,11 @@
   {autocomplete}
   novalidate={novalidate || undefined}
   class={classes}
-  data-wacss="form"
   data-disabled={disabled || undefined}
   onsubmit={handleSubmit}
   onreset={handleReset}
 >
-  <div data-wacss="form-fields" data-columns={columns}>
+  <div data-columns={columns}>
     {#if rootSchema.properties && Object.keys(rootSchema.properties).length > 0}
       {#each orderedProperties(rootSchema, uiSchema, []) as [key, childSchema] (key)}
         {@render renderField([key], childSchema, isRequired(rootSchema, key))}
@@ -332,7 +329,7 @@
   {/if}
 
   {#if showSubmit || showReset}
-    <div data-wacss="form-actions">
+    <div>
       {#if showReset}
         <Button type="reset" variant="ghost" disabled={disabled}>{resetLabel}</Button>
       {/if}
