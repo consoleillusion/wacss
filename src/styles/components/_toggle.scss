@@ -1,1 +1,27 @@
-/* toggle */
+/* Toggle (bits-ui) - ghost button with a pressed state. */
+
+[data-toggle-root] {
+  background: var(--button-background-ghost);
+  color: var(--button-color-ghost);
+  border-color: var(--button-border-ghost);
+}
+[data-toggle-root]:hover {
+  background: var(--button-background-ghost-hover);
+  color: var(--button-color-ghost-hover);
+}
+[data-toggle-root][data-state="on"] {
+  background: var(--button-background-secondary);
+  color: var(--button-color-secondary);
+}
+[data-toggle-root][data-state="on"]:hover {
+  background: var(--button-background-secondary-hover);
+}
+/* Buttons show state: an "on" icon carries the semantic positive colour. */
+[data-toggle-root][data-state="on"] svg,
+[data-toggle-root][aria-pressed="true"] svg {
+  color: var(--color-positive);
+}
+[data-toggle-root][aria-pressed="true"] {
+  background: var(--button-background-secondary);
+  color: var(--button-color-secondary);
+}

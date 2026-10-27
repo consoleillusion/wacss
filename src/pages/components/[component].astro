@@ -42,8 +42,11 @@ const accordionItems = [
 
 const selectOptions = [
   { value: "sakura", label: "Sakura" },
-  { value: "shibui", label: "Shibui" },
+  { value: "matcha", label: "Matcha" },
   { value: "sumi", label: "Sumi" },
+  { value: "aizome", label: "Aizome" },
+  { value: "kurenai", label: "Kurenai" },
+  { value: "yakisugi", label: "Yakisugi" },
 ];
 
 const tabs = [
@@ -155,7 +158,7 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
           const stored = localStorage.getItem("wacss:theme");
           if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
           const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "matcha", "sumi", "aizome"];
+          const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
           if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
           else if (accent === "custom") {
             const c = localStorage.getItem("wacss:accent-color");
@@ -167,7 +170,7 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div>
+    <main>
 
     {componentInfo ? (
       <>
@@ -269,6 +272,6 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
         <p>Available: {Object.keys(COMPONENTS).sort().join(", ")}.</p>
       </>
     )}
-    </div>
+    </main>
   </body>
 </html>

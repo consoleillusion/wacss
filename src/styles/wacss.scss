@@ -1,21 +1,39 @@
+// Token hierarchy: primitives -> semantic -> component -> role -> state.
 @use "tokens/primitives";
 @use "tokens/semantic";
 @use "tokens/component";
 @use "tokens/role";
 @use "tokens/state";
+
+// Base layer
 @use "base/reset";
 @use "base/elements";
 @use "base/layout";
 
+// Components
 @use "components/button";
 @use "components/badge";
 @use "components/card";
-@use "components/dialog";
+@use "components/table";
 @use "components/input";
+@use "components/form";
 @use "components/select";
 @use "components/tabs";
 @use "components/accordion";
 @use "components/checkbox";
+@use "components/radio-group";
 @use "components/switch";
+@use "components/toggle";
 @use "components/progress";
+@use "components/slider";
 @use "components/separator";
+@use "components/avatar";
+@use "components/popover";
+@use "components/dropdown-menu";
+@use "components/context-menu";
+@use "components/tooltip";
+@use "components/dialog";
+@use "components/alert-dialog";
+@use "components/navigation-menu";
+@use "components/label";
+@use "components/misc";

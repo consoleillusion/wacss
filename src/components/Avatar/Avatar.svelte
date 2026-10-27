@@ -27,7 +27,7 @@
   const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
-<span {...restProps} class={classes} data-size={size}>
+<span {...restProps} class={classes} data-avatar data-size={size}>
   {#if showImage}
     <img
       {src}

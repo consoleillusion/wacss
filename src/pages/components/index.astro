@@ -17,7 +17,7 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
           const stored = localStorage.getItem("wacss:theme");
           if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
           const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "matcha", "sumi", "aizome"];
+          const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
           if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
           else if (accent === "custom") {
             const c = localStorage.getItem("wacss:accent-color");
@@ -29,7 +29,7 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div>
+    <main>
       <h1>Components</h1>
       <p>
         Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
@@ -41,6 +41,6 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   </body>
 </html>

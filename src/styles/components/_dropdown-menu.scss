@@ -1,1 +1,38 @@
-/* dropdown-menu */
+/* Dropdown menu - shares the menu surface styles in _popover.scss.
+   This file holds dropdown-specific parts. */
+
+[data-dropdown-menu-trigger] {
+  background: var(--button-background-outline);
+  color: var(--button-color-outline);
+  border-color: var(--button-border-outline);
+  box-shadow: var(--shadow-1);
+}
+[data-dropdown-menu-trigger]:hover {
+  background: var(--button-background-outline-hover);
+  color: var(--button-color-outline-hover);
+}
+[data-dropdown-menu-trigger][data-state="open"] {
+  background: var(--button-background-outline-hover);
+  color: var(--button-color-outline-hover);
+}
+
+/* Submenu triggers carry a chevron */
+[data-dropdown-menu-sub-trigger] {
+  cursor: default;
+}
+[data-dropdown-menu-sub-trigger][data-state="open"] > svg {
+  transform: rotate(90deg);
+}
+[data-dropdown-menu-sub-trigger] > svg {
+  margin-inline-start: auto;
+  transition: transform var(--motion-interaction) var(--ease-interaction);
+}
+
+/* Shortcut hint aligned to the end */
+[data-dropdown-menu-item] > [data-shortcut],
+[data-dropdown-menu-shortcut] {
+  margin-inline-start: auto;
+  font-size: var(--text-xs);
+  color: var(--color-muted-foreground);
+  letter-spacing: 0.05em;
+}

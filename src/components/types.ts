@@ -94,6 +94,8 @@ export type CardProps = {
   component?: string;
   /** Data passed to the named component. */
   data?: Record<string, unknown>;
+  /** Card aspect ratio. Defaults to portrait (3:4). */
+  orientation?: "portrait" | "square" | "landscape";
   /** Back-compat: composed children snippet. */
   children?: Snippet;
   /** Back-compat: footer snippet. */
