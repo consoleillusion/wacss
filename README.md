@@ -80,7 +80,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 | 2 | **Semantic** | Meanings built from primitives | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
 | 3 | **Component** | Component anatomy built from semantic tokens | `--button-background`, `--button-radius`, `--card-radius`, `--dialog-padding` |
 | 4 | **Role** | Emphasis: Primary, Secondary, Tertiary, Standard | `--button-background-primary`, `--button-background-standard` |
-| 5 | **State** | Final per-state values: default, hover, active, focus, selected, open, disabled | `--button-background-standard-hover`, `--input-border-focus`, `--opacity-disabled` |
+| 5 | **State** | Final per-state values: static, hover, active, focus, selected, open, disabled | `--button-background-standard-hover`, `--input-border-focus`, `--opacity-disabled` |
 
 **Role notes:**
 - Standard aliases Secondary by default and is the choice when no special emphasis is wanted.
@@ -88,7 +88,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 
 **Rules:**
 - Lower layers reference higher layers, never raw literals.
-- Rendered styles consume layer 4 or 5 (final state tokens, or layer 4 tokens, no state).
+- Rendered styles consume layer 5 tokens only(final state tokens).
 - Many token families, such as a colour theme, derive from a single higher-level token.
 - **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
 - Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle).
@@ -145,6 +145,7 @@ $palettes: (
   --button-color-standard: var(--button-color);
 
   /* state */
+  --button-background-standard-static: var(--button-background-standard);
   --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
 }
 
@@ -182,7 +183,7 @@ A data-driven surface for presenting content. Placing a component in a card need
 |---|---|
 | Header | The card's title. |
 | Text | Body text below the figure. For showcase cards, it comes from the component's schema (`schema.description`) and appears nowhere else in the card or page. |
-| Figure | Data matching any wacss component schema, recognised by its `title` property. Video, Image, and Audio are the common cases. The figure renders that component inside the card. The figure should be a portrait aspect ratio and have a fixed height. The aspect ratio of the card should be 3 / 4. Card body height to card figure height is 4 / 3 |
+| Figure | Data matching any wacss component schema, recognised by its `title` property. Video, Image, and Audio are the common cases. The figure renders that component inside the card. The figure should be a portrait aspect ratio and have a fixed height. The width of the figure should be the full width of the card. no padding. It should take 3 / 7 of the card height. The body should take 4/7 of the card height. The card is 4 units high and 3 units wide. The figure should be vertically and horizontally centered|
 
 **Behaviour when linked to a component page**
 - Text stays selectable and shows the text cursor. The pointer cursor is reserved for following the link.
