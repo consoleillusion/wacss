@@ -2,41 +2,29 @@
 
 button[data-variant],
 a[data-variant] {
+  border-radius: var(--radius-control-static);
   &[data-variant="primary"] {
-    background: var(--button-background-primary);
-    color: var(--button-color-primary);
-    border-color: var(--button-border-primary);
+    background: var(--button-background-primary-static);
+    color: var(--button-color-primary-static);
+    border-color: var(--button-border-primary-static);
     &:hover { background: var(--button-background-primary-hover); color: var(--button-color-primary-hover); }
   }
   &[data-variant="secondary"] {
-    background: var(--button-background-secondary);
-    color: var(--button-color-secondary);
-    border-color: var(--button-border-secondary);
+    background: var(--button-background-secondary-static);
+    color: var(--button-color-secondary-static);
+    border-color: var(--button-border-secondary-static);
     &:hover { background: var(--button-background-secondary-hover); color: var(--button-color-secondary-hover); }
   }
-  &[data-variant="outline"] {
-    background: var(--button-background-outline);
-    color: var(--button-color-outline);
-    border-color: var(--button-border-outline);
-    box-shadow: var(--shadow-1);
-    &:hover { background: var(--button-background-outline-hover); color: var(--button-color-outline-hover); }
-  }
-  &[data-variant="ghost"] {
-    background: var(--button-background-ghost);
-    color: var(--button-color-ghost);
-    border-color: var(--button-border-ghost);
-    &:hover { background: var(--button-background-ghost-hover); color: var(--button-color-ghost-hover); }
-  }
   &[data-variant="destructive"] {
-    background: var(--button-background-destructive);
-    color: var(--button-color-destructive);
-    border-color: var(--button-border-destructive);
+    background: var(--button-background-destructive-static);
+    color: var(--button-color-destructive-static);
+    border-color: var(--button-border-destructive-static);
     &:hover { background: var(--button-background-destructive-hover); color: var(--button-color-destructive-hover); }
   }
   &[data-variant="link"] {
-    background: var(--button-background-link);
-    color: var(--button-color-link);
-    border-color: var(--button-border-link);
+    background: var(--button-background-link-static);
+    color: var(--button-color-link-static);
+    border-color: var(--button-border-link-static);
     text-decoration-line: underline;
     text-underline-offset: 4px;
     height: auto;
@@ -44,9 +32,9 @@ a[data-variant] {
     &:hover { color: var(--button-color-link-hover); }
   }
 
-  &[data-size="sm"] { min-height: var(--button-height-sm); padding: 0 0.75rem; font-size: var(--text-xs); border-radius: var(--radius-3); }
-  &[data-size="lg"] { min-height: var(--button-height-lg); padding: 0.5rem 1.5rem; border-radius: var(--radius-4); }
-  &[data-size="icon"] { inline-size: var(--button-height-icon); block-size: var(--button-height-icon); min-height: var(--button-height-icon); padding: 0; }
+  &[data-size="sm"] { min-height: var(--button-height-sm-static); padding: 0 0.75rem; font-size: calc(var(--text-base-static) * 0.75); }
+  &[data-size="lg"] { min-height: var(--button-height-lg-static); padding: 0.5rem 1.5rem; }
+  &[data-size="icon"] { inline-size: var(--button-height-icon-static); block-size: var(--button-height-icon-static); min-height: var(--button-height-icon-static); padding: 0; }
 
   &[data-loading] { position: relative; }
 }

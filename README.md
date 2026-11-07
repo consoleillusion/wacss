@@ -49,7 +49,8 @@ Each aesthetic principle is paired with how it shapes the library.
 
 ### Colour
 - Desaturated, earthy, muted palettes with a neutral foundation and limited accents that carry meaning.
-- **Never declare colour ramps.** Derive variations with `color-mix()`, `calc()`, `pow()` or  other css functions.
+- **Don't declare colour ramps.** Derive variations with `color-mix()`, `calc()`, `pow()` or  other css functions.
+- **Don't declare space or any other kind of repetitive tokens**. dont declare radius1-12. Instead define one radius and derive everything from that in heirarchical tokens.
 
 ### Motion and surfaces
 - Motion communicates state or interaction. It is smooth, measured, quiet, and never distracting.
@@ -74,13 +75,13 @@ Each aesthetic principle is paired with how it shapes the library.
 
 Styling is a strict five-layer chain. Only primitives hold real values, and each layer derives from the one above it.
 
-| # | Layer | Holds | Examples |
-|---|---|---|---|
-| 1 | **Primitive** | Raw values: hues, type scale, space, radius, shadow, motion | `--color-aizome`, `--space-4`, `--radius-4`, `--motion-fast` |
-| 2 | **Semantic** | Meanings built from primitives | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
-| 3 | **Component** | Component anatomy built from semantic tokens | `--button-background`, `--button-radius`, `--card-radius`, `--dialog-padding` |
-| 4 | **Role** | Emphasis: Primary, Secondary, Tertiary, Standard | `--button-background-primary`, `--button-background-standard` |
-| 5 | **State** | Final per-state values: static, hover, active, focus, selected, open, disabled | `--button-background-standard-hover`, `--input-border-focus`, `--opacity-disabled` |
+| # | Layer | Holds | Structure |Examples |
+|---|---    |---    |---        |      ---|
+| 1 | **Primitive** | `--<domain>-<name>`            | Raw values: hues, type scale, space, radius, shadow, motion | `--color-aizome`, `--space-4`, `--radius-4`, `--motion-fast` |
+| 2 | **Semantic**  | `--<domain>-<x>`            | Meanings built from primitives | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
+| 3 | **Component** | `--<component>-<property>`  | Component anatomy built from semantic tokens | `--button-background`, `--button-radius`, `--card-radius`, `--dialog-padding` |
+| 4 | **Role**      | `--<component>-<property>-<role>`  | Emphasis: Primary, Secondary, Tertiary, Standard | `--button-background-primary`, `--button-background-standard` |
+| 5 | **State**     | `--<component>-<property>-<role><state>`  | Final per-state values: static, hover, active, focus, selected, open, disabled | `--button-background-standard-hover`, `--input-border-focus`, `--opacity-disabled` |
 
 **Role notes:**
 - Standard aliases Secondary by default and is the choice when no special emphasis is wanted.
@@ -88,30 +89,40 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 
 **Rules:**
 - Lower layers reference higher layers, never raw literals.
-- Rendered styles consume layer 5 tokens only(final state tokens).
-- Many token families, such as a colour theme, derive from a single higher-level token.
+- **Rendered styles consume layer 5 tokens only.** Every affordance a rendered style consumes is final at layer 5; the consuming declarations never reference layers 1–4 directly. Static (no-condition) affordances use the `-static` alias recorded in layer 5; interactive affordances use the layer-5 token carrying the actual affordance name.
+  ```css
+  button       { background: var(--button-background-standard-static); }
+  button:hover { background: var(--button-background-standard-hover); }
+  ```
+- **Layer-5 affordance words are a closed set:** `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every layer-5 token name ends in one of these.
+- Many token families, such as a colour theme, derive from a single higher-level token (the prima token for the domain).
 - **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
 - Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle).
-- Each domain(color, spacing, radius, etc) has a prima token on each layer, which the other tokens within the same category are derived from.
+- Each domain (color, spacing, radius, etc.) has a prima token on each layer, which the other tokens within the same category are derived from.
+- `bun run audit:tokens` enforces all of the above mechanically: no token name may contain "state"; every layer references only layers at or above it; no raw literals outside layer 1.
 
 
 
 ```scss
 $palettes: (
-  sakura: oklch(60% 0.15 5),
-  matcha: oklch(60% 0.15 140),
+  sakura: oklch(62% 0.085 5),
+  matcha: oklch(62% 0.075 140),
   sumi: oklch(60% 0.01 260),
-  aizome: oklch(60% 0.15 230)
+  aizome: oklch(60% 0.075 250),
+  kurenai: oklch(60% 0.095 25),
 );
 
 :root {
   /* primitive */
   @each $name, $color in $palettes {
     --color-dark-#{$name}: #{$color};
-    --color-light-#{$name}: oklch(from #{$color} calc(l + 10%) calc(c + 0.02) h);
+    --color-light-#{$name}: oklch(from #{$color} calc(l + .1) calc(c * .8) h);
   }
+  --color-dark-well: #111111;
+  --color-light-well: #fafafa;
 
   /* semantic */
+  --color-well: var(--color-dark-well);
   --color-accent: var(--color-dark-sumi); // prima
   /* Neutral pillars: accent hue at ~1% chroma keeps text and surfaces near-neutral. */
   --color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
@@ -126,19 +137,21 @@ $palettes: (
   }
 
   @media (prefers-color-scheme: light) {
-    --color-base-light: oklch(from var(--color-accent) 97% 0.01 h);
+    --color-base-light: oklch(from var(--color-accent) .97 0.01 h);
+    --color-well: var(--color-light-well);
   }
   &[data-theme="light"] {
-    --color-base-light: oklch(from var(--color-accent) 97% 0.01 h);
+    --color-base-light: oklch(from var(--color-accent) .97 0.01 h);
+    --color-well: var(--color-light-well);
   }
 
-  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 4%);
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 2%);
   --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
   --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
 
   /* component */
   --button-background: var(--color-accent); // prima
-  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.01 h);
 
   /* role */
   --button-background-standard: var(--button-background); // prima
@@ -423,3 +436,26 @@ Important: These are not all equally authoritative. WCAG is a normative technica
 8. Content-first responsive design.
 9. Feedback for every meaningful interaction.
 10. Evidence-based decisions over aesthetic assumptions.
+
+
+DO NOT construct scales like this!!! It's too bulky!
+```scss
+  --radius-1: 0.125rem;
+  --radius-2: 0.25rem;
+  --radius-3: 0.375rem;
+  --radius-4: 0.5rem;
+  --radius-5: 0.625rem;
+  --radius-6: 0.75rem;
+  --radius-7: 0.875rem;
+  --radius-8: 1rem;
+  --radius-9: 1.125rem;
+  --radius-10: 1.25rem;
+  --radius-11: 1.375rem;
+  --radius-12: 1.5rem;
+  --radius-pill: 9999px;
+```
+
+Use modern scss and construct like this
+```
+radius
+```

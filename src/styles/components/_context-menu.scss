@@ -4,6 +4,6 @@
 [data-context-menu-content] { min-width: 10rem; }
 [data-context-menu-sub-trigger] > svg {
   margin-inline-start: auto;
-  transition: transform var(--motion-interaction) var(--ease-interaction);
+  transition: transform var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-context-menu-sub-trigger][data-state="open"] > svg { transform: rotate(90deg); }

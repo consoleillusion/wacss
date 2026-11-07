@@ -15,9 +15,8 @@ export type WacssPersistProps = {
 
 export type ButtonVariant =
   | "default"
+  | "primary"
   | "secondary"
-  | "outline"
-  | "ghost"
   | "destructive"
   | "link";
 
@@ -53,7 +52,6 @@ export type CardMedia = {
   muted?: boolean;
   playsinline?: boolean;
   preload?: "none" | "metadata" | "auto";
-  caption?: string;
   [key: string]: unknown;
 };
 
@@ -109,7 +107,6 @@ export type CardProps = {
 export type ImageProps = {
   src: string;
   alt?: string;
-  caption?: string;
   loading?: "eager" | "lazy";
   decoding?: "sync" | "async" | "auto";
   class?: string;
@@ -122,7 +119,6 @@ export type VideoProps = {
   src?: string;
   sources?: { src: string; type?: string }[];
   poster?: string;
-  caption?: string;
   controls?: boolean;
   autoplay?: boolean;
   loop?: boolean;
@@ -457,5 +453,70 @@ export type FormProps = WacssPersistProps & {
   onSubmit?: (values: Record<string, unknown>, event: SubmitEvent) => void | Promise<void>;
   onReset?: () => void;
   children?: Snippet;
+  [key: string]: unknown;
+};
+
+/* Breadcrumb / Textarea / Alert / Skeleton / Pagination ------------------ */
+
+export type BreadcrumbItem = {
+  label: string;
+  href?: string;
+};
+
+export type BreadcrumbProps = {
+  items?: BreadcrumbItem[];
+  class?: string;
+  [key: string]: unknown;
+};
+
+export type TextareaProps = WacssPersistProps & {
+  value?: string;
+  placeholder?: string;
+  label?: string;
+  description?: string;
+  error?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+  required?: boolean;
+  rows?: number;
+  id?: string;
+  name?: string;
+  class?: string;
+  inputClass?: string;
+  [key: string]: unknown;
+};
+
+export type AlertVariant = "info" | "positive" | "destructive";
+
+export type AlertProps = {
+  variant?: AlertVariant;
+  title?: string;
+  description?: string;
+  children?: Snippet;
+  class?: string;
+  [key: string]: unknown;
+};
+
+export type SkeletonProps = {
+  /** Number of bar lines to render (ignored when `circle` is set). */
+  lines?: number;
+  /** Render an avatar-sized circle instead of bars. */
+  circle?: boolean;
+  class?: string;
+  [key: string]: unknown;
+};
+
+export type PaginationProps = {
+  /** Total number of items to paginate. */
+  total: number;
+  /** Items per page. */
+  perPage?: number;
+  /** Current page, 1-based. */
+  page?: number;
+  /** Pages shown before and after the current page. */
+  siblingCount?: number;
+  /** Loop from last page back to first and vice versa. */
+  loop?: boolean;
+  class?: string;
   [key: string]: unknown;
 };

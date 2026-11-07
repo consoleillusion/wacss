@@ -3,6 +3,8 @@ import "../../../dist/wacss.min.css";
 import { schemas } from "../../spec/index";
 import SiteNav from "../../components/SiteNav.astro";
 import TooltipClient from "../../components/Tooltip/TooltipClient.svelte";
+import { ClientRouter } from "astro:transitions";
+import ThemeScript from "../../components/ThemeScript.astro";
 
 function renderSchema(obj: Record<string, unknown>, depth = 0): string {
   if (!obj || typeof obj !== "object") return String(obj ?? "");
@@ -30,25 +32,12 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
     <title>wacss · Tooltip</title>
-    <script is:inline>
-      (() => {
-        try {
-          const stored = localStorage.getItem("wacss:theme");
-          if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
-          const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
-          if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
-          else if (accent === "custom") {
-            const c = localStorage.getItem("wacss:accent-color");
-            if (c) { document.documentElement.style.setProperty("--color-theme", c); document.documentElement.style.setProperty("--color-accent", c); }
-          }
-        } catch {}
-      })();
-    </script>
+    <ThemeScript />
   </head>
   <body>
-    <SiteNav current="/components/" />
+    <SiteNav current="/component/" />
     <main>
       <h1>Tooltip</h1>
       <p>

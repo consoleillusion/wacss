@@ -1,4 +1,10 @@
 import audio from "../components/Audio/schema";
+import alert from "../components/Alert/schema";
+import breadcrumb from "../components/Breadcrumb/schema";
+import pagination from "../components/Pagination/schema";
+import skeleton from "../components/Skeleton/schema";
+import textarea from "../components/Textarea/schema";
+import tokenGraph from "../components/TokenGraph/schema";
 import button from "../components/Button/schema";
 import color from "../components/ColorInput/schema";
 import colorPicker from "../components/ColorPicker/schema";
@@ -9,6 +15,8 @@ import table from "../components/Table/schema";
 import card from "../components/Card/schema";
 import nav from "../components/Nav/schema";
 import disclosure from "../components/Disclosure/schema";
+import pertChart from "../components/PertChart/schema";
+import datatable from "../components/DataTable/schema";
 import badge from "../components/Badge/schema";
 import datePicker from "../components/DatePicker/schema";
 import dialog from "../components/Dialog/schema";
@@ -36,7 +44,13 @@ import image from "../components/Image/schema";
 import video from "../components/Video/schema";
 
 export const schemas = {
+  alert,
   audio,
+  breadcrumb,
+  pagination,
+  skeleton,
+  textarea,
+  tokenGraph,
   button,
   color,
   colorPicker,
@@ -47,6 +61,8 @@ export const schemas = {
   card,
   nav,
   disclosure,
+  datatable,
+  pertChart,
   badge,
   dialog,
   select,
@@ -73,5 +89,5 @@ export const schemas = {
   image,
   video,
 };
-export { audio, button, color, colorPicker, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, datePicker, navigationMenu, slider, progress, meter, avatar, aspectRatio, image, video };
+export { alert, audio, breadcrumb, button, pagination, skeleton, tokenGraph, datatable, pertChart, color, colorPicker, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, datePicker, navigationMenu, slider, progress, meter, avatar, aspectRatio, image, video };
 export default schemas;

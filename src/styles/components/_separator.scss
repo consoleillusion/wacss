@@ -2,19 +2,19 @@
 
 [role="separator"], [data-separator-root], hr {
   flex-shrink: 0;
-  background: var(--separator-color);
+  background: var(--separator-color-static);
   border: none;
 }
 [role="separator"][data-orientation="horizontal"],
 [data-separator-root][data-orientation="horizontal"],
 hr {
-  height: var(--border-width-1);
+  height: var(--border-width-1-static);
   width: 100%;
 }
 [role="separator"][data-orientation="vertical"],
 [data-separator-root][data-orientation="vertical"] {
-  width: var(--border-width-1);
+  width: var(--border-width-1-static);
   height: auto;
   align-self: stretch;
 }
-hr { margin: var(--space-4) 0; }
+hr { margin: calc(var(--space-step-static) * 4.0) 0; }

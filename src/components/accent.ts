@@ -2,7 +2,7 @@
  * Shared accent plumbing for the accent-aware components (ColorInput, Select).
  *
  * The source of truth for the active accent is the document root:
- *  - preset themes are applied as `theme-<name>` classes, or
+ *  - preset themes are applied as `data-palette="<name>"` attributes, or
  *  - custom accents are applied as inline `--color-theme` / `--color-accent`.
  *
  * Cross-component sync uses a window event so accent-aware islands can observe
@@ -12,18 +12,17 @@
 export const ACCENT_STORAGE_KEY = "wacss:accent";
 export const ACCENT_COLOR_STORAGE_KEY = "wacss:accent-color";
 export const ACCENT_CHANGE_EVENT = "wacss:accent-change";
-export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
+export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome", "kurenai"];
 
 export type AccentSource =
   | { source: "preset"; theme: string }
   | { source: "custom"; color: string }
   | { source: "none" };
 
-export function readAccentState(root: Document = document): AccentSource {
-  const el = root as unknown as HTMLElement;
-  for (const t of ACCENT_THEME_NAMES) {
-    if (el.classList.contains(`theme-${t}`)) return { source: "preset", theme: t };
-  }
+export function readAccentState(): AccentSource {
+  const el = document.documentElement;
+  const attr = el.getAttribute("data-palette");
+  if (attr && ACCENT_THEME_NAMES.includes(attr)) return { source: "preset", theme: attr };
   const inline = (el.style.getPropertyValue("--color-accent") || el.style.getPropertyValue("--color-theme") || "").trim();
   if (inline) return { source: "custom", color: inline };
   try {
@@ -40,11 +39,11 @@ export function readAccentState(root: Document = document): AccentSource {
 export function applyAccentToRoot(theme?: string, color?: string): void {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  for (const t of ACCENT_THEME_NAMES) root.classList.remove(`theme-${t}`);
   if (theme && ACCENT_THEME_NAMES.includes(theme)) {
-    root.classList.add(`theme-${theme}`);
+    root.setAttribute("data-palette", theme);
     return;
   }
+  root.removeAttribute("data-palette");
   const value = color ?? "";
   root.style.setProperty("--color-theme", value);
   root.style.setProperty("--color-accent", value);

@@ -30,9 +30,14 @@ export function persistState<T>(config: PersistConfig<T>) {
       try {
         const raw = localStorage.getItem(config.key());
         if (raw !== null) {
-          config.set(
-            config.deserialize ? config.deserialize(raw) : (JSON.parse(raw) as T),
-          );
+          // Accept both JSON-encoded and raw string values.
+          let parsed: T;
+          try {
+            parsed = config.deserialize ? config.deserialize(raw) : (JSON.parse(raw) as T);
+          } catch {
+            parsed = raw as unknown as T;
+          }
+          config.set(parsed);
         }
       } catch {
         // Ignore malformed or unavailable storage.
@@ -47,10 +52,13 @@ export function persistState<T>(config: PersistConfig<T>) {
     if (value === undefined) return;
 
     try {
-      localStorage.setItem(
-        config.key(),
-        config.serialize ? config.serialize(value) : JSON.stringify(value),
-      );
+      const serialized =
+        config.serialize != null
+          ? config.serialize(value)
+          : typeof value === "string"
+            ? (value as unknown as string)
+            : JSON.stringify(value);
+      localStorage.setItem(config.key(), serialized);
     } catch {
       // Storage can be unavailable in private mode or when quota is exceeded.
     }

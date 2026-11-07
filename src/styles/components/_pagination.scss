@@ -1,0 +1,73 @@
+/* Pagination - the global button rule is overridden for page buttons: no shared button chrome,
+   just roomy quiet targets with an accent for the current page. */
+
+[data-pagination-root] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pagination-gap-static);
+}
+
+[data-pagination-root] > div {
+  display: flex;
+  align-items: center;
+  gap: var(--pagination-gap-static);
+  padding: 0;
+}
+
+[data-pagination-prev],
+[data-pagination-next],
+[data-pagination-page] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--space-step-static) * 8.0);
+  block-size: calc(var(--space-step-static) * 8.0);
+  min-height: calc(var(--space-step-static) * 8.0);
+  padding: 0;
+  background: var(--pagination-background-static);
+  border: var(--border-width-static) solid transparent;
+  border-radius: var(--radius-control-static);
+  color: var(--pagination-color-static);
+  font-size: var(--text-size-ui-static);
+  font-weight: var(--weight-normal-static);
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
+    color var(--motion-interaction-static) var(--ease-interaction-static);
+}
+
+[data-pagination-prev]:hover,
+[data-pagination-next]:hover,
+[data-pagination-page]:hover {
+  background: var(--pagination-background-hover);
+  color: var(--pagination-color-hover-static);
+}
+
+[data-pagination-page][data-selected] {
+  background: var(--pagination-background-selected-static);
+  color: var(--pagination-color-selected-static);
+  font-weight: var(--weight-medium-static);
+}
+
+[data-pagination-prev]:disabled,
+[data-pagination-next]:disabled {
+  opacity: var(--opacity-disabled-static);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+[data-pagination-ellipsis] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--space-step-static) * 8.0);
+  block-size: calc(var(--space-step-static) * 8.0);
+  color: var(--color-muted-foreground-static);
+  user-select: none;
+}
+
+[data-pagination-prev] svg,
+[data-pagination-next] svg {
+  inline-size: calc(var(--space-step-static) * 4.0);
+  block-size: calc(var(--space-step-static) * 4.0);
+}

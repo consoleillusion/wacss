@@ -1,0 +1,41 @@
+---
+/* Theme + accent bootstrap.
+   Applies the persisted choice before first paint, and re-applies it across
+   Astro view transitions: ClientRouter replaces the <html> element's
+   attributes on soft navigations (swapRootAttributes), which would otherwise
+   drop data-theme / data-palette / inline --color-theme variables. */
+---
+
+<script is:inline>
+  (() => {
+    const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai"];
+
+    const apply = (root) => {
+      try {
+        const stored = localStorage.getItem("wacss:theme");
+        if (stored === "light" || stored === "dark") root.setAttribute("data-theme", stored);
+        else root.removeAttribute("data-theme");
+
+        for (const t of themes) root.removeAttribute("data-palette");
+        root.style.removeProperty("--color-theme");
+        root.style.removeProperty("--color-accent");
+
+        const accent = localStorage.getItem("wacss:accent");
+        if (accent && themes.includes(accent)) root.setAttribute("data-palette", accent);
+        else if (accent === "custom") {
+          const c = localStorage.getItem("wacss:accent-color");
+          if (c) {
+            root.style.setProperty("--color-theme", c);
+            root.style.setProperty("--color-accent", c);
+          }
+        }
+      } catch {}
+    };
+
+    apply(document.documentElement);
+
+    document.addEventListener("astro:before-swap", (event) => {
+      if (event.newDocument?.documentElement) apply(event.newDocument.documentElement);
+    });
+  })();
+</script>

@@ -25,6 +25,7 @@
   {...restProps}
   class={classes}
   data-type={type}
+  data-accordion-root
 >
   {#each items as item, index (item.value)}
     {@const open = isOpen(item.value)}

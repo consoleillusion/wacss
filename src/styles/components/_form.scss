@@ -2,7 +2,7 @@
 
 form {
   display: grid;
-  gap: var(--form-gap);
+  gap: var(--form-gap-static);
 }
 
 /* Fieldset groups */
@@ -11,49 +11,49 @@ form fieldset {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--field-gap);
+  gap: var(--field-gap-static);
   min-inline-size: 0;
 }
 form legend {
-  font-size: var(--text-size-ui);
-  font-weight: var(--weight-medium);
+  font-size: var(--text-size-ui-static);
+  font-weight: var(--weight-medium-static);
   padding: 0;
-  margin-block-end: var(--space-1);
+  margin-block-end: calc(var(--space-step-static) * 1.0);
 }
 form legend + p,
 form fieldset > p {
   margin: 0;
-  font-size: var(--text-size-ui);
-  color: var(--field-description-color);
+  font-size: var(--text-size-ui-static);
+  color: var(--field-description-color-static);
 }
 /* An error paragraph trails the field content inside a fieldset. */
-form fieldset > div ~ p { color: var(--color-destructive); }
+form fieldset > div ~ p { color: var(--color-destructive-static); }
 /* Any control with aria-invalid marks its trailing help paragraph as an error. */
 form div:has(> [aria-invalid="true"]) > p {
-  color: var(--color-destructive);
+  color: var(--color-destructive-static);
 }
 
 /* Control wrappers render label + control + help/error */
 form fieldset > div,
 form > div > div {
   display: grid;
-  gap: var(--field-gap);
+  gap: var(--field-gap-static);
 }
 
 /* Checkbox lists inside fieldsets */
 form fieldset > div > div {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: calc(var(--space-step-static) * 2.0);
 }
 
 /* Submit/reset row */
 form > div:last-child {
   display: flex;
-  gap: var(--space-2);
+  gap: calc(var(--space-step-static) * 2.0);
   align-items: center;
 }
 
 /* Hidden fields and form-wide disabled state */
 input[type="hidden"] { display: none !important; }
-form[data-disabled] { opacity: var(--opacity-disabled); pointer-events: none; }
+form[data-disabled] { opacity: var(--opacity-disabled-static); pointer-events: none; }

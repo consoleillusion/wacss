@@ -3,36 +3,36 @@
 
 :root {
   /* --- Button (prima: --button-background) --- */
-  --button-background: var(--color-accent);
-  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-background: color-mix(in oklch, var(--color-foreground) 8%, transparent);
+  --button-color: var(--color-foreground);
   --button-border: transparent;
   --button-radius: var(--radius-control);
-  --button-padding-block: 0.5rem;
-  --button-padding-inline: 1rem;
+  --button-padding-block: calc(var(--space-step) * 2.0);
+  --button-padding-inline: calc(var(--space-step) * 4.0);
   --button-font-size: var(--text-size-ui);
-  --button-gap: var(--space-2);
-  --button-height: 2.25rem;
-  --button-height-sm: 2rem;
-  --button-height-lg: 2.5rem;
-  --button-height-icon: 2.25rem;
+  --button-gap: calc(var(--space-step) * 2.0);
+  --button-height: var(--size-control-height-md);
+  --button-height-sm: var(--size-control-height-sm);
+  --button-height-lg: var(--size-control-height-lg);
+  --button-height-icon: var(--size-control-height-md);
 
   /* --- Badge (prima: --badge-background) --- */
   --badge-background: var(--color-accent);
-  --badge-color: oklch(from var(--badge-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --badge-color: var(--color-on-accent);
   --badge-border: transparent;
   --badge-radius: var(--radius-pill);
-  --badge-padding-block: 0.125rem;
-  --badge-padding-inline: 0.5rem;
-  --badge-font-size: var(--text-xs);
-  --badge-line-height: 1.25rem;
+  --badge-padding-block: calc(var(--space-step) * 0.5);
+  --badge-padding-inline: calc(var(--space-step) * 2.0);
+  --badge-font-size: calc(var(--text-base) * 0.75);
+  --badge-line-height: var(--line-tight);
   --badge-font-weight: var(--weight-medium);
 
-  /* --- Card --- */
+  /* --- Card (prima: --card-background) --- */
   --card-background: var(--color-card);
   --card-color: var(--color-foreground);
   --card-border: var(--color-border);
   --card-radius: var(--radius-surface);
-  --card-padding: var(--space-6);
+  --card-padding: calc(var(--space-step) * 6.0);
   --card-shadow: var(--shadow-surface);
   --card-title-size: var(--text-base);
   --card-description-color: var(--color-muted-foreground);
@@ -42,26 +42,26 @@
   --input-color: var(--color-foreground);
   --input-border: var(--color-border);
   --input-radius: var(--radius-control);
-  --input-padding-block: 0.5rem;
-  --input-padding-inline: 0.75rem;
-  --input-height: 2.25rem;
+  --input-padding-block: calc(var(--space-step) * 2.0);
+  --input-padding-inline: calc(var(--space-step) * 3.0);
+  --input-height: var(--size-control-height-md);
   --input-font-size: var(--text-size-ui);
   --input-placeholder-color: var(--color-muted-foreground);
 
-  /* --- Field / form --- */
-  --field-gap: var(--space-2);
+  /* --- Field / form (prima: --field-description-color) --- */
+  --field-gap: calc(var(--space-step) * 2.0);
   --field-description-color: var(--color-muted-foreground);
-  --form-gap: var(--space-4);
-  --form-columns-min: 16rem;
+  --form-gap: calc(var(--space-step) * 4.0);
+  --form-columns-min: var(--size-form-columns-min);
 
-  /* --- Select --- */
+  /* --- Select (prima: --select-background; derives from input) --- */
   --select-background: var(--input-background);
   --select-color: var(--input-color);
   --select-border: var(--input-border);
   --select-radius: var(--input-radius);
   --select-height: var(--input-height);
   --select-item-background: transparent;
-  --select-item-radius: var(--radius-2);
+  --select-item-radius: calc(var(--radius-step) * 2);
 
   /* --- Popover surface (prima: --popover-background) --- */
   --popover-background: var(--color-popover);
@@ -69,127 +69,152 @@
   --popover-border: var(--color-border);
   --popover-radius: var(--radius-surface);
   --popover-shadow: var(--shadow-overlay);
-  --popover-padding: var(--space-1);
-  --popover-z: 50;
+  --popover-padding: calc(var(--space-step) * 1.0);
+  --popover-min-width: var(--size-popover-min);
+  --popover-z: var(--z-overlay);
 
-  /* --- Menu (dropdown/context; surface aliases popover) --- */
+  /* --- Menu (prima: --menu-background; surface aliases popover) --- */
   --menu-background: var(--popover-background);
   --menu-color: var(--popover-color);
   --menu-border: var(--popover-border);
   --menu-radius: var(--popover-radius);
   --menu-shadow: var(--popover-shadow);
   --menu-padding: var(--popover-padding);
-  --menu-item-radius: var(--radius-2);
-  --menu-item-padding-block: var(--space-1-5);
-  --menu-item-padding-inline: var(--space-2);
+  --menu-item-radius: calc(var(--radius-step) * 2);
+  --menu-item-padding-block: calc(var(--space-step) * 1.5);
+  --menu-item-padding-inline: calc(var(--space-step) * 2.0);
   --menu-item-font-size: var(--text-size-ui);
-  --menu-item-gap: var(--space-2);
-  --menu-item-indicator-size: 0.875rem;
+  --menu-item-gap: calc(var(--space-step) * 2.0);
+  --menu-item-indicator-size: var(--size-indicator);
 
-  /* --- Tooltip (inverted surface) --- */
+  /* --- Tooltip (prima: --tooltip-background) --- */
   --tooltip-background: var(--color-foreground);
-  --tooltip-color: oklch(from var(--tooltip-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --tooltip-color: var(--color-on-accent);
   --tooltip-border: transparent;
-  --tooltip-radius: var(--radius-2);
-  --tooltip-shadow: var(--shadow-2);
-  --tooltip-padding-block: 0.375rem;
-  --tooltip-padding-inline: 0.75rem;
-  --tooltip-font-size: var(--text-xs);
+  --tooltip-radius: calc(var(--radius-step) * 2);
+  --tooltip-shadow: var(--shadow-overlay);
+  --tooltip-padding-block: calc(var(--space-step) * 1.5);
+  --tooltip-padding-inline: calc(var(--space-step) * 3.0);
+  --tooltip-font-size: calc(var(--text-base) * 0.75);
 
-  /* --- Dialog --- */
+  /* --- Dialog (prima: --dialog-background) --- */
   --dialog-background: var(--color-popover);
   --dialog-color: var(--color-foreground);
   --dialog-border: var(--color-border);
   --dialog-radius: var(--radius-surface);
   --dialog-shadow: var(--shadow-overlay);
-  --dialog-padding: var(--space-6);
-  --dialog-gap: var(--space-4);
-  --dialog-max-width: 32rem;
-  --dialog-max-height: min(85vh, 40rem);
+  --dialog-padding: calc(var(--space-step) * 6.0);
+  --dialog-gap: calc(var(--space-step) * 4.0);
+  --dialog-max-width: var(--size-dialog-max-width);
+  --dialog-max-height: min(85vh, var(--size-dialog-max-height));
   --dialog-overlay: var(--color-overlay);
   --dialog-z: var(--popover-z);
 
-  /* --- Separator --- */
+  /* --- Separator (prima: --separator-color) --- */
   --separator-color: var(--color-border);
 
   /* --- Switch (prima: --switch-track) --- */
   --switch-track: color-mix(in oklch, var(--color-foreground) 20%, transparent);
   --switch-track-checked: var(--color-accent);
   --switch-thumb: var(--color-background);
-  --switch-thumb-checked: oklch(from var(--switch-track-checked) clamp(0, calc(1 - l), 1) 0.05 h);
-  --switch-width: 2.25rem;
-  --switch-height: 1.25rem;
-  --switch-thumb-size: 1rem;
+  --switch-thumb-checked: var(--color-on-accent);
+  --switch-width: var(--size-control-height-md);
+  --switch-height: calc(var(--space-step) * 5.0);
+  --switch-thumb-size: calc(var(--space-step) * 4.0);
 
   /* --- Checkbox (prima: --checkbox-background) --- */
   --checkbox-background: transparent;
   --checkbox-background-checked: var(--color-accent);
-  --checkbox-color: oklch(from var(--checkbox-background-checked) clamp(0, calc(1 - l), 1) 0.05 h);
+  --checkbox-color: var(--color-on-accent);
   --checkbox-border: var(--color-border);
   --checkbox-border-checked: var(--checkbox-background-checked);
-  --checkbox-size: 1rem;
-  --checkbox-radius: var(--radius-1);
+  --checkbox-size: calc(var(--space-step) * 4.0);
+  --checkbox-radius: calc(var(--radius-step) * 1);
 
   /* --- Radio (prima: --radio-border) --- */
   --radio-background: transparent;
   --radio-background-checked: var(--color-accent);
   --radio-border: var(--color-border);
-  --radio-dot: oklch(from var(--radio-background-checked) clamp(0, calc(1 - l), 1) 0.05 h);
-  --radio-size: 1rem;
+  --radio-dot: var(--color-on-accent);
+  --radio-size: calc(var(--space-step) * 4.0);
 
   /* --- Progress (prima: --progress-indicator) --- */
   --progress-track: color-mix(in oklch, var(--color-foreground) 12%, transparent);
-  --progress-indicator: var(--color-accent);
-  --progress-height: 0.5rem;
+  --progress-indicator: var(--color-positive);
+  --progress-height: calc(var(--space-step) * 2.0);
 
-  /* --- Slider --- */
+  /* --- Slider (prima: --slider-track) --- */
   --slider-track: color-mix(in oklch, var(--color-foreground) 15%, transparent);
   --slider-range: var(--color-accent);
   --slider-thumb: var(--color-background);
   --slider-thumb-border: var(--color-accent);
-  --slider-thumb-size: 1rem;
+  --slider-thumb-size: calc(var(--space-step) * 4.0);
 
-  /* --- Tabs --- */
+  /* --- Tabs (prima: --tabs-list-background) --- */
   --tabs-list-background: color-mix(in oklch, var(--color-foreground) 6%, transparent);
   --tabs-list-color: var(--color-muted-foreground);
   --tabs-trigger-background: transparent;
   --tabs-trigger-color: inherit;
   --tabs-trigger-background-active: var(--color-background);
   --tabs-trigger-color-active: var(--color-foreground);
-  --tabs-height: 2.25rem;
-  --tabs-trigger-padding-block: 0.25rem;
-  --tabs-trigger-padding-inline: 0.75rem;
+  --tabs-height: var(--size-control-height-md);
+  --tabs-trigger-padding-block: calc(var(--space-step) * 1.0);
+  --tabs-trigger-padding-inline: calc(var(--space-step) * 3.0);
 
-  /* --- Accordion --- */
+  /* --- Accordion (prima: --accordion-border) --- */
   --accordion-border: var(--color-border);
-  --accordion-trigger-padding-block: var(--space-4);
+  --accordion-trigger-padding-block: calc(var(--space-step) * 4.0);
   --accordion-trigger-color: var(--color-foreground);
   --accordion-content-color: var(--color-foreground);
   --accordion-transition: var(--motion-accordion);
 
-  /* --- Avatar --- */
-  --avatar-size: 2.5rem;
-  --avatar-size-sm: 2rem;
-  --avatar-size-lg: 3rem;
+  /* --- Avatar (prima: --avatar-size) --- */
+  --avatar-size: var(--size-avatar-md);
+  --avatar-size-sm: var(--size-avatar-sm);
+  --avatar-size-lg: var(--size-avatar-lg);
   --avatar-fallback-background: var(--color-muted);
   --avatar-fallback-color: var(--color-muted-foreground);
 
-  /* --- Table --- */
+  /* --- Table (prima: --table-head-color) --- */
   --table-head-color: var(--color-muted-foreground);
   --table-head-weight: var(--weight-medium);
-  --table-cell-padding-block: var(--space-2);
-  --table-cell-padding-inline: var(--space-3);
+  --table-cell-padding-block: calc(var(--space-step) * 2.0);
+  --table-cell-padding-inline: calc(var(--space-step) * 3.0);
   --table-row-border: var(--color-border);
   --table-row-hover: var(--color-muted);
 
-  /* --- Navigation menu --- */
-  --nav-trigger-color: var(--color-muted-foreground);
+  /* --- Navigation menu (prima: --nav-trigger-color) --- */
+  --nav-trigger-color: var(--color-foreground);
   --nav-trigger-color-active: var(--color-foreground);
   --nav-content-background: var(--popover-background);
   --nav-content-border: var(--popover-border);
   --nav-content-radius: var(--popover-radius);
   --nav-content-shadow: var(--popover-shadow);
-  --nav-content-padding: var(--space-2);
+  --nav-content-padding: calc(var(--space-step) * 2.0);
   --nav-link-color: var(--color-foreground);
   --nav-link-description-color: var(--color-muted-foreground);
+
+  /* --- Pagination (prima: --pagination-background) --- */
+  --pagination-background: transparent;
+  --pagination-color: var(--color-muted-foreground);
+  --pagination-color-hover: var(--color-foreground);
+  --pagination-background-selected: var(--color-accent);
+  --pagination-color-selected: var(--color-on-accent);
+  --pagination-gap: calc(var(--space-step) * 1.0);
+
+  /* --- Skeleton (prima: --skeleton-background) --- */
+  --skeleton-background: color-mix(in oklch, var(--color-foreground) 12%, transparent);
+  /* --- Alert --- */
+  --alert-icon-info: var(--color-info);
+  --alert-icon-warning: var(--color-warning);
+  --alert-icon-positive: var(--color-positive);
+  --alert-icon-destructive: var(--color-destructive);
+  --alert-background-info: color-mix(in oklch, var(--color-info) 8%, transparent);
+  --alert-background-warning: color-mix(in oklch, var(--color-warning) 8%, transparent);
+  --alert-background-positive: color-mix(in oklch, var(--color-positive) 8%, transparent);
+  --alert-background-destructive: color-mix(in oklch, var(--color-destructive) 8%, transparent);
+  --alert-border-info: color-mix(in oklch, var(--color-info) 35%, transparent);
+  --alert-border-warning: color-mix(in oklch, var(--color-warning) 35%, transparent);
+  --alert-border-positive: color-mix(in oklch, var(--color-positive) 35%, transparent);
+  --alert-border-destructive: color-mix(in oklch, var(--color-destructive) 35%, transparent);
 }
