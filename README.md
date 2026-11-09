@@ -1,149 +1,119 @@
-# waCSS
+# wacss
 
-## Core idea
-A minimalist, design system inspired primarily by Japanese WabiSabi and by Western Editorial Minimalism. The "wa" in the name comes from the Japanese concept of **wa (和)**, a concept translating to something like "harmony," "peace," or "balance", and also conformity within a social group. This project interprets harmony and conformity as structural inspiration. The css library should conform to globally recognized standards for accessibility, and be pleasant for users to use, and frictionless for developers. It prefers element styling over class styling, and encourages users to use actual semantic html, rather than inventing classes that do the same thing. Javascript is sometimes useful for accessibility behavior.
+A semantic, token-driven, class-light CSS system and Astro component library inspired by Japanese Wabi-Sabi and editorial minimalism.
+
+The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, semantic HTML, accessibility, calm defaults, and small, maintainable code over flashiness.
+
+## Status
+
+**v0 (fresh start)**. This repository now contains a cohesive base:
+- Global stylesheet source in `src/styles/` (no scoped Astro/Svelte styles)
+- Standalone CSS outputs: `dist/wacss.css` and `dist/wacss.min.css`
+- JS spec exports in `src/spec/`
+- Thin Astro component wrappers in `src/components/`
+- `src/islands/` reserved for Svelte islands only when native HTML is insufficient
 
 ## Principles
 
-Wa (和)
-: Harmony with users, developers, and international standards. Design should feel familiar, accessible, easy to learn, and work with the platform rather than against it.
+| Principle | Meaning | Implementation guidance |
+|---|---|---|
+| 和 Wa | harmony | Consistent semantics, accessible defaults, platform-friendly patterns. |
+| 簡素 Kanso | simplicity | Fewer wrappers/elements; no utility-class API. |
+| 間 Ma | negative space | Spacing is structural and tokenized; avoid spacer markup. |
+| 不均斉 Fukinsei | asymmetry | Layouts may be naturally uneven; do not force artificial symmetry. |
+| 自然 Shizen | naturalness | Use elements for what they mean (`button`, `nav`, `time`, `details`, etc.). |
+| 渋い Shibui | restraint | Faded, muted palettes; subtle emphasis. |
+| 幽玄 Yūgen | suggestion | Calm presentation; content can be brief and clear. |
+| 脱俗 Datsuzoku | freedom | Break convention only deliberately, not by default. |
+| 静寂 Seijaku | stillness | Motion is purposeful, subtle, and CSS-driven; respects `prefers-reduced-motion`. |
 
-Kanso (簡素)
-: Simplicity. Removal of anything unnecessary. In both appearance and implementation, remove excess until only what serves a purpose remains.
+## What ships
 
-Ma (間)
-: Spacing, emptiness, interval, and timing. Space is an active design element that creates rhythm, clarity, and an unhurried atmosphere.
+- **CSS**: `dist/wacss.css` (readable) and `dist/wacss.min.css` (standalone). The CSS can be used without the components.
+- **Astro components**: thin semantic wrappers in `src/components/`.
+- **Svelte islands**: `src/islands/` for behavior that cannot be expressed well with native HTML. v0 uses native patterns first.
+- **Schemas**: JSON Schema-shaped documentation contracts in colocated `schema.ts` files (e.g. `src/components/Button/schema.ts`), re-exported from `src/spec/index.ts`. Documentation info lives in the schema (descriptions, examples, and `x-wacss` metadata).
 
-Fukinsei (不均斉)
-: Asymmetry. Balance achieved without mirror symmetry, reflecting how nature is never perfectly uniform. Symmetry is not the only form of balance in design.
+## Design contracts
 
-Shizen (自然)
-: Naturalness. Forms, movement, and interactions should feel organic rather than manufactured.
+### Semantic HTML first
+- Prefer native elements and ARIA states before custom hooks.
+- Do not use scoped styles in Astro/Svelte components. Styling comes from the global stylesheet.
+- JavaScript/Svelte is used only when necessary; animation/transition behavior is handled in CSS/SCSS.
 
-Kokō (考古)
-: Weathered grace. Austerity that feels calm, mature, and enduring rather than pristine or attention-seeking.
+### Token hierarchy (global variables that bleed)
+CSS custom properties are **unprefixed** and follow a strict hierarchy. Every applied value should trace back to `:root` tokens so a token set can reskin the interface.
 
-Yūgen (幽玄)
-: Ethereal beauty. Beauty that is felt more than seen, working by suggestion rather than statement and leaving room for imagination.
+1. **Primitive / global** — palette inputs and scales (e.g. `--color-*` primitives, `--mix-color`, type/space/radius/motion scales).
+2. **Semantic / alias** — meaning roles (e.g. `--color-base`, `--color-surface`, `--color-accent`, `--color-pop`, `--color-text`, `--color-border`, `--color-positive`, `--color-neutral`, `--color-negative`).
+3. **Component** — component roles defined from semantic tokens (e.g. `--button-background: var(--color-accent)`).
+4. **State** — derived from component tokens and modern functions (e.g. `--button-background-hover: color-mix(in oklch, var(--button-background), var(--mix-color) 8%)`).
 
-Datsuzoku (脱俗)
-: Freedom from convention. Breaking away from habit and formula in ways that bring quiet delight while maintaining grace.
+No hardcoded color ramps: states are derived (primarily `color-mix()` in OKLCH).
 
-Shibui (渋い)
-: Restrained depth. Understated, unobtrusive beauty whose richness reveals itself over time rather than all at once.
+### Attribute hooks
+Real `data-*` attributes may belong to user content, so wacss uses **vendor-prefixed** hooks only when ARIA/native semantics are insufficient:
+- `data-wacss-palette="sakura|matcha"` selects a palette.
+- Visual/non-semantic component hooks use `data-wacss-*` (e.g. `data-wacss-variant`, `data-wacss-badge`, `data-wacss-card`).
 
-Seijaku (静寂)
-: Energized calm. The stillness at the centre rather than the absence of life. Nothing moves without purpose. When harmony, simplicity, spacing, and restraint come together, what remains is a quiet the reader can rest in.
+### Palettes and color scheme
+- v0 palettes: **`sakura`** and **`matcha`**.
+- Each palette supports light and dark values.
+- `prefers-color-scheme` provides the default **dark** behavior (light is applied when the user prefers light).
+- No mode override attribute in v0.
 
-## Principles Applied
+```html
+<html data-wacss-palette="sakura">
+  <!-- styles follow prefers-color-scheme by default -->
+</html>
+```
 
-* **Semantic HTML.** Inspired by **Wa** and **Kanso**. Semantic elements work in harmony with web standards and accessibility while reducing the amount of CSS and markup needed. Writing good HTML should be enough.
-* **Use the system.** Inspired by **Wa**. Native browser behaviour, platform conventions, and web standards are preferred over reinventing familiar patterns.
-* **Classless by default.** Inspired by **Kanso** and **Wa**. Styling native elements instead of utility or component classes reduces complexity and keeps HTML clean, portable, and easy to understand.
-* **Accessible by default.** Inspired by **Wa**. Accessibility is treated as part of the system rather than an optional enhancement, ensuring interfaces work naturally for everyone.
-* **Astro is the default supported framework.** Inspired by **Kanso**. Supporting a single framework reduces maintenance, keeps documentation focused, and avoids unnecessary fragmentation.
-* **CSS variables over overrides.** Inspired by **Wa** and **Kanso**. Customisation happens through shared design tokens instead of increasingly specific selectors, creating predictable and maintainable styling.
-* **Intrinsic sizing.** Inspired by **Shizen** and **Wa**. Components are allowed to size themselves according to their content, with layouts adapting naturally instead of forcing arbitrary dimensions.
-* **Clarity over decoration.** Inspired by **Kanso** and **Shibui**. Every visual element should have a purpose. Beauty emerges through restraint rather than ornament.
-* **Whitespace is active.** Inspired by **Ma**. Space is treated as a design element that creates rhythm, hierarchy, and calm instead of simply filling what remains.
-* **Desaturated natural colours.** Inspired by **Shizen**, **Kokō**, and **Shibui**. Earthy, muted palettes feel natural, weathered, and quietly confident without demanding attention.
-* **Restraint in colour.** Inspired by **Shibui** and **Yūgen**. Colour is used sparingly, with a neutral foundation and limited accents that communicate meaning rather than decoration.
-* **Tasteful motion.** Inspired by **Seijaku** and **Shizen**. Animation exists to communicate state and interaction. It should be smooth, measured, and never distracting.
-* **Soft borders and shadows.** Inspired by **Shizen** and **Kokō**. Gentle edges and subtle depth feel more natural than hard lines or dramatic contrast.
-* **Natural motion.** Inspired by **Shizen** and **Seijaku**. Movement should feel organic and purposeful, with nothing animating without reason.
-* **Hidden detail.** Inspired by **Yūgen**, **Shibui**, and **Datsuzoku**. Small moments of discovery reward attention—such as swatch names appearing on hover—adding depth and delight without overwhelming the interface.
-* **AI Token Efficient** By using strict HTML compliance and mostly classless styling, the token
+### Sizing
+- Relative units are preferred (`rem`, `em` where flow-scaling makes sense).
+- Prose measure uses `ch`.
+- Fluid type/spacing may use `clamp()`.
+- Modern CSS features (OKLCH, `color-mix()`, etc.) are acceptable; legacy-browser support is not a primary v0 constraint.
 
-## Themes
+## v0 component starter set
 
-Each theme has
-- Light mode 
-  - Neutral Color Ramp
-  - Accent Color Ramp
-  - Semantic Colors
-    - Success
-    - Failure
-    - Warning
-    - Info
-- Dark mode
-  - Neutral Color Ramp
-  - Accent Color Ramp
-  - Semantic Colors
-    - Success
-    - Failure
-    - Warning
-    - Info
+| Area | Contract | Implementation |
+|---|---|---|
+| Base/prose | Global semantic elements, `ch` measure, calm rhythm | `src/styles/base/*` |
+| Button | Native `<button>` for actions; do not fake buttons for navigation | `src/styles/elements/_button.scss`, `Button.astro` |
+| Form basics | `label`, `input`, `textarea`, `select`, field help/error with ARIA associations | `src/styles/elements/_form.scss`, `Field.astro` |
+| Table | Semantic table/caption/headers | `src/styles/elements/_table.scss` |
+| Disclosure | Native `<details>/<summary>` | `src/styles/elements/_disclosure.scss`, `Disclosure.astro` |
+| Nav | `<nav>` landmark with labeled navigation and `aria-current` | `src/styles/patterns/_nav.scss`, `Nav.astro` |
+| Badge/Tag | Inline semantic element + `data-wacss-badge` | `src/styles/elements/_badge.scss`, `Badge.astro` |
+| Card/Surface | Semantic `article`/`section` + `data-wacss-card` | `src/styles/patterns/_card.scss`, `Card.astro` |
 
-Sage
-: A muted green theme with soft earthy neutrals, offering a calm, natural, and understated appearance.
+## Development
 
-Aizome (藍染)
-: An indigo-dyed theme featuring rich blue hues, evoking traditional Japanese textiles and a refined, timeless feel.
+Requires Bun.
 
-Kachi (勝色)
-: A dark navy-blue theme inspired by *kachi-iro* (勝色), conveying strength, elegance, and a subdued professional look.
+```bash
+bun install
+bun run build
+```
 
-Kurenai (紅)
-: A vivid crimson theme with striking red accents, delivering a vibrant, energetic, and confident visual style.
+Build outputs:
+- `dist/wacss.css`
+- `dist/wacss.min.css`
 
-Sakura (桜)
-: A delicate pink theme inspired by cherry blossoms, giving interfaces a light, warm, and welcoming atmosphere.
+## Project layout
 
-Matcha (抹茶)
-: A fresh green theme based on powdered green tea, blending natural vibrancy with a clean and balanced aesthetic.
+```text
+scripts/build.js      Bun build (Sass + Lightning CSS minify)
+src/styles/           Global SCSS source (tokens, themes, base, elements, patterns)
+src/spec/             Schema index (re-exports colocated schema.ts)
+src/components/*/     Astro components + colocated schema.ts
+src/islands/          Svelte islands (only when native HTML is insufficient)
+dist/                 Built CSS
+src/components/       Astro components (no scoped styles)
+src/islands/          Svelte islands (only when native HTML is insufficient)
+dist/                 Built CSS
+```
 
-Kuro (黒)
-: A pure black monochrome theme with high contrast, emphasizing simplicity, focus, and a modern dark appearance.
+## Aesthetic direction
 
-Yakisugi (焼杉)
-: A charred-wood-inspired theme with deep black and smoky grey tones, creating a bold, rustic, and minimalist aesthetic.
-
-## Orthogonal Style Categories
-
-This refers to the sub categories of a design system that don't directly influence each other, and can be applied without direct conflicts. Any indirect conflict they have is in how well they might fit together. For example, you might think olive green is a bad text color for serif but not sans-serif typography, but still it can be applied without any technical conflict. This library separates them so they can be bundled and included separately. 
-
-- Palette
-- Typography
-- Layout
-- Spacing
-
-## Components
-
-- Blocks
-  - Navbar
-  - Gallery
-
-- Typography
-  - Blockquote
-  - Code Block
-  - Link
-
-- Buttons
-  - Button
-  - Close Button
-  - Icon Button
-
-- Date and Time
-  - Date Picker
-  - Calendar
-
-- Forms
-  - Checkbox
-  - Input
-  - Number Input
-  - Password Input
-
-- Disclosure
-  - Accordion
-  - Breadcrumb
-  - Carousel
-
-- Data Display
-  - Avatar
-  - Badge
-  - Card
-  - Image
-  - Data List
-  - Icon
-  - Table
-  - Tag
+Calming, spacious, faded, and readable. The visual language is a mixture of Wabi-Sabi restraint and editorial minimalism: muted palettes, gentle surfaces, subtle borders/shadows, and transitions that help usability without demanding attention.

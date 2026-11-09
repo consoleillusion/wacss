@@ -1,0 +1,15 @@
+[data-wacss-badge] {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--badge-padding-block) var(--badge-padding-inline);
+  border-radius: var(--badge-radius);
+  background: var(--badge-background);
+  color: var(--badge-text);
+  font-family: var(--font-ui);
+  font-size: 0.875em;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+[data-wacss-badge][data-wacss-variant="positive"] { background: var(--badge-positive-background); }
+[data-wacss-badge][data-wacss-variant="neutral"] { background: var(--badge-neutral-background); }
+[data-wacss-badge][data-wacss-variant="negative"] { background: var(--badge-negative-background); }

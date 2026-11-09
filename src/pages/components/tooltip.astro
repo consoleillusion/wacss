@@ -1,0 +1,58 @@
+---
+import { schemas } from "../../spec/index";
+import TooltipClient from "../../components/Tooltip/TooltipClient.svelte";
+
+function renderSchema(obj: Record<string, unknown>, depth = 0): string {
+  if (!obj || typeof obj !== "object") return String(obj ?? "");
+  const indent = "  ".repeat(depth);
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === "properties") {
+      lines.push(`${indent}${key}:`);
+      lines.push(renderSchema(value as Record<string, unknown>, depth + 1));
+    } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      lines.push(`${indent}${key}:`);
+      lines.push(renderSchema(value as Record<string, unknown>, depth + 1));
+    } else if (Array.isArray(value)) {
+      lines.push(`${indent}${key}: [${value.map((v) => String(v)).join(", ")}]`);
+    } else {
+      lines.push(`${indent}${key}: ${JSON.stringify(value)}`);
+    }
+  }
+  return lines.join("\n");
+}
+---
+
+<html lang="en" data-wacss-palette="sakura">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wacss · Tooltip</title>
+  </head>
+  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
+    <nav style="margin-block-end: var(--space-6);">
+      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
+      <br />
+      <a href="/components/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← components index</a>
+    </nav>
+
+    <h1>Tooltip</h1>
+    <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
+      Shallow wrapper around a bits-ui component. Rendered client-side (<code>client:load</code>) because it needs a context provider.
+    </p>
+
+    <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width) solid var(--color-border); padding-block-start: var(--space-4);">
+      <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Preview</h2>
+      <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2);">
+        <TooltipClient client:load />
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Schema (Tooltip)</h2>
+      <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.9em;">
+{renderSchema(schemas.tooltip)}
+          </pre>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+---
+import "../../styles/bits.css";
+import Button from "../../components/Button/Button.svelte";
+import Dialog from "../../components/Dialog/Dialog.svelte";
+import Select from "../../components/Select/Select.svelte";
+import Popover from "../../components/Popover/Popover.svelte";
+import Tabs from "../../components/Tabs/Tabs.svelte";
+import DropdownMenu from "../../components/DropdownMenu/DropdownMenu.svelte";
+import Toggle from "../../components/Toggle/Toggle.svelte";
+import Switch from "../../components/Switch/Switch.svelte";
+import Checkbox from "../../components/Checkbox/Checkbox.svelte";
+import RadioGroup from "../../components/RadioGroup/RadioGroup.svelte";
+import Separator from "../../components/Separator/Separator.svelte";
+import Label from "../../components/Label/Label.svelte";
+import Accordion from "../../components/Accordion/Accordion.svelte";
+import AlertDialog from "../../components/AlertDialog/AlertDialog.svelte";
+import ContextMenu from "../../components/ContextMenu/ContextMenu.svelte";
+import Slider from "../../components/Slider/Slider.svelte";
+import Progress from "../../components/Progress/Progress.svelte";
+import Meter from "../../components/Meter/Meter.svelte";
+import Avatar from "../../components/Avatar/Avatar.svelte";
+import AspectRatio from "../../components/AspectRatio/AspectRatio.svelte";
+
+import { schemas } from "../../spec/index";
+
+const entry: string = (Astro.params.component ?? "").toLowerCase();
+
+const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, unknown> }> = {
+  button: { Component: Button, schema: schemas.button },
+  dialog: { Component: Dialog, schema: schemas.dialog },
+  select: { Component: Select, schema: schemas.select },
+  popover: { Component: Popover, schema: schemas.popover },
+  tabs: { Component: Tabs, schema: schemas.tabs },
+  dropdownMenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
+  toggle: { Component: Toggle, schema: schemas.toggle },
+  switch: { Component: Switch, schema: schemas.switch },
+  checkbox: { Component: Checkbox, schema: schemas.checkbox },
+  radioGroup: { Component: RadioGroup, schema: schemas.radioGroup },
+  separator: { Component: Separator, schema: schemas.separator },
+  label: { Component: Label, schema: schemas.label },
+  accordion: { Component: Accordion, schema: schemas.accordion },
+  alertDialog: { Component: AlertDialog, schema: schemas.alertDialog },
+  contextMenu: { Component: ContextMenu, schema: schemas.contextMenu },
+  slider: { Component: Slider, schema: schemas.slider },
+  progress: { Component: Progress, schema: schemas.progress },
+  meter: { Component: Meter, schema: schemas.meter },
+  avatar: { Component: Avatar, schema: schemas.avatar },
+  aspectRatio: { Component: AspectRatio, schema: schemas.aspectRatio },
+};
+
+const componentInfo = COMPONENTS[entry];
+
+export function getStaticPaths() {
+  return [
+    "button",
+    "dialog",
+    "select",
+    "popover",
+    "tabs",
+    "dropdownMenu",
+    "toggle",
+    "switch",
+    "checkbox",
+    "radioGroup",
+    "separator",
+    "label",
+    "accordion",
+    "alertDialog",
+    "contextMenu",
+    "slider",
+    "progress",
+    "meter",
+    "avatar",
+    "aspectRatio",
+  ].map((key) => ({ params: { component: key } }));
+}
+
+function renderSchema(obj: Record<string, unknown>, depth = 0): string {
+  if (!obj || typeof obj !== "object") return String(obj ?? "");
+  const indent = "  ".repeat(depth);
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === "properties") {
+      lines.push(`${indent}${key}:`);
+      lines.push(renderSchema(value as Record<string, unknown>, depth + 1));
+    } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      lines.push(`${indent}${key}:`);
+      lines.push(renderSchema(value as Record<string, unknown>, depth + 1));
+    } else if (Array.isArray(value)) {
+      lines.push(`${indent}${key}: [${value.map((v) => String(v)).join(", ")}]`);
+    } else {
+      lines.push(`${indent}${key}: ${JSON.stringify(value)}`);
+    }
+  }
+  return lines.join("\n");
+}
+---
+
+<html lang="en" data-wacss-palette="sakura">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wacss · {componentInfo ? componentInfo.schema.title : entry}</title>
+  </head>
+  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
+    <nav style="margin-block-end: var(--space-6);">
+      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
+    </nav>
+
+    {componentInfo ? (
+      <>
+        <h1>{componentInfo.schema.title}</h1>
+        <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
+          Shallow wrapper around a bits-ui component. Replace me one day with native semantic markup.
+        </p>
+
+        <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width) solid var(--color-border); padding-block-start: var(--space-4);">
+          <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Preview</h2>
+          <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2);">
+            {entry === "button" && <Button />}
+            {entry === "dialog" && <Dialog />}
+            {entry === "select" && <Select />}
+            {entry === "popover" && <Popover />}
+            {entry === "tabs" && <Tabs />}
+            {entry === "dropdownMenu" && <DropdownMenu />}
+            {entry === "toggle" && <Toggle />}
+            {entry === "switch" && <Switch />}
+            {entry === "checkbox" && <Checkbox />}
+            {entry === "radioGroup" && <RadioGroup />}
+            {entry === "separator" && <Separator />}
+            {entry === "label" && <Label />}
+            {entry === "accordion" && <Accordion />}
+            {entry === "alertDialog" && <AlertDialog />}
+            {entry === "contextMenu" && <ContextMenu />}
+            {entry === "slider" && <Slider />}
+            {entry === "progress" && <Progress />}
+            {entry === "meter" && <Meter />}
+            {entry === "avatar" && <Avatar />}
+            {entry === "aspectRatio" && <AspectRatio />}
+          </div>
+        </section>
+
+        <section>
+          <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Schema ({componentInfo.schema.title})</h2>
+          <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.9em;">
+{renderSchema(componentInfo.schema)}
+          </pre>
+        </section>
+      </>
+    ) : (
+      <>
+        <h1>Component not found</h1>
+        <p>No component registered for "{entry}".</p>
+        <p>Available: {Object.keys(COMPONENTS).sort().join(", ")}.</p>
+      </>
+    )}
+  </body>
+</html>

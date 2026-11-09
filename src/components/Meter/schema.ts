@@ -1,0 +1,16 @@
+import { commonAttributes } from "../commonAttributes";
+
+export default {
+  title: "Meter",
+  type: "object",
+  properties: {
+    ...commonAttributes,
+    value: { type: "number" },
+    min: { type: "number", default: 0 },
+    max: { type: "number", default: 100 },
+    low: { type: "number" },
+    high: { type: "number" },
+    optimum: { type: "number" },
+  },
+  additionalProperties: true,
+} as const;

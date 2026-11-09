@@ -1,0 +1,29 @@
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--body-background);
+  color: var(--body-text);
+  font-family: var(--font-body);
+  font-size: var(--text-size-body);
+  line-height: var(--line-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--color-accent), transparent 65%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

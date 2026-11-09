@@ -1,0 +1,27 @@
+label { display: inline-block; margin-block-end: var(--space-1); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+textarea,
+select {
+  width: 100%;
+  padding: var(--field-padding-block) var(--field-padding-inline);
+  border: var(--border-width) solid var(--field-border);
+  border-radius: var(--field-radius);
+  background: var(--field-background);
+  color: var(--field-text);
+  transition: border-color var(--motion-fast) var(--ease-calm);
+}
+textarea { min-block-size: 8rem; resize: vertical; }
+input:hover, textarea:hover, select:hover { border-color: var(--field-border-hover); }
+input:focus-visible, textarea:focus-visible, select:focus-visible { border-color: var(--field-border-focus); }
+input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"],
+input:user-invalid, textarea:user-invalid, select:user-invalid {
+  border-color: var(--field-border-invalid);
+}
+fieldset {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-2);
+  padding: calc(var(--space-4) * 4);
+}
+legend { padding-inline: calc(var(--space-2) * 4) }
+[data-wacss-help] { color: var(--field-help-text); font-size: var(--text-size-sm); margin-block-start: var(--space-1); }
+[data-wacss-error] { color: var(--field-error-text); font-size: var(--text-size-sm); margin-block-start: var(--space-1); }

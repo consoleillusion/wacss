@@ -1,0 +1,28 @@
+---
+import { schemas } from "../../spec/index";
+
+const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title }));
+---
+<html lang="en" data-wacss-palette="sakura">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wacss · Components</title>
+  </head>
+  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
+    <nav style="margin-block-end: var(--space-6);">
+      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
+    </nav>
+    <h1>Components</h1>
+    <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
+      Each component page shows a preview and its schema. Components are shallow wrappers around bits-ui and can be replaced one by one.
+    </p>
+    <ul style="padding-inline-start: var(--space-4); list-style-type: disc;">
+      {list.map((item) => (
+        <li style="margin-block-end: var(--space-2);">
+          <a href={`/components/${item.key}/`} style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">{item.title}</a>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+---
+import "../../dist/wacss.min.css";
+import "../styles/bits.css";
+import Button from "../components/Button/Button.astro";
+import Card from "../components/Card/Card.astro";
+import Nav from "../components/Nav/Nav.astro";
+import Disclosure from "../components/Disclosure/Disclosure.astro";
+import Badge from "../components/Badge/Badge.astro";
+---
+<html lang="en" data-wacss-palette="sakura">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wacss v0 demo</title>
+  </head>
+  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4);">
+    <header style="margin-block-end: var(--space-7);">
+      <p><small>wacss v0 demo · semantic, token-driven, global CSS</small></p>
+      <h1>Calm interfaces, plain markup</h1>
+      <p>Palette follows <code>data-wacss-palette</code>. Light/dark follows <code>prefers-color-scheme</code> (default dark behavior). Use the controls below only for this demo.</p>
+      <p style="display:flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+        <Button type="button" data-demo-palette="sakura">Sakura</Button>
+        <Button type="button" variant="secondary" data-demo-palette="matcha">Matcha</Button>
+        <Badge variant="positive">sakura/matcha</Badge>
+      </p>
+      <p style="margin-block-start: var(--space-3);">
+        <a href="/components/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">Browse component pages &rarr;</a>
+      </p>
+    </header>
+
+    <Nav label="Demo">
+      <ul>
+        <li><a href="#prose" aria-current="page">Prose</a></li>
+        <li><a href="#forms">Forms</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#patterns">Patterns</a></li>
+      </ul>
+    </Nav>
+
+    <main id="prose" style="margin-block-start: var(--space-7);">
+      <h2>Base prose</h2>
+      <p>This paragraph uses the global body/type tokens and a comfortable measure. wacss favors semantic HTML, restrained emphasis, and spacing that gives content room to breathe.</p>
+      <blockquote>
+        <p>Harmony with standards, not decoration for its own sake.</p>
+      </blockquote>
+      <figure>
+        <img src="https://placehold.co/960x420/6b7280/f3f4f6?text=wacss" alt="Placeholder image" width="960" height="420" loading="lazy" />
+        <figcaption>Figures and captions use global element styles.</figcaption>
+      </figure>
+      <pre><code>button {"{"}
+  background: var(--button-background);
+{"}"}</code></pre>
+
+      <h2 id="forms">Form basics</h2>
+      <form action="#" method="get" style="display:grid; gap: var(--space-4);">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" aria-describedby="email-help" />
+          <p id="email-help" data-wacss-help>Help text uses <code>aria-describedby</code> and <code>data-wacss-help</code>.</p>
+        </div>
+        <div>
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes"></textarea>
+        </div>
+        <div>
+          <label for="choice">Choice</label>
+          <select id="choice" name="choice">
+            <option>Sakura</option>
+            <option>Matcha</option>
+          </select>
+        </div>
+        <div>
+          <Button type="submit" variant="primary">Primary action</Button>
+          <Button type="reset" variant="secondary">Secondary</Button>
+        </div>
+      </form>
+
+      <h2 id="data">Table</h2>
+      <table>
+        <caption>Token hierarchy</caption>
+        <thead>
+          <tr><th scope="col">Layer</th><th scope="col">Role</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Primitive</td><td>Global inputs/scales</td></tr>
+          <tr><td>Semantic</td><td>Meaning aliases</td></tr>
+          <tr><td>Component</td><td>Component roles</td></tr>
+          <tr><td>State</td><td>Derived with <code>color-mix()</code></td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="patterns">Patterns</h2>
+      <div style="display:grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); align-items: start;">
+        <Card>
+          <h3>Card / surface</h3>
+          <p>A semantic container with <code>data-wacss-card</code> and tokenized surface styling.</p>
+          <p><Badge>default</Badge> <Badge variant="positive">positive</Badge> <Badge variant="neutral">neutral</Badge> <Badge variant="negative">negative</Badge></p>
+        </Card>
+        <Card as="section" aria-labelledby="disclosure-title">
+          <h3 id="disclosure-title">Disclosure</h3>
+          <Disclosure summary="Native details/summary">
+            <p>Accordion behavior uses native HTML first. No JavaScript is required for this pattern.</p>
+          </Disclosure>
+        </Card>
+      </div>
+    </main>
+
+    <script is:inline>
+      document.querySelectorAll('[data-demo-palette]').forEach((el) => {
+        el.addEventListener('click', () => {
+          document.documentElement.setAttribute('data-wacss-palette', el.getAttribute('data-demo-palette'));
+        });
+      });
+    </script>
+  </body>
+</html>

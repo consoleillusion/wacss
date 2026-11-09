@@ -1,0 +1,54 @@
+/* Component tokens. Defined from semantic tokens only. */
+:root {
+  --body-background: var(--color-base);
+  --body-text: var(--color-text);
+  --link-color: var(--color-accent);
+  --focus-ring: var(--color-focus);
+
+  --button-background: var(--color-accent);
+  --button-text: var(--color-base);
+  --button-border: transparent;
+  --button-radius: var(--radius-2);
+  --button-padding-block: 2.6em
+  --button-padding-inline: 4em
+  --button-primary-background: var(--color-pop);
+  --button-primary-text: var(--color-base);
+  --button-secondary-background: color-mix(in oklch, var(--color-surface), var(--color-accent) 18%);
+
+  --field-background: var(--color-surface);
+  --field-text: var(--color-text);
+  --field-border: var(--color-border);
+  --field-radius: var(--radius-1);
+  --field-padding-block: 2.6rem
+  --field-padding-inline: 3.2rem
+  --field-help-text: var(--color-text-muted);
+  --field-error-text: var(--color-negative);
+
+  --table-border: var(--color-border);
+  --table-header-background: color-mix(in oklch, var(--color-surface), var(--color-text) 4%);
+  --table-row-background: transparent;
+
+  --card-background: var(--color-surface);
+  --card-text: var(--color-text);
+  --card-border: var(--color-border);
+  --card-radius: var(--radius-2);
+  --card-padding: calc(var(--space-5) * 4);
+  --card-shadow: var(--shadow-1);
+
+  --nav-gap: var(--space-4);
+  --nav-link-color: var(--color-text);
+  --nav-link-current-color: var(--color-text);
+
+  --disclosure-background: var(--color-surface);
+  --disclosure-border: var(--color-border);
+  --disclosure-radius: var(--radius-2);
+  --disclosure-padding: calc(var(--space-4) * 4);
+  --badge-background: color-mix(in oklch, var(--color-surface), var(--color-accent) 16%);
+  --badge-text: var(--color-text);
+  --badge-radius: 999px;
+  --badge-padding-block: 0.6em
+  --badge-padding-inline: 2.2em
+  --badge-positive-background: color-mix(in oklch, var(--color-surface), var(--color-positive) 22%);
+  --badge-neutral-background: color-mix(in oklch, var(--color-surface), var(--color-neutral) 22%);
+  --badge-negative-background: color-mix(in oklch, var(--color-surface), var(--color-negative) 22%);
+}

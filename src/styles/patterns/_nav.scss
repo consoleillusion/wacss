@@ -1,0 +1,19 @@
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nav-gap);
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+nav a {
+  color: var(--nav-link-color);
+  text-decoration: none;
+}
+nav a:hover { color: var(--nav-link-color-hover); }
+nav a[aria-current="page"],
+nav a[aria-current="true"] {
+  color: var(--nav-link-current-color);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
