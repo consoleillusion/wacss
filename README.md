@@ -103,7 +103,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 $palettes: (
   sakura: oklch(60% 0.15 5),
   matcha: oklch(60% 0.15 140),
-  sumi: oklch(60% 0.01 260),
+  sumi: oklch(60% 0.05 260),
   aizome: oklch(60% 0.15 230)
 );
 
