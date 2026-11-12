@@ -18,28 +18,28 @@
     [key: string]: unknown;
   } = $props();
 
-  const classes = $derived(["wacss-navigation-menu", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
-<NavigationMenu.Root class={classes} data-wacss="navigation-menu" {...restProps}>
-  <NavigationMenu.List data-wacss="navigation-menu-list">
+<NavigationMenu.Root class={classes} {...restProps}>
+  <NavigationMenu.List>
     {#each items as item, i (item.label + i)}
-      <NavigationMenu.Item data-wacss="navigation-menu-item">
+      <NavigationMenu.Item>
         {#if item.links?.length}
-          <NavigationMenu.Trigger data-wacss="navigation-menu-trigger">
+          <NavigationMenu.Trigger>
             {item.label}
-            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-wacss="navigation-menu-caret">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="m4 6 4 4 4-4" />
             </svg>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content data-wacss="navigation-menu-content">
-            <ul data-wacss="navigation-menu-grid">
+          <NavigationMenu.Content>
+            <ul>
               {#each item.links as link}
                 <li>
-                  <NavigationMenu.Link href={link.href} data-wacss="navigation-menu-link">
-                    <span data-wacss="navigation-menu-link-title">{link.label}</span>
+                  <NavigationMenu.Link href={link.href}>
+                    <span>{link.label}</span>
                     {#if link.description}
-                      <span data-wacss="navigation-menu-link-desc">{link.description}</span>
+                      <span>{link.description}</span>
                     {/if}
                   </NavigationMenu.Link>
                 </li>
@@ -47,19 +47,19 @@
             </ul>
           </NavigationMenu.Content>
         {:else if item.href}
-          <NavigationMenu.Link href={item.href} data-wacss="navigation-menu-trigger" data-link>
+          <NavigationMenu.Link href={item.href} data-link>
             {item.label}
           </NavigationMenu.Link>
         {:else}
-          <span data-wacss="navigation-menu-trigger">{item.label}</span>
+          <span>{item.label}</span>
         {/if}
       </NavigationMenu.Item>
     {/each}
-    <NavigationMenu.Indicator data-wacss="navigation-menu-indicator">
-      <div data-wacss="navigation-menu-indicator-arrow"></div>
+    <NavigationMenu.Indicator>
+      <div></div>
     </NavigationMenu.Indicator>
   </NavigationMenu.List>
-  <div data-wacss="navigation-menu-viewport-wrap">
-    <NavigationMenu.Viewport data-wacss="navigation-menu-viewport" />
+  <div>
+    <NavigationMenu.Viewport />
   </div>
 </NavigationMenu.Root>

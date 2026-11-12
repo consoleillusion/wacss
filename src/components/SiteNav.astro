@@ -12,10 +12,10 @@ const links = [
   { href: "/components/", label: "Components" },
 ];
 ---
-<header data-wacss="site-header">
-  <nav aria-label="Primary" data-wacss="site-nav">
-    <a href="/" data-wacss="site-brand">wacss</a>
-    <ul data-wacss="site-nav-links">
+<header>
+  <nav aria-label="Primary">
+    <a href="/">wacss</a>
+    <ul>
       {links.map((link) => (
         <li>
           <a
@@ -27,7 +27,7 @@ const links = [
         </li>
       ))}
     </ul>
-    <div data-wacss="site-nav-actions">
+    <div>
       <ThemeToggle client:load />
     </div>
   </nav>

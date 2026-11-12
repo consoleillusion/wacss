@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<AspectRatio.Root {...rest} data-wacss="aspect-ratio">
+<AspectRatio.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

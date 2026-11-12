@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<Meter.Root {...rest} data-wacss="meter">
+<Meter.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

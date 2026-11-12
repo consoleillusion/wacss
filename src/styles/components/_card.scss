@@ -1,0 +1,21 @@
+/* Card - styled as semantic article/section surface */
+article, section[data-surface] {
+  /* conservative: only style article globally as card-like in this system; sections opt-in */
+}
+article {
+  border-radius: var(--card-radius);
+  border: var(--border) solid var(--card-border);
+  background: var(--card-background);
+  color: var(--card-foreground);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--card-padding);
+}
+article > header { display: grid; gap: var(--space-1-5); padding: 0; }
+article > header h3, article > header h2 { font-weight: var(--weight-semibold); line-height: 1; font-size: var(--text-lg); }
+article > figure { overflow: hidden; border-radius: calc(var(--card-radius) - 2px); margin: 0; }
+article > div, article > p { font-size: var(--text-body); }
+article > p, article .description { color: var(--color-muted-foreground); }
+article > footer { display: flex; align-items: center; gap: var(--space-2); margin-top: auto; }

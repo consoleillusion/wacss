@@ -1,0 +1,75 @@
+/* Level 2 - Semantic: meanings built from primitives. */
+:root {
+  color-scheme: light dark;
+  --color-accent: var(--color-dark-sumi);
+  --color-base-light: #fafafa;
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0 0);
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 4%);
+  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
+  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
+  --color-background: var(--color-base);
+  --color-card: var(--color-surface);
+  --color-popover: var(--color-surface);
+  --color-text: var(--color-base-light-inverse);
+  --color-foreground: var(--color-text);
+  --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
+  --color-ring: var(--color-accent);
+  --color-overlay: color-mix(in oklch, var(--color-black) 50%, transparent);
+  --color-destructive: var(--color-red);
+
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --text-size-body: var(--text-base);
+  --line-body: var(--line-normal);
+  --line-heading: var(--line-tight);
+  --radius-control: var(--radius-4);
+  --radius-surface: var(--radius-6);
+  --shadow-surface: var(--shadow-2);
+  --shadow-overlay: var(--shadow-3);
+  --motion-interaction: var(--motion-fast);
+  --ease-interaction: var(--ease-out);
+  --border-width: var(--border-width-1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) {
+    color-scheme: dark;
+    --color-base-light: #111111;
+  }
+}
+:root[data-theme=light] { color-scheme: light; --color-base-light: #fafafa; }
+:root[data-theme=dark] { color-scheme: dark; --color-base-light: #111111; }
+
+:root[data-palette=sakura] { --color-accent: var(--color-dark-sakura); }
+:root[data-palette=sakura][data-theme=light] { --color-accent: var(--color-light-sakura); }
+:root[data-palette=matcha] { --color-accent: var(--color-dark-matcha); }
+:root[data-palette=matcha][data-theme=light] { --color-accent: var(--color-light-matcha); }
+:root[data-palette=sumi] { --color-accent: var(--color-dark-sumi); }
+:root[data-palette=sumi][data-theme=light] { --color-accent: var(--color-light-sumi); }
+:root[data-palette=aizome] { --color-accent: var(--color-dark-aizome); }
+:root[data-palette=aizome][data-theme=light] { --color-accent: var(--color-light-aizome); }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark])[data-palette=sakura] { --color-accent: var(--color-light-sakura); }
+  :root:not([data-theme=dark])[data-palette=matcha] { --color-accent: var(--color-light-matcha); }
+  :root:not([data-theme=dark])[data-palette=sumi] { --color-accent: var(--color-light-sumi); }
+  :root:not([data-theme=dark])[data-palette=aizome] { --color-accent: var(--color-light-aizome); }
+  :root:not([data-palette]):not([data-theme=dark]) { --color-accent: var(--color-light-sumi); }
+}
+:root[data-theme=light]:not([data-palette]) { --color-accent: var(--color-light-sumi); }
+
+.theme-sakura { --color-accent: var(--color-dark-sakura); }
+.theme-matcha { --color-accent: var(--color-dark-matcha); }
+.theme-sumi { --color-accent: var(--color-dark-sumi); }
+.theme-aizome { --color-accent: var(--color-dark-aizome); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark]).theme-sakura, :root:not([data-theme=dark]) .theme-sakura { --color-accent: var(--color-light-sakura); }
+  :root:not([data-theme=dark]).theme-matcha, :root:not([data-theme=dark]) .theme-matcha { --color-accent: var(--color-light-matcha); }
+  :root:not([data-theme=dark]).theme-sumi, :root:not([data-theme=dark]) .theme-sumi { --color-accent: var(--color-light-sumi); }
+  :root:not([data-theme=dark]).theme-aizome, :root:not([data-theme=dark]) .theme-aizome { --color-accent: var(--color-light-aizome); }
+}
+:root[data-theme=light].theme-sakura, :root[data-theme=light] .theme-sakura { --color-accent: var(--color-light-sakura); }
+:root[data-theme=light].theme-matcha, :root[data-theme=light] .theme-matcha { --color-accent: var(--color-light-matcha); }
+:root[data-theme=light].theme-sumi, :root[data-theme=light] .theme-sumi { --color-accent: var(--color-light-sumi); }
+:root[data-theme=light].theme-aizome, :root[data-theme=light] .theme-aizome { --color-accent: var(--color-light-aizome); }

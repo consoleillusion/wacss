@@ -13,10 +13,10 @@
 </script>
 
 {#if caption}
-  <figure data-wacss="image" class={className || undefined} {...restProps}>
+  <figure class={className || undefined} {...restProps}>
     <img {src} {alt} {loading} {decoding} />
     <figcaption>{caption}</figcaption>
   </figure>
 {:else}
-  <img data-wacss="image" class={className || undefined} {src} {alt} {loading} {decoding} {...restProps} />
+  <img class={className || undefined} {src} {alt} {loading} {decoding} {...restProps} />
 {/if}

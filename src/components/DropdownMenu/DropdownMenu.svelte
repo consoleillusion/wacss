@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<DropdownMenu.Root {...rest} data-wacss="dropdown-menu">
+<DropdownMenu.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

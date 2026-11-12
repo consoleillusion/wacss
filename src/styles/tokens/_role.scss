@@ -1,0 +1,31 @@
+/* Level 4 - Role: emphasis derived from component tokens. */
+:root {
+  /* Standard aliases secondary by default; primary is CTA/pop */
+  --button-background-standard: var(--button-background);
+  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-standard: var(--button-border);
+
+  --button-background-primary: var(--color-pop);
+  --button-color-primary: oklch(from var(--button-background-primary) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-primary: transparent;
+
+  --button-background-secondary: color-mix(in oklch, var(--color-foreground) 8%, transparent);
+  --button-color-secondary: var(--color-foreground);
+  --button-border-secondary: transparent;
+
+  --button-background-outline: transparent;
+  --button-color-outline: var(--color-foreground);
+  --button-border-outline: var(--color-border);
+
+  --button-background-ghost: transparent;
+  --button-color-ghost: var(--color-foreground);
+  --button-border-ghost: transparent;
+
+  --button-background-destructive: var(--color-destructive);
+  --button-color-destructive: oklch(98% 0 0deg);
+  --button-border-destructive: transparent;
+
+  --button-background-link: transparent;
+  --button-color-link: var(--color-foreground);
+  --button-border-link: transparent;
+}

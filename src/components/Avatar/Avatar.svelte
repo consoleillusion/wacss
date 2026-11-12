@@ -24,18 +24,17 @@
         .join("") || "?"
     );
   });
-  const classes = $derived(["wacss-avatar", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 </script>
 
-<span {...restProps} class={classes} data-wacss="avatar" data-size={size}>
+<span {...restProps} class={classes} data-size={size}>
   {#if showImage}
     <img
-      data-wacss="avatar-image"
       {src}
       {alt}
       onerror={() => (error = true)}
     />
   {:else}
-    <span data-wacss="avatar-fallback" aria-label={alt || undefined}>{initials}</span>
+    <span aria-label={alt || undefined}>{initials}</span>
   {/if}
 </span>

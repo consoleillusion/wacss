@@ -24,9 +24,9 @@
     ...restProps
   }: SelectProps & { onValueChange?: (value: string | string[]) => void; accentSelector?: boolean } = $props();
 
-  const classes = $derived(["wacss-select", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
   const contentClasses = $derived(
-    ["wacss-select-content", contentClass].filter(Boolean).join(" "),
+    ["", contentClass].filter(Boolean).join(" "),
   );
 
   const items = $derived(
@@ -97,15 +97,14 @@
   {required}
   {name}
   items={accentSelector ? [...options.map((o) => ({ value: o.value, label: o.label, disabled: o.disabled })), { value: "custom", label: "Custom" }] : options}
-  class={classes}
-  data-wacss="select"
+  class={classes || undefined}
   data-type={type}
   onValueChange={(next: string | string[]) => { value = next; onValueChange?.(next); if (accentSelector) applyAccent(next, true); }}
 >
-  <BitsSelect.Trigger id={id} {...triggerProps} data-wacss="select-trigger">
+  <BitsSelect.Trigger id={id} {...triggerProps} data-select-trigger>
     <BitsSelect.Value {placeholder} />
     <svg
-      data-wacss="select-icon"
+      data-select-icon
       viewBox="0 0 16 16"
       width="16"
       height="16"
@@ -121,18 +120,18 @@
   </BitsSelect.Trigger>
 
   <BitsSelect.Portal>
-    <BitsSelect.Content class={contentClasses} data-wacss="select-content">
-      <BitsSelect.Viewport data-wacss="select-viewport">
+    <BitsSelect.Content class={contentClasses || undefined} data-select-content>
+      <BitsSelect.Viewport data-select-viewport>
         {#each items as option (option.value)}
           <BitsSelect.Item
             value={option.value}
             label={option.label}
             disabled={option.disabled}
-            data-wacss="select-item"
+            data-select-item
           >
-            <span data-wacss="select-item-label">{option.label}</span>
+            <span>{option.label}</span>
             <svg
-              data-wacss="select-item-check"
+              data-select-item-indicator
               viewBox="0 0 16 16"
               width="16"
               height="16"

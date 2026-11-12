@@ -1,4 +1,4 @@
 ---
-const { as: Tag = "span", variant, ...attrs } = Astro.props;
+const { as: Tag = "span", variant = "default", ...attrs } = Astro.props;
 ---
-<Tag data-wacss-badge data-wacss-variant={variant} {...attrs}><slot /></Tag>
+<Tag data-badge data-variant={variant} {...attrs}><slot /></Tag>

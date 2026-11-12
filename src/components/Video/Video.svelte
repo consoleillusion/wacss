@@ -17,7 +17,7 @@
   }: VideoProps = $props();
 </script>
 
-<figure data-wacss="video" class={className || undefined} {...restProps}>
+<figure class={className || undefined} {...restProps}>
   <!-- svelte-ignore a11y_media_has_caption -->
   <video {src} {poster} {controls} {autoplay} {loop} {muted} {playsinline} {preload}>
     {#if sources}

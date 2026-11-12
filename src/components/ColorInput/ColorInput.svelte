@@ -29,10 +29,10 @@
   }: InputProps & { value?: string; accentSelector?: boolean } = $props();
 
   const uid = $props.id();
-  const inputId = $derived(id ?? `wacss-color-${uid}`);
+  const inputId = $derived(id ?? `${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["wacss-input", "wacss-color-input", className].filter(Boolean).join(" "));
-  const inputClasses = $derived(["wacss-input-control", inputClass].filter(Boolean).join(" "));
+  const classes = $derived(["", "", className].filter(Boolean).join(" "));
+  const inputClasses = $derived(["", inputClass].filter(Boolean).join(" "));
 
   let hue = $state<number>(150);
   let accentHex = $state<string>("#6d9469");
@@ -109,12 +109,12 @@
   });
 </script>
 
-<div data-wacss="input" data-wacss-color-input class={classes}>
+<div class={classes}>
   {#if label}
-    <label data-wacss="label" for={inputId}>{label}</label>
+    <label for={inputId}>{label}</label>
   {/if}
   {#if accentSelector}
-    <div data-wacss="accent-selector">
+    <div>
       <Slider
         min={0}
         max={360}
@@ -122,7 +122,7 @@
         bind:value={hue}
         {disabled}
         aria-label={label ? `${label} accent hue` : "Accent hue"}
-        class="wacss-accent-slider"
+        
         onValueChange={(v) => setAccentFromHue(v)}
       />
       <input
@@ -130,12 +130,11 @@
         value={accentHex}
         {disabled}
         readOnly
-        data-wacss="input-control"
         aria-label={label ? `${label} accent value` : "Accent value"}
       />
     </div>
   {:else}
-    <div data-wacss="color-input-row">
+    <div>
       <input
         {...restProps}
         id={inputId}
@@ -146,8 +145,6 @@
         class={inputClasses}
         aria-invalid={error ? "true" : undefined}
         aria-describedby={error || description ? helpId : undefined}
-        data-wacss="input-control"
-        data-wacss-color-swatch
         oninput={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
         onchange={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
       />
@@ -155,7 +152,6 @@
         type="text"
         value={value}
         {disabled}
-        data-wacss="input-control"
         aria-label={label ? `${label} value` : "Color value"}
         oninput={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
         onchange={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
@@ -163,8 +159,8 @@
     </div>
   {/if}
   {#if error}
-    <p id={helpId} data-wacss="input-error">{error}</p>
+    <p id={helpId}>{error}</p>
   {:else if description}
-    <p id={helpId} data-wacss="input-description">{description}</p>
+    <p id={helpId}>{description}</p>
   {/if}
 </div>

@@ -1,0 +1,20 @@
+/* Level 5 - State: final per-state values derived from role tokens. */
+:root {
+  --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
+  --button-color-standard-hover: var(--button-color-standard);
+  --button-background-primary-hover: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 10%);
+  --button-color-primary-hover: var(--button-color-primary);
+  --button-background-secondary-hover: color-mix(in oklch, var(--button-background-secondary), var(--color-foreground) 12%, transparent);
+  --button-color-secondary-hover: var(--button-color-secondary);
+  --button-background-outline-hover: color-mix(in oklch, var(--color-foreground) 6%, transparent);
+  --button-color-outline-hover: var(--button-color-outline);
+  --button-background-ghost-hover: color-mix(in oklch, var(--color-foreground) 8%, transparent);
+  --button-color-ghost-hover: var(--button-color-ghost);
+  --button-background-destructive-hover: color-mix(in oklch, var(--button-background-destructive), var(--color-black) 12%);
+  --button-color-destructive-hover: var(--button-color-destructive);
+  --button-background-link-hover: transparent;
+  --button-color-link-hover: var(--button-color-link);
+
+  --focus-ring: var(--color-ring);
+  --focus-ring-offset: var(--color-background);
+}

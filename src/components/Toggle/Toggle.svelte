@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<Toggle.Root {...rest} data-wacss="toggle">
+<Toggle.Root {...rest}>
   {#if children}
     {@render children()}
   {/if}

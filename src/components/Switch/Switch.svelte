@@ -18,7 +18,7 @@
     ...restProps
   }: SwitchProps = $props();
 
-  const classes = $derived(["wacss-switch", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 
   persistState({
     get: () => checked,
@@ -39,16 +39,15 @@
   {value}
   {id}
   class={classes}
-  data-wacss="switch"
 >
-  <span data-wacss="switch-track">
-    <BitsSwitch.Thumb data-wacss="switch-thumb" />
+  <span>
+    <BitsSwitch.Thumb />
   </span>
   {#if label}
-    <span data-wacss="switch-label">{label}</span>
+    <span>{label}</span>
   {/if}
 </BitsSwitch.Root>
 
 {#if description}
-  <p data-wacss="switch-description">{description}</p>
+  <p>{description}</p>
 {/if}

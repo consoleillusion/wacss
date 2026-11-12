@@ -3,7 +3,7 @@
   import type { JsonSchema } from "../components/types";
 
   const jsonschema: JsonSchema = {
-    $id: "wacss-profile-demo",
+    $id: "",
     title: "Profile",
     description: "Every control below is inferred from the JSON Schema.",
     type: "object",
@@ -78,7 +78,7 @@
   }
 </script>
 
-<div data-wacss="grid" data-gap="6">
+<div data-gap="6">
   <Form
     {jsonschema}
     columns={2}
@@ -90,7 +90,7 @@
 
   {#if submitted}
     <Card title="Submitted values" description="The onSubmit callback receives the current form values.">
-      <pre data-wacss="pre-compact">{JSON.stringify(submitted, null, 2)}</pre>
+      <pre>{JSON.stringify(submitted, null, 2)}</pre>
     </Card>
   {/if}
 </div>

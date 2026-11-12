@@ -75,18 +75,18 @@ const showcase = [
   </head>
   <body>
     <SiteNav current="/" />
-    <div data-wacss="page">
-      <header data-wacss="page-header">
+    <div>
+      <header>
         <p><small>wacss · token-driven components</small></p>
         <h1>Calm interfaces, one token set</h1>
-        <p data-wacss="page-lead">
+        <p>
           Data-driven components styled by a global token hierarchy. Each card below renders a component
           from schema-described data.
         </p>
       </header>
 
       <main>
-        <section class="grid" data-fit data-wacss="component-grid">
+        <section class="grid" data-fit>
           {showcase.map((item) => {
             const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key;
             const schema = (schemas as any)[schemaKey];

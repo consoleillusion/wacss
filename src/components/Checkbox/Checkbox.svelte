@@ -20,7 +20,7 @@
     ...restProps
   }: CheckboxProps = $props();
 
-  const classes = $derived(["wacss-checkbox", className].filter(Boolean).join(" "));
+  const classes = $derived(["", className].filter(Boolean).join(" "));
 
   persistState({
     get: () => checked,
@@ -43,11 +43,9 @@
   {value}
   {id}
   class={classes}
-  data-wacss="checkbox"
 >
   {#snippet children({ checked, indeterminate })}
     <span
-      data-wacss="checkbox-control"
       data-state={indeterminate ? "indeterminate" : checked ? "checked" : "unchecked"}
     >
       {#if indeterminate}
@@ -61,11 +59,11 @@
       {/if}
     </span>
     {#if label}
-      <span data-wacss="checkbox-label">{label}</span>
+      <span>{label}</span>
     {/if}
   {/snippet}
 </BitsCheckbox.Root>
 
 {#if description}
-  <p data-wacss="checkbox-description">{description}</p>
+  <p>{description}</p>
 {/if}

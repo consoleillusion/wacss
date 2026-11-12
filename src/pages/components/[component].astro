@@ -167,22 +167,22 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div data-wacss="page">
+    <div>
 
     {componentInfo ? (
       <>
         <h1>{componentInfo.schema.title}</h1>
-        <p data-wacss="muted mb-5">
+        <p>
           A high-level wacss component. Pass data props and let the component render the rest.
         </p>
 
-        <section data-wacss="section-bordered">
-          <h2 data-wacss="section-title">Preview</h2>
-          <div data-wacss="preview">
+        <section>
+          <h2>Preview</h2>
+          <div>
             {entry === "button" && <Button client:load>Save changes</Button>}
             {entry === "card" && (
               <Card client:load title="Card title" description="A short description of the card.">
-                <p data-wacss="muted m-0">Card content goes here.</p>
+                <p>Card content goes here.</p>
               </Card>
             )}
             {entry === "input" && (
@@ -196,12 +196,12 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "select" && <Select client:load options={selectOptions} placeholder="Choose accent" accentSelector storageKey="wacss:accent" />}
             {entry === "dialog" && (
               <Dialog client:load title="Edit profile" description="Make changes to your profile here." triggerLabel="Open dialog">
-                <p data-wacss="muted m-0">Dialog body content.</p>
+                <p>Dialog body content.</p>
               </Dialog>
             )}
             {entry === "tabs" && <Tabs client:load tabs={tabs} />}
             {entry === "badge" && (
-              <div data-wacss="row" data-gap="2">
+              <div data-gap="2">
                 <Badge>Default</Badge>
                 <Badge variant="secondary">Secondary</Badge>
                 <Badge variant="destructive">Destructive</Badge>
@@ -209,21 +209,21 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
               </div>
             )}
             {entry === "separator" && (
-              <div data-wacss="stack w-full">
-                <div data-wacss="stack" data-gap="2">
-                  <span data-wacss="text-sm-strong">Horizontal</span>
+              <div>
+                <div data-gap="2">
+                  <span>Horizontal</span>
                   <Separator />
                 </div>
-                <div data-wacss="row" data-height="2rem">
-                  <span data-wacss="text-sm">Left</span>
+                <div data-height="2rem">
+                  <span>Left</span>
                   <Separator orientation="vertical" />
-                  <span data-wacss="text-sm">Right</span>
+                  <span>Right</span>
                 </div>
               </div>
             )}
             {entry === "progress" && <Progress client:load value={62} label="Progress" showValue />}
             {entry === "avatar" && (
-              <div data-wacss="row">
+              <div>
                 <Avatar alt="Ada Lovelace" fallback="AL" size="sm" />
                 <Avatar alt="Ada Lovelace" fallback="AL" />
                 <Avatar alt="Ada Lovelace" fallback="AL" size="lg" />
@@ -258,8 +258,8 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
         </section>
 
         <section>
-          <h2 data-wacss="section-title">Schema ({componentInfo.schema.title})</h2>
-          <pre data-wacss="schema">{renderSchema(componentInfo.schema)}</pre>
+          <h2>Schema ({componentInfo.schema.title})</h2>
+          <pre>{renderSchema(componentInfo.schema)}</pre>
         </section>
       </>
     ) : (

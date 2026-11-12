@@ -22,12 +22,8 @@
   }: InputProps = $props();
 
   const uid = $props.id();
-  const inputId = $derived(id ?? `wacss-input-${uid}`);
+  const inputId = $derived(id ?? `input-${uid}`);
   const helpId = $derived(`${inputId}-help`);
-  const classes = $derived(["wacss-input", className].filter(Boolean).join(" "));
-  const inputClasses = $derived(
-    ["wacss-input-control", inputClass].filter(Boolean).join(" "),
-  );
 
   persistState({
     get: () => value,
@@ -39,13 +35,11 @@
   });
 </script>
 
-<div data-wacss="input" class={classes}>
+<div class={className || undefined}>
   {#if label}
-    <label data-wacss="label" for={inputId}>
+    <label for={inputId}>
       {label}
-      {#if required}
-        <span data-wacss="label-required" aria-hidden="true">*</span>
-      {/if}
+      {#if required}<span aria-hidden="true">*</span>{/if}
     </label>
   {/if}
 
@@ -59,15 +53,14 @@
     {disabled}
     {readonly}
     {required}
-    class={inputClasses}
+    class={inputClass || undefined}
     aria-invalid={error ? "true" : undefined}
     aria-describedby={error || description ? helpId : undefined}
-    data-wacss="input-control"
   />
 
   {#if error}
-    <p id={helpId} data-wacss="input-error">{error}</p>
+    <p id={helpId}>{error}</p>
   {:else if description}
-    <p id={helpId} data-wacss="input-description">{description}</p>
+    <p id={helpId}>{description}</p>
   {/if}
 </div>
