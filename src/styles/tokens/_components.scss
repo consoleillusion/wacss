@@ -1,56 +1,56 @@
 /* ==========================================================================
    LEVEL 3 — COMPONENT
-   Component anatomy and base values derived from alias/semantic tokens.
+   Component anatomy and base values derived from semantic tokens.
    Paste a component set here to adjust component structure without changing meaning.
    ========================================================================== */
 
 :root {
   /* Emphasis bases (consumed by role layer) */
-  --component-emphasis-primary-bg: var(--alias-primary);
-  --component-emphasis-primary-fg: var(--alias-primary-foreground);
-  --component-emphasis-primary-border: var(--alias-transparent);
-  --component-emphasis-primary-ring: var(--alias-ring);
+  --component-emphasis-primary-bg: var(--color-primary);
+  --component-emphasis-primary-fg: var(--color-primary-foreground);
+  --component-emphasis-primary-border: var(--color-transparent);
+  --component-emphasis-primary-ring: var(--color-ring);
 
-  --component-emphasis-secondary-bg: var(--alias-secondary);
-  --component-emphasis-secondary-fg: var(--alias-secondary-foreground);
-  --component-emphasis-secondary-border: var(--alias-transparent);
-  --component-emphasis-secondary-ring: var(--alias-ring);
+  --component-emphasis-secondary-bg: var(--color-secondary);
+  --component-emphasis-secondary-fg: var(--color-secondary-foreground);
+  --component-emphasis-secondary-border: var(--color-transparent);
+  --component-emphasis-secondary-ring: var(--color-ring);
 
-  --component-emphasis-tertiary-bg: var(--alias-muted);
-  --component-emphasis-tertiary-fg: var(--alias-muted-foreground);
-  --component-emphasis-tertiary-border: var(--alias-border);
-  --component-emphasis-tertiary-ring: var(--alias-ring);
+  --component-emphasis-tertiary-bg: var(--color-muted);
+  --component-emphasis-tertiary-fg: var(--color-muted-foreground);
+  --component-emphasis-tertiary-border: var(--color-border);
+  --component-emphasis-tertiary-ring: var(--color-ring);
 
-  --component-emphasis-destructive-bg: var(--alias-destructive);
-  --component-emphasis-destructive-fg: var(--alias-destructive-foreground);
-  --component-emphasis-destructive-border: var(--alias-transparent);
-  --component-emphasis-destructive-ring: var(--alias-destructive);
+  --component-emphasis-destructive-bg: var(--color-destructive);
+  --component-emphasis-destructive-fg: var(--color-destructive-foreground);
+  --component-emphasis-destructive-border: var(--color-transparent);
+  --component-emphasis-destructive-ring: var(--color-destructive);
 
-  --component-emphasis-positive-bg: var(--alias-positive);
-  --component-emphasis-positive-fg: var(--alias-positive-foreground);
-  --component-emphasis-neutral-bg: var(--alias-neutral);
-  --component-emphasis-neutral-fg: var(--alias-neutral-foreground);
-  --component-emphasis-negative-bg: var(--alias-negative);
-  --component-emphasis-negative-fg: var(--alias-negative-foreground);
+  --component-emphasis-positive-bg: var(--color-positive);
+  --component-emphasis-positive-fg: var(--color-positive-foreground);
+  --component-emphasis-neutral-bg: var(--color-neutral);
+  --component-emphasis-neutral-fg: var(--color-neutral-foreground);
+  --component-emphasis-negative-bg: var(--color-negative);
+  --component-emphasis-negative-fg: var(--color-negative-foreground);
 
   /* Shared UI atoms */
-  --component-border-width: var(--alias-border-width);
-  --component-radius-control: var(--alias-radius-control);
-  --component-radius-surface: var(--alias-radius-surface);
-  --component-radius-popover: var(--alias-radius-popover);
-  --component-radius-pill: var(--alias-radius-pill);
-  --component-shadow-surface: var(--alias-shadow-surface);
-  --component-shadow-overlay: var(--alias-shadow-overlay);
-  --component-shadow-modal: var(--alias-shadow-modal);
-  --component-shadow-control: var(--alias-shadow-control);
-  --component-motion: var(--alias-motion-interaction);
-  --component-ease: var(--alias-ease-interaction);
-  --component-font-ui: var(--alias-font-ui);
-  --component-font-body: var(--alias-font-body);
-  --component-font-heading: var(--alias-font-heading);
-  --component-font-mono: var(--alias-font-mono);
-  --component-line: var(--alias-line-body);
-  --component-line-heading: var(--alias-line-heading);
+  --component-border-width: var(--color-border-width);
+  --component-radius-control: var(--radius-control);
+  --component-radius-surface: var(--radius-surface);
+  --component-radius-popover: var(--radius-popover);
+  --component-radius-pill: var(--radius-pill);
+  --component-shadow-surface: var(--shadow-surface);
+  --component-shadow-overlay: var(--shadow-overlay);
+  --component-shadow-modal: var(--shadow-modal);
+  --component-shadow-control: var(--shadow-control);
+  --component-motion: var(--motion-interaction);
+  --component-ease: var(--ease-interaction);
+  --component-font-ui: var(--font-ui);
+  --component-font-body: var(--font-body);
+  --component-font-heading: var(--font-heading);
+  --component-font-mono: var(--font-mono);
+  --component-line: var(--line-body);
+  --component-line-heading: var(--line-heading);
 
   /* Button */
   --component-button-height: 2rem;
@@ -204,12 +204,12 @@
   --component-checkbox-bg-mix: 100%;
 }
 
-.dark {
+:root[data-theme="dark"] {
   @include wacss-dark-component-overrides;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
+  :root:not([data-theme="light"]) {
     @include wacss-dark-component-overrides;
   }
 }

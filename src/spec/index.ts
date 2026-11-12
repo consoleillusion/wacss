@@ -1,6 +1,7 @@
 import audio from "../components/Audio/schema";
 import button from "../components/Button/schema";
 import color from "../components/ColorInput/schema";
+import colorPicker from "../components/ColorPicker/schema";
 import input from "../components/Input/schema";
 import field from "../components/Field/schema";
 import form from "../components/Form/schema";
@@ -9,7 +10,9 @@ import card from "../components/Card/schema";
 import nav from "../components/Nav/schema";
 import disclosure from "../components/Disclosure/schema";
 import badge from "../components/Badge/schema";
+import datePicker from "../components/DatePicker/schema";
 import dialog from "../components/Dialog/schema";
+import navigationMenu from "../components/NavigationMenu/schema";
 import select from "../components/Select/schema";
 import popover from "../components/Popover/schema";
 import tooltip from "../components/Tooltip/schema";
@@ -36,6 +39,7 @@ export const schemas = {
   audio,
   button,
   color,
+  colorPicker,
   input,
   field,
   form,
@@ -59,6 +63,8 @@ export const schemas = {
   accordion,
   alertDialog,
   contextMenu,
+  datePicker,
+  navigationMenu,
   slider,
   progress,
   meter,
@@ -67,5 +73,5 @@ export const schemas = {
   image,
   video,
 };
-export { audio, button, color, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, slider, progress, meter, avatar, aspectRatio, image, video };
+export { audio, button, color, colorPicker, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, datePicker, navigationMenu, slider, progress, meter, avatar, aspectRatio, image, video };
 export default schemas;

@@ -56,7 +56,7 @@ textarea {
   textarea,
   select,
   [data-wacss="input-control"] {
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-input);
   }
 }
 
@@ -140,7 +140,7 @@ select:disabled,
 
 input[type="range"] {
   inline-size: 100%;
-  accent-color: var(--alias-accent);
+  accent-color: var(--color-accent);
 }
 
 [data-wacss="color-input-row"] {

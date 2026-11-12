@@ -1,147 +1,152 @@
 /* ==========================================================================
-   LEVEL 2 — ALIAS / SEMANTIC
+   LEVEL 2 — SEMANTIC
    Theme = one hue. Defining a theme: add a primitive color (e.g. --color-sakura)
-   and set --alias-theme. All other colors derive from accent + light/dark base.
+   and set --color-theme. All other colors derive from accent + light/dark base.
    Exception: sibling token references allowed here for derivation.
    ========================================================================== */
 
 $themes: "sakura", "shibui", "sumi";
 
 @mixin wacss-emit-compat {
-  @each $name in ("background", "foreground", "card", "card-foreground", "popover", "popover-foreground", "primary", "primary-foreground", "secondary", "secondary-foreground", "muted", "muted-foreground", "accent", "accent-foreground", "destructive", "destructive-foreground", "border", "input", "ring", "overlay", "positive", "positive-foreground", "neutral", "neutral-foreground", "negative", "negative-foreground", "transparent", "theme", "base", "surface", "text") {
-    --color-#{$name}: var(--alias-#{$name});
-  }
-  --color-scrim: var(--alias-overlay);
-  --color-focus: var(--alias-ring);
-  --color-text-muted: var(--alias-muted-foreground);
-  --color-positive-text: var(--alias-positive-foreground);
-  --color-neutral-text: var(--alias-neutral-foreground);
-  --color-negative-text: var(--alias-negative-foreground);
+  --color-scrim: var(--color-overlay);
+  --color-focus: var(--color-ring);
+  --color-text-muted: var(--color-muted-foreground);
+  --color-positive-text: var(--color-positive-foreground);
+  --color-neutral-text: var(--color-neutral-foreground);
+  --color-negative-text: var(--color-negative-foreground);
 }
 
 @mixin wacss-mode-common {
-  --color-theme: var(--alias-theme);
   /* Base: mix neutral (stone/charcoal by mode) with accent */
-  --alias-base: color-mix(in oklch, var(--alias-neutral-base) 92%, var(--alias-accent) 8%);
-  --alias-background: var(--alias-base);
+  --_semantic-base: color-mix(in oklch, var(--_neutral-base) 92%, var(--color-accent) 8%);
+  --_semantic-background: var(--_semantic-base);
   /* Surface: deviation from base */
-  --alias-surface: color-mix(in oklch, var(--alias-base), var(--alias-mix) 5%);
-  --alias-card: var(--alias-surface);
-  --alias-popover: color-mix(in oklch, var(--alias-accent) 10%, var(--alias-base));
-  /* Text: ink at slight transparency; mode-aware ink lives in the light/dark mixins. */
-  --alias-foreground: var(--alias-text);
-  --alias-card-foreground: var(--alias-text);
-  --alias-popover-foreground: var(--alias-text);
-  --alias-muted-foreground: color-mix(in oklch, var(--alias-text) 60%, transparent);
-  --alias-secondary: color-mix(in oklch, var(--alias-accent) 12%, var(--alias-base));
-  --alias-secondary-foreground: var(--alias-text);
-  --alias-muted: color-mix(in oklch, var(--alias-accent) 8%, var(--alias-base));
-  --alias-accent-foreground: var(--alias-text);
-  --alias-primary: var(--alias-accent);
-  --alias-primary-foreground: var(--alias-text);
-  --alias-border: color-mix(in oklch, var(--alias-text) 15%, transparent);
-  --alias-input: color-mix(in oklch, var(--alias-text) 18%, transparent);
-  --alias-ring: var(--alias-accent);
-  --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
-  --alias-destructive: var(--primitive-color-red);
-  --alias-destructive-foreground: var(--alias-text);
-  /* Semantic status colors: standard green / orange / red mixed with 10% of the accent. */
-  --alias-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--alias-accent) 10%);
-  --alias-positive-foreground: var(--alias-text);
-  --alias-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--alias-accent) 10%);
-  --alias-neutral-foreground: var(--alias-text);
-  --alias-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--alias-accent) 10%);
-  --alias-negative-foreground: var(--alias-text);
-  --alias-transparent: var(--primitive-color-transparent);
+  --_semantic-surface: color-mix(in oklch, var(--_semantic-base), var(--_mix) 5%);
+  --_semantic-card: var(--_semantic-surface);
+  --_semantic-popover: color-mix(in oklch, var(--color-accent) 10%, var(--_semantic-base));
+  /* Text/foreground */
+  --_semantic-text: var(--_ink);
+  --_semantic-foreground: var(--_ink);
+  --_semantic-card-foreground: var(--_ink);
+  --_semantic-popover-foreground: var(--_ink);
+  --_semantic-muted-foreground: color-mix(in oklch, var(--_ink) 60%, transparent);
+  --_semantic-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--_semantic-base));
+  --_semantic-secondary-foreground: var(--_ink);
+  --_semantic-muted: color-mix(in oklch, var(--color-accent) 8%, var(--_semantic-base));
+  --_semantic-accent-foreground: var(--_ink);
+  --_semantic-primary: var(--color-accent);
+  --_semantic-primary-foreground: var(--_ink);
+  --_semantic-border: color-mix(in oklch, var(--_ink) 15%, transparent);
+  --_semantic-input: color-mix(in oklch, var(--_ink) 18%, transparent);
+  --_semantic-ring: var(--color-accent);
+  --_semantic-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  --_semantic-destructive: var(--primitive-color-red);
+  --_semantic-destructive-foreground: var(--_ink);
+  /* Semantic status colors */
+  --_semantic-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
+  --_semantic-positive-foreground: var(--_ink);
+  --_semantic-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
+  --_semantic-neutral-foreground: var(--_ink);
+  --_semantic-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
+  --_semantic-negative-foreground: var(--_ink);
+
+  /* Publish semantic tokens */
+  @each $name in ("background", "foreground", "card", "card-foreground", "popover", "popover-foreground", "primary", "primary-foreground", "secondary", "secondary-foreground", "muted", "muted-foreground", "accent", "accent-foreground", "destructive", "destructive-foreground", "border", "input", "ring", "overlay", "positive", "positive-foreground", "neutral", "neutral-foreground", "negative", "negative-foreground", "base", "surface", "text") {
+    --color-#{$name}: var(--_semantic-#{$name});
+  }
+  --color-transparent: var(--primitive-color-transparent);
+
   @include wacss-emit-compat;
 }
 
 @mixin wacss-mode-light {
-  --alias-neutral-base: var(--primitive-color-stone);
-  --alias-mix: var(--primitive-color-black);
-  --alias-text: oklch(0 0 0 / 0.9);
+  --_neutral-base: var(--primitive-color-stone);
+  --_mix: var(--primitive-color-black);
+  --_ink: oklch(0 0 0 / 0.9);
+  --_accent-l: 70%;
   @include wacss-mode-common;
 }
 
 @mixin wacss-mode-dark {
-  --alias-neutral-base: var(--primitive-color-charcoal);
-  --alias-mix: var(--primitive-color-white);
-  --alias-text: oklch(1 0 0 / 0.9);
+  --_neutral-base: var(--primitive-color-charcoal);
+  --_mix: var(--primitive-color-white);
+  --_ink: oklch(1 0 0 / 0.9);
+  --_accent-l: 60%;
   @include wacss-mode-common;
 }
 
 :root {
-  --alias-theme: var(--primitive-color-sakura);
-  --alias-accent: oklch(70% 0.19 340);
+  color-scheme: light dark;
+  --color-theme: var(--primitive-color-sakura);
+  /* Default accent (sakura). */
+  --color-accent: oklch(70% 0.19 340);
   @include wacss-mode-light;
 
-  --alias-font-body: var(--primitive-font-sans);
-  --alias-font-ui: var(--primitive-font-sans);
-  --alias-font-heading: var(--primitive-font-sans);
-  --alias-font-mono: var(--primitive-font-mono);
-  --alias-text-body: var(--primitive-text-base);
-  --alias-text-sm: var(--primitive-text-sm);
-  --alias-text-h1: var(--primitive-text-3xl);
-  --alias-text-h2: var(--primitive-text-2xl);
-  --alias-text-h3: var(--primitive-text-xl);
-  --alias-line-body: var(--primitive-leading-normal);
-  --alias-line-heading: var(--primitive-leading-tight);
-  --alias-radius-control: var(--primitive-radius-5);
-  --alias-radius-surface: var(--primitive-radius-6);
-  --alias-radius-popover: var(--primitive-radius-4);
-  --alias-radius-pill: var(--primitive-radius-12);
-  --alias-motion-interaction: var(--primitive-motion-1);
-  --alias-ease-interaction: var(--primitive-ease-out);
-  --alias-shadow-surface: var(--primitive-shadow-2);
-  --alias-shadow-overlay: var(--primitive-shadow-3);
-  --alias-shadow-modal: var(--primitive-shadow-4);
-  --alias-shadow-control: var(--primitive-shadow-1);
-  --alias-border-width: var(--primitive-border-width-1);
-  --alias-measure: var(--primitive-measure);
-
-  --font-body: var(--alias-font-body);
-  --font-ui: var(--alias-font-ui);
-  --font-heading: var(--alias-font-heading);
-  --text-size-body: var(--alias-text-body);
-  --text-size-sm: var(--alias-text-sm);
-  --text-size-h1: var(--alias-text-h1);
-  --text-size-h2: var(--alias-text-h2);
-  --text-size-h3: var(--alias-text-h3);
-  --line-body: var(--alias-line-body);
-  --line-heading: var(--alias-line-heading);
-  --radius-control: var(--alias-radius-control);
-  --radius-surface: var(--alias-radius-surface);
-  --radius-popover: var(--alias-radius-popover);
-  --radius-pill: var(--alias-radius-pill);
-  --motion-interaction: var(--alias-motion-interaction);
-  --ease-interaction: var(--alias-ease-interaction);
-  --shadow-surface: var(--alias-shadow-surface);
-  --shadow-overlay: var(--alias-shadow-overlay);
-  --shadow-modal: var(--alias-shadow-modal);
-  --shadow-control: var(--alias-shadow-control);
+  --font-body: var(--primitive-font-sans);
+  --font-ui: var(--primitive-font-sans);
+  --font-heading: var(--primitive-font-sans);
+  --font-mono: var(--primitive-font-mono);
+  --text-size-body: var(--primitive-text-base);
+  --text-size-sm: var(--primitive-text-sm);
+  --text-size-h1: var(--primitive-text-3xl);
+  --text-size-h2: var(--primitive-text-2xl);
+  --text-size-h3: var(--primitive-text-xl);
+  --line-body: var(--primitive-leading-normal);
+  --line-heading: var(--primitive-leading-tight);
+  --radius-control: var(--primitive-radius-5);
+  --radius-surface: var(--primitive-radius-6);
+  --radius-popover: var(--primitive-radius-4);
+  --radius-pill: var(--primitive-radius-12);
+  --motion-interaction: var(--primitive-motion-1);
+  --ease-interaction: var(--primitive-ease-out);
+  --shadow-surface: var(--primitive-shadow-2);
+  --shadow-overlay: var(--primitive-shadow-3);
+  --shadow-modal: var(--primitive-shadow-4);
+  --shadow-control: var(--primitive-shadow-1);
+  --border-width: var(--primitive-border-width-1);
+  --measure: var(--primitive-measure);
 }
 
-.dark {
-  --alias-accent: oklch(60% 0.19 340);
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-accent: oklch(70% 0.19 340);
+  @include wacss-mode-light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-accent: oklch(60% 0.19 340);
   @include wacss-mode-dark;
 }
+
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --alias-accent: oklch(60% 0.19 340);
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-accent: oklch(60% 0.19 340);
     @include wacss-mode-dark;
   }
 }
 
+/* Preset themes: set base hue; accent is mode-aware per theme. */
 @each $t in $themes {
-  .theme-#{$t} { --alias-theme: var(--primitive-color-#{$t}); }
+  .theme-#{$t} { --color-theme: var(--primitive-color-#{$t}); }
 }
 
-/* Preset accents: each theme keeps its own hue, lightness adapts to mode.
-   Custom accents (hue slider / swatches) override both inline at runtime. */
-.theme-sakura { --alias-accent: oklch(70% 0.19 340); }
-.theme-shibui { --alias-accent: oklch(70% 0.04 135); }
-.theme-sumi { --alias-accent: oklch(70% 0.01 260); }
+:root.theme-sakura, .theme-sakura { --color-accent: oklch(70% 0.19 340); }
+:root.theme-shibui, .theme-shibui { --color-accent: oklch(70% 0.04 135); }
+:root.theme-sumi, .theme-sumi { --color-accent: oklch(70% 0.01 260); }
 
-:root.dark.theme-sakura { --alias-accent: oklch(60% 0.19 340); }
-:root.dark.theme-shibui { --alias-accent: oklch(60% 0.04 135); }
-:root.dark.theme-sumi { --alias-accent: oklch(60% 0.01 260); }
+:root[data-theme="dark"].theme-sakura, :root[data-theme="dark"] .theme-sakura { --color-accent: oklch(60% 0.19 340); }
+:root[data-theme="dark"].theme-shibui, :root[data-theme="dark"] .theme-shibui { --color-accent: oklch(60% 0.04 135); }
+:root[data-theme="dark"].theme-sumi, :root[data-theme="dark"] .theme-sumi { --color-accent: oklch(60% 0.01 260); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]).theme-sakura,
+  :root:not([data-theme="light"]) .theme-sakura { --color-accent: oklch(60% 0.19 340); }
+  :root:not([data-theme="light"]).theme-shibui,
+  :root:not([data-theme="light"]) .theme-shibui { --color-accent: oklch(60% 0.04 135); }
+  :root:not([data-theme="light"]).theme-sumi,
+  :root:not([data-theme="light"]) .theme-sumi { --color-accent: oklch(60% 0.01 260); }
+}
+
+

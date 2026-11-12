@@ -3,9 +3,11 @@
 [data-wacss-card] {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-card);
-  padding-block: var(--padding-card-block);
-  block-size: 100%;
+  gap: 0;
+  padding: 0;
+  inline-size: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
   background: var(--background-card);
   color: var(--text-card);
   border: var(--border-width-ui) solid var(--border-card);
@@ -16,7 +18,7 @@
 [data-wacss="card-header"] {
   display: grid;
   gap: var(--gap-card-header);
-  padding: var(--padding-card-header);
+  padding: 0;
 }
 
 [data-wacss="card-title"] {
@@ -52,12 +54,30 @@
 [data-wacss="card-content"] {
   display: grid;
   gap: var(--gap-card-content);
-  padding: var(--padding-card-content);
+  padding: var(--padding-card-block) var(--padding-card-inline, 1rem);
 }
 
 [data-wacss="card-figure"] {
   margin: 0;
+  padding: var(--padding-card-block) var(--padding-card-inline, 1rem);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--gap-card-content);
+}
+
+[data-wacss="card-figure"]:has([data-wacss="image"], [data-wacss="video"], [data-wacss="audio"], > img, > video, > audio) {
   padding: 0;
+  justify-items: stretch;
+  border-radius: 0;
+}
+
+[data-wacss="card-figure"]:has([data-wacss="image"], [data-wacss="video"], [data-wacss="audio"], > img, > video, > audio) > * {
+  border-radius: 0;
+}
+
+[data-wacss="card-figure"] + [data-wacss="card-content"] {
+  padding-block-start: var(--padding-card-block);
 }
 
 [data-wacss="card-text"] {
@@ -69,7 +89,7 @@
 [data-wacss="card-footer"] {
   display: flex;
   align-items: center;
-  padding: var(--padding-card-footer);
+  padding: 0 var(--padding-card-inline, 1rem) var(--padding-card-block);
   color: var(--text-card-footer);
   font-size: var(--font-size-card-footer);
 }

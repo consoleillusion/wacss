@@ -1,0 +1,100 @@
+/* Slider (bits-ui) --------------------------------------------------------- */
+
+[data-wacss="slider"],
+[data-slider-root] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--height-input);
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Track: rendered as the root's background track via pseudo isn't available;
+   style root as track container. */
+[data-wacss="slider"],
+[data-slider-root] {
+  border-radius: var(--radius-pill);
+}
+
+/* Use a pseudo track on root is tricky because range/thumb are children;
+   instead rely on range fill and give root a subtle track background. */
+[data-wacss="slider"]::before,
+[data-slider-root]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: 0.375rem;
+  transform: translateY(-50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  pointer-events: none;
+}
+
+[data-wacss="slider-range"],
+[data-slider-range] {
+  position: absolute;
+  inset-block-start: 50%;
+  block-size: 0.375rem;
+  transform: translateY(-50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  pointer-events: none;
+}
+
+[data-wacss="slider-thumb"],
+[data-slider-thumb] {
+  display: block;
+  position: absolute;
+  inset-block-start: calc(50% - 0.5rem);
+  inline-size: 1rem;
+  block-size: 1rem;
+  border: var(--border-width-ui) solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  background: var(--color-background);
+  box-shadow: var(--shadow-control);
+  outline: none;
+  transition:
+    box-shadow var(--motion-ui) var(--ease-ui),
+    border-color var(--motion-ui) var(--ease-ui);
+}
+
+[data-wacss="slider-thumb"]:focus-visible,
+[data-slider-thumb]:focus-visible {
+  outline: var(--ring-input-width) solid var(--ring-input-focus);
+  outline-offset: 0;
+}
+
+[data-wacss="slider"][data-disabled],
+[data-slider-root][data-disabled] {
+  opacity: var(--opacity-input-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hue slider variant: track shows hue spectrum, range is transparent */
+[data-wacss="slider"][data-hue]::before,
+[data-slider-root][data-hue]::before,
+[data-wacss="accent-selector"] [data-wacss="slider"]::before,
+[data-wacss="accent-selector"] [data-slider-root]::before {
+  background: linear-gradient(
+    to right,
+    oklch(70% 0.13 0),
+    oklch(70% 0.13 60),
+    oklch(70% 0.13 120),
+    oklch(70% 0.13 180),
+    oklch(70% 0.13 240),
+    oklch(70% 0.13 300),
+    oklch(70% 0.13 360)
+  );
+}
+
+[data-wacss="slider"][data-hue] [data-wacss="slider-range"],
+[data-slider-root][data-hue] [data-slider-range],
+[data-wacss="accent-selector"] [data-wacss="slider-range"],
+[data-wacss="accent-selector"] [data-slider-range] {
+  background: transparent;
+}

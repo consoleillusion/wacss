@@ -3,7 +3,7 @@
  *
  * The source of truth for the active accent is the document root:
  *  - preset themes are applied as `theme-<name>` classes, or
- *  - custom accents are applied as inline `--alias-theme` / `--alias-accent`.
+ *  - custom accents are applied as inline `--color-theme` / `--color-accent`.
  *
  * Cross-component sync uses a window event so accent-aware islands can observe
  * changes made by other islands without sharing module state.
@@ -24,7 +24,7 @@ export function readAccentState(root: Document = document): AccentSource {
   for (const t of ACCENT_THEME_NAMES) {
     if (el.classList.contains(`theme-${t}`)) return { source: "preset", theme: t };
   }
-  const inline = (el.style.getPropertyValue("--alias-accent") || el.style.getPropertyValue("--alias-theme") || "").trim();
+  const inline = (el.style.getPropertyValue("--color-accent") || el.style.getPropertyValue("--color-theme") || "").trim();
   if (inline) return { source: "custom", color: inline };
   try {
     const stored = localStorage.getItem(ACCENT_STORAGE_KEY);
@@ -46,8 +46,8 @@ export function applyAccentToRoot(theme?: string, color?: string): void {
     return;
   }
   const value = color ?? "";
-  root.style.setProperty("--alias-theme", value);
-  root.style.setProperty("--alias-accent", value);
+  root.style.setProperty("--color-theme", value);
+  root.style.setProperty("--color-accent", value);
 }
 
 export function emitAccentChange(state: AccentSource): void {

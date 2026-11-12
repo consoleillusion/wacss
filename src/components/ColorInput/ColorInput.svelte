@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { InputProps } from "../types";
+  import Slider from "../Slider/Slider.svelte";
   import { persistState } from "../persist.svelte";
   import {
     applyAccentToRoot,
@@ -32,29 +33,32 @@
   const helpId = $derived(`${inputId}-help`);
   const classes = $derived(["wacss-input", "wacss-color-input", className].filter(Boolean).join(" "));
   const inputClasses = $derived(["wacss-input-control", inputClass].filter(Boolean).join(" "));
-  const sliderClasses = $derived(["wacss-accent-slider", inputClass].filter(Boolean).join(" "));
 
-  let hue = $state<number | null>(150);
+  let hue = $state<number>(150);
   let accentHex = $state<string>("#6d9469");
 
-  function readHue(): number | null {
-    const accent = getComputedStyle(document.documentElement).getPropertyValue("--alias-accent");
-    const hex = oklchToHex(accent.trim());
-    const h = hex ? hexToHue(hex) : null;
-    if (h != null) hue = h;
-    return h;
+  function readAccent() {
+    try {
+      const accent = getComputedStyle(document.documentElement).getPropertyValue("--color-accent").trim();
+      const hex = oklchToHex(accent);
+      const h = hex ? hexToHue(hex) : null;
+      if (h != null) hue = h;
+      if (hex) accentHex = hex;
+    } catch {
+      /* noop */
+    }
   }
 
-  function readAccentHex(): string {
-    const accent = getComputedStyle(document.documentElement).getPropertyValue("--alias-accent");
-    const hex = oklchToHex(accent.trim());
-    if (hex) accentHex = hex;
-    return hex ?? "#6d9469";
+  function isDarkMode(): boolean {
+    const t = document.documentElement.getAttribute("data-theme");
+    if (t === "dark") return true;
+    if (t === "light") return false;
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
   }
 
   function setAccentFromHue(h: number) {
-    const isDark = document.documentElement.classList.contains("dark") || (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    const accent = hueToAccent(h, isDark);
+    const v = Math.round(Math.max(0, Math.min(360, h)));
+    const accent = hueToAccent(v, isDarkMode());
     applyAccentToRoot(undefined, accent);
     try {
       localStorage.setItem("wacss:accent", "custom");
@@ -63,29 +67,38 @@
       /* storage unavailable */
     }
     emitAccentChange({ source: "custom", color: accent });
-    hue = h;
-  }
-
-  function onHueInput(h: number) {
-    if (!Number.isFinite(h)) return;
-    setAccentFromHue(Math.round(h));
+    hue = v;
+    accentHex = oklchToHex(accent) ?? accentHex;
   }
 
   function onPick(v: string) {
-    if (!accentSelector) return;
     const h = hexToHue(v);
     if (h != null) setAccentFromHue(h);
   }
 
-  // Follow accent changes from any accent-aware island; write picks back to `value`/`hue`.
+  // Re-apply accent when light/dark mode changes so L stays correct.
   onMount(() => {
     if (!accentSelector) return () => {};
-    readHue();
-    readAccentHex();
-    return subscribeAccentChange(() => {
-      readHue();
-      readAccentHex();
+    readAccent();
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onMode = () => {
+      // only adjust if currently using a custom accent
+      try {
+        if (localStorage.getItem("wacss:accent") === "custom") setAccentFromHue(hue);
+      } catch {}
+    };
+    media.addEventListener?.("change", onMode);
+    const obs = new MutationObserver(onMode);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const unsub = subscribeAccentChange((state) => {
+      if (state.source === "custom") readAccent();
+      else readAccent();
     });
+    return () => {
+      media.removeEventListener?.("change", onMode);
+      obs.disconnect();
+      unsub();
+    };
   });
 
   persistState({
@@ -102,17 +115,15 @@
   {/if}
   {#if accentSelector}
     <div data-wacss="accent-selector">
-      <input
-        type="range"
+      <Slider
         min={0}
         max={360}
-        value={hue ?? 0}
+        step={1}
+        bind:value={hue}
         {disabled}
-        class={sliderClasses}
         aria-label={label ? `${label} accent hue` : "Accent hue"}
-        data-wacss="accent-slider"
-        oninput={(e) => onHueInput(Number((e.currentTarget as HTMLInputElement).value))}
-        onchange={(e) => onHueInput(Number((e.currentTarget as HTMLInputElement).value))}
+        class="wacss-accent-slider"
+        onValueChange={(v) => setAccentFromHue(v)}
       />
       <input
         type="text"
@@ -137,8 +148,8 @@
         aria-describedby={error || description ? helpId : undefined}
         data-wacss="input-control"
         data-wacss-color-swatch
-        oninput={(e) => onPick((e.currentTarget as HTMLInputElement).value)}
-        onchange={(e) => onPick((e.currentTarget as HTMLInputElement).value)}
+        oninput={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
+        onchange={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
       />
       <input
         type="text"
@@ -146,9 +157,8 @@
         {disabled}
         data-wacss="input-control"
         aria-label={label ? `${label} value` : "Color value"}
-        oninput={(e) => onPick((e.currentTarget as HTMLInputElement).value)}
-        onchange={(e) => onPick((e.currentTarget as HTMLInputElement).value)}
-        onblur={(e) => { const v = (e.currentTarget as HTMLInputElement).value; if (/^#?[0-9a-f]{6}$/i.test(v)) onPick(v); }}
+        oninput={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
+        onchange={(e) => { value = (e.currentTarget as HTMLInputElement).value; }}
       />
     </div>
   {/if}
