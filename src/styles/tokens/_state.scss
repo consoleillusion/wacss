@@ -1,10 +1,12 @@
 /* Level 5 - State: final per-state values derived from role tokens. */
+
 :root {
+  /* --- Button states --- */
   --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
   --button-color-standard-hover: var(--button-color-standard);
   --button-background-primary-hover: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 10%);
   --button-color-primary-hover: var(--button-color-primary);
-  --button-background-secondary-hover: color-mix(in oklch, var(--button-background-secondary), var(--color-foreground) 12%, transparent);
+  --button-background-secondary-hover: color-mix(in oklch, var(--color-foreground) 20%, transparent);
   --button-color-secondary-hover: var(--button-color-secondary);
   --button-background-outline-hover: color-mix(in oklch, var(--color-foreground) 6%, transparent);
   --button-color-outline-hover: var(--button-color-outline);
@@ -15,6 +17,37 @@
   --button-background-link-hover: transparent;
   --button-color-link-hover: var(--button-color-link);
 
+  /* --- Focus --- */
   --focus-ring: var(--color-ring);
   --focus-ring-offset: var(--color-background);
+  --focus-ring-width: 2px;
+  --focus-ring-span: 3px;
+  --input-ring-focus: color-mix(in oklch, var(--focus-ring) 35%, transparent);
+
+  /* --- Disabled --- */
+  --opacity-disabled: 0.5;
+
+  /* --- Menu item states --- */
+  --menu-item-background-highlighted: color-mix(in oklch, var(--color-foreground) 8%, transparent);
+  --menu-item-color-highlighted: var(--color-foreground);
+
+  /* --- Select item states --- */
+  --select-item-background-highlighted: var(--menu-item-background-highlighted);
+  --select-item-color-highlighted: var(--color-foreground);
+
+  /* --- Input states --- */
+  --input-border-focus: var(--color-ring);
+  --input-border-invalid: var(--color-destructive);
+  --input-ring-invalid: color-mix(in oklch, var(--color-destructive) 30%, transparent);
+
+  /* --- Tab states --- */
+  --tabs-trigger-color-hover: var(--color-foreground);
+
+  /* --- Switch states --- */
+  --switch-track-hover: color-mix(in oklch, var(--color-foreground) 30%, transparent);
+
+  /* --- Nav link states --- */
+  --nav-link-color: var(--color-muted-foreground);
+  --nav-link-color-hover: var(--color-foreground);
+  --nav-link-color-active: var(--color-foreground);
 }

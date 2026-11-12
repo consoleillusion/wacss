@@ -63,13 +63,14 @@ import Progress from "../Progress/Progress.svelte";
     component,
     data,
     href,
+    orientation = "portrait",
     class: className = "",
     children,
     footerSnippet,
     ...restProps
-  }: CardProps & { href?: string } = $props();
+  }: CardProps & { href?: string; orientation?: "portrait" | "square" | "landscape" } = $props();
 
-  const classes = $derived(className || undefined);
+  const classes = $derived(["card", className].filter(Boolean).join(" "));
   const headerText = $derived(typeof header === "string" ? header : title);
   const bodyText = $derived(text ?? description);
 
@@ -129,6 +130,7 @@ import Progress from "../Progress/Progress.svelte";
   {...restProps}
   class={classes || undefined}
   data-card
+  data-orientation={orientation !== "portrait" ? orientation : undefined}
   data-href={href || undefined}
   onclick={onCardClick}
 >

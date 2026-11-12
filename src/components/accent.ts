@@ -12,7 +12,7 @@
 export const ACCENT_STORAGE_KEY = "wacss:accent";
 export const ACCENT_COLOR_STORAGE_KEY = "wacss:accent-color";
 export const ACCENT_CHANGE_EVENT = "wacss:accent-change";
-export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome"];
+export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
 
 export type AccentSource =
   | { source: "preset"; theme: string }

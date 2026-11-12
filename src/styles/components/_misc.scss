@@ -1,1 +1,79 @@
-/* misc */
+/* Misc editorial surfaces: links, code, blockquotes, kbd, selection. */
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--motion-interaction) var(--ease-interaction);
+}
+a:hover { text-decoration-color: currentColor; }
+nav a, article[data-card] a, a[data-variant] {
+  text-decoration: none;
+}
+
+/* Inline code and code blocks */
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+code {
+  background: var(--color-muted);
+  border-radius: var(--radius-1);
+  padding: 0.125rem 0.375rem;
+}
+pre {
+  background: var(--color-muted);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-surface);
+  padding: var(--space-4);
+  margin-block: var(--space-4);
+  overflow-x: auto;
+  font-size: var(--text-size-ui);
+  line-height: var(--line-normal);
+}
+pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Keyboard hints */
+kbd {
+  display: inline-block;
+  min-inline-size: 1.5rem;
+  text-align: center;
+  padding: 0.125rem 0.375rem;
+  border: var(--border-width) solid var(--color-border);
+  border-block-end-width: 2px;
+  border-radius: var(--radius-2);
+  background: var(--color-muted);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+}
+
+/* Blockquote: quiet, editorial */
+blockquote {
+  margin: var(--space-4) 0;
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--color-border);
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+
+/* Text selection carries the accent */
+::selection {
+  background: color-mix(in oklch, var(--color-accent) 25%, transparent);
+}
+
+/* Motion respects user preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

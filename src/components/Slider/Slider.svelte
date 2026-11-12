@@ -103,11 +103,14 @@
   max={effectiveMax}
   {step}
   {disabled}
-  class={classes}
+  class={classes || undefined}
+  data-slider-root
   data-hue={accentSelector || undefined}
   onValueChange={(v) => handleChange(v)}
   {...restProps}
 >
-  <Slider.Range />
-  <Slider.Thumb index={0} />
+  <span data-slider-track>
+    <Slider.Range data-slider-range />
+  </span>
+  <Slider.Thumb index={0} data-slider-thumb />
 </Slider.Root>

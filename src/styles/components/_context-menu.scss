@@ -1,1 +1,9 @@
-/* context-menu */
+/* Context menu - shares menu surface styles in _popover.scss. */
+
+[data-context-menu-trigger] { display: contents; }
+[data-context-menu-content] { min-width: 10rem; }
+[data-context-menu-sub-trigger] > svg {
+  margin-inline-start: auto;
+  transition: transform var(--motion-interaction) var(--ease-interaction);
+}
+[data-context-menu-sub-trigger][data-state="open"] > svg { transform: rotate(90deg); }

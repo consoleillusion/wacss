@@ -1,1 +1,26 @@
-/* tooltip */
+/* Tooltip (bits-ui) - inverted surface. */
+
+[data-tooltip-content] {
+  z-index: calc(var(--popover-z) + 10);
+  width: fit-content;
+  max-width: 18rem;
+  border-radius: var(--tooltip-radius);
+  border: var(--border-width) solid var(--tooltip-border);
+  background: var(--tooltip-background);
+  color: var(--tooltip-color);
+  padding: var(--tooltip-padding-block) var(--tooltip-padding-inline);
+  font-size: var(--tooltip-font-size);
+  box-shadow: var(--tooltip-shadow);
+}
+/* Opacity-only: bits-ui positions content with an inline transform. */
+[data-tooltip-content][data-state="delayed-open"],
+[data-tooltip-content][data-state="instant-open"] {
+  animation: wacss-fade-in-fast var(--motion-fast) var(--ease-out);
+}
+[data-tooltip-content][data-state="closed"] {
+  animation: wacss-fade-out-fast var(--motion-fast) var(--ease-out);
+}
+
+[data-tooltip-content] > svg {
+  fill: var(--tooltip-background);
+}

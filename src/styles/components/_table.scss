@@ -1,1 +1,36 @@
-/* table */
+/* Table - native table semantics, shadcn-like rows. */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-size-ui);
+  caption-side: bottom;
+}
+table caption {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-muted-foreground);
+  text-align: start;
+}
+table th {
+  text-align: start;
+  font-weight: var(--table-head-weight);
+  color: var(--table-head-color);
+  padding: var(--table-cell-padding-block) var(--table-cell-padding-inline);
+  border-block-end: var(--border-width) solid var(--table-row-border);
+  vertical-align: bottom;
+}
+table td {
+  padding: var(--table-cell-padding-block) var(--table-cell-padding-inline);
+  border-block-end: var(--border-width) solid var(--table-row-border);
+  vertical-align: middle;
+}
+table tbody tr {
+  transition: background var(--motion-interaction) var(--ease-interaction);
+}
+table tbody tr:hover {
+  background: var(--table-row-hover);
+}
+table tbody tr:last-child td {
+  border-block-end: none;
+}

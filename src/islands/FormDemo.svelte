@@ -78,7 +78,7 @@
   }
 </script>
 
-<div data-gap="6">
+<div class="stack" style="--space: var(--space-6)">
   <Form
     {jsonschema}
     columns={2}

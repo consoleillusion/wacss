@@ -1,1 +1,52 @@
-/* radio-group */
+/* Radio group (bits-ui) - root is a group; items are buttons acting as radios. */
+
+[data-radio-group-root] {
+  display: grid;
+  gap: var(--space-2);
+}
+[data-radio-group-item] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--radio-size);
+  block-size: var(--radio-size);
+  flex-shrink: 0;
+  padding: 0;
+  min-height: 0;
+  border: var(--border-width) solid var(--radio-border);
+  border-radius: 50%;
+  background: var(--radio-background);
+  transition: background var(--motion-interaction) var(--ease-interaction),
+    border-color var(--motion-interaction) var(--ease-interaction);
+}
+[data-radio-group-item]:hover {
+  background: var(--radio-background);
+  border-color: color-mix(in oklch, var(--radio-border), var(--color-foreground) 30%);
+}
+[data-radio-group-item]:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: 2px;
+}
+[data-radio-group-item][data-state="checked"] {
+  background: var(--radio-background-checked);
+  border-color: var(--radio-background-checked);
+}
+[data-radio-group-item][data-state="checked"]::after {
+  content: "";
+  inline-size: calc(var(--radio-size) / 2.5);
+  block-size: calc(var(--radio-size) / 2.5);
+  border-radius: 50%;
+  background: var(--radio-dot);
+}
+[data-radio-group-item][data-disabled] {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+
+/* Native radio inputs */
+input[type="radio"] {
+  width: var(--radio-size);
+  height: var(--radio-size);
+  accent-color: var(--color-accent);
+}

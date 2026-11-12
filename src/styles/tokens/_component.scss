@@ -1,22 +1,43 @@
-/* Level 3 - Component: component anatomy from semantic tokens. */
+/* Level 3 - Component: component anatomy built from semantic tokens.
+   Each family names a prima, and the rest derive from it. */
+
 :root {
+  /* --- Button (prima: --button-background) --- */
   --button-background: var(--color-accent);
   --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
   --button-border: transparent;
   --button-radius: var(--radius-control);
   --button-padding-block: 0.5rem;
   --button-padding-inline: 1rem;
-  --button-font-size: var(--text-sm);
+  --button-font-size: var(--text-size-ui);
   --button-gap: var(--space-2);
   --button-height: 2.25rem;
+  --button-height-sm: 2rem;
+  --button-height-lg: 2.5rem;
+  --button-height-icon: 2.25rem;
 
+  /* --- Badge (prima: --badge-background) --- */
+  --badge-background: var(--color-accent);
+  --badge-color: oklch(from var(--badge-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --badge-border: transparent;
+  --badge-radius: var(--radius-pill);
+  --badge-padding-block: 0.125rem;
+  --badge-padding-inline: 0.5rem;
+  --badge-font-size: var(--text-xs);
+  --badge-line-height: 1.25rem;
+  --badge-font-weight: var(--weight-medium);
+
+  /* --- Card --- */
   --card-background: var(--color-card);
   --card-color: var(--color-foreground);
   --card-border: var(--color-border);
   --card-radius: var(--radius-surface);
   --card-padding: var(--space-6);
   --card-shadow: var(--shadow-surface);
+  --card-title-size: var(--text-base);
+  --card-description-color: var(--color-muted-foreground);
 
+  /* --- Input (prima: --input-border) --- */
   --input-background: var(--color-background);
   --input-color: var(--color-foreground);
   --input-border: var(--color-border);
@@ -24,19 +45,151 @@
   --input-padding-block: 0.5rem;
   --input-padding-inline: 0.75rem;
   --input-height: 2.25rem;
+  --input-font-size: var(--text-size-ui);
+  --input-placeholder-color: var(--color-muted-foreground);
 
+  /* --- Field / form --- */
+  --field-gap: var(--space-2);
+  --field-description-color: var(--color-muted-foreground);
+  --form-gap: var(--space-4);
+  --form-columns-min: 16rem;
+
+  /* --- Select --- */
+  --select-background: var(--input-background);
+  --select-color: var(--input-color);
+  --select-border: var(--input-border);
+  --select-radius: var(--input-radius);
+  --select-height: var(--input-height);
+  --select-item-background: transparent;
+  --select-item-radius: var(--radius-2);
+
+  /* --- Popover surface (prima: --popover-background) --- */
   --popover-background: var(--color-popover);
   --popover-color: var(--color-foreground);
   --popover-border: var(--color-border);
   --popover-radius: var(--radius-surface);
   --popover-shadow: var(--shadow-overlay);
+  --popover-padding: var(--space-1);
+  --popover-z: 50;
 
+  /* --- Menu (dropdown/context; surface aliases popover) --- */
+  --menu-background: var(--popover-background);
+  --menu-color: var(--popover-color);
+  --menu-border: var(--popover-border);
+  --menu-radius: var(--popover-radius);
+  --menu-shadow: var(--popover-shadow);
+  --menu-padding: var(--popover-padding);
+  --menu-item-radius: var(--radius-2);
+  --menu-item-padding-block: var(--space-1-5);
+  --menu-item-padding-inline: var(--space-2);
+  --menu-item-font-size: var(--text-size-ui);
+  --menu-item-gap: var(--space-2);
+  --menu-item-indicator-size: 0.875rem;
+
+  /* --- Tooltip (inverted surface) --- */
+  --tooltip-background: var(--color-foreground);
+  --tooltip-color: oklch(from var(--tooltip-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --tooltip-border: transparent;
+  --tooltip-radius: var(--radius-2);
+  --tooltip-shadow: var(--shadow-2);
+  --tooltip-padding-block: 0.375rem;
+  --tooltip-padding-inline: 0.75rem;
+  --tooltip-font-size: var(--text-xs);
+
+  /* --- Dialog --- */
   --dialog-background: var(--color-popover);
   --dialog-color: var(--color-foreground);
   --dialog-border: var(--color-border);
   --dialog-radius: var(--radius-surface);
   --dialog-shadow: var(--shadow-overlay);
   --dialog-padding: var(--space-6);
+  --dialog-gap: var(--space-4);
+  --dialog-max-width: 32rem;
+  --dialog-max-height: min(85vh, 40rem);
+  --dialog-overlay: var(--color-overlay);
+  --dialog-z: var(--popover-z);
 
-  --badge-radius: var(--radius-pill);
+  /* --- Separator --- */
+  --separator-color: var(--color-border);
+
+  /* --- Switch (prima: --switch-track) --- */
+  --switch-track: color-mix(in oklch, var(--color-foreground) 20%, transparent);
+  --switch-track-checked: var(--color-accent);
+  --switch-thumb: var(--color-background);
+  --switch-thumb-checked: oklch(from var(--switch-track-checked) clamp(0, calc(1 - l), 1) 0.05 h);
+  --switch-width: 2.25rem;
+  --switch-height: 1.25rem;
+  --switch-thumb-size: 1rem;
+
+  /* --- Checkbox (prima: --checkbox-background) --- */
+  --checkbox-background: transparent;
+  --checkbox-background-checked: var(--color-accent);
+  --checkbox-color: oklch(from var(--checkbox-background-checked) clamp(0, calc(1 - l), 1) 0.05 h);
+  --checkbox-border: var(--color-border);
+  --checkbox-border-checked: var(--checkbox-background-checked);
+  --checkbox-size: 1rem;
+  --checkbox-radius: var(--radius-1);
+
+  /* --- Radio (prima: --radio-border) --- */
+  --radio-background: transparent;
+  --radio-background-checked: var(--color-accent);
+  --radio-border: var(--color-border);
+  --radio-dot: oklch(from var(--radio-background-checked) clamp(0, calc(1 - l), 1) 0.05 h);
+  --radio-size: 1rem;
+
+  /* --- Progress (prima: --progress-indicator) --- */
+  --progress-track: color-mix(in oklch, var(--color-foreground) 12%, transparent);
+  --progress-indicator: var(--color-accent);
+  --progress-height: 0.5rem;
+
+  /* --- Slider --- */
+  --slider-track: color-mix(in oklch, var(--color-foreground) 15%, transparent);
+  --slider-range: var(--color-accent);
+  --slider-thumb: var(--color-background);
+  --slider-thumb-border: var(--color-accent);
+  --slider-thumb-size: 1rem;
+
+  /* --- Tabs --- */
+  --tabs-list-background: color-mix(in oklch, var(--color-foreground) 6%, transparent);
+  --tabs-list-color: var(--color-muted-foreground);
+  --tabs-trigger-background: transparent;
+  --tabs-trigger-color: inherit;
+  --tabs-trigger-background-active: var(--color-background);
+  --tabs-trigger-color-active: var(--color-foreground);
+  --tabs-height: 2.25rem;
+  --tabs-trigger-padding-block: 0.25rem;
+  --tabs-trigger-padding-inline: 0.75rem;
+
+  /* --- Accordion --- */
+  --accordion-border: var(--color-border);
+  --accordion-trigger-padding-block: var(--space-4);
+  --accordion-trigger-color: var(--color-foreground);
+  --accordion-content-color: var(--color-foreground);
+  --accordion-transition: var(--motion-accordion);
+
+  /* --- Avatar --- */
+  --avatar-size: 2.5rem;
+  --avatar-size-sm: 2rem;
+  --avatar-size-lg: 3rem;
+  --avatar-fallback-background: var(--color-muted);
+  --avatar-fallback-color: var(--color-muted-foreground);
+
+  /* --- Table --- */
+  --table-head-color: var(--color-muted-foreground);
+  --table-head-weight: var(--weight-medium);
+  --table-cell-padding-block: var(--space-2);
+  --table-cell-padding-inline: var(--space-3);
+  --table-row-border: var(--color-border);
+  --table-row-hover: var(--color-muted);
+
+  /* --- Navigation menu --- */
+  --nav-trigger-color: var(--color-muted-foreground);
+  --nav-trigger-color-active: var(--color-foreground);
+  --nav-content-background: var(--popover-background);
+  --nav-content-border: var(--popover-border);
+  --nav-content-radius: var(--popover-radius);
+  --nav-content-shadow: var(--popover-shadow);
+  --nav-content-padding: var(--space-2);
+  --nav-link-color: var(--color-foreground);
+  --nav-link-description-color: var(--color-muted-foreground);
 }

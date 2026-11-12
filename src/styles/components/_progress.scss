@@ -1,18 +1,24 @@
 /* Progress */
-[role="progressbar"], [data-progress-root], progress {
+
+[role="progressbar"], [data-progress-root] {
   position: relative;
-  height: 0.5rem;
+  height: var(--progress-height);
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-full);
-  background: color-mix(in oklch, var(--color-primary), transparent 80%);
+  border-radius: var(--radius-pill);
+  background: var(--progress-track);
 }
-[data-progress-indicator] {
-  height: 100%; width: 100%; flex: 1;
-  background: var(--color-primary);
-  transition: transform var(--motion-enter) var(--ease-interaction);
+[role="progressbar"] > div, [data-progress-indicator] {
+  height: 100%;
+  background: var(--progress-indicator);
+  border-radius: inherit;
+  transition: width var(--motion-surface) var(--ease-out), transform var(--motion-surface) var(--ease-out);
 }
-progress { appearance: none; border: none; }
-progress::-webkit-progress-bar { background: color-mix(in oklch, var(--color-primary), transparent 80%); border-radius: var(--radius-full); }
-progress::-webkit-progress-value { background: var(--color-primary); border-radius: var(--radius-full); transition: width var(--motion-enter) var(--ease-interaction); }
-progress::-moz-progress-bar { background: var(--color-primary); border-radius: var(--radius-full); }
+[data-indeterminate] [role="progressbar"] > div {
+  width: 40%;
+  animation: wacss-progress-indeterminate 1.2s infinite ease-in-out;
+}
+@keyframes wacss-progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}

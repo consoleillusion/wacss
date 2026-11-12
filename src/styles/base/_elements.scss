@@ -1,9 +1,11 @@
+/* Base element styling consumes L4/L5 tokens. */
+
 :focus-visible {
-  outline: 2px solid var(--focus-ring);
+  outline: var(--focus-ring-width) solid var(--focus-ring);
   outline-offset: 2px;
 }
 
-/* Base element styling uses L4/L5 tokens where applicable */
+/* --- Buttons --- */
 button, [role="button"] {
   appearance: none;
   display: inline-flex;
@@ -18,7 +20,7 @@ button, [role="button"] {
   min-height: var(--button-height);
   padding: var(--button-padding-block) var(--button-padding-inline);
   font-size: var(--button-font-size);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   line-height: 1;
   cursor: pointer;
   transition: background var(--motion-interaction) var(--ease-interaction),
@@ -30,11 +32,19 @@ button:hover, [role="button"]:hover {
   background: var(--button-background-standard-hover);
   color: var(--button-color-standard-hover);
 }
-button:disabled, [aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.5;
-}
 
+/* Disabled: scoped to interactive elements, not every aria-disabled element. */
+button:disabled, input:disabled, select:disabled, textarea:disabled,
+optgroup:disabled, fieldset:disabled,
+[role="button"][aria-disabled="true"], a[aria-disabled="true"],
+[data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+fieldset:disabled > * { pointer-events: none; }
+
+/* --- Text inputs --- */
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
 select, textarea {
   display: flex;
@@ -45,6 +55,79 @@ select, textarea {
   color: var(--input-color);
   min-height: var(--input-height);
   padding: var(--input-padding-block) var(--input-padding-inline);
-  font-size: var(--text-sm);
+  font-size: var(--input-font-size);
+  transition: border-color var(--motion-interaction) var(--ease-interaction),
+    box-shadow var(--motion-interaction) var(--ease-interaction);
 }
 textarea { min-height: 5rem; }
+
+::placeholder { color: var(--input-placeholder-color); opacity: 1; }
+
+/* Focus ring on fields: border + soft halo, no double outline. */
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span) var(--input-ring-focus);
+}
+
+/* Invalid */
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"],
+:user-invalid {
+  border-color: var(--input-border-invalid);
+}
+input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible,
+textarea[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 var(--focus-ring-span) var(--input-ring-invalid);
+}
+
+/* Color swatch input: compact swatch, not a stretched field. */
+input[type="color"] {
+  appearance: none;
+  inline-size: var(--space-10);
+  min-height: var(--input-height);
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--input-border);
+  border-radius: var(--input-radius);
+  background: var(--input-background);
+  cursor: pointer;
+}
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type="color"]::-webkit-color-swatch { border: none; border-radius: calc(var(--input-radius) - 2px); }
+
+/* Native select keeps its OS-provided chevron. */
+
+/* Native checkboxes/radios tinted with the accent. */
+input[type="checkbox"], input[type="radio"] {
+  inline-size: var(--checkbox-size);
+  block-size: var(--checkbox-size);
+  accent-color: var(--color-accent);
+}
+
+/* --- Labels --- */
+label {
+  font-size: var(--text-size-ui);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+}
+label > span[aria-hidden="true"],
+legend > span[aria-hidden="true"] { color: var(--color-destructive); margin-inline-start: 2px; }
+
+/* --- Headings: editorial rhythm --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-heading);
+  line-height: var(--line-heading);
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-4xl); margin-block: var(--space-8) var(--space-4); }
+h2 { font-size: var(--text-2xl); margin-block: var(--space-8) var(--space-3); }
+h3 { font-size: var(--text-xl); margin-block: var(--space-6) var(--space-2); }
+h4 { font-size: var(--text-lg); }
+h5 { font-size: var(--text-base); }
+h6 { font-size: var(--text-sm); }
+p { margin-block: var(--space-3); }
+p:first-child { margin-block-start: 0; }
+p:last-child { margin-block-end: 0; }
+
+/* --- Lists --- */
+ul, ol { padding-inline-start: var(--space-6); }
