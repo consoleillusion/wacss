@@ -145,11 +145,10 @@ $palettes: (
 
   /* role */
   --button-background-standard: var(--button-background); // prima
-  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.01 h);
 
   /* state */
   --button-background-standard-hover: color-mix(in oklch, var(--background-button-standard), var(--color-base-light-inverse), 10%);
-
 
 }
 
