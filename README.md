@@ -91,7 +91,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 
 **Rules:**
 - Lower layers reference higher layers, never raw literals.
-- Rendered styles consume layer 5 (final state tokens).
+- Rendered styles consume layer 4 or 5 (final state tokens, or layer 4 tokens, no state).
 - Many token families, such as a colour theme, derive from a single higher-level token.
 - **Paste-at-any-level theming:** replacing the tokens at any one layer restyles the whole interface coherently.
 - Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle).
@@ -134,7 +134,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 
 }
 
-button       { background: var(--button-background-standard); color: var(--text-button); }
+button       { background: var(--button-background-standard); color: var(--button-color-standard); }
 button:hover { background: var(--button-background-standard-hover); }
 ```
 
