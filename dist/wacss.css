@@ -1,9 +1,8 @@
 @charset "UTF-8";
 /* WaCSS - global, token-driven styles. No scoped component styles. */
 /* ==========================================================================
-   LEVEL 1 — PRIMITIVE / GLOBAL
-   Real values only. No references to semantic, component, role, or state tokens.
-   Paste a new primitive set here to change raw values everywhere.
+   LEVEL 1 — PRIMITIVE
+   Raw values only. No references to semantic, component, role, or state tokens.
    ========================================================================== */
 /* Derived scales: base values + multipliers (fewer explicit tokens). */
 :root {
@@ -18,13 +17,23 @@
   --primitive-color-black: oklch(0% 0 0deg);
   --primitive-color-stone: oklch(99.3% 0.002 250deg);
   --primitive-color-charcoal: oklch(17% 0.005 260deg);
-  --primitive-color-sakura: oklch(58% 0.19 340deg);
-  --primitive-color-shibui: oklch(52% 0.04 135deg);
-  --primitive-color-sumi: oklch(78% 0.01 260deg);
+  --primitive-color-sakura: oklch(60% 0.15 5deg);
+  --primitive-color-matcha: oklch(60% 0.15 140deg);
+  --primitive-color-sumi: oklch(60% 0.01 260deg);
+  --primitive-color-aizome: oklch(60% 0.15 230deg);
   --primitive-color-red: oklch(57.7% 0.245 27.325deg);
   --primitive-color-green: oklch(62.7% 0.17 149deg);
   --primitive-color-amber: oklch(76.9% 0.155 70deg);
   --primitive-color-transparent: transparent;
+  /* Primitive accent variants (4 palettes) */
+  --color-dark-sakura: oklch(60% 0.15 5deg);
+  --color-light-sakura: oklch(from oklch(60% 0.15 5deg) calc(l + 10%) calc(c + 0.02) h);
+  --color-dark-matcha: oklch(60% 0.15 140deg);
+  --color-light-matcha: oklch(from oklch(60% 0.15 140deg) calc(l + 10%) calc(c + 0.02) h);
+  --color-dark-sumi: oklch(60% 0.01 260deg);
+  --color-light-sumi: oklch(from oklch(60% 0.01 260deg) calc(l + 10%) calc(c + 0.02) h);
+  --color-dark-aizome: oklch(60% 0.15 230deg);
+  --color-light-aizome: oklch(from oklch(60% 0.15 230deg) calc(l + 10%) calc(c + 0.02) h);
   --primitive-space-0: calc(var(--primitive-space-unit) * 0);
   --primitive-space-0-5: calc(var(--primitive-space-unit) * 0.5);
   --primitive-space-1: calc(var(--primitive-space-unit) * 1);
@@ -98,8 +107,9 @@
   --color-stone: var(--primitive-color-stone);
   --color-charcoal: var(--primitive-color-charcoal);
   --color-sakura: var(--primitive-color-sakura);
-  --color-shibui: var(--primitive-color-shibui);
+  --color-matcha: var(--primitive-color-matcha);
   --color-sumi: var(--primitive-color-sumi);
+  --color-aizome: var(--primitive-color-aizome);
   --color-red: var(--primitive-color-red);
   --color-green: var(--primitive-color-green);
   --color-amber: var(--primitive-color-amber);
@@ -154,89 +164,60 @@
 }
 
 /* ==========================================================================
-   LEVEL 2 — SEMANTIC
-   Theme = one hue. Defining a theme: add a primitive color (e.g. --color-sakura)
-   and set --color-theme. All other colors derive from accent + light/dark base.
-   Exception: sibling token references allowed here for derivation.
+   LEVEL 2 — SEMANTIC (alias level)
+   Meanings built from primitives. Each domain has a prima token.
+   Derive variations with color-mix()/oklch(from ...)/calc() (no color ramps).
+   Paste-at-any-level theming: replacing this layer restyles coherently.
    ========================================================================== */
 :root {
   color-scheme: light dark;
-  --color-theme: var(--primitive-color-sakura);
-  /* Default accent (sakura). */
-  --color-accent: oklch(70% 0.19 340);
-  --_neutral-base: var(--primitive-color-stone);
-  --_mix: var(--primitive-color-black);
-  --_ink: oklch(0 0 0 / 0.9);
-  --_accent-l: 70%;
-  /* Base: mix neutral (stone/charcoal by mode) with accent */
-  --_semantic-base: color-mix(in oklch, var(--_neutral-base) 92%, var(--color-accent) 8%);
-  --_semantic-background: var(--_semantic-base);
-  /* Surface: deviation from base */
-  --_semantic-surface: color-mix(in oklch, var(--_semantic-base), var(--_mix) 5%);
-  --_semantic-card: var(--_semantic-surface);
-  --_semantic-popover: color-mix(in oklch, var(--color-accent) 10%, var(--_semantic-base));
-  /* Text/foreground */
-  --_semantic-text: var(--_ink);
-  --_semantic-foreground: var(--_ink);
-  --_semantic-card-foreground: var(--_ink);
-  --_semantic-popover-foreground: var(--_ink);
-  --_semantic-muted-foreground: color-mix(in oklch, var(--_ink) 60%, transparent);
-  --_semantic-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--_semantic-base));
-  --_semantic-secondary-foreground: var(--_ink);
-  --_semantic-muted: color-mix(in oklch, var(--color-accent) 8%, var(--_semantic-base));
-  --_semantic-accent-foreground: var(--_ink);
-  --_semantic-primary: var(--color-accent);
-  --_semantic-primary-foreground: var(--_ink);
-  --_semantic-border: color-mix(in oklch, var(--_ink) 15%, transparent);
-  --_semantic-input: color-mix(in oklch, var(--_ink) 18%, transparent);
-  --_semantic-ring: var(--color-accent);
-  --_semantic-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
-  --_semantic-destructive: var(--primitive-color-red);
-  --_semantic-destructive-foreground: var(--_ink);
-  /* Semantic status colors */
-  --_semantic-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
-  --_semantic-positive-foreground: var(--_ink);
-  --_semantic-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
-  --_semantic-neutral-foreground: var(--_ink);
-  --_semantic-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
-  --_semantic-negative-foreground: var(--_ink);
-  /* Publish semantic tokens */
-  --color-background: var(--_semantic-background);
-  --color-foreground: var(--_semantic-foreground);
-  --color-card: var(--_semantic-card);
-  --color-card-foreground: var(--_semantic-card-foreground);
-  --color-popover: var(--_semantic-popover);
-  --color-popover-foreground: var(--_semantic-popover-foreground);
-  --color-primary: var(--_semantic-primary);
-  --color-primary-foreground: var(--_semantic-primary-foreground);
-  --color-secondary: var(--_semantic-secondary);
-  --color-secondary-foreground: var(--_semantic-secondary-foreground);
-  --color-muted: var(--_semantic-muted);
-  --color-muted-foreground: var(--_semantic-muted-foreground);
-  --color-accent: var(--_semantic-accent);
-  --color-accent-foreground: var(--_semantic-accent-foreground);
-  --color-destructive: var(--_semantic-destructive);
-  --color-destructive-foreground: var(--_semantic-destructive-foreground);
-  --color-border: var(--_semantic-border);
-  --color-input: var(--_semantic-input);
-  --color-ring: var(--_semantic-ring);
-  --color-overlay: var(--_semantic-overlay);
-  --color-positive: var(--_semantic-positive);
-  --color-positive-foreground: var(--_semantic-positive-foreground);
-  --color-neutral: var(--_semantic-neutral);
-  --color-neutral-foreground: var(--_semantic-neutral-foreground);
-  --color-negative: var(--_semantic-negative);
-  --color-negative-foreground: var(--_semantic-negative-foreground);
-  --color-base: var(--_semantic-base);
-  --color-surface: var(--_semantic-surface);
-  --color-text: var(--_semantic-text);
+  /* Base/ink: light default, inverted in dark via prefers-color-scheme/data-theme */
+  --color-base-light: #111111;
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.05 h);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-base-light: #fafafa;
+  }
+}
+:root {
+  /* Palette-driven accent (prima). Default sumi (dark variant in dark/system-default, overridden below). */
+  --color-accent: var(--color-dark-sumi);
+  --color-theme: var(--color-accent);
+  /* Derived semantic colors (prima: --color-base) */
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 4%);
+  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
+  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
+  /* Common semantic tokens derived from primas */
+  --color-background: var(--color-base);
+  --color-card: var(--color-surface);
+  --color-popover: color-mix(in oklch, var(--color-accent) 10%, var(--color-base));
+  --color-text: var(--color-base-light-inverse);
+  --color-foreground: var(--color-text);
+  --color-card-foreground: var(--color-text);
+  --color-popover-foreground: var(--color-text);
+  --color-muted: color-mix(in oklch, var(--color-accent) 8%, var(--color-base));
+  --color-muted-foreground: color-mix(in oklch, var(--color-text) 60%, transparent);
+  --color-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--color-base));
+  --color-secondary-foreground: var(--color-text);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: oklch(from var(--color-primary) clamp(0, calc(1 - l), 1) 0.05 h);
+  --color-accent-foreground: oklch(from var(--color-accent) clamp(0, calc(1 - l), 1) 0.05 h);
+  --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
+  --color-input: color-mix(in oklch, var(--color-text) 18%, transparent);
+  --color-ring: var(--color-accent);
+  --color-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  /* Status semantics (derived) */
+  --color-destructive: var(--primitive-color-red);
+  --color-destructive-foreground: oklch(from var(--color-destructive) clamp(0, calc(1 - l), 1) 0.05 h);
+  --color-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
+  --color-positive-foreground: oklch(from var(--color-positive) clamp(0, calc(1 - l), 1) 0.05 h);
+  --color-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
+  --color-neutral-foreground: oklch(from var(--color-neutral) clamp(0, calc(1 - l), 1) 0.05 h);
+  --color-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
+  --color-negative-foreground: oklch(from var(--color-negative) clamp(0, calc(1 - l), 1) 0.05 h);
   --color-transparent: var(--primitive-color-transparent);
-  --color-scrim: var(--color-overlay);
-  --color-focus: var(--color-ring);
-  --color-text-muted: var(--color-muted-foreground);
-  --color-positive-text: var(--color-positive-foreground);
-  --color-neutral-text: var(--color-neutral-foreground);
-  --color-negative-text: var(--color-negative-foreground);
+  /* Non-color semantic primas / derived tokens */
   --font-body: var(--primitive-font-sans);
   --font-ui: var(--primitive-font-sans);
   --font-heading: var(--primitive-font-sans);
@@ -260,294 +241,141 @@
   --shadow-control: var(--primitive-shadow-1);
   --border-width: var(--primitive-border-width-1);
   --measure: var(--primitive-measure);
-}
-
-:root[data-theme=light] {
-  color-scheme: light;
-  --color-accent: oklch(70% 0.19 340);
-  --_neutral-base: var(--primitive-color-stone);
-  --_mix: var(--primitive-color-black);
-  --_ink: oklch(0 0 0 / 0.9);
-  --_accent-l: 70%;
-  /* Base: mix neutral (stone/charcoal by mode) with accent */
-  --_semantic-base: color-mix(in oklch, var(--_neutral-base) 92%, var(--color-accent) 8%);
-  --_semantic-background: var(--_semantic-base);
-  /* Surface: deviation from base */
-  --_semantic-surface: color-mix(in oklch, var(--_semantic-base), var(--_mix) 5%);
-  --_semantic-card: var(--_semantic-surface);
-  --_semantic-popover: color-mix(in oklch, var(--color-accent) 10%, var(--_semantic-base));
-  /* Text/foreground */
-  --_semantic-text: var(--_ink);
-  --_semantic-foreground: var(--_ink);
-  --_semantic-card-foreground: var(--_ink);
-  --_semantic-popover-foreground: var(--_ink);
-  --_semantic-muted-foreground: color-mix(in oklch, var(--_ink) 60%, transparent);
-  --_semantic-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--_semantic-base));
-  --_semantic-secondary-foreground: var(--_ink);
-  --_semantic-muted: color-mix(in oklch, var(--color-accent) 8%, var(--_semantic-base));
-  --_semantic-accent-foreground: var(--_ink);
-  --_semantic-primary: var(--color-accent);
-  --_semantic-primary-foreground: var(--_ink);
-  --_semantic-border: color-mix(in oklch, var(--_ink) 15%, transparent);
-  --_semantic-input: color-mix(in oklch, var(--_ink) 18%, transparent);
-  --_semantic-ring: var(--color-accent);
-  --_semantic-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
-  --_semantic-destructive: var(--primitive-color-red);
-  --_semantic-destructive-foreground: var(--_ink);
-  /* Semantic status colors */
-  --_semantic-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
-  --_semantic-positive-foreground: var(--_ink);
-  --_semantic-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
-  --_semantic-neutral-foreground: var(--_ink);
-  --_semantic-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
-  --_semantic-negative-foreground: var(--_ink);
-  /* Publish semantic tokens */
-  --color-background: var(--_semantic-background);
-  --color-foreground: var(--_semantic-foreground);
-  --color-card: var(--_semantic-card);
-  --color-card-foreground: var(--_semantic-card-foreground);
-  --color-popover: var(--_semantic-popover);
-  --color-popover-foreground: var(--_semantic-popover-foreground);
-  --color-primary: var(--_semantic-primary);
-  --color-primary-foreground: var(--_semantic-primary-foreground);
-  --color-secondary: var(--_semantic-secondary);
-  --color-secondary-foreground: var(--_semantic-secondary-foreground);
-  --color-muted: var(--_semantic-muted);
-  --color-muted-foreground: var(--_semantic-muted-foreground);
-  --color-accent: var(--_semantic-accent);
-  --color-accent-foreground: var(--_semantic-accent-foreground);
-  --color-destructive: var(--_semantic-destructive);
-  --color-destructive-foreground: var(--_semantic-destructive-foreground);
-  --color-border: var(--_semantic-border);
-  --color-input: var(--_semantic-input);
-  --color-ring: var(--_semantic-ring);
-  --color-overlay: var(--_semantic-overlay);
-  --color-positive: var(--_semantic-positive);
-  --color-positive-foreground: var(--_semantic-positive-foreground);
-  --color-neutral: var(--_semantic-neutral);
-  --color-neutral-foreground: var(--_semantic-neutral-foreground);
-  --color-negative: var(--_semantic-negative);
-  --color-negative-foreground: var(--_semantic-negative-foreground);
-  --color-base: var(--_semantic-base);
-  --color-surface: var(--_semantic-surface);
-  --color-text: var(--_semantic-text);
-  --color-transparent: var(--primitive-color-transparent);
+  /* Compat aliases */
   --color-scrim: var(--color-overlay);
   --color-focus: var(--color-ring);
   --color-text-muted: var(--color-muted-foreground);
   --color-positive-text: var(--color-positive-foreground);
   --color-neutral-text: var(--color-neutral-foreground);
   --color-negative-text: var(--color-negative-foreground);
+}
+
+/* data-theme overrides for base */
+:root[data-theme=light] {
+  color-scheme: light;
+  --color-base-light: #fafafa;
 }
 
 :root[data-theme=dark] {
   color-scheme: dark;
-  --color-accent: oklch(60% 0.19 340);
-  --_neutral-base: var(--primitive-color-charcoal);
-  --_mix: var(--primitive-color-white);
-  --_ink: oklch(1 0 0 / 0.9);
-  --_accent-l: 60%;
-  /* Base: mix neutral (stone/charcoal by mode) with accent */
-  --_semantic-base: color-mix(in oklch, var(--_neutral-base) 92%, var(--color-accent) 8%);
-  --_semantic-background: var(--_semantic-base);
-  /* Surface: deviation from base */
-  --_semantic-surface: color-mix(in oklch, var(--_semantic-base), var(--_mix) 5%);
-  --_semantic-card: var(--_semantic-surface);
-  --_semantic-popover: color-mix(in oklch, var(--color-accent) 10%, var(--_semantic-base));
-  /* Text/foreground */
-  --_semantic-text: var(--_ink);
-  --_semantic-foreground: var(--_ink);
-  --_semantic-card-foreground: var(--_ink);
-  --_semantic-popover-foreground: var(--_ink);
-  --_semantic-muted-foreground: color-mix(in oklch, var(--_ink) 60%, transparent);
-  --_semantic-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--_semantic-base));
-  --_semantic-secondary-foreground: var(--_ink);
-  --_semantic-muted: color-mix(in oklch, var(--color-accent) 8%, var(--_semantic-base));
-  --_semantic-accent-foreground: var(--_ink);
-  --_semantic-primary: var(--color-accent);
-  --_semantic-primary-foreground: var(--_ink);
-  --_semantic-border: color-mix(in oklch, var(--_ink) 15%, transparent);
-  --_semantic-input: color-mix(in oklch, var(--_ink) 18%, transparent);
-  --_semantic-ring: var(--color-accent);
-  --_semantic-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
-  --_semantic-destructive: var(--primitive-color-red);
-  --_semantic-destructive-foreground: var(--_ink);
-  /* Semantic status colors */
-  --_semantic-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
-  --_semantic-positive-foreground: var(--_ink);
-  --_semantic-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
-  --_semantic-neutral-foreground: var(--_ink);
-  --_semantic-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
-  --_semantic-negative-foreground: var(--_ink);
-  /* Publish semantic tokens */
-  --color-background: var(--_semantic-background);
-  --color-foreground: var(--_semantic-foreground);
-  --color-card: var(--_semantic-card);
-  --color-card-foreground: var(--_semantic-card-foreground);
-  --color-popover: var(--_semantic-popover);
-  --color-popover-foreground: var(--_semantic-popover-foreground);
-  --color-primary: var(--_semantic-primary);
-  --color-primary-foreground: var(--_semantic-primary-foreground);
-  --color-secondary: var(--_semantic-secondary);
-  --color-secondary-foreground: var(--_semantic-secondary-foreground);
-  --color-muted: var(--_semantic-muted);
-  --color-muted-foreground: var(--_semantic-muted-foreground);
-  --color-accent: var(--_semantic-accent);
-  --color-accent-foreground: var(--_semantic-accent-foreground);
-  --color-destructive: var(--_semantic-destructive);
-  --color-destructive-foreground: var(--_semantic-destructive-foreground);
-  --color-border: var(--_semantic-border);
-  --color-input: var(--_semantic-input);
-  --color-ring: var(--_semantic-ring);
-  --color-overlay: var(--_semantic-overlay);
-  --color-positive: var(--_semantic-positive);
-  --color-positive-foreground: var(--_semantic-positive-foreground);
-  --color-neutral: var(--_semantic-neutral);
-  --color-neutral-foreground: var(--_semantic-neutral-foreground);
-  --color-negative: var(--_semantic-negative);
-  --color-negative-foreground: var(--_semantic-negative-foreground);
-  --color-base: var(--_semantic-base);
-  --color-surface: var(--_semantic-surface);
-  --color-text: var(--_semantic-text);
-  --color-transparent: var(--primitive-color-transparent);
-  --color-scrim: var(--color-overlay);
-  --color-focus: var(--color-ring);
-  --color-text-muted: var(--color-muted-foreground);
-  --color-positive-text: var(--color-positive-foreground);
-  --color-neutral-text: var(--color-neutral-foreground);
-  --color-negative-text: var(--color-negative-foreground);
+  --color-base-light: #111111;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) {
-    color-scheme: dark;
-    --color-accent: oklch(60% 0.19 340);
-    --_neutral-base: var(--primitive-color-charcoal);
-    --_mix: var(--primitive-color-white);
-    --_ink: oklch(1 0 0 / 0.9);
-    --_accent-l: 60%;
-    /* Base: mix neutral (stone/charcoal by mode) with accent */
-    --_semantic-base: color-mix(in oklch, var(--_neutral-base) 92%, var(--color-accent) 8%);
-    --_semantic-background: var(--_semantic-base);
-    /* Surface: deviation from base */
-    --_semantic-surface: color-mix(in oklch, var(--_semantic-base), var(--_mix) 5%);
-    --_semantic-card: var(--_semantic-surface);
-    --_semantic-popover: color-mix(in oklch, var(--color-accent) 10%, var(--_semantic-base));
-    /* Text/foreground */
-    --_semantic-text: var(--_ink);
-    --_semantic-foreground: var(--_ink);
-    --_semantic-card-foreground: var(--_ink);
-    --_semantic-popover-foreground: var(--_ink);
-    --_semantic-muted-foreground: color-mix(in oklch, var(--_ink) 60%, transparent);
-    --_semantic-secondary: color-mix(in oklch, var(--color-accent) 12%, var(--_semantic-base));
-    --_semantic-secondary-foreground: var(--_ink);
-    --_semantic-muted: color-mix(in oklch, var(--color-accent) 8%, var(--_semantic-base));
-    --_semantic-accent-foreground: var(--_ink);
-    --_semantic-primary: var(--color-accent);
-    --_semantic-primary-foreground: var(--_ink);
-    --_semantic-border: color-mix(in oklch, var(--_ink) 15%, transparent);
-    --_semantic-input: color-mix(in oklch, var(--_ink) 18%, transparent);
-    --_semantic-ring: var(--color-accent);
-    --_semantic-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
-    --_semantic-destructive: var(--primitive-color-red);
-    --_semantic-destructive-foreground: var(--_ink);
-    /* Semantic status colors */
-    --_semantic-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--color-accent) 10%);
-    --_semantic-positive-foreground: var(--_ink);
-    --_semantic-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--color-accent) 10%);
-    --_semantic-neutral-foreground: var(--_ink);
-    --_semantic-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--color-accent) 10%);
-    --_semantic-negative-foreground: var(--_ink);
-    /* Publish semantic tokens */
-    --color-background: var(--_semantic-background);
-    --color-foreground: var(--_semantic-foreground);
-    --color-card: var(--_semantic-card);
-    --color-card-foreground: var(--_semantic-card-foreground);
-    --color-popover: var(--_semantic-popover);
-    --color-popover-foreground: var(--_semantic-popover-foreground);
-    --color-primary: var(--_semantic-primary);
-    --color-primary-foreground: var(--_semantic-primary-foreground);
-    --color-secondary: var(--_semantic-secondary);
-    --color-secondary-foreground: var(--_semantic-secondary-foreground);
-    --color-muted: var(--_semantic-muted);
-    --color-muted-foreground: var(--_semantic-muted-foreground);
-    --color-accent: var(--_semantic-accent);
-    --color-accent-foreground: var(--_semantic-accent-foreground);
-    --color-destructive: var(--_semantic-destructive);
-    --color-destructive-foreground: var(--_semantic-destructive-foreground);
-    --color-border: var(--_semantic-border);
-    --color-input: var(--_semantic-input);
-    --color-ring: var(--_semantic-ring);
-    --color-overlay: var(--_semantic-overlay);
-    --color-positive: var(--_semantic-positive);
-    --color-positive-foreground: var(--_semantic-positive-foreground);
-    --color-neutral: var(--_semantic-neutral);
-    --color-neutral-foreground: var(--_semantic-neutral-foreground);
-    --color-negative: var(--_semantic-negative);
-    --color-negative-foreground: var(--_semantic-negative-foreground);
-    --color-base: var(--_semantic-base);
-    --color-surface: var(--_semantic-surface);
-    --color-text: var(--_semantic-text);
-    --color-transparent: var(--primitive-color-transparent);
-    --color-scrim: var(--color-overlay);
-    --color-focus: var(--color-ring);
-    --color-text-muted: var(--color-muted-foreground);
-    --color-positive-text: var(--color-positive-foreground);
-    --color-neutral-text: var(--color-neutral-foreground);
-    --color-negative-text: var(--color-negative-foreground);
+/* data-palette accents: dark variants by default, light variants in light mode */
+:root[data-palette=sakura] {
+  --color-accent: var(--color-dark-sakura);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=sakura][data-theme=light] {
+  --color-accent: var(--color-light-sakura);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=matcha] {
+  --color-accent: var(--color-dark-matcha);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=matcha][data-theme=light] {
+  --color-accent: var(--color-light-matcha);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=sumi] {
+  --color-accent: var(--color-dark-sumi);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=sumi][data-theme=light] {
+  --color-accent: var(--color-light-sumi);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=aizome] {
+  --color-accent: var(--color-dark-aizome);
+  --color-theme: var(--color-accent);
+}
+
+:root[data-palette=aizome][data-theme=light] {
+  --color-accent: var(--color-light-aizome);
+  --color-theme: var(--color-accent);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark])[data-palette=sakura] {
+    --color-accent: var(--color-light-sakura);
+    --color-theme: var(--color-accent);
+  }
+  :root:not([data-theme=dark])[data-palette=matcha] {
+    --color-accent: var(--color-light-matcha);
+    --color-theme: var(--color-accent);
+  }
+  :root:not([data-theme=dark])[data-palette=sumi] {
+    --color-accent: var(--color-light-sumi);
+    --color-theme: var(--color-accent);
+  }
+  :root:not([data-theme=dark])[data-palette=aizome] {
+    --color-accent: var(--color-light-aizome);
+    --color-theme: var(--color-accent);
   }
 }
-/* Preset themes: set base hue; accent is mode-aware per theme. */
-.theme-sakura {
-  --color-theme: var(--primitive-color-sakura);
+/* Default accent follows mode when no explicit palette: dark sumi in dark, light sumi in light */
+@media (prefers-color-scheme: light) {
+  :root:not([data-palette]):not([data-theme=dark]) {
+    --color-accent: var(--color-light-sumi);
+    --color-theme: var(--color-accent);
+  }
+}
+:root[data-theme=light]:not([data-palette]) {
+  --color-accent: var(--color-light-sumi);
+  --color-theme: var(--color-accent);
 }
 
-.theme-shibui {
-  --color-theme: var(--primitive-color-shibui);
+/* Legacy theme class presets (map to palettes) */
+.theme-sakura {
+  --color-accent: var(--color-dark-sakura);
+  --color-theme: var(--color-accent);
+}
+
+.theme-matcha {
+  --color-accent: var(--color-dark-matcha);
+  --color-theme: var(--color-accent);
 }
 
 .theme-sumi {
-  --color-theme: var(--primitive-color-sumi);
+  --color-accent: var(--color-dark-sumi);
+  --color-theme: var(--color-accent);
 }
 
-:root.theme-sakura, .theme-sakura {
-  --color-accent: oklch(70% 0.19 340);
+.theme-shibui {
+  --color-accent: var(--primitive-color-shibui);
+  --color-theme: var(--color-accent);
 }
 
-:root.theme-shibui, .theme-shibui {
-  --color-accent: oklch(70% 0.04 135);
-}
-
-:root.theme-sumi, .theme-sumi {
-  --color-accent: oklch(70% 0.01 260);
-}
-
-:root[data-theme=dark].theme-sakura, :root[data-theme=dark] .theme-sakura {
-  --color-accent: oklch(60% 0.19 340);
-}
-
-:root[data-theme=dark].theme-shibui, :root[data-theme=dark] .theme-shibui {
-  --color-accent: oklch(60% 0.04 135);
-}
-
-:root[data-theme=dark].theme-sumi, :root[data-theme=dark] .theme-sumi {
-  --color-accent: oklch(60% 0.01 260);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]).theme-sakura,
-  :root:not([data-theme=light]) .theme-sakura {
-    --color-accent: oklch(60% 0.19 340);
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark]).theme-sakura, :root:not([data-theme=dark]) .theme-sakura {
+    --color-accent: var(--color-light-sakura);
   }
-  :root:not([data-theme=light]).theme-shibui,
-  :root:not([data-theme=light]) .theme-shibui {
-    --color-accent: oklch(60% 0.04 135);
+  :root:not([data-theme=dark]).theme-matcha, :root:not([data-theme=dark]) .theme-matcha {
+    --color-accent: var(--color-light-matcha);
   }
-  :root:not([data-theme=light]).theme-sumi,
-  :root:not([data-theme=light]) .theme-sumi {
-    --color-accent: oklch(60% 0.01 260);
+  :root:not([data-theme=dark]).theme-sumi, :root:not([data-theme=dark]) .theme-sumi {
+    --color-accent: var(--color-light-sumi);
   }
 }
+:root[data-theme=light].theme-sakura, :root[data-theme=light] .theme-sakura {
+  --color-accent: var(--color-light-sakura);
+}
+
+:root[data-theme=light].theme-matcha, :root[data-theme=light] .theme-matcha {
+  --color-accent: var(--color-light-matcha);
+}
+
+:root[data-theme=light].theme-sumi, :root[data-theme=light] .theme-sumi {
+  --color-accent: var(--color-light-sumi);
+}
+
 /* ==========================================================================
    LEVEL 3 — COMPONENT
    Component anatomy and base values derived from semantic tokens.
@@ -737,6 +565,33 @@
     --component-checkbox-bg-mix: 70%;
   }
 }
+/* ===== New hierarchy overrides (L3 component primas) ===== */
+:root {
+  --button-background: var(--color-accent);
+  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border: transparent;
+  --button-ring: var(--color-ring);
+  --button-radius: var(--radius-control);
+  --card-background: var(--color-card);
+  --card-color: var(--color-card-foreground);
+  --card-border: var(--color-border);
+  --card-radius: var(--radius-surface);
+  --card-shadow: var(--shadow-surface);
+  --input-background: var(--color-card);
+  --input-color: var(--color-foreground);
+  --input-border: var(--color-input);
+  --input-radius: var(--radius-control);
+  --input-ring: var(--color-ring);
+  /* Map old emphasis bases to new semantics where appropriate */
+  --component-emphasis-primary-bg: var(--color-primary);
+  --component-emphasis-primary-fg: var(--color-primary-foreground);
+  --component-emphasis-secondary-bg: var(--color-secondary);
+  --component-emphasis-secondary-fg: var(--color-secondary-foreground);
+  --component-emphasis-tertiary-bg: var(--color-muted);
+  --component-emphasis-tertiary-fg: var(--color-muted-foreground);
+  --component-emphasis-tertiary-border: var(--color-border);
+}
+
 /* ==========================================================================
    LEVEL 4 — ROLE
    Emphasis roles derived from component tokens.
@@ -775,6 +630,30 @@
   --role-neutral-fg: var(--component-emphasis-neutral-fg);
   --role-negative-bg: var(--component-emphasis-negative-bg);
   --role-negative-fg: var(--component-emphasis-negative-fg);
+}
+
+/* ===== New hierarchy overrides (L4 roles/primas) ===== */
+:root {
+  --button-background-standard: var(--button-background, var(--color-accent));
+  --button-color-standard: oklch(from var(--button-background-standard) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-standard: var(--button-border, transparent);
+  --button-background-primary: var(--color-pop);
+  --button-color-primary: oklch(from var(--button-background-primary) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border-primary: transparent;
+  --button-background-secondary: var(--color-secondary);
+  --button-color-secondary: var(--color-secondary-foreground);
+  --button-border-secondary: transparent;
+  --button-background-tertiary: var(--color-muted);
+  --button-color-tertiary: var(--color-muted-foreground);
+  --button-border-tertiary: var(--color-border);
+  --role-primary-bg: var(--button-background-primary);
+  --role-primary-fg: var(--button-color-primary);
+  --role-secondary-bg: var(--button-background-secondary);
+  --role-secondary-fg: var(--button-color-secondary);
+  --role-tertiary-bg: var(--button-background-tertiary);
+  --role-tertiary-fg: var(--button-color-tertiary);
+  --role-normal-bg: var(--role-secondary-bg);
+  --role-normal-fg: var(--role-secondary-fg);
 }
 
 /* ==========================================================================
@@ -1533,6 +1412,39 @@
   --z-dialog-content: var(--standard-z-modal);
   --z-dialog-overlay: var(--standard-z-overlay);
   --z-select-content: var(--standard-z-popover);
+}
+
+/* ===== New hierarchy overrides (L5 states derived from role, + compat mappings) ===== */
+:root {
+  --button-background-standard-hover: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 10%);
+  --button-background-standard-active: color-mix(in oklch, var(--button-background-standard), var(--color-base-light-inverse) 16%);
+  --button-background-primary-hover: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 10%);
+  --button-background-primary-active: color-mix(in oklch, var(--button-background-primary), var(--color-base-light-inverse) 16%);
+  --button-background-secondary-hover: color-mix(in oklch, var(--button-background-secondary), var(--color-base-light-inverse) 10%);
+  --button-background-secondary-active: color-mix(in oklch, var(--button-background-secondary), var(--color-base-light-inverse) 16%);
+  --button-background-tertiary-hover: color-mix(in oklch, var(--button-background-tertiary), var(--color-base-light-inverse) 8%);
+  --button-background-tertiary-active: color-mix(in oklch, var(--button-background-tertiary), var(--color-base-light-inverse) 14%);
+  /* Re-point key standard/legacy tokens to L4/L5 hierarchy */
+  --standard-button-bg: var(--button-background-standard);
+  --standard-button-fg: var(--button-color-standard);
+  --standard-button-border: var(--button-border-standard);
+  --standard-button-bg-hover: var(--button-background-standard-hover);
+  --standard-button-bg-active: var(--button-background-standard-active);
+  --standard-button-secondary-bg: var(--button-background-secondary);
+  --standard-button-secondary-fg: var(--button-color-secondary);
+  --standard-button-secondary-border: var(--button-border-secondary);
+  --standard-button-secondary-bg-hover: var(--button-background-secondary-hover);
+  --standard-button-secondary-bg-active: var(--button-background-secondary-active);
+  --background-button: var(--standard-button-bg);
+  --text-button: var(--standard-button-fg);
+  --border-button: var(--standard-button-border);
+  --background-button-hover: var(--standard-button-bg-hover);
+  --background-button-active: var(--standard-button-bg-active);
+  --background-button-secondary: var(--standard-button-secondary-bg);
+  --text-button-secondary: var(--standard-button-secondary-fg);
+  --border-button-secondary: var(--standard-button-secondary-border);
+  --background-button-secondary-hover: var(--standard-button-secondary-bg-hover);
+  --background-button-secondary-active: var(--standard-button-secondary-bg-active);
 }
 
 /* Minimal modern reset, semantic-friendly. */

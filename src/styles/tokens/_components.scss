@@ -213,3 +213,33 @@
     @include wacss-dark-component-overrides;
   }
 }
+
+/* ===== New hierarchy overrides (L3 component primas) ===== */
+:root {
+  --button-background: var(--color-accent);
+  --button-color: oklch(from var(--button-background) clamp(0, calc(1 - l), 1) 0.05 h);
+  --button-border: transparent;
+  --button-ring: var(--color-ring);
+  --button-radius: var(--radius-control);
+
+  --card-background: var(--color-card);
+  --card-color: var(--color-card-foreground);
+  --card-border: var(--color-border);
+  --card-radius: var(--radius-surface);
+  --card-shadow: var(--shadow-surface);
+
+  --input-background: var(--color-card);
+  --input-color: var(--color-foreground);
+  --input-border: var(--color-input);
+  --input-radius: var(--radius-control);
+  --input-ring: var(--color-ring);
+
+  /* Map old emphasis bases to new semantics where appropriate */
+  --component-emphasis-primary-bg: var(--color-primary);
+  --component-emphasis-primary-fg: var(--color-primary-foreground);
+  --component-emphasis-secondary-bg: var(--color-secondary);
+  --component-emphasis-secondary-fg: var(--color-secondary-foreground);
+  --component-emphasis-tertiary-bg: var(--color-muted);
+  --component-emphasis-tertiary-fg: var(--color-muted-foreground);
+  --component-emphasis-tertiary-border: var(--color-border);
+}

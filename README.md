@@ -98,14 +98,33 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
 - Each domain(color, spacing, radius, etc) has a prima token on each layer, which the other tokens within the same category are derived from.
 
 
+
 ```scss
+$palettes: (
+  sakura: oklch(60% 0.15 5),
+  matcha: oklch(60% 0.15 140),
+  sumi: oklch(60% 0.01 260),
+  aizome: oklch(60% 0.15 230)
+);
+
 :root {
   /* primitive */
-  --color-sakura: oklch(70% 0.15 5);
-  --color-matcha: oklch(70% 0.15 140);
-  --color-sumi: oklch(70% .01 260);
+  @each $name, $color in $palettes {
+    --color-dark-#{$name}: #{$color};
+    --color-light-#{$name}: oklch(from #{$color} calc(l + 10%) calc(c + 0.02) h);
+  }
 
   /* semantic */
+  @each $name, $color in $palettes {
+    &:[data-palette="#{$name}"]{
+      --color-accent: var(--color-dark-#{$name});
+    }
+    &:[data-palette="#{$name}"][data-theme="light"]{
+      --color-accent: var(--color-light-#{$name});
+    }
+  }
+  --color-accent: var(--color-dark-sumi);
+
   --color-base-light: #111111;
   --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.05 h);
   @media (prefers-color-scheme: light) {
@@ -114,7 +133,7 @@ Styling is a strict five-layer chain. Only primitives hold real values, and each
   &:[data-theme="light"]{
     --color-base-light: #fafafa;
   }
-    
+
   --color-accent: var(--color-sumi); // prima
   --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent),5%);
   --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse), 5%);
