@@ -1,28 +1,39 @@
 ---
+import "../../../dist/wacss.min.css";
 import { schemas } from "../../spec/index";
+import SiteNav from "../../components/SiteNav.astro";
 
 const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title }));
 ---
-<html lang="en" data-wacss-palette="sakura">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>wacss · Components</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("wacss:theme");
+          if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+        } catch {}
+      })();
+    </script>
   </head>
-  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
-    <nav style="margin-block-end: var(--space-6);">
-      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
-    </nav>
+  <body>
+    <SiteNav current="/components/" />
+    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
     <h1>Components</h1>
-    <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
-      Each component page shows a preview and its schema. Components are shallow wrappers around bits-ui and can be replaced one by one.
+    <p style="color: var(--text-muted); margin-block-end: var(--space-5);">
+      Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
     </p>
     <ul style="padding-inline-start: var(--space-4); list-style-type: disc;">
       {list.map((item) => (
         <li style="margin-block-end: var(--space-2);">
-          <a href={`/components/${item.key}/`} style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">{item.title}</a>
+          <a href={`/components/${item.key}/`}>{item.title}</a>
         </li>
       ))}
     </ul>
+    </div>
   </body>
 </html>

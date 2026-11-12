@@ -1,7 +1,7 @@
 ---
 const { summary, open = false, ...attrs } = Astro.props;
 ---
-<details open={open} {...attrs}>
-  <summary>{summary}</summary>
+<details data-wacss="disclosure" open={open} {...attrs}>
+  <summary data-wacss="disclosure-summary">{summary}</summary>
   <slot />
 </details>

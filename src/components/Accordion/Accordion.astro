@@ -1,0 +1,65 @@
+---
+interface AccordionItem {
+  value: string;
+  title: string;
+  content?: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  items?: AccordionItem[];
+  type?: "single" | "multiple";
+  value?: string | string[];
+  name?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  items = [],
+  type = "single",
+  value = "",
+  name,
+  class: className = "",
+  ...rest
+} = Astro.props as Props;
+
+const groupName = type === "single" ? (name ?? "wacss-accordion") : undefined;
+const classes = ["wacss-accordion", className].filter(Boolean).join(" ");
+
+const isOpen = (itemValue: string) => {
+  if (Array.isArray(value)) return value.includes(itemValue);
+  return value === itemValue;
+};
+---
+<div {...rest} class={classes} data-wacss="accordion" data-type={type}>
+  {items.map((item) => {
+    const open = isOpen(item.value);
+    return (
+      <details name={groupName} open={open || undefined} data-wacss="accordion-item">
+        <summary data-wacss="accordion-trigger">
+          <span data-wacss="accordion-title">{item.title}</span>
+          <svg
+            data-wacss="accordion-icon"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m4 6 4 4 4-4" />
+          </svg>
+        </summary>
+        <div data-wacss="accordion-content">
+          {item.content && <p>{item.content}</p>}
+          <slot name={item.value} />
+        </div>
+      </details>
+    );
+  })}
+  <slot />
+</div>

@@ -1,18 +1,21 @@
 ---
-import "../../styles/bits.css";
+import "../../../dist/wacss.min.css";
+import SiteNav from "../../components/SiteNav.astro";
 import Button from "../../components/Button/Button.svelte";
-import Dialog from "../../components/Dialog/Dialog.svelte";
+import Card from "../../components/Card/Card.svelte";
+import Input from "../../components/Input/Input.svelte";
+import Label from "../../components/Label/Label.svelte";
+import Accordion from "../../components/Accordion/Accordion.astro";
+import Checkbox from "../../components/Checkbox/Checkbox.svelte";
+import Switch from "../../components/Switch/Switch.svelte";
 import Select from "../../components/Select/Select.svelte";
-import Popover from "../../components/Popover/Popover.svelte";
+import Dialog from "../../components/Dialog/Dialog.svelte";
 import Tabs from "../../components/Tabs/Tabs.svelte";
+import Popover from "../../components/Popover/Popover.svelte";
 import DropdownMenu from "../../components/DropdownMenu/DropdownMenu.svelte";
 import Toggle from "../../components/Toggle/Toggle.svelte";
-import Switch from "../../components/Switch/Switch.svelte";
-import Checkbox from "../../components/Checkbox/Checkbox.svelte";
 import RadioGroup from "../../components/RadioGroup/RadioGroup.svelte";
 import Separator from "../../components/Separator/Separator.svelte";
-import Label from "../../components/Label/Label.svelte";
-import Accordion from "../../components/Accordion/Accordion.svelte";
 import AlertDialog from "../../components/AlertDialog/AlertDialog.svelte";
 import ContextMenu from "../../components/ContextMenu/ContextMenu.svelte";
 import Slider from "../../components/Slider/Slider.svelte";
@@ -20,25 +23,47 @@ import Progress from "../../components/Progress/Progress.svelte";
 import Meter from "../../components/Meter/Meter.svelte";
 import Avatar from "../../components/Avatar/Avatar.svelte";
 import AspectRatio from "../../components/AspectRatio/AspectRatio.svelte";
+import FormDemo from "../../islands/FormDemo.svelte";
 
 import { schemas } from "../../spec/index";
 
 const entry: string = (Astro.params.component ?? "").toLowerCase();
 
+const accordionItems = [
+  { value: "one", title: "First item", content: "The accordion renders from an items array." },
+  { value: "two", title: "Second item", content: "Only one item is open at a time by default." },
+  { value: "three", title: "Third item", content: "Set type=\"multiple\" to open several." },
+];
+
+const selectOptions = [
+  { value: "sakura", label: "Sakura" },
+  { value: "matcha", label: "Matcha" },
+  { value: "sumi", label: "Sumi" },
+];
+
+const tabs = [
+  { value: "overview", label: "Overview", content: "Data-driven tabs with persisted selection." },
+  { value: "usage", label: "Usage", content: "Pass a tabs array and the component renders the rest." },
+  { value: "tokens", label: "Tokens", content: "Every visual value comes from a component or state token." },
+];
+
 const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, unknown> }> = {
   button: { Component: Button, schema: schemas.button },
-  dialog: { Component: Dialog, schema: schemas.dialog },
-  select: { Component: Select, schema: schemas.select },
-  popover: { Component: Popover, schema: schemas.popover },
-  tabs: { Component: Tabs, schema: schemas.tabs },
-  dropdownMenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
-  toggle: { Component: Toggle, schema: schemas.toggle },
-  switch: { Component: Switch, schema: schemas.switch },
-  checkbox: { Component: Checkbox, schema: schemas.checkbox },
-  radioGroup: { Component: RadioGroup, schema: schemas.radioGroup },
-  separator: { Component: Separator, schema: schemas.separator },
+  card: { Component: Card, schema: schemas.card },
+  input: { Component: Input, schema: schemas.input },
+  form: { Component: FormDemo, schema: schemas.form },
   label: { Component: Label, schema: schemas.label },
   accordion: { Component: Accordion, schema: schemas.accordion },
+  checkbox: { Component: Checkbox, schema: schemas.checkbox },
+  switch: { Component: Switch, schema: schemas.switch },
+  select: { Component: Select, schema: schemas.select },
+  dialog: { Component: Dialog, schema: schemas.dialog },
+  tabs: { Component: Tabs, schema: schemas.tabs },
+  popover: { Component: Popover, schema: schemas.popover },
+  dropdownMenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
+  toggle: { Component: Toggle, schema: schemas.toggle },
+  radioGroup: { Component: RadioGroup, schema: schemas.radioGroup },
+  separator: { Component: Separator, schema: schemas.separator },
   alertDialog: { Component: AlertDialog, schema: schemas.alertDialog },
   contextMenu: { Component: ContextMenu, schema: schemas.contextMenu },
   slider: { Component: Slider, schema: schemas.slider },
@@ -53,18 +78,21 @@ const componentInfo = COMPONENTS[entry];
 export function getStaticPaths() {
   return [
     "button",
-    "dialog",
-    "select",
-    "popover",
-    "tabs",
-    "dropdownMenu",
-    "toggle",
-    "switch",
-    "checkbox",
-    "radioGroup",
-    "separator",
+    "card",
+    "input",
+    "form",
     "label",
     "accordion",
+    "checkbox",
+    "switch",
+    "select",
+    "dialog",
+    "tabs",
+    "popover",
+    "dropdownMenu",
+    "toggle",
+    "radioGroup",
+    "separator",
     "alertDialog",
     "contextMenu",
     "slider",
@@ -87,7 +115,11 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
       lines.push(`${indent}${key}:`);
       lines.push(renderSchema(value as Record<string, unknown>, depth + 1));
     } else if (Array.isArray(value)) {
-      lines.push(`${indent}${key}: [${value.map((v) => String(v)).join(", ")}]`);
+      lines.push(
+        `${indent}${key}: [${value
+          .map((v) => (typeof v === "object" && v !== null ? JSON.stringify(v) : String(v)))
+          .join(", ")}]`,
+      );
     } else {
       lines.push(`${indent}${key}: ${JSON.stringify(value)}`);
     }
@@ -96,53 +128,91 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
 }
 ---
 
-<html lang="en" data-wacss-palette="sakura">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>wacss · {componentInfo ? componentInfo.schema.title : entry}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("wacss:theme");
+          if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+        } catch {}
+      })();
+    </script>
   </head>
-  <body style="max-width: 72rem; margin: 0 auto; padding: var(--space-6) var(--space-4); font-family: var(--font-body); color: var(--body-text); background: var(--body-background);">
-    <nav style="margin-block-end: var(--space-6);">
-      <a href="/" style="color: var(--link-color); text-decoration: underline; text-underline-offset: 0.18em;">← back to demo</a>
-    </nav>
+  <body>
+    <SiteNav current="/components/" />
+    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
 
     {componentInfo ? (
       <>
         <h1>{componentInfo.schema.title}</h1>
-        <p style="color: var(--color-text-muted); margin-block-end: var(--space-5);">
-          Shallow wrapper around a bits-ui component. Replace me one day with native semantic markup.
+        <p style="color: var(--text-muted); margin-block-end: var(--space-5);">
+          A high-level wacss component. Pass data props and let the component render the rest.
         </p>
 
-        <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width) solid var(--color-border); padding-block-start: var(--space-4);">
-          <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Preview</h2>
-          <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2);">
-            {entry === "button" && <Button />}
-            {entry === "dialog" && <Dialog />}
-            {entry === "select" && <Select />}
-            {entry === "popover" && <Popover />}
-            {entry === "tabs" && <Tabs />}
-            {entry === "dropdownMenu" && <DropdownMenu />}
-            {entry === "toggle" && <Toggle />}
-            {entry === "switch" && <Switch />}
-            {entry === "checkbox" && <Checkbox />}
-            {entry === "radioGroup" && <RadioGroup />}
-            {entry === "separator" && <Separator />}
-            {entry === "label" && <Label />}
-            {entry === "accordion" && <Accordion />}
-            {entry === "alertDialog" && <AlertDialog />}
-            {entry === "contextMenu" && <ContextMenu />}
-            {entry === "slider" && <Slider />}
-            {entry === "progress" && <Progress />}
-            {entry === "meter" && <Meter />}
-            {entry === "avatar" && <Avatar />}
-            {entry === "aspectRatio" && <AspectRatio />}
+        <section style="margin-block-end: var(--space-7); border-block-start: var(--border-width-ui) solid var(--color-border); padding-block-start: var(--space-4);">
+          <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Preview</h2>
+          <div style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md);">
+            {entry === "button" && <Button client:load>Save changes</Button>}
+            {entry === "card" && (
+              <Card
+                client:load
+                title="Card title"
+                description="A short description of the card."
+              >
+                <p style="margin: 0; color: var(--text-muted);">Card content goes here.</p>
+              </Card>
+            )}
+            {entry === "input" && (
+              <Input
+                client:load
+                label="Email"
+                type="email"
+                placeholder="you@example.com"
+                description="Stored in localStorage by default."
+              />
+            )}
+            {entry === "form" && <FormDemo client:load />}
+            {entry === "label" && <Label client:load for="demo-label" text="Label" />}
+            {entry === "accordion" && <Accordion items={accordionItems} />}
+            {entry === "checkbox" && (
+              <Checkbox client:load label="Accept terms" description="This checkbox remembers its state." />
+            )}
+            {entry === "switch" && <Switch client:load label="Notifications" />}
+            {entry === "select" && <Select client:load options={selectOptions} placeholder="Choose a theme" />}
+            {entry === "dialog" && (
+              <Dialog
+                client:load
+                title="Edit profile"
+                description="Make changes to your profile here."
+                triggerLabel="Open dialog"
+              >
+                <p style="margin: 0; color: var(--text-muted);">Dialog body content.</p>
+              </Dialog>
+            )}
+            {entry === "tabs" && <Tabs client:load tabs={tabs} />}
+            {entry === "popover" && <Popover client:load />}
+            {entry === "dropdownMenu" && <DropdownMenu client:load />}
+            {entry === "toggle" && <Toggle client:load />}
+            {entry === "radioGroup" && <RadioGroup client:load />}
+            {entry === "separator" && <Separator client:load />}
+            {entry === "alertDialog" && <AlertDialog client:load />}
+            {entry === "contextMenu" && <ContextMenu client:load />}
+            {entry === "slider" && <Slider client:load />}
+            {entry === "progress" && <Progress client:load />}
+            {entry === "meter" && <Meter client:load />}
+            {entry === "avatar" && <Avatar client:load />}
+            {entry === "aspectRatio" && <AspectRatio client:load />}
           </div>
         </section>
 
         <section>
-          <h2 style="font-size: var(--text-size-h3); margin-block-end: var(--space-3);">Schema ({componentInfo.schema.title})</h2>
-          <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-2); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.9em;">
+          <h2 style="font-size: var(--font-size-heading-3); margin-block-end: var(--space-3);">Schema ({componentInfo.schema.title})</h2>
+          <pre style="padding: var(--space-4); background: var(--color-surface); border: var(--border-width-ui) solid var(--color-border); border-radius: var(--radius-md); overflow-x: auto; white-space: pre-wrap; font-family: var(--font-family-mono); font-size: 0.9em;">
 {renderSchema(componentInfo.schema)}
           </pre>
         </section>
@@ -154,5 +224,6 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
         <p>Available: {Object.keys(COMPONENTS).sort().join(", ")}.</p>
       </>
     )}
+    </div>
   </body>
 </html>

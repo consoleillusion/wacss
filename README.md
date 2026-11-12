@@ -1,91 +1,254 @@
 # wacss
 
-A semantic, token-driven, class-light CSS system and Astro component library inspired by Japanese Wabi-Sabi and editorial minimalism.
+A high-level, data-driven Svelte component library with a single global, token-driven stylesheet. Pass data, get a complete accessible UI.
 
-The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, semantic HTML, accessibility, calm defaults, and small, maintainable code over flashiness.
+The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, accessibility, calm defaults, and a small public surface over configuration.
 
-## Status
+## Install
 
-**v0 (fresh start)**. This repository now contains a cohesive base:
-- Global stylesheet source in `src/styles/` (no scoped Astro/Svelte styles)
-- Standalone CSS outputs: `dist/wacss.css` and `dist/wacss.min.css`
-- JS spec exports in `src/spec/`
-- Thin Astro component wrappers in `src/components/`
-- `src/islands/` reserved for Svelte islands only when native HTML is insufficient
-
-## Principles
-
-| Principle | Meaning | Implementation guidance |
-|---|---|---|
-| 和 Wa | harmony | Consistent semantics, accessible defaults, platform-friendly patterns. |
-| 簡素 Kanso | simplicity | Fewer wrappers/elements; no utility-class API. |
-| 間 Ma | negative space | Spacing is structural and tokenized; avoid spacer markup. |
-| 不均斉 Fukinsei | asymmetry | Layouts may be naturally uneven; do not force artificial symmetry. |
-| 自然 Shizen | naturalness | Use elements for what they mean (`button`, `nav`, `time`, `details`, etc.). |
-| 渋い Shibui | restraint | Faded, muted palettes; subtle emphasis. |
-| 幽玄 Yūgen | suggestion | Calm presentation; content can be brief and clear. |
-| 脱俗 Datsuzoku | freedom | Break convention only deliberately, not by default. |
-| 静寂 Seijaku | stillness | Motion is purposeful, subtle, and CSS-driven; respects `prefers-reduced-motion`. |
-
-## What ships
-
-- **CSS**: `dist/wacss.css` (readable) and `dist/wacss.min.css` (standalone). The CSS can be used without the components.
-- **Astro components**: thin semantic wrappers in `src/components/`.
-- **Svelte islands**: `src/islands/` for behavior that cannot be expressed well with native HTML. v0 uses native patterns first.
-- **Schemas**: JSON Schema-shaped documentation contracts in colocated `schema.ts` files (e.g. `src/components/Button/schema.ts`), re-exported from `src/spec/index.ts`. Documentation info lives in the schema (descriptions, examples, and `x-wacss` metadata).
-
-## Design contracts
-
-### Semantic HTML first
-- Prefer native elements and ARIA states before custom hooks.
-- Do not use scoped styles in Astro/Svelte components. Styling comes from the global stylesheet.
-- JavaScript/Svelte is used only when necessary; animation/transition behavior is handled in CSS/SCSS.
-
-### Token hierarchy (global variables that bleed)
-CSS custom properties are **unprefixed** and follow a strict hierarchy. Every applied value should trace back to `:root` tokens so a token set can reskin the interface.
-
-1. **Primitive / global** — palette inputs and scales (e.g. `--color-*` primitives, `--mix-color`, type/space/radius/motion scales).
-2. **Semantic / alias** — meaning roles (e.g. `--color-base`, `--color-surface`, `--color-accent`, `--color-pop`, `--color-text`, `--color-border`, `--color-positive`, `--color-neutral`, `--color-negative`).
-3. **Component** — component roles defined from semantic tokens (e.g. `--button-background: var(--color-accent)`).
-4. **State** — derived from component tokens and modern functions (e.g. `--button-background-hover: color-mix(in oklch, var(--button-background), var(--mix-color) 8%)`).
-
-No hardcoded color ramps: states are derived (primarily `color-mix()` in OKLCH).
-
-### Attribute hooks
-Real `data-*` attributes may belong to user content, so wacss uses **vendor-prefixed** hooks only when ARIA/native semantics are insufficient:
-- `data-wacss-palette="sakura|matcha"` selects a palette.
-- Visual/non-semantic component hooks use `data-wacss-*` (e.g. `data-wacss-variant`, `data-wacss-badge`, `data-wacss-card`).
-
-### Palettes and color scheme
-- v0 palettes: **`sakura`** and **`matcha`**.
-- Each palette supports light and dark values.
-- `prefers-color-scheme` provides the default **dark** behavior (light is applied when the user prefers light).
-- No mode override attribute in v0.
-
-```html
-<html data-wacss-palette="sakura">
-  <!-- styles follow prefers-color-scheme by default -->
-</html>
+```bash
+bun add wacss bits-ui svelte
 ```
 
-### Sizing
-- Relative units are preferred (`rem`, `em` where flow-scaling makes sense).
-- Prose measure uses `ch`.
-- Fluid type/spacing may use `clamp()`.
-- Modern CSS features (OKLCH, `color-mix()`, etc.) are acceptable; legacy-browser support is not a primary v0 constraint.
+Import the stylesheet once in your app shell:
 
-## v0 component starter set
+```ts
+import "wacss/styles";
+```
 
-| Area | Contract | Implementation |
+Then import components from the package root:
+
+```svelte
+<script>
+  import { Accordion, Button, Card, Checkbox, Dialog, Form, Input, Label, Select, Switch, Tabs } from "wacss";
+</script>
+```
+
+## Quick start
+
+```svelte
+<script>
+  import { Accordion, Button, Card, Input, Select, Tabs } from "wacss";
+
+  const items = [
+    { value: "tokens", title: "One token set", content: "Paste a new token set at :root and everything follows." },
+    { value: "global", title: "Global styles only", content: "Components carry no scoped styles." },
+  ];
+
+  const options = [
+    { value: "sakura", label: "Sakura" },
+    { value: "matcha", label: "Matcha" },
+  ];
+
+  const tabs = [
+    { value: "overview", label: "Overview", content: "A data-driven tab panel." },
+    { value: "usage", label: "Usage", content: "Pass a tabs array and the component renders the rest." },
+  ];
+</script>
+
+<Card title="Account" description="Update your details.">
+  <Input label="Email" type="email" placeholder="you@example.com" />
+  <Select {options} placeholder="Choose a theme" />
+  <Button>Save changes</Button>
+</Card>
+
+<Accordion {items} />
+<Tabs {tabs} />
+```
+
+Every component is styled entirely by global CSS. There are no Tailwind classes, no scoped Svelte styles, and no per-component CSS files.
+
+## Components
+
+The core components share one shape: data in, UI out.
+
+| Component | Data / value props | Notes |
 |---|---|---|
-| Base/prose | Global semantic elements, `ch` measure, calm rhythm | `src/styles/base/*` |
-| Button | Native `<button>` for actions; do not fake buttons for navigation | `src/styles/elements/_button.scss`, `Button.astro` |
-| Form basics | `label`, `input`, `textarea`, `select`, field help/error with ARIA associations | `src/styles/elements/_form.scss`, `Field.astro` |
-| Table | Semantic table/caption/headers | `src/styles/elements/_table.scss` |
-| Disclosure | Native `<details>/<summary>` | `src/styles/elements/_disclosure.scss`, `Disclosure.astro` |
-| Nav | `<nav>` landmark with labeled navigation and `aria-current` | `src/styles/patterns/_nav.scss`, `Nav.astro` |
-| Badge/Tag | Inline semantic element + `data-wacss-badge` | `src/styles/elements/_badge.scss`, `Badge.astro` |
-| Card/Surface | Semantic `article`/`section` + `data-wacss-card` | `src/styles/patterns/_card.scss`, `Card.astro` |
+| `Accordion` | `items`, `value`, `type` | Single or multiple open items. |
+| `Button` | `variant`, `size`, `loading`, `href` | Renders `<button>` or `<a>`. |
+| `Card` | `title`, `description`, `footer` | Optional header, content, and footer. |
+| `Checkbox` | `checked`, `indeterminate`, `label` | Uses bits-ui internally. |
+| `Dialog` | `open`, `title`, `description`, `triggerLabel` | Modal with trigger, body, and footer snippets. |
+| `Form` | `schema`, `values`, `uiSchema`, `action`, `target` | Renders a complete form from JSON Schema. |
+| `Input` | `value`, `label`, `description`, `error` | Label, help text, and error wiring included. |
+| `Label` | `for`, `text`, `required` | Styled form label. |
+| `Select` | `options`, `value`, `type` | Single or multiple selection. |
+| `Switch` | `checked`, `label`, `description` | Uses bits-ui internally. |
+| `Tabs` | `tabs`, `value` | Data-driven tab list and panels. |
+
+All are exported from the package root. TypeScript prop types are exported alongside them (`AccordionProps`, `SelectOption`, `TabsItem`, `FormProps`, `JsonSchema`, and so on).
+
+## Forms from JSON Schema
+
+`Form` accepts a JSON Schema and infers the right control for every property. No field markup is required. The prop is named `jsonschema`; `schema` is accepted as an alias.
+
+```svelte
+<script>
+  import { Form } from "wacss";
+
+  const jsonschema = {
+    $id: "profile",
+    type: "object",
+    required: ["name", "email"],
+    properties: {
+      name: { type: "string", title: "Full name" },
+      email: { type: "string", format: "email", title: "Email" },
+      age: { type: "integer", title: "Age", minimum: 0, maximum: 120 },
+      role: { type: "string", title: "Role", enum: ["Engineer", "Designer"] },
+      newsletter: { type: "boolean", title: "Product updates" },
+      interests: {
+        type: "array",
+        title: "Interests",
+        items: { type: "string", enum: ["Design", "Engineering", "Product"] },
+      },
+      bio: { type: "string", title: "Bio", maxLength: 280 },
+      address: {
+        type: "object",
+        title: "Address",
+        properties: {
+          street: { type: "string", title: "Street" },
+          city: { type: "string", title: "City" },
+        },
+      },
+    },
+  };
+</script>
+
+<Form {jsonschema} action="/api/profile" method="post" target="_self" />
+```
+
+`action`, `method`, `target`, and `enctype` are ordinary props on the form element, separate from the schema. Without `onSubmit`, the browser submits natively.
+
+Handle submission on the client when you need to:
+
+```svelte
+<Form
+  {jsonschema}
+  onSubmit={async (values, event) => {
+    await fetch("/api/profile", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(values),
+    });
+  }}
+/>
+```
+
+Providing `onSubmit` prevents native submission and receives the current values object.
+
+### Inference
+
+| Schema shape | Control |
+|---|---|
+| `string` | text input |
+| `string` with `format: "email" \| "uri" \| "tel" \| "password" \| "date" \| "time" \| "date-time" \| "month" \| "week" \| "color"` | matching native input type |
+| `string` with `maxLength > 120` | textarea |
+| `integer` / `number` | number input with min, max, and step |
+| `boolean` | switch |
+| `enum` / `const` variants | select |
+| `array` of enum values | checkbox group |
+| other `array` | textarea |
+| `object` | nested fieldset |
+| `const` | hidden input |
+
+`$ref`, `$defs`, `allOf`, `oneOf`, and `anyOf` enums are resolved before inference. Defaults come from `default` and `const`; otherwise strings start empty, booleans start `false`, and arrays start empty.
+
+### Presentation and validation
+
+```svelte
+<Form
+  {jsonschema}
+  columns={2}
+  uiSchema={{
+    email: { placeholder: "you@example.com" },
+    bio: { widget: "textarea", help: "Keep it short." },
+    "address.city": { label: "Town" },
+  }}
+  errors={{ email: "That address is already in use." }}
+/>
+```
+
+`uiSchema` is keyed by dot path and accepts either a widget name (`"email": "textarea"`) or an object with `widget`, `label`, `help`, `placeholder`, `autocomplete`, `order`, `hidden`, `disabled`, `readonly`, and `columns`. Widgets: `auto`, `text`, `email`, `password`, `url`, `tel`, `search`, `number`, `textarea`, `select`, `checkboxes`, `switch`, `date`, `time`, `datetime-local`, `month`, `week`, `color`, `range`, `hidden`, and `group`.
+
+Other useful props: `values` for controlled values, `errors` for server-side messages keyed by dot path, `nameFormat="bracket"` to submit nested names as `address[city]`, `columns` for the root grid, `submitLabel`, `submitVariant`, `showSubmit`, `resetLabel`, `showReset`, `disabled`, and `readonly`.
+
+## Persistence
+
+Value-like state (`Accordion` open items, `Input` text, `Checkbox`/`Switch` checked state, `Select` selection, `Tabs` selection, and `Form` values) uses `localStorage` as the source of truth after hydration. The server renders the passed or default value; on mount the stored value replaces it; subsequent changes are written back.
+
+```svelte
+<!-- Default key: wacss:select -->
+<Select {options} />
+
+<!-- Separate instances need separate keys -->
+<Select {options} storageKey="account:country" />
+<Select {options} storageKey="account:language" />
+
+<!-- Opt out entirely -->
+<Input label="Search" persist={false} />
+```
+
+Default keys: `wacss:accordion`, `wacss:input`, `wacss:checkbox`, `wacss:switch`, `wacss:select`, `wacss:tabs`, and `wacss:form`. `Input`, `Checkbox`, and `Switch` append their `id` when one is provided. `Form` uses `wacss:form:<schema.$id>` when the schema has an `$id`.
+
+## Token hierarchy
+
+Styling is a strict four-layer cascade. A layer may only reference the layer above it; component normal states use component tokens and interactive states use state tokens.
+
+1. **Primitive** — raw values only: hues, type scale, space, radius, shadow, motion (`--color-zinc`, `--space-4`, `--radius-md`, `--motion-fast`).
+2. **Alias** — semantic roles built from primitives (`--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body`, `--shadow-surface`).
+3. **Component** — component roles built from alias tokens (`--background-button`, `--text-button`, `--radius-card`, `--padding-dialog`).
+4. **State** — hover, active, focus, selected, and disabled values derived from component tokens (`--background-button-hover`, `--ring-input-focus`, `--opacity-switch-disabled`).
+
+```css
+:root {
+  /* primitive */
+  --color-indigo: oklch(58.5% 0.19 275);
+
+  /* alias */
+  --color-accent: var(--color-indigo);
+  --color-accent-text: var(--color-white);
+
+  /* component */
+  --background-button: var(--color-accent);
+  --text-button: var(--color-accent-text);
+
+  /* state */
+  --background-button-hover: color-mix(in oklch, var(--background-button), var(--mix-color) 10%);
+}
+
+[data-wacss="button"] {
+  background: var(--background-button);
+  color: var(--text-button);
+}
+
+[data-wacss="button"]:hover {
+  background: var(--background-button-hover);
+}
+```
+
+Because every component style consumes these tokens, restyling the library means replacing one token set at `:root`. Light and dark values follow `prefers-color-scheme`; add the `light` or `dark` class to `<html>` to override.
+
+The source lives in `src/styles/`:
+
+```text
+src/styles/tokens/_primitives.scss   raw values
+src/styles/tokens/_alias.scss        semantic roles + light/dark themes
+src/styles/tokens/_components.scss   component roles
+src/styles/tokens/_states.scss       interactive state values
+src/styles/base/                     reset, global, typography, prose
+src/styles/elements/                 native element styles
+src/styles/patterns/                 layout patterns
+src/styles/components/               data-wacss component styles
+```
+
+## Attribute hooks
+
+Semantic attributes (`aria-*`, `data-state`, `data-disabled`) come from the native elements or bits-ui. Visual hooks are namespaced as `data-wacss="..."` so they never collide with user content:
+
+```html
+<button data-wacss="button" data-variant="outline" data-size="sm">Save</button>
+<div data-wacss="select-trigger" data-state="open">…</div>
+```
 
 ## Development
 
@@ -93,27 +256,24 @@ Requires Bun.
 
 ```bash
 bun install
-bun run build
+bun run build        # build dist/wacss.css and dist/wacss.min.css
+bun run build:demo   # build the Astro demo into demo-dist/
 ```
 
-Build outputs:
-- `dist/wacss.css`
-- `dist/wacss.min.css`
-
-## Project layout
+Project layout:
 
 ```text
-scripts/build.js      Bun build (Sass + Lightning CSS minify)
-src/styles/           Global SCSS source (tokens, themes, base, elements, patterns)
-src/spec/             Schema index (re-exports colocated schema.ts)
-src/components/*/     Astro components + colocated schema.ts
-src/islands/          Svelte islands (only when native HTML is insufficient)
-dist/                 Built CSS
-src/components/       Astro components (no scoped styles)
-src/islands/          Svelte islands (only when native HTML is insufficient)
-dist/                 Built CSS
+scripts/build.js       Sass compile + Lightning CSS minify
+src/components/*/      Svelte components + colocated schema.ts
+src/components/index.ts  Package root exports
+src/components/types.ts  Shared public prop types
+src/components/persist.svelte.ts  localStorage-backed reactive state
+src/components/Form/    JSON Schema inference and recursive field rendering
+src/spec/index.ts      Schema index
+src/styles/            Global SCSS source
+dist/                  Built CSS
 ```
 
 ## Aesthetic direction
 
-Calming, spacious, faded, and readable. The visual language is a mixture of Wabi-Sabi restraint and editorial minimalism: muted palettes, gentle surfaces, subtle borders/shadows, and transitions that help usability without demanding attention.
+Calming, spacious, faded, and readable: muted palettes, gentle surfaces, subtle borders and shadows, and transitions that help usability without demanding attention. The default look follows shadcn-svelte; the token hierarchy is what makes it yours.

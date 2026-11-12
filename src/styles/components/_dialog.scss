@@ -1,0 +1,108 @@
+[data-wacss="dialog-overlay"] {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog-overlay);
+  background: var(--background-dialog-overlay);
+  animation: wacss-fade-in var(--motion-dialog) var(--ease-ui);
+}
+
+[data-wacss="dialog-content"] {
+  position: fixed;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  z-index: var(--z-dialog-content);
+  display: grid;
+  gap: var(--gap-dialog);
+  inline-size: min(calc(100vw - (var(--inset-dialog) * 2)), var(--max-width-dialog));
+  max-block-size: calc(100dvh - (var(--inset-dialog) * 2));
+  overflow: auto;
+  padding: var(--padding-dialog);
+  border: var(--border-width-ui) solid var(--border-dialog);
+  border-radius: var(--radius-dialog);
+  background: var(--background-dialog);
+  color: var(--text-dialog);
+  box-shadow: var(--shadow-dialog);
+  transform: translate(-50%, -50%);
+  animation: wacss-dialog-in var(--motion-dialog) var(--ease-ui);
+}
+
+[data-wacss="dialog-title"] {
+  margin: 0;
+  color: var(--text-dialog-title);
+  font-size: var(--font-size-dialog-title);
+  font-weight: var(--font-weight-dialog-title);
+  line-height: var(--line-dialog-title);
+}
+
+[data-wacss="dialog-description"] {
+  margin: 0;
+  color: var(--text-dialog-description);
+  font-size: var(--font-size-dialog-description);
+}
+
+[data-wacss="dialog-body"] {
+  color: var(--text-dialog-body);
+  font-size: var(--font-size-dialog-body);
+}
+
+[data-wacss="dialog-footer"] {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--gap-dialog-footer);
+}
+
+@media (min-width: 40rem) {
+  [data-wacss="dialog-footer"] {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+[data-wacss="dialog-close"] {
+  position: absolute;
+  inset-block-start: var(--inset-dialog-close);
+  inset-inline-end: var(--inset-dialog-close);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--size-dialog-close) + (var(--padding-dialog-close) * 2));
+  block-size: calc(var(--size-dialog-close) + (var(--padding-dialog-close) * 2));
+  padding: var(--padding-dialog-close);
+  border: 0;
+  border-radius: var(--radius-dialog-close);
+  background: var(--background-dialog-close);
+  color: var(--text-dialog-close);
+  opacity: var(--opacity-dialog-close);
+  cursor: pointer;
+  transition: opacity var(--motion-ui) var(--ease-ui);
+}
+
+[data-wacss="dialog-close"]:hover {
+  background: var(--background-dialog-close-hover);
+  color: var(--text-dialog-close-hover);
+  opacity: var(--opacity-dialog-close-hover);
+}
+
+[data-wacss="dialog-close"]:focus-visible {
+  outline: var(--ring-dialog-width) solid var(--ring-dialog-focus);
+  outline-offset: var(--ring-dialog-offset);
+}
+
+[data-wacss="dialog-close"] svg {
+  inline-size: var(--size-dialog-close);
+  block-size: var(--size-dialog-close);
+  pointer-events: none;
+}
+
+@keyframes wacss-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes wacss-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+}

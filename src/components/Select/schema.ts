@@ -2,14 +2,36 @@ import { commonAttributes } from "../commonAttributes";
 
 export default {
   title: "Select",
+  description: "A data-driven select with single or multiple selection and persistence.",
   type: "object",
   properties: {
     ...commonAttributes,
+    options: {
+      type: "array",
+      description: "Selectable options.",
+      items: {
+        type: "object",
+        properties: {
+          value: { type: "string" },
+          label: { type: "string" },
+          disabled: { type: "boolean", default: false },
+        },
+        required: ["value", "label"],
+      },
+    },
+    type: { type: "string", enum: ["single", "multiple"], default: "single" },
+    value: { type: ["string", "array"], description: "Selected value(s)." },
+    placeholder: { type: "string", default: "Select an option" },
     disabled: { type: "boolean", default: false },
     required: { type: "boolean", default: false },
     name: { type: "string" },
-    open: { type: "boolean", default: false },
-    loop: { type: "boolean", default: false },
+    triggerProps: {
+      type: "object",
+      description: "Extra attributes for the trigger button (id, aria-*, data-*).",
+      additionalProperties: true,
+    },
+    storageKey: { type: "string", default: "wacss:select" },
+    persist: { type: "boolean", default: true },
   },
   additionalProperties: true,
 } as const;

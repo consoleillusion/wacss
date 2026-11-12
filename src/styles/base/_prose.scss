@@ -1,6 +1,11 @@
-.prose, main, article {
-  max-inline-size: min(100%, var(--measure));
+.prose,
+main,
+article {
+  max-inline-size: min(100%, var(--measure-prose));
 }
-.prose > :last-child, main > :last-child, article > :last-child {
+
+.prose > :last-child,
+main > :last-child,
+article > :last-child {
   margin-block-end: 0;
 }

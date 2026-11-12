@@ -1,11 +1,8 @@
 import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   outDir: "./demo-dist",
-      plugins: [tailwindcss()],
-
   integrations: [
     svelte({
       // Allow vite-plugin-svelte to process .svelte files from bits-ui in node_modules,

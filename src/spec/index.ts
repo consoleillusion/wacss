@@ -1,5 +1,5 @@
-import base from "../components/Base/schema";
 import button from "../components/Button/schema";
+import input from "../components/Input/schema";
 import field from "../components/Field/schema";
 import form from "../components/Form/schema";
 import table from "../components/Table/schema";
@@ -29,8 +29,8 @@ import avatar from "../components/Avatar/schema";
 import aspectRatio from "../components/AspectRatio/schema";
 
 export const schemas = {
-  base,
   button,
+  input,
   field,
   form,
   table,
@@ -59,5 +59,5 @@ export const schemas = {
   avatar,
   aspectRatio,
 };
-export { base, button, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, slider, progress, meter, avatar, aspectRatio };
+export { button, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, slider, progress, meter, avatar, aspectRatio };
 export default schemas;

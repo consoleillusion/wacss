@@ -1,0 +1,81 @@
+[data-wacss="tabs"] {
+  display: grid;
+  gap: var(--gap-tabs);
+  inline-size: 100%;
+}
+
+[data-wacss="tabs-list"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-tabs-list);
+  inline-size: fit-content;
+  block-size: var(--height-tabs-list);
+  padding: var(--padding-tabs-list);
+  border: 0;
+  border-radius: var(--radius-tabs-list);
+  background: var(--background-tabs-list);
+  color: var(--text-tabs-trigger);
+}
+
+[data-wacss="tabs-trigger"] {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-tabs-trigger);
+  block-size: calc(100% - 1px);
+  padding: var(--padding-tabs-trigger);
+  border: var(--border-width-ui) solid var(--border-tabs-trigger);
+  border-radius: var(--radius-tabs-trigger);
+  background: var(--background-tabs-trigger);
+  color: var(--text-tabs-trigger);
+  font-size: var(--font-size-tabs-trigger);
+  font-weight: var(--font-weight-tabs-trigger);
+  line-height: var(--line-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background var(--motion-ui) var(--ease-ui),
+    border-color var(--motion-ui) var(--ease-ui),
+    color var(--motion-ui) var(--ease-ui),
+    box-shadow var(--motion-ui) var(--ease-ui);
+}
+
+[data-wacss="tabs-trigger"]:hover {
+  background: var(--background-tabs-trigger-hover);
+  color: var(--text-tabs-trigger-hover);
+}
+
+[data-wacss="tabs-trigger"][data-state="active"] {
+  background: var(--background-tabs-trigger-active);
+  border-color: var(--border-tabs-trigger-active);
+  color: var(--text-tabs-trigger-active);
+  box-shadow: var(--shadow-tabs-trigger-active);
+}
+
+[data-wacss="tabs-trigger"]:focus-visible {
+  border-color: var(--ring-tabs);
+  outline: var(--ring-tabs-width) solid var(--ring-tabs-focus);
+  outline-offset: 0;
+}
+
+[data-wacss="tabs-trigger"]:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-tabs-disabled);
+  pointer-events: none;
+}
+
+[data-wacss="tabs-panel"] {
+  display: grid;
+  gap: var(--gap-tabs-content);
+  padding: var(--padding-tabs-content);
+  background: var(--background-tabs-content);
+  color: var(--text-tabs-content);
+  outline: none;
+}
+
+[data-wacss="tabs-panel"] > :last-child {
+  margin-block-end: 0;
+}
