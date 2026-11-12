@@ -16,6 +16,13 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
         try {
           const stored = localStorage.getItem("wacss:theme");
           if (stored === "dark" || stored === "light") document.documentElement.classList.add(stored);
+          const accent = localStorage.getItem("wacss:accent");
+          const themes = ["sakura", "shibui", "sumi"];
+          if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
+          else if (accent === "custom") {
+            const c = localStorage.getItem("wacss:accent-color");
+            if (c) { document.documentElement.style.setProperty("--alias-theme", c); document.documentElement.style.setProperty("--alias-accent", c); }
+          }
         } catch {}
       })();
     </script>

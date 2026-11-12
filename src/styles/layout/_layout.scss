@@ -20,6 +20,7 @@
 .grid {
   display: grid;
   gap: var(--gutter, var(--space-4));
+  align-items: stretch;
 }
 .grid[data-fit] {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min, 16rem)), 1fr));

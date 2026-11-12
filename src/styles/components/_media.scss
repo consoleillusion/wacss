@@ -1,0 +1,26 @@
+[data-wacss="image"],
+[data-wacss="video"],
+[data-wacss="audio"] {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+[data-wacss="image"] img,
+[data-wacss="video"] video {
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-md);
+  display: block;
+}
+
+[data-wacss="audio"] audio {
+  inline-size: 100%;
+}
+
+[data-wacss="image"] figcaption,
+[data-wacss="video"] figcaption,
+[data-wacss="audio"] figcaption {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}

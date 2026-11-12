@@ -8,841 +8,454 @@
 /* Derived scales: base values + multipliers (fewer explicit tokens). */
 :root {
   /* Bases: derived scales reference these (fewer real values). */
-  --ks: 0.25rem;
-  --jV: 0.125rem;
-  --ky: 1rem;
-  --jH: 150ms;
-  --kK: 10;
-  --jj: 1px;
-  --ju: oklch(100% 0 0deg);
-  --jl: oklch(0% 0 0deg);
-  --jr: oklch(98.5% 0.004 95deg);
-  --jm: oklch(24% 0.01 160deg);
-  --jv: oklch(55.6% 0 0deg);
-  --jo: oklch(82% 0.16 145deg);
-  --jq: oklch(74% 0.13 10deg);
-  --js: oklch(92% 0 0deg);
-  --jp: oklch(57.7% 0.245 27.325deg);
-  --jn: oklch(62.7% 0.17 149deg);
-  --jk: oklch(76.9% 0.155 70deg);
-  --jt: transparent;
-  --kc: calc(var(--ks) * 0);
-  --kd: calc(var(--ks) * 0.5);
-  --ke: calc(var(--ks) * 1);
-  --kf: calc(var(--ks) * 1.5);
-  --kj: calc(var(--ks) * 2);
-  --kk: calc(var(--ks) * 2.5);
-  --kl: calc(var(--ks) * 3);
-  --km: calc(var(--ks) * 3.5);
-  --kn: calc(var(--ks) * 4);
-  --ko: calc(var(--ks) * 5);
-  --kp: calc(var(--ks) * 6);
-  --kq: calc(var(--ks) * 7);
-  --kr: calc(var(--ks) * 8);
-  --kg: calc(var(--ks) * 10);
-  --kh: calc(var(--ks) * 12);
-  --ki: calc(var(--ks) * 16);
-  --kA: calc(var(--ky) * 0.75);
-  --kx: calc(var(--ky) * 0.875);
-  --kv: calc(var(--ky) * 1);
-  --kw: calc(var(--ky) * 1.125);
-  --kz: calc(var(--ky) * 1.25);
-  --kt: calc(var(--ky) * 1.5);
-  --ku: calc(var(--ky) * 1.875);
-  --jB: 1.25;
-  --jz: 1.5;
-  --jA: 1.625;
-  --jJ: calc(var(--jV) * 1);
-  --jN: calc(var(--jV) * 2);
-  --jO: calc(var(--jV) * 3);
-  --jP: calc(var(--jV) * 4);
-  --jQ: calc(var(--jV) * 5);
-  --jR: calc(var(--jV) * 6);
-  --jS: calc(var(--jV) * 7);
-  --jT: calc(var(--jV) * 8);
-  --jU: calc(var(--jV) * 10);
-  --jK: calc(var(--jV) * 12);
-  --jL: calc(var(--jV) * 16);
-  --jM: 9999px;
-  --jW: 0 1px 2px oklch(0% 0 0deg / 0.05);
-  --jX: 0 1px 3px oklch(0% 0 0deg / 0.1), 0 1px 2px -1px oklch(0% 0 0deg / 0.1);
-  --jY: 0 4px 6px -1px oklch(0% 0 0deg / 0.1), 0 2px 4px -2px oklch(0% 0 0deg / 0.1);
-  --jZ: 0 10px 15px -3px oklch(0% 0 0deg / 0.1), 0 4px 6px -4px oklch(0% 0 0deg / 0.1);
-  --ka: inset 0 1px 2px oklch(0% 0 0deg / 0.06);
-  --kb: none;
-  --jD: calc(var(--jH) * 1);
-  --jE: calc(var(--jH) * 1.333);
-  --jF: calc(var(--jH) * 2.133);
-  --jG: calc(var(--jH) * 3.167);
-  --jw: cubic-bezier(0.16, 1, 0.3, 1);
-  --kE: calc(var(--kK) * 1);
-  --kF: calc(var(--kK) * 2);
-  --kG: calc(var(--kK) * 3);
-  --kH: calc(var(--kK) * 4);
-  --kI: calc(var(--kK) * 5);
-  --kJ: calc(var(--kK) * 6);
-  --kC: 400;
-  --kB: 500;
-  --kD: 600;
-  --jg: calc(var(--jj) * 1);
-  --jh: calc(var(--jj) * 2);
-  --ji: calc(var(--jj) * 3);
+  --primitive-space-unit: 0.25rem;
+  --primitive-radius-unit: 0.125rem;
+  --primitive-text-unit: 1rem;
+  --primitive-motion-unit: 150ms;
+  --primitive-z-unit: 10;
+  --primitive-border-width-unit: 1px;
+  --primitive-color-white: oklch(100% 0 0deg);
+  --primitive-color-black: oklch(0% 0 0deg);
+  --primitive-color-stone: oklch(99.3% 0.002 250deg);
+  --primitive-color-charcoal: oklch(17% 0.005 260deg);
+  --primitive-color-sakura: oklch(58% 0.19 340deg);
+  --primitive-color-shibui: oklch(52% 0.04 135deg);
+  --primitive-color-sumi: oklch(78% 0.01 260deg);
+  --primitive-color-red: oklch(57.7% 0.245 27.325deg);
+  --primitive-color-green: oklch(62.7% 0.17 149deg);
+  --primitive-color-amber: oklch(76.9% 0.155 70deg);
+  --primitive-color-transparent: transparent;
+  --primitive-space-0: calc(var(--primitive-space-unit) * 0);
+  --primitive-space-0-5: calc(var(--primitive-space-unit) * 0.5);
+  --primitive-space-1: calc(var(--primitive-space-unit) * 1);
+  --primitive-space-1-5: calc(var(--primitive-space-unit) * 1.5);
+  --primitive-space-2: calc(var(--primitive-space-unit) * 2);
+  --primitive-space-2-5: calc(var(--primitive-space-unit) * 2.5);
+  --primitive-space-3: calc(var(--primitive-space-unit) * 3);
+  --primitive-space-3-5: calc(var(--primitive-space-unit) * 3.5);
+  --primitive-space-4: calc(var(--primitive-space-unit) * 4);
+  --primitive-space-5: calc(var(--primitive-space-unit) * 5);
+  --primitive-space-6: calc(var(--primitive-space-unit) * 6);
+  --primitive-space-7: calc(var(--primitive-space-unit) * 7);
+  --primitive-space-8: calc(var(--primitive-space-unit) * 8);
+  --primitive-space-10: calc(var(--primitive-space-unit) * 10);
+  --primitive-space-12: calc(var(--primitive-space-unit) * 12);
+  --primitive-space-16: calc(var(--primitive-space-unit) * 16);
+  --primitive-text-xs: calc(var(--primitive-text-unit) * 0.75);
+  --primitive-text-sm: calc(var(--primitive-text-unit) * 0.875);
+  --primitive-text-base: calc(var(--primitive-text-unit) * 1);
+  --primitive-text-lg: calc(var(--primitive-text-unit) * 1.125);
+  --primitive-text-xl: calc(var(--primitive-text-unit) * 1.25);
+  --primitive-text-2xl: calc(var(--primitive-text-unit) * 1.5);
+  --primitive-text-3xl: calc(var(--primitive-text-unit) * 1.875);
+  --primitive-leading-tight: 1.25;
+  --primitive-leading-normal: 1.5;
+  --primitive-leading-relaxed: 1.625;
+  --primitive-radius-1: calc(var(--primitive-radius-unit) * 1);
+  --primitive-radius-2: calc(var(--primitive-radius-unit) * 2);
+  --primitive-radius-3: calc(var(--primitive-radius-unit) * 3);
+  --primitive-radius-4: calc(var(--primitive-radius-unit) * 4);
+  --primitive-radius-5: calc(var(--primitive-radius-unit) * 5);
+  --primitive-radius-6: calc(var(--primitive-radius-unit) * 6);
+  --primitive-radius-7: calc(var(--primitive-radius-unit) * 7);
+  --primitive-radius-8: calc(var(--primitive-radius-unit) * 8);
+  --primitive-radius-9: calc(var(--primitive-radius-unit) * 10);
+  --primitive-radius-10: calc(var(--primitive-radius-unit) * 12);
+  --primitive-radius-11: calc(var(--primitive-radius-unit) * 16);
+  --primitive-radius-12: 9999px;
+  --primitive-shadow-1: 0 1px 2px oklch(0% 0 0deg / 0.05);
+  --primitive-shadow-2: 0 1px 3px oklch(0% 0 0deg / 0.1), 0 1px 2px -1px oklch(0% 0 0deg / 0.1);
+  --primitive-shadow-3: 0 4px 6px -1px oklch(0% 0 0deg / 0.1), 0 2px 4px -2px oklch(0% 0 0deg / 0.1);
+  --primitive-shadow-4: 0 10px 15px -3px oklch(0% 0 0deg / 0.1), 0 4px 6px -4px oklch(0% 0 0deg / 0.1);
+  --primitive-shadow-inset: inset 0 1px 2px oklch(0% 0 0deg / 0.06);
+  --primitive-shadow-none: none;
+  --primitive-motion-1: calc(var(--primitive-motion-unit) * 1);
+  --primitive-motion-2: calc(var(--primitive-motion-unit) * 1.333);
+  --primitive-motion-3: calc(var(--primitive-motion-unit) * 2.133);
+  --primitive-motion-4: calc(var(--primitive-motion-unit) * 3.167);
+  --primitive-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --primitive-z-1: calc(var(--primitive-z-unit) * 1);
+  --primitive-z-2: calc(var(--primitive-z-unit) * 2);
+  --primitive-z-3: calc(var(--primitive-z-unit) * 3);
+  --primitive-z-4: calc(var(--primitive-z-unit) * 4);
+  --primitive-z-5: calc(var(--primitive-z-unit) * 5);
+  --primitive-z-6: calc(var(--primitive-z-unit) * 6);
+  --primitive-weight-regular: 400;
+  --primitive-weight-medium: 500;
+  --primitive-weight-semibold: 600;
+  --primitive-border-width-1: calc(var(--primitive-border-width-unit) * 1);
+  --primitive-border-width-2: calc(var(--primitive-border-width-unit) * 2);
+  --primitive-border-width-3: calc(var(--primitive-border-width-unit) * 3);
   /* Primitive families (real values). */
-  --jy: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --jx: "Source Code Pro", ui-monospace, SFMono-Regular, monospace;
-  --jC: 68ch;
-  --jI: 0.5;
+  --primitive-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --primitive-font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, monospace;
+  --primitive-measure: 68ch;
+  --primitive-opacity-disabled: 0.5;
   /* Compatibility aliases */
-  --ic: var(--ju);
-  --cR: var(--ju);
-  --bX: var(--jl);
-  --cK: var(--jr);
-  --cb: var(--jm);
-  --cS: var(--jv);
-  --cj: var(--jo);
-  --cE: var(--jq);
-  --cL: var(--js);
-  --cC: var(--jp);
-  --ch: var(--jn);
-  --bU: var(--jk);
-  --cQ: var(--jt);
-  --mP: var(--kc);
-  --mQ: var(--kd);
-  --mR: var(--ke);
-  --mS: var(--kf);
-  --mW: var(--kj);
-  --mX: var(--kk);
-  --mY: var(--kl);
-  --mZ: var(--km);
-  --na: var(--kn);
-  --nb: var(--ko);
-  --nc: var(--kp);
-  --nd: var(--kq);
-  --ne: var(--kr);
-  --mT: var(--kg);
-  --mU: var(--kh);
-  --mV: var(--ki);
-  --vh: var(--kA);
-  --uX: var(--kx);
-  --tT: var(--kv);
-  --uE: var(--kw);
-  --vg: var(--kz);
-  --tL: var(--kt);
-  --tM: var(--ku);
-  --hE: var(--jB);
-  --hC: var(--jz);
-  --hD: var(--jA);
-  --kL: var(--jQ);
-  --lh: var(--jO);
-  --la: var(--jP);
-  --kZ: var(--jQ);
-  --lm: var(--jR);
-  --kW: var(--jM);
-  --bM: var(--jg);
-  --mE: var(--jW);
-  --mA: var(--jX);
-  --mv: var(--jY);
-  --mu: var(--jZ);
-  --mt: var(--ka);
-  --ig: var(--jD);
-  --ie: var(--jE);
-  --fN: var(--jw);
-  --hX: var(--jC);
-  --vo: var(--kH);
-  --vn: var(--kI);
-  --vp: var(--kJ);
-  --fW: var(--jy);
-  --fV: var(--jx);
+  --mix-color: var(--primitive-color-white);
+  --color-white: var(--primitive-color-white);
+  --color-black: var(--primitive-color-black);
+  --color-stone: var(--primitive-color-stone);
+  --color-charcoal: var(--primitive-color-charcoal);
+  --color-sakura: var(--primitive-color-sakura);
+  --color-shibui: var(--primitive-color-shibui);
+  --color-sumi: var(--primitive-color-sumi);
+  --color-red: var(--primitive-color-red);
+  --color-green: var(--primitive-color-green);
+  --color-amber: var(--primitive-color-amber);
+  --color-transparent: var(--primitive-color-transparent);
+  --space-0: var(--primitive-space-0);
+  --space-0-5: var(--primitive-space-0-5);
+  --space-1: var(--primitive-space-1);
+  --space-1-5: var(--primitive-space-1-5);
+  --space-2: var(--primitive-space-2);
+  --space-2-5: var(--primitive-space-2-5);
+  --space-3: var(--primitive-space-3);
+  --space-3-5: var(--primitive-space-3-5);
+  --space-4: var(--primitive-space-4);
+  --space-5: var(--primitive-space-5);
+  --space-6: var(--primitive-space-6);
+  --space-7: var(--primitive-space-7);
+  --space-8: var(--primitive-space-8);
+  --space-10: var(--primitive-space-10);
+  --space-12: var(--primitive-space-12);
+  --space-16: var(--primitive-space-16);
+  --text-xs: var(--primitive-text-xs);
+  --text-sm: var(--primitive-text-sm);
+  --text-base: var(--primitive-text-base);
+  --text-lg: var(--primitive-text-lg);
+  --text-xl: var(--primitive-text-xl);
+  --text-2xl: var(--primitive-text-2xl);
+  --text-3xl: var(--primitive-text-3xl);
+  --leading-tight: var(--primitive-leading-tight);
+  --leading-normal: var(--primitive-leading-normal);
+  --leading-relaxed: var(--primitive-leading-relaxed);
+  --radius: var(--primitive-radius-5);
+  --radius-sm: var(--primitive-radius-3);
+  --radius-md: var(--primitive-radius-4);
+  --radius-lg: var(--primitive-radius-5);
+  --radius-xl: var(--primitive-radius-6);
+  --radius-full: var(--primitive-radius-12);
+  --border-width: var(--primitive-border-width-1);
+  --shadow-xs: var(--primitive-shadow-1);
+  --shadow-sm: var(--primitive-shadow-2);
+  --shadow-md: var(--primitive-shadow-3);
+  --shadow-lg: var(--primitive-shadow-4);
+  --shadow-inset: var(--primitive-shadow-inset);
+  --motion-fast: var(--primitive-motion-1);
+  --motion-base: var(--primitive-motion-2);
+  --ease-out: var(--primitive-ease-out);
+  --measure: var(--primitive-measure);
+  --z-overlay: var(--primitive-z-4);
+  --z-modal: var(--primitive-z-5);
+  --z-popover: var(--primitive-z-6);
+  --font-sans: var(--primitive-font-sans);
+  --font-mono: var(--primitive-font-mono);
 }
 
 /* ==========================================================================
    LEVEL 2 — ALIAS / SEMANTIC
-   Semantic roles derived from primitives only. No color ramps: single base
-   hues + deviations via color-mix(in oklch, base, var(--ck) <p>%).
-   --ck depends on light/dark mode.
-   Themes: Matcha (default, stone-white base + matcha accent), Sakura, Sumi.
+   Theme = one hue. Defining a theme: add a primitive color (e.g. --color-sakura)
+   and set --alias-theme. All other colors derive from accent + light/dark base.
+   Exception: sibling token references allowed here for derivation.
    ========================================================================== */
 :root {
-  --X: var(--jo);
-  --ck: var(--ju);
-  --cP: var(--X);
-  --c: var(--jm);
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--ju) 6%, var(--jm));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--jm));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--jm));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--jm));
-  --b: var(--o);
-  --h: var(--jp);
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: var(--jp);
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
-  --k: var(--jy);
-  --n: var(--jy);
-  --l: var(--jy);
-  --m: var(--jx);
-  --S: var(--kv);
-  --W: var(--kx);
-  --T: var(--ku);
-  --U: var(--kt);
-  --V: var(--kz);
-  --q: var(--jz);
-  --r: var(--jB);
-  --H: var(--jQ);
-  --K: var(--jR);
-  --J: var(--jP);
-  --I: var(--jM);
-  --t: var(--jD);
-  --j: var(--jw);
-  --R: var(--jX);
-  --Q: var(--jY);
-  --P: var(--jZ);
-  --O: var(--jW);
-  --e: var(--jg);
-  --s: var(--jC);
-  --fP: var(--k);
-  --gC: var(--n);
-  --fU: var(--l);
-  --uS: var(--S);
-  --uW: var(--W);
-  --uT: var(--T);
-  --uU: var(--U);
-  --uV: var(--V);
-  --hF: var(--q);
-  --hI: var(--r);
-  --kS: var(--H);
-  --li: var(--K);
-  --lc: var(--J);
-  --lb: var(--I);
-  --ih: var(--t);
-  --fM: var(--j);
-  --mB: var(--R);
-  --mx: var(--Q);
-  --mw: var(--P);
-  --mr: var(--O);
+  --alias-theme: var(--primitive-color-sakura);
+  --alias-neutral-base: var(--primitive-color-stone);
+  --alias-mix: var(--primitive-color-black);
+  --alias-accent: oklch(from var(--alias-theme) 70% c h);
+  --color-theme: var(--alias-theme);
+  /* Base: mix neutral (stone/charcoal by mode) with accent */
+  --alias-base: color-mix(in oklch, var(--alias-neutral-base) 92%, var(--alias-accent) 8%);
+  --alias-background: var(--alias-base);
+  /* Surface: deviation from base */
+  --alias-surface: color-mix(in oklch, var(--alias-base), var(--alias-mix) 5%);
+  --alias-card: var(--alias-surface);
+  --alias-popover: var(--alias-surface);
+  /* Pop: derived from accent (hue rotation) */
+  --alias-pop: oklch(from var(--alias-accent) l c calc(h + 30));
+  /* Text: black or white (10% transparency) based on its own background */
+  --alias-text: oklch(from var(--alias-base) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-foreground: var(--alias-text);
+  --alias-card-foreground: oklch(from var(--alias-card) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-popover-foreground: oklch(from var(--alias-popover) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-muted-foreground: oklch(from var(--alias-text) l c h / 65%);
+  --alias-secondary: color-mix(in oklch, var(--alias-accent) 12%, var(--alias-base));
+  --alias-secondary-foreground: oklch(from var(--alias-secondary) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-muted: color-mix(in oklch, var(--alias-accent) 8%, var(--alias-base));
+  --alias-accent-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-primary: var(--alias-accent);
+  --alias-primary-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-border: color-mix(in oklch, var(--alias-text) 15%, transparent);
+  --alias-input: color-mix(in oklch, var(--alias-text) 18%, transparent);
+  --alias-ring: var(--alias-accent);
+  --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  --alias-destructive: var(--primitive-color-red);
+  --alias-destructive-foreground: oklch(from var(--alias-destructive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  /* Semantic status colors: standard green / orange / red mixed with 10% of the accent. */
+  --alias-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--alias-accent) 10%);
+  --alias-positive-foreground: oklch(from var(--alias-positive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--alias-accent) 10%);
+  --alias-neutral-foreground: oklch(from var(--alias-neutral) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--alias-accent) 10%);
+  --alias-negative-foreground: oklch(from var(--alias-negative) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-transparent: var(--primitive-color-transparent);
+  --color-background: var(--alias-background);
+  --color-foreground: var(--alias-foreground);
+  --color-card: var(--alias-card);
+  --color-card-foreground: var(--alias-card-foreground);
+  --color-popover: var(--alias-popover);
+  --color-popover-foreground: var(--alias-popover-foreground);
+  --color-primary: var(--alias-primary);
+  --color-primary-foreground: var(--alias-primary-foreground);
+  --color-secondary: var(--alias-secondary);
+  --color-secondary-foreground: var(--alias-secondary-foreground);
+  --color-muted: var(--alias-muted);
+  --color-muted-foreground: var(--alias-muted-foreground);
+  --color-accent: var(--alias-accent);
+  --color-accent-foreground: var(--alias-accent-foreground);
+  --color-destructive: var(--alias-destructive);
+  --color-destructive-foreground: var(--alias-destructive-foreground);
+  --color-border: var(--alias-border);
+  --color-input: var(--alias-input);
+  --color-ring: var(--alias-ring);
+  --color-overlay: var(--alias-overlay);
+  --color-positive: var(--alias-positive);
+  --color-positive-foreground: var(--alias-positive-foreground);
+  --color-neutral: var(--alias-neutral);
+  --color-neutral-foreground: var(--alias-neutral-foreground);
+  --color-negative: var(--alias-negative);
+  --color-negative-foreground: var(--alias-negative-foreground);
+  --color-transparent: var(--alias-transparent);
+  --color-theme: var(--alias-theme);
+  --color-pop: var(--alias-pop);
+  --color-base: var(--alias-base);
+  --color-surface: var(--alias-surface);
+  --color-text: var(--alias-text);
+  --color-scrim: var(--alias-overlay);
+  --color-focus: var(--alias-ring);
+  --color-text-muted: var(--alias-muted-foreground);
+  --color-positive-text: var(--alias-positive-foreground);
+  --color-neutral-text: var(--alias-neutral-foreground);
+  --color-negative-text: var(--alias-negative-foreground);
+  --alias-font-body: var(--primitive-font-sans);
+  --alias-font-ui: var(--primitive-font-sans);
+  --alias-font-heading: var(--primitive-font-sans);
+  --alias-font-mono: var(--primitive-font-mono);
+  --alias-text-body: var(--primitive-text-base);
+  --alias-text-sm: var(--primitive-text-sm);
+  --alias-text-h1: var(--primitive-text-3xl);
+  --alias-text-h2: var(--primitive-text-2xl);
+  --alias-text-h3: var(--primitive-text-xl);
+  --alias-line-body: var(--primitive-leading-normal);
+  --alias-line-heading: var(--primitive-leading-tight);
+  --alias-radius-control: var(--primitive-radius-5);
+  --alias-radius-surface: var(--primitive-radius-6);
+  --alias-radius-popover: var(--primitive-radius-4);
+  --alias-radius-pill: var(--primitive-radius-12);
+  --alias-motion-interaction: var(--primitive-motion-1);
+  --alias-ease-interaction: var(--primitive-ease-out);
+  --alias-shadow-surface: var(--primitive-shadow-2);
+  --alias-shadow-overlay: var(--primitive-shadow-3);
+  --alias-shadow-modal: var(--primitive-shadow-4);
+  --alias-shadow-control: var(--primitive-shadow-1);
+  --alias-border-width: var(--primitive-border-width-1);
+  --alias-measure: var(--primitive-measure);
+  --font-body: var(--alias-font-body);
+  --font-ui: var(--alias-font-ui);
+  --font-heading: var(--alias-font-heading);
+  --text-size-body: var(--alias-text-body);
+  --text-size-sm: var(--alias-text-sm);
+  --text-size-h1: var(--alias-text-h1);
+  --text-size-h2: var(--alias-text-h2);
+  --text-size-h3: var(--alias-text-h3);
+  --line-body: var(--alias-line-body);
+  --line-heading: var(--alias-line-heading);
+  --radius-control: var(--alias-radius-control);
+  --radius-surface: var(--alias-radius-surface);
+  --radius-popover: var(--alias-radius-popover);
+  --radius-pill: var(--alias-radius-pill);
+  --motion-interaction: var(--alias-motion-interaction);
+  --ease-interaction: var(--alias-ease-interaction);
+  --shadow-surface: var(--alias-shadow-surface);
+  --shadow-overlay: var(--alias-shadow-overlay);
+  --shadow-modal: var(--alias-shadow-modal);
+  --shadow-control: var(--alias-shadow-control);
 }
 
 .dark {
-  --ck: var(--jl);
-  --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--c));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--c));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--c));
-  --b: var(--o);
-  --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
+  --alias-neutral-base: var(--primitive-color-charcoal);
+  --alias-mix: var(--primitive-color-white);
+  --alias-accent: oklch(from var(--alias-theme) 60% c h);
+  --color-theme: var(--alias-theme);
+  /* Base: mix neutral (stone/charcoal by mode) with accent */
+  --alias-base: color-mix(in oklch, var(--alias-neutral-base) 92%, var(--alias-accent) 8%);
+  --alias-background: var(--alias-base);
+  /* Surface: deviation from base */
+  --alias-surface: color-mix(in oklch, var(--alias-base), var(--alias-mix) 5%);
+  --alias-card: var(--alias-surface);
+  --alias-popover: var(--alias-surface);
+  /* Pop: derived from accent (hue rotation) */
+  --alias-pop: oklch(from var(--alias-accent) l c calc(h + 30));
+  /* Text: black or white (10% transparency) based on its own background */
+  --alias-text: oklch(from var(--alias-base) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-foreground: var(--alias-text);
+  --alias-card-foreground: oklch(from var(--alias-card) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-popover-foreground: oklch(from var(--alias-popover) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-muted-foreground: oklch(from var(--alias-text) l c h / 65%);
+  --alias-secondary: color-mix(in oklch, var(--alias-accent) 12%, var(--alias-base));
+  --alias-secondary-foreground: oklch(from var(--alias-secondary) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-muted: color-mix(in oklch, var(--alias-accent) 8%, var(--alias-base));
+  --alias-accent-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-primary: var(--alias-accent);
+  --alias-primary-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-border: color-mix(in oklch, var(--alias-text) 15%, transparent);
+  --alias-input: color-mix(in oklch, var(--alias-text) 18%, transparent);
+  --alias-ring: var(--alias-accent);
+  --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+  --alias-destructive: var(--primitive-color-red);
+  --alias-destructive-foreground: oklch(from var(--alias-destructive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  /* Semantic status colors: standard green / orange / red mixed with 10% of the accent. */
+  --alias-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--alias-accent) 10%);
+  --alias-positive-foreground: oklch(from var(--alias-positive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--alias-accent) 10%);
+  --alias-neutral-foreground: oklch(from var(--alias-neutral) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--alias-accent) 10%);
+  --alias-negative-foreground: oklch(from var(--alias-negative) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+  --alias-transparent: var(--primitive-color-transparent);
+  --color-background: var(--alias-background);
+  --color-foreground: var(--alias-foreground);
+  --color-card: var(--alias-card);
+  --color-card-foreground: var(--alias-card-foreground);
+  --color-popover: var(--alias-popover);
+  --color-popover-foreground: var(--alias-popover-foreground);
+  --color-primary: var(--alias-primary);
+  --color-primary-foreground: var(--alias-primary-foreground);
+  --color-secondary: var(--alias-secondary);
+  --color-secondary-foreground: var(--alias-secondary-foreground);
+  --color-muted: var(--alias-muted);
+  --color-muted-foreground: var(--alias-muted-foreground);
+  --color-accent: var(--alias-accent);
+  --color-accent-foreground: var(--alias-accent-foreground);
+  --color-destructive: var(--alias-destructive);
+  --color-destructive-foreground: var(--alias-destructive-foreground);
+  --color-border: var(--alias-border);
+  --color-input: var(--alias-input);
+  --color-ring: var(--alias-ring);
+  --color-overlay: var(--alias-overlay);
+  --color-positive: var(--alias-positive);
+  --color-positive-foreground: var(--alias-positive-foreground);
+  --color-neutral: var(--alias-neutral);
+  --color-neutral-foreground: var(--alias-neutral-foreground);
+  --color-negative: var(--alias-negative);
+  --color-negative-foreground: var(--alias-negative-foreground);
+  --color-transparent: var(--alias-transparent);
+  --color-theme: var(--alias-theme);
+  --color-pop: var(--alias-pop);
+  --color-base: var(--alias-base);
+  --color-surface: var(--alias-surface);
+  --color-text: var(--alias-text);
+  --color-scrim: var(--alias-overlay);
+  --color-focus: var(--alias-ring);
+  --color-text-muted: var(--alias-muted-foreground);
+  --color-positive-text: var(--alias-positive-foreground);
+  --color-neutral-text: var(--alias-neutral-foreground);
+  --color-negative-text: var(--alias-negative-foreground);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
-    --ck: var(--jl);
-    --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-    --o: oklch(96% 0.01 160);
-    --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-    --g: var(--o);
-    --B: var(--f);
-    --C: var(--o);
-    --F: var(--X);
-    --G: var(--jm);
-    --M: color-mix(in oklch, var(--X) 14%, var(--c));
-    --N: var(--o);
-    --u: color-mix(in oklch, var(--X) 10%, var(--c));
-    --v: color-mix(in oklch, var(--o) 65%, var(--c));
-    --a: color-mix(in oklch, var(--X) 16%, var(--c));
-    --b: var(--o);
-    --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --i: var(--ju);
-    --d: color-mix(in oklch, var(--o) 14%, transparent);
-    --p: color-mix(in oklch, var(--o) 18%, transparent);
-    --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-    --A: color-mix(in oklch, var(--jl) 50%, transparent);
-    --D: var(--jn);
-    --E: var(--jl);
-    --y: var(--jk);
-    --z: var(--jl);
-    --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --x: var(--ju);
-    --Y: var(--jt);
-    --bV: var(--c);
-    --cg: var(--o);
-    --bZ: var(--f);
-    --ca: var(--g);
-    --cv: var(--B);
-    --cw: var(--C);
-    --cA: var(--F);
-    --cB: var(--G);
-    --cG: var(--M);
-    --cH: var(--N);
-    --cl: var(--u);
-    --cm: var(--v);
-    --bR: var(--a);
-    --bS: var(--b);
-    --cd: var(--h);
-    --ce: var(--i);
-    --bY: var(--d);
-    --ci: var(--p);
-    --cD: var(--L);
-    --ct: var(--A);
-    --cx: var(--D);
-    --cy: var(--E);
-    --cq: var(--y);
-    --cr: var(--z);
-    --cn: var(--w);
-    --co: var(--x);
-    --cQ: var(--Y);
-    --cP: var(--X);
-    --bW: var(--c);
-    --cM: var(--f);
-    --cu: var(--u);
-    --cN: var(--o);
-    --cO: var(--v);
-    --cf: var(--L);
-    --cF: var(--A);
-    --cz: var(--E);
-    --cs: var(--z);
-    --cp: var(--x);
+    --alias-neutral-base: var(--primitive-color-charcoal);
+    --alias-mix: var(--primitive-color-white);
+    --alias-accent: oklch(from var(--alias-theme) 60% c h);
+    --color-theme: var(--alias-theme);
+    /* Base: mix neutral (stone/charcoal by mode) with accent */
+    --alias-base: color-mix(in oklch, var(--alias-neutral-base) 92%, var(--alias-accent) 8%);
+    --alias-background: var(--alias-base);
+    /* Surface: deviation from base */
+    --alias-surface: color-mix(in oklch, var(--alias-base), var(--alias-mix) 5%);
+    --alias-card: var(--alias-surface);
+    --alias-popover: var(--alias-surface);
+    /* Pop: derived from accent (hue rotation) */
+    --alias-pop: oklch(from var(--alias-accent) l c calc(h + 30));
+    /* Text: black or white (10% transparency) based on its own background */
+    --alias-text: oklch(from var(--alias-base) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-foreground: var(--alias-text);
+    --alias-card-foreground: oklch(from var(--alias-card) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-popover-foreground: oklch(from var(--alias-popover) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-muted-foreground: oklch(from var(--alias-text) l c h / 65%);
+    --alias-secondary: color-mix(in oklch, var(--alias-accent) 12%, var(--alias-base));
+    --alias-secondary-foreground: oklch(from var(--alias-secondary) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-muted: color-mix(in oklch, var(--alias-accent) 8%, var(--alias-base));
+    --alias-accent-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-primary: var(--alias-accent);
+    --alias-primary-foreground: oklch(from var(--alias-accent) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-border: color-mix(in oklch, var(--alias-text) 15%, transparent);
+    --alias-input: color-mix(in oklch, var(--alias-text) 18%, transparent);
+    --alias-ring: var(--alias-accent);
+    --alias-overlay: color-mix(in oklch, var(--primitive-color-black) 50%, transparent);
+    --alias-destructive: var(--primitive-color-red);
+    --alias-destructive-foreground: oklch(from var(--alias-destructive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    /* Semantic status colors: standard green / orange / red mixed with 10% of the accent. */
+    --alias-positive: color-mix(in oklch, var(--primitive-color-green) 90%, var(--alias-accent) 10%);
+    --alias-positive-foreground: oklch(from var(--alias-positive) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-neutral: color-mix(in oklch, var(--primitive-color-amber) 90%, var(--alias-accent) 10%);
+    --alias-neutral-foreground: oklch(from var(--alias-neutral) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-negative: color-mix(in oklch, var(--primitive-color-red) 90%, var(--alias-accent) 10%);
+    --alias-negative-foreground: oklch(from var(--alias-negative) calc(clamp(0, (0.65 - l) * 1000, 1)) 0 0 / 90%);
+    --alias-transparent: var(--primitive-color-transparent);
+    --color-background: var(--alias-background);
+    --color-foreground: var(--alias-foreground);
+    --color-card: var(--alias-card);
+    --color-card-foreground: var(--alias-card-foreground);
+    --color-popover: var(--alias-popover);
+    --color-popover-foreground: var(--alias-popover-foreground);
+    --color-primary: var(--alias-primary);
+    --color-primary-foreground: var(--alias-primary-foreground);
+    --color-secondary: var(--alias-secondary);
+    --color-secondary-foreground: var(--alias-secondary-foreground);
+    --color-muted: var(--alias-muted);
+    --color-muted-foreground: var(--alias-muted-foreground);
+    --color-accent: var(--alias-accent);
+    --color-accent-foreground: var(--alias-accent-foreground);
+    --color-destructive: var(--alias-destructive);
+    --color-destructive-foreground: var(--alias-destructive-foreground);
+    --color-border: var(--alias-border);
+    --color-input: var(--alias-input);
+    --color-ring: var(--alias-ring);
+    --color-overlay: var(--alias-overlay);
+    --color-positive: var(--alias-positive);
+    --color-positive-foreground: var(--alias-positive-foreground);
+    --color-neutral: var(--alias-neutral);
+    --color-neutral-foreground: var(--alias-neutral-foreground);
+    --color-negative: var(--alias-negative);
+    --color-negative-foreground: var(--alias-negative-foreground);
+    --color-transparent: var(--alias-transparent);
+    --color-theme: var(--alias-theme);
+    --color-pop: var(--alias-pop);
+    --color-base: var(--alias-base);
+    --color-surface: var(--alias-surface);
+    --color-text: var(--alias-text);
+    --color-scrim: var(--alias-overlay);
+    --color-focus: var(--alias-ring);
+    --color-text-muted: var(--alias-muted-foreground);
+    --color-positive-text: var(--alias-positive-foreground);
+    --color-neutral-text: var(--alias-neutral-foreground);
+    --color-negative-text: var(--alias-negative-foreground);
   }
 }
 .theme-sakura {
-  --X: var(--jq);
+  --alias-theme: var(--primitive-color-sakura);
 }
 
-.theme-sakura, .theme-sakura.dark { /* theme set on element; modes below apply */ }
-
-.theme-sakura:not(.dark) {
-  --ck: var(--ju);
-  --cP: var(--X);
-  --c: var(--jm);
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--ju) 6%, var(--jm));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--jm));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--jm));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--jm));
-  --b: var(--o);
-  --h: var(--jp);
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: var(--jp);
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
+.theme-shibui {
+  --alias-theme: var(--primitive-color-shibui);
 }
 
-.theme-sakura.dark {
-  --ck: var(--jl);
-  --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--c));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--c));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--c));
-  --b: var(--o);
-  --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root.theme-sakura:not(.light) {
-    --ck: var(--jl);
-    --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-    --o: oklch(96% 0.01 160);
-    --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-    --g: var(--o);
-    --B: var(--f);
-    --C: var(--o);
-    --F: var(--X);
-    --G: var(--jm);
-    --M: color-mix(in oklch, var(--X) 14%, var(--c));
-    --N: var(--o);
-    --u: color-mix(in oklch, var(--X) 10%, var(--c));
-    --v: color-mix(in oklch, var(--o) 65%, var(--c));
-    --a: color-mix(in oklch, var(--X) 16%, var(--c));
-    --b: var(--o);
-    --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --i: var(--ju);
-    --d: color-mix(in oklch, var(--o) 14%, transparent);
-    --p: color-mix(in oklch, var(--o) 18%, transparent);
-    --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-    --A: color-mix(in oklch, var(--jl) 50%, transparent);
-    --D: var(--jn);
-    --E: var(--jl);
-    --y: var(--jk);
-    --z: var(--jl);
-    --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --x: var(--ju);
-    --Y: var(--jt);
-    --bV: var(--c);
-    --cg: var(--o);
-    --bZ: var(--f);
-    --ca: var(--g);
-    --cv: var(--B);
-    --cw: var(--C);
-    --cA: var(--F);
-    --cB: var(--G);
-    --cG: var(--M);
-    --cH: var(--N);
-    --cl: var(--u);
-    --cm: var(--v);
-    --bR: var(--a);
-    --bS: var(--b);
-    --cd: var(--h);
-    --ce: var(--i);
-    --bY: var(--d);
-    --ci: var(--p);
-    --cD: var(--L);
-    --ct: var(--A);
-    --cx: var(--D);
-    --cy: var(--E);
-    --cq: var(--y);
-    --cr: var(--z);
-    --cn: var(--w);
-    --co: var(--x);
-    --cQ: var(--Y);
-    --cP: var(--X);
-    --bW: var(--c);
-    --cM: var(--f);
-    --cu: var(--u);
-    --cN: var(--o);
-    --cO: var(--v);
-    --cf: var(--L);
-    --cF: var(--A);
-    --cz: var(--E);
-    --cs: var(--z);
-    --cp: var(--x);
-  }
-}
 .theme-sumi {
-  --X: var(--js);
+  --alias-theme: var(--primitive-color-sumi);
 }
 
-.theme-sumi:not(.dark) {
-  --ck: var(--ju);
-  --cP: var(--X);
-  --c: var(--jm);
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--ju) 6%, var(--jm));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--jm));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--jm));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--jm));
-  --b: var(--o);
-  --h: var(--jp);
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: var(--jp);
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
-}
-
-.theme-sumi.dark {
-  --ck: var(--jl);
-  --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-  --o: oklch(96% 0.01 160);
-  --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-  --g: var(--o);
-  --B: var(--f);
-  --C: var(--o);
-  --F: var(--X);
-  --G: var(--jm);
-  --M: color-mix(in oklch, var(--X) 14%, var(--c));
-  --N: var(--o);
-  --u: color-mix(in oklch, var(--X) 10%, var(--c));
-  --v: color-mix(in oklch, var(--o) 65%, var(--c));
-  --a: color-mix(in oklch, var(--X) 16%, var(--c));
-  --b: var(--o);
-  --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --i: var(--ju);
-  --d: color-mix(in oklch, var(--o) 14%, transparent);
-  --p: color-mix(in oklch, var(--o) 18%, transparent);
-  --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-  --A: color-mix(in oklch, var(--jl) 50%, transparent);
-  --D: var(--jn);
-  --E: var(--jl);
-  --y: var(--jk);
-  --z: var(--jl);
-  --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-  --x: var(--ju);
-  --Y: var(--jt);
-  --bV: var(--c);
-  --cg: var(--o);
-  --bZ: var(--f);
-  --ca: var(--g);
-  --cv: var(--B);
-  --cw: var(--C);
-  --cA: var(--F);
-  --cB: var(--G);
-  --cG: var(--M);
-  --cH: var(--N);
-  --cl: var(--u);
-  --cm: var(--v);
-  --bR: var(--a);
-  --bS: var(--b);
-  --cd: var(--h);
-  --ce: var(--i);
-  --bY: var(--d);
-  --ci: var(--p);
-  --cD: var(--L);
-  --ct: var(--A);
-  --cx: var(--D);
-  --cy: var(--E);
-  --cq: var(--y);
-  --cr: var(--z);
-  --cn: var(--w);
-  --co: var(--x);
-  --cQ: var(--Y);
-  --cP: var(--X);
-  --bW: var(--c);
-  --cM: var(--f);
-  --cu: var(--u);
-  --cN: var(--o);
-  --cO: var(--v);
-  --cf: var(--L);
-  --cF: var(--A);
-  --cz: var(--E);
-  --cs: var(--z);
-  --cp: var(--x);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root.theme-sumi:not(.light) {
-    --ck: var(--jl);
-    --c: color-mix(in oklch, var(--X) 8%, var(--jm));
-    --o: oklch(96% 0.01 160);
-    --f: color-mix(in oklch, var(--X) 10%, color-mix(in oklch, var(--ju) 6%, var(--jm)));
-    --g: var(--o);
-    --B: var(--f);
-    --C: var(--o);
-    --F: var(--X);
-    --G: var(--jm);
-    --M: color-mix(in oklch, var(--X) 14%, var(--c));
-    --N: var(--o);
-    --u: color-mix(in oklch, var(--X) 10%, var(--c));
-    --v: color-mix(in oklch, var(--o) 65%, var(--c));
-    --a: color-mix(in oklch, var(--X) 16%, var(--c));
-    --b: var(--o);
-    --h: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --i: var(--ju);
-    --d: color-mix(in oklch, var(--o) 14%, transparent);
-    --p: color-mix(in oklch, var(--o) 18%, transparent);
-    --L: color-mix(in oklch, var(--X) 70%, var(--ju));
-    --A: color-mix(in oklch, var(--jl) 50%, transparent);
-    --D: var(--jn);
-    --E: var(--jl);
-    --y: var(--jk);
-    --z: var(--jl);
-    --w: color-mix(in oklch, var(--jp) 80%, var(--ju));
-    --x: var(--ju);
-    --Y: var(--jt);
-    --bV: var(--c);
-    --cg: var(--o);
-    --bZ: var(--f);
-    --ca: var(--g);
-    --cv: var(--B);
-    --cw: var(--C);
-    --cA: var(--F);
-    --cB: var(--G);
-    --cG: var(--M);
-    --cH: var(--N);
-    --cl: var(--u);
-    --cm: var(--v);
-    --bR: var(--a);
-    --bS: var(--b);
-    --cd: var(--h);
-    --ce: var(--i);
-    --bY: var(--d);
-    --ci: var(--p);
-    --cD: var(--L);
-    --ct: var(--A);
-    --cx: var(--D);
-    --cy: var(--E);
-    --cq: var(--y);
-    --cr: var(--z);
-    --cn: var(--w);
-    --co: var(--x);
-    --cQ: var(--Y);
-    --cP: var(--X);
-    --bW: var(--c);
-    --cM: var(--f);
-    --cu: var(--u);
-    --cN: var(--o);
-    --cO: var(--v);
-    --cf: var(--L);
-    --cF: var(--A);
-    --cz: var(--E);
-    --cs: var(--z);
-    --cp: var(--x);
-  }
-}
 /* ==========================================================================
    LEVEL 3 — COMPONENT
    Component anatomy and base values derived from alias/semantic tokens.
@@ -850,186 +463,186 @@
    ========================================================================== */
 :root {
   /* Emphasis bases (consumed by role layer) */
-  --el: var(--F);
-  --en: var(--G);
-  --em: var(--Y);
-  --eo: var(--L);
-  --ep: var(--M);
-  --er: var(--N);
-  --eq: var(--Y);
-  --es: var(--L);
-  --et: var(--u);
-  --ev: var(--v);
-  --eu: var(--d);
-  --ew: var(--L);
-  --eb: var(--h);
-  --ed: var(--i);
-  --ec: var(--Y);
-  --ee: var(--h);
-  --ej: var(--D);
-  --ek: var(--E);
-  --eh: var(--y);
-  --ei: var(--z);
-  --ef: var(--w);
-  --eg: var(--x);
+  --component-emphasis-primary-bg: var(--alias-primary);
+  --component-emphasis-primary-fg: var(--alias-primary-foreground);
+  --component-emphasis-primary-border: var(--alias-transparent);
+  --component-emphasis-primary-ring: var(--alias-ring);
+  --component-emphasis-secondary-bg: var(--alias-secondary);
+  --component-emphasis-secondary-fg: var(--alias-secondary-foreground);
+  --component-emphasis-secondary-border: var(--alias-transparent);
+  --component-emphasis-secondary-ring: var(--alias-ring);
+  --component-emphasis-tertiary-bg: var(--alias-muted);
+  --component-emphasis-tertiary-fg: var(--alias-muted-foreground);
+  --component-emphasis-tertiary-border: var(--alias-border);
+  --component-emphasis-tertiary-ring: var(--alias-ring);
+  --component-emphasis-destructive-bg: var(--alias-destructive);
+  --component-emphasis-destructive-fg: var(--alias-destructive-foreground);
+  --component-emphasis-destructive-border: var(--alias-transparent);
+  --component-emphasis-destructive-ring: var(--alias-destructive);
+  --component-emphasis-positive-bg: var(--alias-positive);
+  --component-emphasis-positive-fg: var(--alias-positive-foreground);
+  --component-emphasis-neutral-bg: var(--alias-neutral);
+  --component-emphasis-neutral-fg: var(--alias-neutral-foreground);
+  --component-emphasis-negative-bg: var(--alias-negative);
+  --component-emphasis-negative-fg: var(--alias-negative-foreground);
   /* Shared UI atoms */
-  --dk: var(--e);
-  --eY: var(--H);
-  --fb: var(--K);
-  --fa: var(--J);
-  --eZ: var(--I);
-  --fr: var(--R);
-  --fq: var(--Q);
-  --fp: var(--P);
-  --fo: var(--O);
-  --eU: var(--t);
-  --ea: var(--j);
-  --eA: var(--n);
-  --ex: var(--k);
-  --ey: var(--l);
-  --ez: var(--m);
-  --eS: var(--q);
-  --eT: var(--r);
+  --component-border-width: var(--alias-border-width);
+  --component-radius-control: var(--alias-radius-control);
+  --component-radius-surface: var(--alias-radius-surface);
+  --component-radius-popover: var(--alias-radius-popover);
+  --component-radius-pill: var(--alias-radius-pill);
+  --component-shadow-surface: var(--alias-shadow-surface);
+  --component-shadow-overlay: var(--alias-shadow-overlay);
+  --component-shadow-modal: var(--alias-shadow-modal);
+  --component-shadow-control: var(--alias-shadow-control);
+  --component-motion: var(--alias-motion-interaction);
+  --component-ease: var(--alias-ease-interaction);
+  --component-font-ui: var(--alias-font-ui);
+  --component-font-body: var(--alias-font-body);
+  --component-font-heading: var(--alias-font-heading);
+  --component-font-mono: var(--alias-font-mono);
+  --component-line: var(--alias-line-body);
+  --component-line-heading: var(--alias-line-heading);
   /* Button */
-  --dq: 2rem;
-  --dt: 1.75rem;
-  --ds: 2.25rem;
-  --dr: 2rem;
-  --du: var(--kk);
-  --dw: var(--kk);
-  --dv: var(--kn);
-  --dl: var(--kx);
-  --dn: var(--kA);
-  --dm: var(--kx);
-  --do: var(--kB);
-  --dp: var(--kf);
-  --dx: var(--eY);
-  --dy: var(--ji);
-  --dB: 1px;
-  --dA: 1rem;
-  --dz: var(--jh);
+  --component-button-height: 2rem;
+  --component-button-height-sm: 1.75rem;
+  --component-button-height-lg: 2.25rem;
+  --component-button-height-icon: 2rem;
+  --component-button-padding-inline: var(--primitive-space-2-5);
+  --component-button-padding-inline-sm: var(--primitive-space-2-5);
+  --component-button-padding-inline-lg: var(--primitive-space-4);
+  --component-button-font-size: var(--primitive-text-sm);
+  --component-button-font-size-sm: var(--primitive-text-xs);
+  --component-button-font-size-lg: var(--primitive-text-sm);
+  --component-button-font-weight: var(--primitive-weight-medium);
+  --component-button-gap: var(--primitive-space-1-5);
+  --component-button-radius: var(--component-radius-control);
+  --component-button-ring-width: var(--primitive-border-width-3);
+  --component-button-translate-active: 1px;
+  --component-button-spinner-size: 1rem;
+  --component-button-spinner-border: var(--primitive-border-width-2);
   /* Card */
-  --dF: var(--kp);
-  --dG: var(--kp);
-  --dC: var(--kp);
-  --dE: var(--kf);
-  --dD: var(--kn);
-  --dH: var(--fb);
-  --dI: var(--fr);
+  --component-card-padding-block: var(--primitive-space-6);
+  --component-card-padding-inline: var(--primitive-space-6);
+  --component-card-gap: var(--primitive-space-6);
+  --component-card-gap-header: var(--primitive-space-1-5);
+  --component-card-gap-content: var(--primitive-space-4);
+  --component-card-radius: var(--component-radius-surface);
+  --component-card-shadow: var(--component-shadow-surface);
   /* Accordion */
-  --cZ: var(--kn) 0;
-  --cT: 0 0 var(--kn);
-  --cU: var(--kc);
-  --cY: var(--kn);
-  --cV: 1rem;
-  --cX: 0;
-  --da: var(--jP);
-  --cW: var(--jG);
+  --component-accordion-trigger-padding: var(--primitive-space-4) 0;
+  --component-accordion-content-padding: 0 0 var(--primitive-space-4);
+  --component-accordion-gap: var(--primitive-space-0);
+  --component-accordion-trigger-gap: var(--primitive-space-4);
+  --component-accordion-icon-size: 1rem;
+  --component-accordion-radius: 0;
+  --component-accordion-trigger-radius: var(--primitive-radius-4);
+  --component-accordion-motion: var(--primitive-motion-4);
   /* Input */
-  --eK: 2rem;
-  --eL: var(--ke);
-  --eM: var(--kk);
-  --eN: var(--eY);
-  --eI: var(--kv);
-  --eJ: var(--kj);
-  --fJ: 5rem;
-  --eO: var(--ji);
+  --component-input-height: 2rem;
+  --component-input-padding-block: var(--primitive-space-1);
+  --component-input-padding-inline: var(--primitive-space-2-5);
+  --component-input-radius: var(--component-radius-control);
+  --component-input-font-size: var(--primitive-text-base);
+  --component-input-gap: var(--primitive-space-2);
+  --component-textarea-min-height: 5rem;
+  --component-input-ring-width: var(--primitive-border-width-3);
   /* Form */
-  --eE: var(--kp);
-  --eD: var(--kp);
-  --eF: var(--kj);
-  --eG: var(--kj);
-  --eB: var(--kj);
-  --eC: var(--kj);
+  --component-form-gap: var(--primitive-space-6);
+  --component-form-fields-gap: var(--primitive-space-6);
+  --component-form-group-gap: var(--primitive-space-2);
+  --component-form-item-gap: var(--primitive-space-2);
+  --component-form-actions-gap: var(--primitive-space-2);
+  --component-form-checkboxes-gap: var(--primitive-space-2);
   /* Label */
-  --eR: var(--kj);
-  --eP: var(--kx);
-  --eQ: var(--kB);
+  --component-label-gap: var(--primitive-space-2);
+  --component-label-font-size: var(--primitive-text-sm);
+  --component-label-font-weight: var(--primitive-weight-medium);
   /* Checkbox */
-  --dO: 1rem;
-  --dL: 0.75rem;
-  --dM: 4px;
-  --dK: var(--kj);
-  --dN: var(--ji);
+  --component-checkbox-size: 1rem;
+  --component-checkbox-icon-size: 0.75rem;
+  --component-checkbox-radius: 4px;
+  --component-checkbox-gap: var(--primitive-space-2);
+  --component-checkbox-ring-width: var(--primitive-border-width-3);
   /* Switch */
-  --fx: 2rem;
-  --ft: 1.15rem;
-  --fw: 1rem;
-  --fu: var(--eZ);
-  --fs: var(--kj);
-  --fv: var(--ji);
+  --component-switch-width: 2rem;
+  --component-switch-height: 1.15rem;
+  --component-switch-thumb-size: 1rem;
+  --component-switch-radius: var(--component-radius-pill);
+  --component-switch-gap: var(--primitive-space-2);
+  --component-switch-ring-width: var(--primitive-border-width-3);
   /* Select */
-  --ff: 2rem;
-  --fl: var(--kk);
-  --fm: var(--eY);
-  --fd: var(--fa);
-  --fk: var(--jN);
-  --fc: var(--ke);
-  --fh: var(--kf);
-  --fj: var(--kj);
-  --fi: var(--kr);
-  --fe: var(--kj);
-  --fg: 1rem;
-  --fn: var(--ji);
+  --component-select-height: 2rem;
+  --component-select-padding-inline: var(--primitive-space-2-5);
+  --component-select-radius: var(--component-radius-control);
+  --component-select-content-radius: var(--component-radius-popover);
+  --component-select-item-radius: var(--primitive-radius-2);
+  --component-select-content-padding: var(--primitive-space-1);
+  --component-select-item-padding-block: var(--primitive-space-1-5);
+  --component-select-item-padding-inline: var(--primitive-space-2);
+  --component-select-item-padding-end: var(--primitive-space-8);
+  --component-select-gap: var(--primitive-space-2);
+  --component-select-icon-size: 1rem;
+  --component-select-ring-width: var(--primitive-border-width-3);
   /* Dialog */
-  --dV: var(--kp);
-  --dS: var(--kn);
-  --dW: var(--jQ);
-  --dU: 32rem;
-  --dQ: 1rem;
-  --dP: var(--kn);
-  --dR: var(--kj);
-  --dT: var(--kn);
+  --component-dialog-padding: var(--primitive-space-6);
+  --component-dialog-gap: var(--primitive-space-4);
+  --component-dialog-radius: var(--primitive-radius-5);
+  --component-dialog-max-width: 32rem;
+  --component-dialog-close-size: 1rem;
+  --component-dialog-close-inset: var(--primitive-space-4);
+  --component-dialog-footer-gap: var(--primitive-space-2);
+  --component-dialog-inset: var(--primitive-space-4);
   /* Tabs */
-  --fB: var(--kn);
-  --fC: 2.25rem;
-  --fD: 3px;
-  --fE: var(--jQ);
-  --fI: var(--jP);
-  --fH: var(--ke) var(--kj);
-  --fG: var(--kf);
-  --fF: var(--ji);
+  --component-tabs-gap: var(--primitive-space-4);
+  --component-tabs-list-height: 2.25rem;
+  --component-tabs-list-padding: 3px;
+  --component-tabs-list-radius: var(--primitive-radius-5);
+  --component-tabs-trigger-radius: var(--primitive-radius-4);
+  --component-tabs-trigger-padding: var(--primitive-space-1) var(--primitive-space-2);
+  --component-tabs-trigger-gap: var(--primitive-space-1-5);
+  --component-tabs-ring-width: var(--primitive-border-width-3);
   /* Badge */
-  --dh: var(--kd);
-  --di: var(--kj);
-  --dj: var(--jP);
-  --df: var(--kA);
-  --dg: var(--kB);
+  --component-badge-padding-block: var(--primitive-space-0-5);
+  --component-badge-padding-inline: var(--primitive-space-2);
+  --component-badge-radius: var(--primitive-radius-4);
+  --component-badge-font-size: var(--primitive-text-xs);
+  --component-badge-font-weight: var(--primitive-weight-medium);
   /* Progress */
-  --eW: 0.5rem;
-  --eX: var(--eZ);
+  --component-progress-height: 0.5rem;
+  --component-progress-radius: var(--component-radius-pill);
   /* Avatar */
-  --de: 2rem;
-  --dd: 2.5rem;
-  --dc: 3.5rem;
-  --db: var(--eZ);
+  --component-avatar-size-sm: 2rem;
+  --component-avatar-size-md: 2.5rem;
+  --component-avatar-size-lg: 3.5rem;
+  --component-avatar-radius: var(--component-radius-pill);
   /* Table */
-  --fz: var(--kl);
-  --fA: var(--kl);
-  --fy: var(--kj);
+  --component-table-cell-padding-block: var(--primitive-space-3);
+  --component-table-cell-padding-inline: var(--primitive-space-3);
+  --component-table-caption-padding: var(--primitive-space-2);
   /* Disclosure */
-  --dY: var(--kn);
-  --dZ: var(--jQ);
-  --dX: var(--kj);
+  --component-disclosure-padding: var(--primitive-space-4);
+  --component-disclosure-radius: var(--primitive-radius-5);
+  --component-disclosure-gap: var(--primitive-space-2);
   /* Nav */
-  --eV: var(--kl);
+  --component-nav-gap: var(--primitive-space-3);
 }
 
 /* Dark-only component base adjustments */
 :root {
-  --eH: 50%;
-  --dJ: 100%;
+  --component-input-disabled-mix: 50%;
+  --component-checkbox-bg-mix: 100%;
 }
 
 .dark {
-  --eH: 20%;
-  --dJ: 70%;
+  --component-input-disabled-mix: 20%;
+  --component-checkbox-bg-mix: 70%;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
-    --eH: 20%;
-    --dJ: 70%;
+    --component-input-disabled-mix: 20%;
+    --component-checkbox-bg-mix: 70%;
   }
 }
 /* ==========================================================================
@@ -1040,794 +653,794 @@
    ========================================================================== */
 :root {
   /* Primary emphasis */
-  --md: var(--el);
-  --mf: var(--en);
-  --me: var(--em);
-  --mg: var(--eo);
+  --role-primary-bg: var(--component-emphasis-primary-bg);
+  --role-primary-fg: var(--component-emphasis-primary-fg);
+  --role-primary-border: var(--component-emphasis-primary-border);
+  --role-primary-ring: var(--component-emphasis-primary-ring);
   /* Secondary emphasis */
-  --mh: var(--ep);
-  --mj: var(--er);
-  --mi: var(--eq);
-  --mk: var(--es);
+  --role-secondary-bg: var(--component-emphasis-secondary-bg);
+  --role-secondary-fg: var(--component-emphasis-secondary-fg);
+  --role-secondary-border: var(--component-emphasis-secondary-border);
+  --role-secondary-ring: var(--component-emphasis-secondary-ring);
   /* Tertiary emphasis */
-  --ml: var(--et);
-  --mn: var(--ev);
-  --mm: var(--eu);
-  --mo: var(--ew);
+  --role-tertiary-bg: var(--component-emphasis-tertiary-bg);
+  --role-tertiary-fg: var(--component-emphasis-tertiary-fg);
+  --role-tertiary-border: var(--component-emphasis-tertiary-border);
+  --role-tertiary-ring: var(--component-emphasis-tertiary-ring);
   /* Normal emphasis (aliases secondary) */
-  --lX: var(--mh);
-  --lZ: var(--mj);
-  --lY: var(--mi);
-  --ma: var(--mk);
+  --role-normal-bg: var(--role-secondary-bg);
+  --role-normal-fg: var(--role-secondary-fg);
+  --role-normal-border: var(--role-secondary-border);
+  --role-normal-ring: var(--role-secondary-ring);
   /* Status roles derived from component emphasis/status */
-  --lP: var(--eb);
-  --lR: var(--ed);
-  --lQ: var(--ec);
-  --lS: var(--ee);
-  --mb: var(--ej);
-  --mc: var(--ek);
-  --lV: var(--eh);
-  --lW: var(--ei);
-  --lT: var(--ef);
-  --lU: var(--eg);
+  --role-destructive-bg: var(--component-emphasis-destructive-bg);
+  --role-destructive-fg: var(--component-emphasis-destructive-fg);
+  --role-destructive-border: var(--component-emphasis-destructive-border);
+  --role-destructive-ring: var(--component-emphasis-destructive-ring);
+  --role-positive-bg: var(--component-emphasis-positive-bg);
+  --role-positive-fg: var(--component-emphasis-positive-fg);
+  --role-neutral-bg: var(--component-emphasis-neutral-bg);
+  --role-neutral-fg: var(--component-emphasis-neutral-fg);
+  --role-negative-bg: var(--component-emphasis-negative-bg);
+  --role-negative-fg: var(--component-emphasis-negative-fg);
 }
 
 /* ==========================================================================
    LEVEL 5 — STATE (FINAL)
    Finalized tokens derived from role, component, alias, and primitive layers.
-   All styling MUST use only state tokens (the --nf* namespace / finalized outputs).
+   All styling MUST use only state tokens (the --state-* namespace / finalized outputs).
    Paste a state set here to override the final rendered appearance.
    ========================================================================== */
 :root {
   /* Global / base */
-  --nZ: var(--c);
-  --oa: var(--o);
-  --ob: var(--ex);
-  --od: var(--S);
-  --oc: var(--eS);
-  --rh: var(--v);
-  --qA: var(--o);
-  --qB: var(--ey);
-  --qC: var(--eT);
-  --rc: var(--md);
-  --rd: color-mix(in oklch, var(--rc), transparent 20%);
-  --sA: var(--md);
-  --sB: var(--mf);
-  --qv: var(--L);
-  --qx: var(--jh);
-  --qw: var(--jh);
-  --oe: var(--dk);
-  --rf: var(--eU);
-  --rg: var(--cW);
-  --qu: var(--ea);
-  --ru: var(--eY);
-  --rx: var(--fb);
-  --rw: var(--fa);
-  --rv: var(--eZ);
-  --sG: var(--fr);
-  --sF: var(--fq);
-  --sE: var(--fp);
-  --sD: var(--fo);
-  --rn: var(--A);
-  --tJ: var(--kH);
-  --tI: var(--kI);
-  --tK: var(--kJ);
-  --qy: var(--ez);
-  --qz: var(--eA);
-  --re: var(--s);
+  --state-body-bg: var(--alias-background);
+  --state-body-fg: var(--alias-foreground);
+  --state-body-font: var(--component-font-body);
+  --state-body-size: var(--alias-text-body);
+  --state-body-line: var(--component-line);
+  --state-muted-fg: var(--alias-muted-foreground);
+  --state-heading-fg: var(--alias-foreground);
+  --state-heading-font: var(--component-font-heading);
+  --state-heading-line: var(--component-line-heading);
+  --state-link-fg: var(--role-primary-bg);
+  --state-link-hover-fg: color-mix(in oklch, var(--state-link-fg), transparent 20%);
+  --state-selection-bg: var(--role-primary-bg);
+  --state-selection-fg: var(--role-primary-fg);
+  --state-focus-ring: var(--alias-ring);
+  --state-focus-ring-width: var(--primitive-border-width-2);
+  --state-focus-ring-offset: var(--primitive-border-width-2);
+  --state-border-width: var(--component-border-width);
+  --state-motion: var(--component-motion);
+  --state-motion-accordion: var(--component-accordion-motion);
+  --state-ease: var(--component-ease);
+  --state-radius-control: var(--component-radius-control);
+  --state-radius-surface: var(--component-radius-surface);
+  --state-radius-popover: var(--component-radius-popover);
+  --state-radius-pill: var(--component-radius-pill);
+  --state-shadow-surface: var(--component-shadow-surface);
+  --state-shadow-overlay: var(--component-shadow-overlay);
+  --state-shadow-modal: var(--component-shadow-modal);
+  --state-shadow-control: var(--component-shadow-control);
+  --state-overlay-bg: var(--alias-overlay);
+  --state-z-overlay: var(--primitive-z-4);
+  --state-z-modal: var(--primitive-z-5);
+  --state-z-popover: var(--primitive-z-6);
+  --state-font-mono: var(--component-font-mono);
+  --state-font-ui: var(--component-font-ui);
+  --state-measure: var(--alias-measure);
   /* Role-emphasis resolved (final) */
-  --rG: var(--md);
-  --rI: var(--mf);
-  --rH: var(--me);
-  --rJ: var(--mg);
-  --rK: var(--mh);
-  --rM: var(--mj);
-  --rL: var(--mi);
-  --rN: var(--mk);
-  --rO: var(--ml);
-  --rQ: var(--mn);
-  --rP: var(--mm);
-  --rR: var(--mo);
-  --rC: var(--lX);
-  --rE: var(--lZ);
-  --rD: var(--lY);
-  --rF: var(--ma);
-  --ry: var(--lP);
-  --rA: var(--lR);
-  --rz: var(--lQ);
-  --rB: var(--lS);
+  --state-role-primary-bg: var(--role-primary-bg);
+  --state-role-primary-fg: var(--role-primary-fg);
+  --state-role-primary-border: var(--role-primary-border);
+  --state-role-primary-ring: var(--role-primary-ring);
+  --state-role-secondary-bg: var(--role-secondary-bg);
+  --state-role-secondary-fg: var(--role-secondary-fg);
+  --state-role-secondary-border: var(--role-secondary-border);
+  --state-role-secondary-ring: var(--role-secondary-ring);
+  --state-role-tertiary-bg: var(--role-tertiary-bg);
+  --state-role-tertiary-fg: var(--role-tertiary-fg);
+  --state-role-tertiary-border: var(--role-tertiary-border);
+  --state-role-tertiary-ring: var(--role-tertiary-ring);
+  --state-role-normal-bg: var(--role-normal-bg);
+  --state-role-normal-fg: var(--role-normal-fg);
+  --state-role-normal-border: var(--role-normal-border);
+  --state-role-normal-ring: var(--role-normal-ring);
+  --state-role-destructive-bg: var(--role-destructive-bg);
+  --state-role-destructive-fg: var(--role-destructive-fg);
+  --state-role-destructive-border: var(--role-destructive-border);
+  --state-role-destructive-ring: var(--role-destructive-ring);
   /* Button (final/state) */
-  --of: var(--rG);
-  --or: var(--rI);
-  --oi: var(--rH);
-  --oh: color-mix(in oklch, var(--of), transparent 20%);
-  --og: var(--of);
-  --oV: var(--rJ);
-  --oW: color-mix(in oklch, var(--oV), transparent 50%);
-  --oq: var(--jI);
-  --oU: var(--dx);
-  --oD: var(--dq);
-  --oG: var(--dt);
-  --oF: var(--ds);
-  --oE: var(--dr);
-  --oR: var(--du);
-  --oT: var(--dw);
-  --oS: var(--dv);
-  --os: var(--dl);
-  --ou: var(--dn);
-  --ot: var(--dm);
-  --ov: var(--do);
-  --ow: var(--dp);
-  --oX: var(--dy);
-  --pf: var(--dB);
-  --oY: var(--rK);
-  --pc: var(--rM);
-  --pb: var(--rL);
-  --pa: color-mix(in oklch, var(--oY), transparent 20%);
-  --oZ: var(--oY);
-  --oL: var(--c);
-  --oP: var(--o);
-  --oO: var(--d);
-  --oN: var(--a);
-  --oQ: var(--b);
-  --oM: var(--a);
-  --ox: var(--Y);
-  --oB: var(--o);
-  --oA: var(--Y);
-  --oz: var(--a);
-  --oC: var(--b);
-  --oy: var(--a);
-  --oj: var(--ry);
-  --on: var(--rA);
-  --om: var(--rz);
-  --ol: color-mix(in oklch, var(--oj), transparent 10%);
-  --ok: var(--oj);
-  --oo: var(--rB);
-  --op: color-mix(in oklch, var(--oo), transparent 80%);
-  --oH: var(--Y);
-  --oJ: var(--md);
-  --oI: var(--Y);
-  --oK: var(--oJ);
-  --pe: var(--dA);
-  --pd: var(--dz);
+  --state-button-bg: var(--state-role-primary-bg);
+  --state-button-fg: var(--state-role-primary-fg);
+  --state-button-border: var(--state-role-primary-border);
+  --state-button-bg-hover: color-mix(in oklch, var(--state-button-bg), transparent 20%);
+  --state-button-bg-active: var(--state-button-bg);
+  --state-button-ring: var(--state-role-primary-ring);
+  --state-button-ring-focus: color-mix(in oklch, var(--state-button-ring), transparent 50%);
+  --state-button-disabled-opacity: var(--primitive-opacity-disabled);
+  --state-button-radius: var(--component-button-radius);
+  --state-button-height: var(--component-button-height);
+  --state-button-height-sm: var(--component-button-height-sm);
+  --state-button-height-lg: var(--component-button-height-lg);
+  --state-button-height-icon: var(--component-button-height-icon);
+  --state-button-px: var(--component-button-padding-inline);
+  --state-button-px-sm: var(--component-button-padding-inline-sm);
+  --state-button-px-lg: var(--component-button-padding-inline-lg);
+  --state-button-font-size: var(--component-button-font-size);
+  --state-button-font-size-sm: var(--component-button-font-size-sm);
+  --state-button-font-size-lg: var(--component-button-font-size-lg);
+  --state-button-font-weight: var(--component-button-font-weight);
+  --state-button-gap: var(--component-button-gap);
+  --state-button-ring-width: var(--component-button-ring-width);
+  --state-button-translate-active: var(--component-button-translate-active);
+  --state-button-secondary-bg: var(--state-role-secondary-bg);
+  --state-button-secondary-fg: var(--state-role-secondary-fg);
+  --state-button-secondary-border: var(--state-role-secondary-border);
+  --state-button-secondary-bg-hover: color-mix(in oklch, var(--state-button-secondary-bg), transparent 20%);
+  --state-button-secondary-bg-active: var(--state-button-secondary-bg);
+  --state-button-outline-bg: var(--alias-background);
+  --state-button-outline-fg: var(--alias-foreground);
+  --state-button-outline-border: var(--alias-border);
+  --state-button-outline-bg-hover: var(--alias-accent);
+  --state-button-outline-fg-hover: var(--alias-accent-foreground);
+  --state-button-outline-bg-active: var(--alias-accent);
+  --state-button-ghost-bg: var(--alias-transparent);
+  --state-button-ghost-fg: var(--alias-foreground);
+  --state-button-ghost-border: var(--alias-transparent);
+  --state-button-ghost-bg-hover: var(--alias-accent);
+  --state-button-ghost-fg-hover: var(--alias-accent-foreground);
+  --state-button-ghost-bg-active: var(--alias-accent);
+  --state-button-destructive-bg: var(--state-role-destructive-bg);
+  --state-button-destructive-fg: var(--state-role-destructive-fg);
+  --state-button-destructive-border: var(--state-role-destructive-border);
+  --state-button-destructive-bg-hover: color-mix(in oklch, var(--state-button-destructive-bg), transparent 10%);
+  --state-button-destructive-bg-active: var(--state-button-destructive-bg);
+  --state-button-destructive-ring: var(--state-role-destructive-ring);
+  --state-button-destructive-ring-focus: color-mix(in oklch, var(--state-button-destructive-ring), transparent 80%);
+  --state-button-link-bg: var(--alias-transparent);
+  --state-button-link-fg: var(--role-primary-bg);
+  --state-button-link-border: var(--alias-transparent);
+  --state-button-link-fg-hover: var(--state-button-link-fg);
+  --state-button-spinner-size: var(--component-button-spinner-size);
+  --state-button-spinner-border: var(--component-button-spinner-border);
   /* Input (final/state) */
-  --qD: var(--Y);
-  --qN: var(--o);
-  --qT: var(--v);
-  --qF: var(--p);
-  --qI: var(--qF);
-  --qH: var(--L);
-  --qJ: var(--lP);
-  --qX: var(--L);
-  --qY: color-mix(in oklch, var(--qX), transparent 50%);
-  --qZ: var(--lP);
-  --ra: color-mix(in oklch, var(--qZ), transparent 80%);
-  --qE: color-mix(in oklch, var(--p), transparent var(--eH));
-  --qO: var(--o);
-  --qG: var(--p);
-  --qL: var(--jI);
-  --qW: var(--eN);
-  --qR: var(--eK);
-  --qV: var(--eL);
-  --qU: var(--eM);
-  --qP: var(--eI);
-  --qQ: var(--eJ);
-  --rb: var(--eO);
-  --qK: var(--v);
-  --qS: var(--kx);
-  --qM: var(--lP);
-  --tH: var(--fJ);
+  --state-input-bg: var(--alias-card);
+  --state-input-fg: var(--alias-foreground);
+  --state-input-placeholder: var(--alias-muted-foreground);
+  --state-input-border: var(--alias-input);
+  --state-input-border-hover: color-mix(in oklch, var(--alias-ring) 40%, var(--alias-input));
+  --state-input-border-focus: var(--alias-ring);
+  --state-input-border-invalid: var(--role-destructive-bg);
+  --state-input-ring: var(--alias-ring);
+  --state-input-ring-focus: color-mix(in oklch, var(--state-input-ring), transparent 70%);
+  --state-input-ring-invalid: var(--role-destructive-bg);
+  --state-input-ring-invalid-focus: color-mix(in oklch, var(--state-input-ring-invalid), transparent 80%);
+  --state-input-bg-disabled: color-mix(in oklch, var(--alias-muted), var(--alias-background));
+  --state-input-fg-disabled: var(--alias-muted-foreground);
+  --state-input-border-disabled: var(--alias-border);
+  --state-input-disabled-opacity: var(--primitive-opacity-disabled);
+  --state-input-radius: var(--component-input-radius);
+  --state-input-height: var(--component-input-height);
+  --state-input-py: var(--component-input-padding-block);
+  --state-input-px: var(--component-input-padding-inline);
+  --state-input-font-size: var(--component-input-font-size);
+  --state-input-gap: var(--component-input-gap);
+  --state-input-ring-width: var(--component-input-ring-width);
+  --state-input-description-fg: var(--alias-muted-foreground);
+  --state-input-help-size: var(--primitive-text-sm);
+  --state-input-error-fg: var(--role-destructive-bg);
+  --state-textarea-min-height: var(--component-textarea-min-height);
   /* Accordion (final/state) */
-  --nk: var(--cU);
-  --no: var(--d);
-  --nt: var(--Y);
-  --nx: var(--o);
-  --ny: var(--o);
-  --nv: var(--Y);
-  --nu: var(--Y);
-  --nw: var(--Y);
-  --nC: var(--cZ);
-  --nB: var(--cY);
-  --nD: var(--da);
-  --nz: var(--kx);
-  --nA: var(--kB);
-  --ni: var(--cT);
-  --ng: var(--o);
-  --nh: var(--kx);
-  --nn: var(--cV);
-  --nl: var(--v);
-  --nm: var(--v);
-  --nq: var(--L);
-  --nr: color-mix(in oklch, var(--nq), transparent 50%);
-  --ns: var(--ji);
-  --np: var(--cW);
-  --nj: var(--jI);
+  --state-accordion-gap: var(--component-accordion-gap);
+  --state-accordion-item-border: var(--alias-border);
+  --state-accordion-trigger-bg: var(--alias-transparent);
+  --state-accordion-trigger-fg: var(--alias-foreground);
+  --state-accordion-trigger-fg-hover: var(--alias-foreground);
+  --state-accordion-trigger-bg-hover: var(--alias-transparent);
+  --state-accordion-trigger-bg-active: var(--alias-transparent);
+  --state-accordion-trigger-border: var(--alias-transparent);
+  --state-accordion-trigger-padding: var(--component-accordion-trigger-padding);
+  --state-accordion-trigger-gap: var(--component-accordion-trigger-gap);
+  --state-accordion-trigger-radius: var(--component-accordion-trigger-radius);
+  --state-accordion-trigger-font-size: var(--primitive-text-sm);
+  --state-accordion-trigger-font-weight: var(--primitive-weight-medium);
+  --state-accordion-content-padding: var(--component-accordion-content-padding);
+  --state-accordion-content-fg: var(--alias-foreground);
+  --state-accordion-content-font-size: var(--primitive-text-sm);
+  --state-accordion-icon-size: var(--component-accordion-icon-size);
+  --state-accordion-icon-fg: var(--alias-muted-foreground);
+  --state-accordion-icon-open-fg: var(--alias-muted-foreground);
+  --state-accordion-ring: var(--alias-ring);
+  --state-accordion-ring-focus: color-mix(in oklch, var(--state-accordion-ring), transparent 50%);
+  --state-accordion-ring-width: var(--primitive-border-width-3);
+  --state-accordion-motion: var(--component-accordion-motion);
+  --state-accordion-disabled-opacity: var(--primitive-opacity-disabled);
   /* Card (final/state) */
-  --pg: var(--f);
-  --pl: var(--g);
-  --ph: var(--d);
-  --ps: var(--dH);
-  --pt: var(--dI);
-  --po: var(--dC);
-  --pq: var(--dG);
-  --pr: var(--dF);
-  --pp: var(--dE);
-  --pi: var(--dD);
-  --pu: var(--g);
-  --pv: var(--kv);
-  --pw: var(--kD);
-  --pj: var(--v);
-  --pk: var(--kx);
-  --pm: var(--v);
-  --pn: var(--kx);
+  --state-card-bg: var(--alias-card);
+  --state-card-fg: var(--alias-card-foreground);
+  --state-card-border: var(--alias-border);
+  --state-card-radius: var(--component-card-radius);
+  --state-card-shadow: var(--component-card-shadow);
+  --state-card-gap: var(--component-card-gap);
+  --state-card-px: var(--component-card-padding-inline);
+  --state-card-py: var(--component-card-padding-block);
+  --state-card-header-gap: var(--component-card-gap-header);
+  --state-card-content-gap: var(--component-card-gap-content);
+  --state-card-title-fg: var(--alias-card-foreground);
+  --state-card-title-size: var(--primitive-text-base);
+  --state-card-title-weight: var(--primitive-weight-semibold);
+  --state-card-description-fg: var(--alias-muted-foreground);
+  --state-card-description-size: var(--primitive-text-sm);
+  --state-card-footer-fg: var(--alias-muted-foreground);
+  --state-card-footer-size: var(--primitive-text-sm);
   /* Checkbox (final/state) */
-  --pR: var(--dO);
-  --px: var(--Y);
-  --pB: var(--p);
-  --pA: var(--Y);
-  --pE: var(--p);
-  --py: var(--md);
-  --pC: var(--md);
-  --pz: var(--md);
-  --pD: var(--md);
-  --pI: var(--mf);
-  --pN: var(--dM);
-  --pJ: var(--dK);
-  --pO: var(--L);
-  --pP: color-mix(in oklch, var(--pO), transparent 50%);
-  --pQ: var(--dN);
-  --pL: var(--o);
-  --pM: var(--kx);
-  --pF: var(--v);
-  --pG: var(--kx);
-  --pH: var(--jI);
-  --pK: var(--dL);
+  --state-checkbox-size: var(--component-checkbox-size);
+  --state-checkbox-bg: var(--alias-transparent);
+  --state-checkbox-border: var(--alias-input);
+  --state-checkbox-bg-hover: var(--alias-transparent);
+  --state-checkbox-border-hover: var(--alias-input);
+  --state-checkbox-bg-checked: var(--role-primary-bg);
+  --state-checkbox-border-checked: var(--role-primary-bg);
+  --state-checkbox-bg-checked-hover: var(--role-primary-bg);
+  --state-checkbox-border-checked-hover: var(--role-primary-bg);
+  --state-checkbox-fg-checked: var(--role-primary-fg);
+  --state-checkbox-radius: var(--component-checkbox-radius);
+  --state-checkbox-gap: var(--component-checkbox-gap);
+  --state-checkbox-ring: var(--alias-ring);
+  --state-checkbox-ring-focus: color-mix(in oklch, var(--state-checkbox-ring), transparent 50%);
+  --state-checkbox-ring-width: var(--component-checkbox-ring-width);
+  --state-checkbox-label-fg: var(--alias-foreground);
+  --state-checkbox-label-size: var(--primitive-text-sm);
+  --state-checkbox-description-fg: var(--alias-muted-foreground);
+  --state-checkbox-description-size: var(--primitive-text-sm);
+  --state-checkbox-disabled-opacity: var(--primitive-opacity-disabled);
+  --state-checkbox-icon-size: var(--component-checkbox-icon-size);
   /* Switch (final/state) */
-  --tb: var(--fx);
-  --sR: var(--ft);
-  --sJ: var(--p);
-  --sM: var(--p);
-  --sK: var(--md);
-  --sL: var(--md);
-  --ta: var(--fw);
-  --sY: var(--c);
-  --sZ: var(--mf);
-  --sU: var(--fu);
-  --sQ: var(--fs);
-  --sV: var(--L);
-  --sW: color-mix(in oklch, var(--sV), transparent 50%);
-  --sX: var(--fv);
-  --sS: var(--o);
-  --sT: var(--kx);
-  --sN: var(--v);
-  --sO: var(--kx);
-  --sP: var(--jI);
+  --state-switch-width: var(--component-switch-width);
+  --state-switch-height: var(--component-switch-height);
+  --state-switch-bg: var(--alias-input);
+  --state-switch-bg-hover: var(--alias-input);
+  --state-switch-bg-checked: var(--role-primary-bg);
+  --state-switch-bg-checked-hover: var(--role-primary-bg);
+  --state-switch-thumb-size: var(--component-switch-thumb-size);
+  --state-switch-thumb-bg: var(--alias-background);
+  --state-switch-thumb-bg-checked: var(--role-primary-fg);
+  --state-switch-radius: var(--component-switch-radius);
+  --state-switch-gap: var(--component-switch-gap);
+  --state-switch-ring: var(--alias-ring);
+  --state-switch-ring-focus: color-mix(in oklch, var(--state-switch-ring), transparent 50%);
+  --state-switch-ring-width: var(--component-switch-ring-width);
+  --state-switch-label-fg: var(--alias-foreground);
+  --state-switch-label-size: var(--primitive-text-sm);
+  --state-switch-description-fg: var(--alias-muted-foreground);
+  --state-switch-description-size: var(--primitive-text-sm);
+  --state-switch-disabled-opacity: var(--primitive-opacity-disabled);
   /* Select (final/state) */
-  --rS: var(--Y);
-  --sd: var(--o);
-  --st: var(--v);
-  --rT: var(--p);
-  --rV: var(--p);
-  --rU: var(--L);
-  --sw: var(--L);
-  --sx: color-mix(in oklch, var(--sw), transparent 50%);
-  --sy: var(--fn);
-  --sv: var(--fm);
-  --sf: var(--ff);
-  --su: var(--fl);
-  --se: var(--kx);
-  --sz: var(--sD);
-  --rW: var(--B);
-  --rY: var(--C);
-  --rX: var(--d);
-  --sa: var(--fd);
-  --sb: var(--sF);
-  --rZ: var(--fc);
-  --si: var(--Y);
-  --sl: var(--C);
-  --sj: var(--a);
-  --sm: var(--b);
-  --sk: var(--Y);
-  --sn: var(--C);
-  --ss: var(--fk);
-  --sr: var(--fh);
-  --sq: var(--fj);
-  --sp: var(--fi);
-  --so: var(--kx);
-  --sg: var(--v);
-  --sh: var(--fg);
-  --sc: var(--jI);
+  --state-select-bg: var(--alias-card);
+  --state-select-fg: var(--alias-foreground);
+  --state-select-placeholder: var(--alias-muted-foreground);
+  --state-select-border: var(--alias-input);
+  --state-select-border-hover: color-mix(in oklch, var(--alias-ring) 40%, var(--alias-input));
+  --state-select-border-focus: var(--alias-ring);
+  --state-select-ring: var(--alias-ring);
+  --state-select-ring-focus: color-mix(in oklch, var(--state-select-ring), transparent 70%);
+  --state-select-ring-width: var(--component-select-ring-width);
+  --state-select-radius: var(--component-select-radius);
+  --state-select-height: var(--component-select-height);
+  --state-select-px: var(--component-select-padding-inline);
+  --state-select-font-size: var(--primitive-text-sm);
+  --state-select-shadow: var(--state-shadow-control);
+  --state-select-content-bg: var(--alias-popover);
+  --state-select-content-fg: var(--alias-popover-foreground);
+  --state-select-content-border: var(--alias-border);
+  --state-select-content-radius: var(--component-select-content-radius);
+  --state-select-content-shadow: var(--state-shadow-overlay);
+  --state-select-content-padding: var(--component-select-content-padding);
+  --state-select-item-bg: var(--alias-transparent);
+  --state-select-item-fg: var(--alias-popover-foreground);
+  --state-select-item-bg-highlighted: var(--alias-accent);
+  --state-select-item-fg-highlighted: var(--alias-accent-foreground);
+  --state-select-item-bg-selected: var(--alias-accent);
+  --state-select-item-fg-selected: var(--alias-accent-foreground);
+  --state-select-item-radius: var(--component-select-item-radius);
+  --state-select-item-py: var(--component-select-item-padding-block);
+  --state-select-item-px: var(--component-select-item-padding-inline);
+  --state-select-item-pe: var(--component-select-item-padding-end);
+  --state-select-item-font-size: var(--primitive-text-sm);
+  --state-select-icon-fg: var(--alias-muted-foreground);
+  --state-select-icon-size: var(--component-select-icon-size);
+  --state-select-disabled-opacity: var(--primitive-opacity-disabled);
   /* Dialog (final/state) */
-  --qe: var(--rn);
-  --pS: var(--c);
-  --qb: var(--o);
-  --pT: var(--d);
-  --qg: var(--dW);
-  --qf: var(--dV);
-  --qc: var(--dS);
-  --qj: var(--sE);
-  --qd: var(--dU);
-  --qk: var(--o);
-  --ql: var(--kw);
-  --qm: var(--kD);
-  --pZ: var(--v);
-  --qa: var(--kx);
-  --pU: var(--o);
-  --pW: 0.7;
-  --pX: 1;
-  --pY: var(--dQ);
-  --pV: var(--dP);
-  --qh: var(--L);
-  --qi: var(--L);
+  --state-dialog-overlay-bg: var(--state-overlay-bg);
+  --state-dialog-bg: var(--alias-background);
+  --state-dialog-fg: var(--alias-foreground);
+  --state-dialog-border: var(--alias-border);
+  --state-dialog-radius: var(--component-dialog-radius);
+  --state-dialog-padding: var(--component-dialog-padding);
+  --state-dialog-gap: var(--component-dialog-gap);
+  --state-dialog-shadow: var(--state-shadow-modal);
+  --state-dialog-max-width: var(--component-dialog-max-width);
+  --state-dialog-title-fg: var(--alias-foreground);
+  --state-dialog-title-size: var(--primitive-text-lg);
+  --state-dialog-title-weight: var(--primitive-weight-semibold);
+  --state-dialog-description-fg: var(--alias-muted-foreground);
+  --state-dialog-description-size: var(--primitive-text-sm);
+  --state-dialog-close-fg: var(--alias-foreground);
+  --state-dialog-close-opacity: 0.7;
+  --state-dialog-close-opacity-hover: 1;
+  --state-dialog-close-size: var(--component-dialog-close-size);
+  --state-dialog-close-inset: var(--component-dialog-close-inset);
+  --state-dialog-ring: var(--alias-ring);
+  --state-dialog-ring-focus: var(--alias-ring);
   /* Tabs (final/state) */
-  --tn: var(--fB);
-  --to: var(--u);
-  --tp: var(--fC);
-  --tq: var(--fD);
-  --tr: var(--fE);
-  --tv: var(--Y);
-  --tz: var(--v);
-  --tx: var(--Y);
-  --tB: var(--o);
-  --tw: var(--c);
-  --tA: var(--o);
-  --ty: var(--Y);
-  --tF: var(--fI);
-  --tE: var(--fH);
-  --tC: var(--kx);
-  --tD: var(--kB);
-  --tG: var(--sD);
-  --tl: var(--o);
-  --ts: var(--L);
-  --tt: color-mix(in oklch, var(--ts), transparent 50%);
-  --tu: var(--fF);
-  --tm: var(--jI);
+  --state-tabs-gap: var(--component-tabs-gap);
+  --state-tabs-list-bg: var(--alias-muted);
+  --state-tabs-list-height: var(--component-tabs-list-height);
+  --state-tabs-list-padding: var(--component-tabs-list-padding);
+  --state-tabs-list-radius: var(--component-tabs-list-radius);
+  --state-tabs-trigger-bg: var(--alias-transparent);
+  --state-tabs-trigger-fg: var(--alias-muted-foreground);
+  --state-tabs-trigger-bg-hover: var(--alias-transparent);
+  --state-tabs-trigger-fg-hover: var(--alias-foreground);
+  --state-tabs-trigger-bg-active: var(--alias-background);
+  --state-tabs-trigger-fg-active: var(--alias-foreground);
+  --state-tabs-trigger-border-active: var(--alias-transparent);
+  --state-tabs-trigger-radius: var(--component-tabs-trigger-radius);
+  --state-tabs-trigger-padding: var(--component-tabs-trigger-padding);
+  --state-tabs-trigger-font-size: var(--primitive-text-sm);
+  --state-tabs-trigger-font-weight: var(--primitive-weight-medium);
+  --state-tabs-trigger-shadow-active: var(--state-shadow-control);
+  --state-tabs-content-fg: var(--alias-foreground);
+  --state-tabs-ring: var(--alias-ring);
+  --state-tabs-ring-focus: color-mix(in oklch, var(--state-tabs-ring), transparent 50%);
+  --state-tabs-ring-width: var(--component-tabs-ring-width);
+  --state-tabs-disabled-opacity: var(--primitive-opacity-disabled);
   /* Badge (final/state) */
-  --nK: var(--md);
-  --nO: var(--mf);
-  --nL: var(--Y);
-  --nW: var(--dj);
-  --nU: var(--di);
-  --nV: var(--dh);
-  --nP: var(--df);
-  --nQ: var(--dg);
-  --nX: var(--mh);
-  --nY: var(--mj);
-  --nM: var(--lP);
-  --nN: var(--lR);
-  --nR: var(--Y);
-  --nT: var(--o);
-  --nS: var(--d);
+  --state-badge-bg: var(--role-primary-bg);
+  --state-badge-fg: var(--role-primary-fg);
+  --state-badge-border: var(--alias-transparent);
+  --state-badge-radius: var(--component-badge-radius);
+  --state-badge-px: var(--component-badge-padding-inline);
+  --state-badge-py: var(--component-badge-padding-block);
+  --state-badge-font-size: var(--component-badge-font-size);
+  --state-badge-font-weight: var(--component-badge-font-weight);
+  --state-badge-secondary-bg: var(--role-secondary-bg);
+  --state-badge-secondary-fg: var(--role-secondary-fg);
+  --state-badge-destructive-bg: var(--role-destructive-bg);
+  --state-badge-destructive-fg: var(--role-destructive-fg);
+  --state-badge-outline-bg: var(--alias-transparent);
+  --state-badge-outline-fg: var(--alias-foreground);
+  --state-badge-outline-border: var(--alias-border);
   /* Progress (final/state) */
-  --rs: var(--mh);
-  --rp: var(--md);
-  --ro: var(--eW);
-  --rr: var(--eX);
-  --rq: var(--o);
-  --rt: var(--v);
+  --state-progress-track-bg: var(--role-secondary-bg);
+  --state-progress-indicator-bg: var(--role-primary-bg);
+  --state-progress-height: var(--component-progress-height);
+  --state-progress-radius: var(--component-progress-radius);
+  --state-progress-label-fg: var(--alias-foreground);
+  --state-progress-value-fg: var(--alias-muted-foreground);
   /* Avatar (final/state) */
-  --nE: var(--u);
-  --nF: var(--o);
-  --nG: var(--db);
-  --nJ: var(--de);
-  --nI: var(--dd);
-  --nH: var(--dc);
+  --state-avatar-bg: var(--alias-muted);
+  --state-avatar-fg: var(--alias-foreground);
+  --state-avatar-radius: var(--component-avatar-radius);
+  --state-avatar-size-sm: var(--component-avatar-size-sm);
+  --state-avatar-size-md: var(--component-avatar-size-md);
+  --state-avatar-size-lg: var(--component-avatar-size-lg);
   /* Separator (final/state) */
-  --sC: var(--d);
+  --state-separator-bg: var(--alias-border);
   /* Table (final/state) */
-  --tc: var(--d);
-  --th: var(--u);
-  --ti: var(--o);
-  --tj: var(--Y);
-  --tk: color-mix(in oklch, var(--th), transparent 50%);
-  --td: var(--v);
-  --tg: var(--fz);
-  --tf: var(--fA);
-  --te: var(--fy);
+  --state-table-border: var(--alias-border);
+  --state-table-header-bg: var(--alias-muted);
+  --state-table-header-fg: var(--alias-foreground);
+  --state-table-row-bg: var(--alias-transparent);
+  --state-table-row-bg-hover: color-mix(in oklch, var(--state-table-header-bg), transparent 50%);
+  --state-table-caption-fg: var(--alias-muted-foreground);
+  --state-table-cell-py: var(--component-table-cell-padding-block);
+  --state-table-cell-px: var(--component-table-cell-padding-inline);
+  --state-table-caption-py: var(--component-table-caption-padding);
   /* Disclosure (final/state) */
-  --qn: var(--f);
-  --qq: var(--o);
-  --qp: var(--d);
-  --qt: var(--dZ);
-  --qs: var(--dY);
-  --qr: var(--dX);
-  --qo: var(--u);
+  --state-disclosure-bg: var(--alias-card);
+  --state-disclosure-fg: var(--alias-foreground);
+  --state-disclosure-border: var(--alias-border);
+  --state-disclosure-radius: var(--component-disclosure-radius);
+  --state-disclosure-padding: var(--component-disclosure-padding);
+  --state-disclosure-gap: var(--component-disclosure-gap);
+  --state-disclosure-bg-hover: var(--alias-muted);
   /* Nav/site (final/state) */
-  --rl: var(--v);
-  --rm: var(--o);
-  --rk: var(--o);
-  --rj: var(--o);
-  --ri: var(--eV);
-  --sH: color-mix(in oklch, var(--c), transparent 10%);
-  --sI: var(--d);
+  --state-nav-link-fg: var(--alias-muted-foreground);
+  --state-nav-link-fg-hover: var(--alias-foreground);
+  --state-nav-link-current-fg: var(--alias-foreground);
+  --state-nav-link-current-border: var(--alias-foreground);
+  --state-nav-gap: var(--component-nav-gap);
+  --state-site-header-bg: color-mix(in oklch, var(--alias-background), transparent 10%);
+  --state-site-header-border: var(--alias-border);
 }
 
 /* Backward-compat mapping: expose finalized state tokens under legacy names used by existing styles.
-   Styles should migrate to --nf*; these aliases let the system remain functional during migration. */
+   Styles should migrate to --state-*; these aliases let the system remain functional during migration. */
 :root {
-  --ad: var(--nZ);
-  --tV: var(--oa);
-  --fQ: var(--ob);
-  --ga: var(--od);
-  --hL: var(--oc);
-  --uH: var(--rh);
-  --uw: var(--qA);
-  --fR: var(--qB);
-  --hJ: var(--qC);
-  --uF: var(--rc);
-  --uG: var(--rd);
-  --aQ: var(--sA);
-  --uR: var(--sB);
-  --lA: var(--qv);
-  --lC: var(--qx);
-  --lB: var(--qw);
-  --bO: var(--oe);
-  --ij: var(--rf);
-  --fO: var(--qu);
-  --id: var(--np);
-  --ae: var(--of);
-  --tW: var(--or);
-  --bi: var(--oi);
-  --am: var(--oh);
-  --af: var(--og);
-  --lp: var(--oV);
-  --ls: var(--oW);
-  --il: var(--oq);
-  --kO: var(--oU);
-  --hq: var(--oD);
-  --ht: var(--oG);
-  --hs: var(--oF);
-  --hr: var(--oE);
-  --iy: var(--oR);
-  --iA: var(--oT);
-  --iz: var(--oS);
-  --gb: var(--os);
-  --gd: var(--ou);
-  --gc: var(--ot);
-  --gF: var(--ov);
-  --gR: var(--ow);
-  --lt: var(--oX);
-  --vj: var(--pf);
-  --ar: var(--oY);
-  --ue: var(--pc);
-  --bn: var(--pb);
-  --at: var(--pa);
-  --as: var(--oZ);
-  --ao: var(--oL);
-  --uc: var(--oP);
-  --bm: var(--oO);
-  --aq: var(--oN);
-  --ud: var(--oQ);
-  --ap: var(--oM);
-  --aj: var(--ox);
-  --tY: var(--oB);
-  --bk: var(--oA);
-  --al: var(--oz);
-  --tZ: var(--oC);
-  --ak: var(--oy);
-  --ag: var(--oj);
-  --tX: var(--on);
-  --bj: var(--om);
-  --ai: var(--ol);
-  --ah: var(--ok);
-  --lq: var(--oo);
-  --lr: var(--op);
-  --an: var(--oH);
-  --ua: var(--oJ);
-  --bl: var(--oI);
-  --ub: var(--oK);
-  --mH: var(--pe);
-  --bN: var(--pd);
-  --kP: var(--rv);
+  --background-body: var(--state-body-bg);
+  --text-body: var(--state-body-fg);
+  --font-family-body: var(--state-body-font);
+  --font-size-body: var(--state-body-size);
+  --line-ui: var(--state-body-line);
+  --text-muted: var(--state-muted-fg);
+  --text-heading: var(--state-heading-fg);
+  --font-family-heading: var(--state-heading-font);
+  --line-heading-ui: var(--state-heading-line);
+  --text-link: var(--state-link-fg);
+  --text-link-hover: var(--state-link-hover-fg);
+  --background-selection: var(--state-selection-bg);
+  --text-selection: var(--state-selection-fg);
+  --ring-global: var(--state-focus-ring);
+  --ring-global-width: var(--state-focus-ring-width);
+  --ring-global-offset: var(--state-focus-ring-offset);
+  --border-width-ui: var(--state-border-width);
+  --motion-ui: var(--state-motion);
+  --ease-ui: var(--state-ease);
+  --motion-accordion: var(--state-accordion-motion);
+  --background-button: var(--state-button-bg);
+  --text-button: var(--state-button-fg);
+  --border-button: var(--state-button-border);
+  --background-button-hover: var(--state-button-bg-hover);
+  --background-button-active: var(--state-button-bg-active);
+  --ring-button: var(--state-button-ring);
+  --ring-button-focus: var(--state-button-ring-focus);
+  --opacity-button-disabled: var(--state-button-disabled-opacity);
+  --radius-button: var(--state-button-radius);
+  --height-button: var(--state-button-height);
+  --height-button-sm: var(--state-button-height-sm);
+  --height-button-lg: var(--state-button-height-lg);
+  --height-button-icon: var(--state-button-height-icon);
+  --padding-button-inline: var(--state-button-px);
+  --padding-button-inline-sm: var(--state-button-px-sm);
+  --padding-button-inline-lg: var(--state-button-px-lg);
+  --font-size-button: var(--state-button-font-size);
+  --font-size-button-sm: var(--state-button-font-size-sm);
+  --font-size-button-lg: var(--state-button-font-size-lg);
+  --font-weight-button: var(--state-button-font-weight);
+  --gap-button: var(--state-button-gap);
+  --ring-button-width: var(--state-button-ring-width);
+  --translate-button-active: var(--state-button-translate-active);
+  --background-button-secondary: var(--state-button-secondary-bg);
+  --text-button-secondary: var(--state-button-secondary-fg);
+  --border-button-secondary: var(--state-button-secondary-border);
+  --background-button-secondary-hover: var(--state-button-secondary-bg-hover);
+  --background-button-secondary-active: var(--state-button-secondary-bg-active);
+  --background-button-outline: var(--state-button-outline-bg);
+  --text-button-outline: var(--state-button-outline-fg);
+  --border-button-outline: var(--state-button-outline-border);
+  --background-button-outline-hover: var(--state-button-outline-bg-hover);
+  --text-button-outline-hover: var(--state-button-outline-fg-hover);
+  --background-button-outline-active: var(--state-button-outline-bg-active);
+  --background-button-ghost: var(--state-button-ghost-bg);
+  --text-button-ghost: var(--state-button-ghost-fg);
+  --border-button-ghost: var(--state-button-ghost-border);
+  --background-button-ghost-hover: var(--state-button-ghost-bg-hover);
+  --text-button-ghost-hover: var(--state-button-ghost-fg-hover);
+  --background-button-ghost-active: var(--state-button-ghost-bg-active);
+  --background-button-destructive: var(--state-button-destructive-bg);
+  --text-button-destructive: var(--state-button-destructive-fg);
+  --border-button-destructive: var(--state-button-destructive-border);
+  --background-button-destructive-hover: var(--state-button-destructive-bg-hover);
+  --background-button-destructive-active: var(--state-button-destructive-bg-active);
+  --ring-button-destructive: var(--state-button-destructive-ring);
+  --ring-button-destructive-focus: var(--state-button-destructive-ring-focus);
+  --background-button-link: var(--state-button-link-bg);
+  --text-button-link: var(--state-button-link-fg);
+  --border-button-link: var(--state-button-link-border);
+  --text-button-link-hover: var(--state-button-link-fg-hover);
+  --size-button-spinner: var(--state-button-spinner-size);
+  --border-width-button-spinner: var(--state-button-spinner-border);
+  --radius-button-spinner: var(--state-radius-pill);
   /* More mappings continue in practice; key surfaces covered above. */
 }
 
 /* Legacy compatibility mappings -> finalized state/role/component/alias/primitive */
 :root {
-  --Z: var(--nK);
-  --aa: var(--w);
-  --ab: var(--y);
-  --ac: var(--D);
-  --au: var(--pg);
-  --av: var(--px);
-  --aw: var(--py);
-  --ax: var(--pz);
-  --ay: var(--pA);
-  --az: var(--pS);
-  --aA: var(--Y);
-  --aB: var(--Y);
-  --aC: var(--qe);
-  --aD: var(--qn);
-  --aE: var(--qo);
-  --aF: var(--Y);
-  --aG: var(--qD);
-  --aH: var(--qE);
-  --aI: var(--u);
-  --aJ: var(--u);
-  --aK: var(--rS);
-  --aL: var(--rW);
-  --aM: var(--rS);
-  --aN: var(--si);
-  --aO: var(--sj);
-  --aP: var(--sk);
-  --aR: var(--sJ);
-  --aS: var(--sK);
-  --aT: var(--sL);
-  --aU: var(--sM);
-  --aV: var(--sY);
-  --aW: var(--sZ);
-  --aX: var(--th);
-  --aY: var(--tj);
-  --aZ: var(--tk);
-  --ba: var(--Y);
-  --bb: var(--to);
-  --bc: var(--tv);
-  --bd: var(--tw);
-  --be: var(--tx);
-  --bf: var(--no);
-  --bg: var(--nL);
-  --bh: var(--d);
-  --bo: var(--ph);
-  --bp: var(--pB);
-  --bq: var(--pC);
-  --br: var(--pD);
-  --bs: var(--pE);
-  --bt: var(--pT);
-  --bu: var(--qp);
-  --bv: var(--d);
-  --bw: var(--qF);
-  --bx: var(--qG);
-  --by: var(--p);
-  --bz: var(--qH);
-  --bA: var(--qI);
-  --bB: var(--qJ);
-  --bC: var(--lP);
-  --bD: var(--rj);
-  --bE: var(--d);
-  --bF: var(--rT);
-  --bG: var(--rX);
-  --bH: var(--rU);
-  --bI: var(--rV);
-  --bJ: var(--tc);
-  --bK: var(--Y);
-  --bL: var(--ty);
-  --bT: var(--nl);
-  --cc: var(--pI);
-  --cI: var(--sg);
-  --cJ: var(--o);
-  --fS: var(--qy);
-  --fT: var(--qz);
-  --fX: var(--nh);
-  --fY: var(--nz);
-  --fZ: var(--nP);
-  --ge: var(--pk);
-  --gf: var(--pn);
-  --gg: var(--pv);
-  --gh: var(--pG);
-  --gi: var(--pM);
-  --gj: var(--kx);
-  --gk: var(--qa);
-  --gl: var(--ql);
-  --gm: var(--kx);
-  --gn: var(--kx);
-  --go: var(--T);
-  --gp: var(--U);
-  --gq: var(--V);
-  --gr: var(--qP);
-  --gs: var(--kx);
-  --gt: var(--qS);
-  --gu: var(--eP);
-  --gv: var(--se);
-  --gw: var(--so);
-  --gx: var(--W);
-  --gy: var(--sO);
-  --gz: var(--sT);
-  --gA: var(--kx);
-  --gB: var(--tC);
-  --gD: var(--nA);
-  --gE: var(--nQ);
-  --gG: var(--pw);
-  --gH: var(--qm);
-  --gI: var(--kB);
-  --gJ: var(--kB);
-  --gK: var(--kB);
-  --gL: var(--kC);
-  --gM: var(--kB);
-  --gN: var(--eQ);
-  --gO: var(--tD);
-  --gQ: var(--nB);
-  --gS: var(--po);
-  --gT: var(--pi);
-  --gU: var(--pp);
-  --gV: var(--pJ);
-  --gW: var(--qc);
-  --gX: var(--dR);
-  --gY: var(--qr);
-  --gZ: var(--eE);
-  --ha: var(--eB);
-  --hb: var(--eC);
-  --hc: var(--eD);
-  --hd: var(--eF);
-  --he: var(--eG);
-  --hf: var(--qQ);
-  --hg: var(--kj);
-  --hh: var(--eR);
-  --hi: var(--ri);
-  --hj: var(--fe);
-  --hk: var(--sQ);
-  --hl: var(--tn);
-  --hm: var(--kl);
-  --hn: 0;
-  --ho: var(--fG);
-  --hu: var(--qR);
-  --hv: 1.5rem;
-  --hw: var(--sf);
-  --hx: var(--sR);
-  --hy: var(--tp);
-  --hz: var(--dT);
-  --hA: var(--pV);
-  --hG: 1;
-  --hH: 1;
-  --hK: 1;
-  --hM: var(--ke);
-  --hN: var(--kj);
-  --hO: var(--kn);
-  --hP: var(--kn);
-  --hQ: var(--kl);
-  --hR: var(--kq);
-  --hS: var(--kj);
-  --hT: var(--kp);
-  --hU: var(--kp);
-  --hV: 20rem;
-  --hW: var(--qd);
-  --hY: var(--re);
-  --ia: var(--tH);
-  --ib: 8rem;
-  --if: var(--eU);
-  --ii: var(--eU);
-  --ik: calc(var(--tb) - var(--ta) - 2px);
-  --im: var(--pH);
-  --in: var(--pW);
-  --io: var(--pX);
-  --ip: var(--qL);
-  --iq: var(--sc);
-  --ir: var(--sP);
-  --is: var(--tm);
-  --it: var(--ni);
-  --iu: var(--nC);
-  --iv: var(--nV);
-  --iw: var(--nU);
-  --ix: var(--kn);
-  --iB: initial;
-  --iC: var(--pr);
-  --iD: 0 var(--pq);
-  --iE: 0 var(--pq);
-  --iF: 0 var(--pq);
-  --iH: 0;
-  --iI: var(--qf);
-  --iJ: 0;
-  --iK: var(--qs);
-  --iL: var(--kn);
-  --iM: var(--kj);
-  --iN: 0;
-  --iO: var(--qV);
-  --iP: var(--ke);
-  --iQ: var(--qU);
-  --iR: var(--kn);
-  --iS: var(--rZ);
-  --iT: var(--su);
-  --iU: var(--sr);
-  --iV: var(--sp);
-  --iW: var(--sq);
-  --iX: 0;
-  --iY: var(--te);
-  --iZ: var(--tg);
-  --ja: var(--tf);
-  --jb: 0;
-  --jc: var(--tq);
-  --jd: var(--tE);
-  --je: var(--qT);
-  --jf: var(--st);
-  --kM: var(--nD);
-  --kN: var(--nW);
-  --kQ: var(--ps);
-  --kR: var(--pN);
-  --kT: var(--qg);
-  --kU: var(--jN);
-  --kV: var(--qt);
-  --kX: var(--qW);
-  --kY: var(--jN);
-  --ld: var(--jP);
-  --le: var(--sv);
-  --lf: var(--sa);
-  --lg: var(--ss);
-  --lj: var(--sU);
-  --lk: var(--tr);
-  --ll: var(--tF);
-  --lu: var(--pO);
-  --lv: var(--pP);
-  --lw: var(--pQ);
-  --lx: var(--qi);
-  --ly: var(--jh);
-  --lz: var(--jh);
-  --lD: var(--qY);
-  --lE: var(--ra);
-  --lF: var(--rb);
-  --lG: color-mix(in oklch, var(--lP), transparent 80%);
-  --lH: var(--sx);
-  --lI: var(--sy);
-  --lJ: var(--sV);
-  --lK: var(--sW);
-  --lL: var(--sX);
-  --lM: var(--ts);
-  --lN: var(--tt);
-  --lO: var(--tu);
-  --mp: var(--pt);
-  --mq: var(--sD);
-  --ms: var(--qj);
-  --my: var(--sz);
-  --mz: var(--sb);
-  --mC: var(--sD);
-  --mD: var(--tG);
-  --mG: var(--nn);
-  --mI: var(--pR);
-  --mJ: var(--pK);
-  --mK: var(--pY);
-  --mL: var(--sh);
-  --mM: 1rem;
-  --mN: var(--ta);
-  --tN: var(--ng);
-  --tO: var(--nx);
-  --tP: var(--nO);
-  --tQ: var(--x);
-  --tR: var(--z);
-  --tS: var(--E);
-  --tU: var(--v);
-  --uf: var(--pl);
-  --ug: var(--pj);
-  --uh: var(--pm);
-  --ui: var(--pu);
-  --uj: var(--pF);
-  --uk: var(--pL);
-  --ul: var(--qb);
-  --um: var(--qb);
-  --un: var(--pU);
-  --uo: var(--pU);
-  --up: var(--pZ);
-  --uq: var(--qk);
-  --ur: var(--qq);
-  --us: var(--o);
-  --ut: var(--v);
-  --uu: var(--lP);
-  --uv: var(--o);
-  --ux: var(--qN);
-  --uy: var(--qK);
-  --uz: var(--qO);
-  --uA: var(--o);
-  --uB: var(--qM);
-  --uC: var(--o);
-  --uD: var(--lP);
-  --uI: var(--rl);
-  --uJ: var(--rk);
-  --uK: var(--rm);
-  --uL: var(--o);
-  --uM: var(--sd);
-  --uN: var(--rY);
-  --uO: var(--sl);
-  --uP: var(--sm);
-  --uQ: var(--sn);
-  --uY: var(--sN);
-  --uZ: var(--sS);
-  --va: var(--td);
-  --vb: var(--ti);
-  --vc: var(--tl);
-  --vd: var(--tz);
-  --ve: var(--tA);
-  --vf: var(--tB);
-  --vk: var(--tb);
-  --vl: var(--tI);
-  --vm: var(--tJ);
-  --vq: var(--tK);
+  --background-badge: var(--state-badge-bg);
+  --background-badge-negative: var(--alias-negative);
+  --background-badge-neutral: var(--alias-neutral);
+  --background-badge-positive: var(--alias-positive);
+  --background-card: var(--state-card-bg);
+  --background-checkbox: var(--state-checkbox-bg);
+  --background-checkbox-checked: var(--state-checkbox-bg-checked);
+  --background-checkbox-checked-hover: var(--state-checkbox-bg-checked-hover);
+  --background-checkbox-hover: var(--state-checkbox-bg-hover);
+  --background-dialog: var(--state-dialog-bg);
+  --background-dialog-close: var(--alias-transparent);
+  --background-dialog-close-hover: var(--alias-transparent);
+  --background-dialog-overlay: var(--state-dialog-overlay-bg);
+  --background-disclosure: var(--state-disclosure-bg);
+  --background-disclosure-hover: var(--state-disclosure-bg-hover);
+  --background-form: var(--alias-transparent);
+  --background-input: var(--state-input-bg);
+  --background-input-disabled: var(--state-input-bg-disabled);
+  --background-input-file: var(--alias-muted);
+  --background-pre: var(--alias-muted);
+  --background-select: var(--state-select-bg);
+  --background-select-content: var(--state-select-content-bg);
+  --background-select-hover: var(--state-select-bg);
+  --background-select-item: var(--state-select-item-bg);
+  --background-select-item-highlighted: var(--state-select-item-bg-highlighted);
+  --background-select-item-selected: var(--state-select-item-bg-selected);
+  --background-switch: var(--state-switch-bg);
+  --background-switch-checked: var(--state-switch-bg-checked);
+  --background-switch-checked-hover: var(--state-switch-bg-checked-hover);
+  --background-switch-hover: var(--state-switch-bg-hover);
+  --background-switch-thumb: var(--state-switch-thumb-bg);
+  --background-switch-thumb-checked: var(--state-switch-thumb-bg-checked);
+  --background-table-header: var(--state-table-header-bg);
+  --background-table-row: var(--state-table-row-bg);
+  --background-table-row-hover: var(--state-table-row-bg-hover);
+  --background-tabs-content: var(--alias-transparent);
+  --background-tabs-list: var(--state-tabs-list-bg);
+  --background-tabs-trigger: var(--state-tabs-trigger-bg);
+  --background-tabs-trigger-active: var(--state-tabs-trigger-bg-active);
+  --background-tabs-trigger-hover: var(--state-tabs-trigger-bg-hover);
+  --border-accordion-item: var(--state-accordion-item-border);
+  --border-badge: var(--state-badge-border);
+  --border-blockquote: var(--alias-border);
+  --border-card: var(--state-card-border);
+  --border-checkbox: var(--state-checkbox-border);
+  --border-checkbox-checked: var(--state-checkbox-border-checked);
+  --border-checkbox-checked-hover: var(--state-checkbox-border-checked-hover);
+  --border-checkbox-hover: var(--state-checkbox-border-hover);
+  --border-dialog: var(--state-dialog-border);
+  --border-disclosure: var(--state-disclosure-border);
+  --border-hr: var(--alias-border);
+  --border-input: var(--state-input-border);
+  --border-input-disabled: var(--state-input-border-disabled);
+  --border-input-file: var(--alias-input);
+  --border-input-focus: var(--state-input-border-focus);
+  --border-input-hover: var(--state-input-border-hover);
+  --border-input-invalid: var(--state-input-border-invalid);
+  --border-invalid-ui: var(--role-destructive-bg);
+  --border-nav-link-current: var(--state-nav-link-current-border);
+  --border-pre: var(--alias-border);
+  --border-select: var(--state-select-border);
+  --border-select-content: var(--state-select-content-border);
+  --border-select-focus: var(--state-select-border-focus);
+  --border-select-hover: var(--state-select-border-hover);
+  --border-table: var(--state-table-border);
+  --border-tabs-trigger: var(--alias-transparent);
+  --border-tabs-trigger-active: var(--state-tabs-trigger-border-active);
+  --color-accordion-icon: var(--state-accordion-icon-fg);
+  --color-checkbox-icon: var(--state-checkbox-fg-checked);
+  --color-select-icon: var(--state-select-icon-fg);
+  --color-select-item-check: var(--alias-foreground);
+  --font-family-mono: var(--state-font-mono);
+  --font-family-ui: var(--state-font-ui);
+  --font-size-accordion-content: var(--state-accordion-content-font-size);
+  --font-size-accordion-trigger: var(--state-accordion-trigger-font-size);
+  --font-size-badge: var(--state-badge-font-size);
+  --font-size-card-description: var(--state-card-description-size);
+  --font-size-card-footer: var(--state-card-footer-size);
+  --font-size-card-title: var(--state-card-title-size);
+  --font-size-checkbox-description: var(--state-checkbox-description-size);
+  --font-size-checkbox-label: var(--state-checkbox-label-size);
+  --font-size-dialog-body: var(--primitive-text-sm);
+  --font-size-dialog-description: var(--state-dialog-description-size);
+  --font-size-dialog-title: var(--state-dialog-title-size);
+  --font-size-form-description: var(--primitive-text-sm);
+  --font-size-form-legend: var(--primitive-text-sm);
+  --font-size-heading-1: var(--alias-text-h1);
+  --font-size-heading-2: var(--alias-text-h2);
+  --font-size-heading-3: var(--alias-text-h3);
+  --font-size-input: var(--state-input-font-size);
+  --font-size-input-file: var(--primitive-text-sm);
+  --font-size-input-help: var(--state-input-help-size);
+  --font-size-label: var(--component-label-font-size);
+  --font-size-select: var(--state-select-font-size);
+  --font-size-select-item: var(--state-select-item-font-size);
+  --font-size-small: var(--alias-text-sm);
+  --font-size-switch-description: var(--state-switch-description-size);
+  --font-size-switch-label: var(--state-switch-label-size);
+  --font-size-table-caption: var(--primitive-text-sm);
+  --font-size-tabs-trigger: var(--state-tabs-trigger-font-size);
+  --font-weight-accordion-trigger: var(--state-accordion-trigger-font-weight);
+  --font-weight-badge: var(--state-badge-font-weight);
+  --font-weight-card-title: var(--state-card-title-weight);
+  --font-weight-dialog-title: var(--state-dialog-title-weight);
+  --font-weight-disclosure-summary: var(--primitive-weight-medium);
+  --font-weight-form-error: var(--primitive-weight-medium);
+  --font-weight-form-legend: var(--primitive-weight-medium);
+  --font-weight-input: var(--primitive-weight-regular);
+  --font-weight-input-file: var(--primitive-weight-medium);
+  --font-weight-label: var(--component-label-font-weight);
+  --font-weight-tabs-trigger: var(--state-tabs-trigger-font-weight);
+  --gap-accordion-trigger: var(--state-accordion-trigger-gap);
+  --gap-card: var(--state-card-gap);
+  --gap-card-content: var(--state-card-content-gap);
+  --gap-card-header: var(--state-card-header-gap);
+  --gap-checkbox: var(--state-checkbox-gap);
+  --gap-dialog: var(--state-dialog-gap);
+  --gap-dialog-footer: var(--component-dialog-footer-gap);
+  --gap-disclosure: var(--state-disclosure-gap);
+  --gap-form: var(--component-form-gap);
+  --gap-form-actions: var(--component-form-actions-gap);
+  --gap-form-checkboxes: var(--component-form-checkboxes-gap);
+  --gap-form-fields: var(--component-form-fields-gap);
+  --gap-form-group: var(--component-form-group-gap);
+  --gap-form-item: var(--component-form-item-gap);
+  --gap-input: var(--state-input-gap);
+  --gap-input-file: var(--primitive-space-2);
+  --gap-label: var(--component-label-gap);
+  --gap-nav: var(--state-nav-gap);
+  --gap-select: var(--component-select-gap);
+  --gap-switch: var(--state-switch-gap);
+  --gap-tabs: var(--state-tabs-gap);
+  --gap-tabs-content: var(--primitive-space-3);
+  --gap-tabs-list: 0;
+  --gap-tabs-trigger: var(--component-tabs-trigger-gap);
+  --height-input: var(--state-input-height);
+  --height-input-file: 1.5rem;
+  --height-select: var(--state-select-height);
+  --height-switch: var(--state-switch-height);
+  --height-tabs-list: var(--state-tabs-list-height);
+  --inset-dialog: var(--component-dialog-inset);
+  --inset-dialog-close: var(--state-dialog-close-inset);
+  --line-card-title: 1;
+  --line-dialog-title: 1;
+  --line-label: 1;
+  --margin-field-help: var(--primitive-space-1);
+  --margin-figcaption: var(--primitive-space-2);
+  --margin-flow: var(--primitive-space-4);
+  --margin-heading-1: var(--primitive-space-4);
+  --margin-heading-2-end: var(--primitive-space-3);
+  --margin-heading-2-start: var(--primitive-space-7);
+  --margin-heading-3-end: var(--primitive-space-2);
+  --margin-heading-3-start: var(--primitive-space-6);
+  --margin-hr: var(--primitive-space-6);
+  --max-height-select-content: 20rem;
+  --max-width-dialog: var(--state-dialog-max-width);
+  --measure-prose: var(--state-measure);
+  --min-height-textarea: var(--state-textarea-min-height);
+  --min-width-select-content: 8rem;
+  --motion-dialog: var(--component-motion);
+  --motion-switch-thumb: var(--component-motion);
+  --offset-switch-thumb: calc(var(--state-switch-width) - var(--state-switch-thumb-size) - 2px);
+  --opacity-checkbox-disabled: var(--state-checkbox-disabled-opacity);
+  --opacity-dialog-close: var(--state-dialog-close-opacity);
+  --opacity-dialog-close-hover: var(--state-dialog-close-opacity-hover);
+  --opacity-input-disabled: var(--state-input-disabled-opacity);
+  --opacity-select-disabled: var(--state-select-disabled-opacity);
+  --opacity-switch-disabled: var(--state-switch-disabled-opacity);
+  --opacity-tabs-disabled: var(--state-tabs-disabled-opacity);
+  --padding-accordion-content: var(--state-accordion-content-padding);
+  --padding-accordion-trigger: var(--state-accordion-trigger-padding);
+  --padding-badge-block: var(--state-badge-py);
+  --padding-badge-inline: var(--state-badge-px);
+  --padding-blockquote: var(--primitive-space-4);
+  --padding-card: initial;
+  --padding-card-block: var(--state-card-py);
+  --padding-card-content: 0 var(--state-card-px);
+  --padding-card-footer: 0 var(--state-card-px);
+  --padding-card-header: 0 var(--state-card-px);
+  --padding-checkbox: 0;
+  --padding-dialog: var(--state-dialog-padding);
+  --padding-dialog-close: 0;
+  --padding-disclosure: var(--state-disclosure-padding);
+  --padding-fieldset: var(--primitive-space-4);
+  --padding-fieldset-legend: var(--primitive-space-2);
+  --padding-form-group: 0;
+  --padding-input-block: var(--state-input-py);
+  --padding-input-file-block: var(--primitive-space-1);
+  --padding-input-inline: var(--state-input-px);
+  --padding-pre: var(--primitive-space-4);
+  --padding-select-content: var(--state-select-content-padding);
+  --padding-select-inline: var(--state-select-px);
+  --padding-select-item: var(--state-select-item-py);
+  --padding-select-item-end: var(--state-select-item-pe);
+  --padding-select-item-inline: var(--state-select-item-px);
+  --padding-switch: 0;
+  --padding-table-caption: var(--state-table-caption-py);
+  --padding-table-cell-block: var(--state-table-cell-py);
+  --padding-table-cell-inline: var(--state-table-cell-px);
+  --padding-tabs-content: 0;
+  --padding-tabs-list: var(--state-tabs-list-padding);
+  --padding-tabs-trigger: var(--state-tabs-trigger-padding);
+  --placeholder-input: var(--state-input-placeholder);
+  --placeholder-select: var(--state-select-placeholder);
+  --radius-accordion-trigger: var(--state-accordion-trigger-radius);
+  --radius-badge: var(--state-badge-radius);
+  --radius-card: var(--state-card-radius);
+  --radius-checkbox: var(--state-checkbox-radius);
+  --radius-dialog: var(--state-dialog-radius);
+  --radius-dialog-close: var(--primitive-radius-2);
+  --radius-disclosure: var(--state-disclosure-radius);
+  --radius-input: var(--state-input-radius);
+  --radius-input-file: var(--primitive-radius-2);
+  --radius-pre: var(--primitive-radius-4);
+  --radius-select: var(--state-select-radius);
+  --radius-select-content: var(--state-select-content-radius);
+  --radius-select-item: var(--state-select-item-radius);
+  --radius-switch: var(--state-switch-radius);
+  --radius-tabs-list: var(--state-tabs-list-radius);
+  --radius-tabs-trigger: var(--state-tabs-trigger-radius);
+  --ring-checkbox: var(--state-checkbox-ring);
+  --ring-checkbox-focus: var(--state-checkbox-ring-focus);
+  --ring-checkbox-width: var(--state-checkbox-ring-width);
+  --ring-dialog-focus: var(--state-dialog-ring-focus);
+  --ring-dialog-offset: var(--primitive-border-width-2);
+  --ring-dialog-width: var(--primitive-border-width-2);
+  --ring-input-focus: var(--state-input-ring-focus);
+  --ring-input-invalid-focus: var(--state-input-ring-invalid-focus);
+  --ring-input-width: var(--state-input-ring-width);
+  --ring-invalid-ui-focus: color-mix(in oklch, var(--role-destructive-bg), transparent 80%);
+  --ring-select-focus: var(--state-select-ring-focus);
+  --ring-select-width: var(--state-select-ring-width);
+  --ring-switch: var(--state-switch-ring);
+  --ring-switch-focus: var(--state-switch-ring-focus);
+  --ring-switch-width: var(--state-switch-ring-width);
+  --ring-tabs: var(--state-tabs-ring);
+  --ring-tabs-focus: var(--state-tabs-ring-focus);
+  --ring-tabs-width: var(--state-tabs-ring-width);
+  --shadow-card: var(--state-card-shadow);
+  --shadow-checkbox: var(--state-shadow-control);
+  --shadow-dialog: var(--state-dialog-shadow);
+  --shadow-select: var(--state-select-shadow);
+  --shadow-select-content: var(--state-select-content-shadow);
+  --shadow-switch-thumb: var(--state-shadow-control);
+  --shadow-tabs-trigger-active: var(--state-tabs-trigger-shadow-active);
+  --size-accordion-icon: var(--state-accordion-icon-size);
+  --size-checkbox: var(--state-checkbox-size);
+  --size-checkbox-icon: var(--state-checkbox-icon-size);
+  --size-dialog-close: var(--state-dialog-close-size);
+  --size-select-icon: var(--state-select-icon-size);
+  --size-select-item-check: 1rem;
+  --size-switch-thumb: var(--state-switch-thumb-size);
+  --text-accordion-content: var(--state-accordion-content-fg);
+  --text-accordion-trigger: var(--state-accordion-trigger-fg);
+  --text-badge: var(--state-badge-fg);
+  --text-badge-negative: var(--alias-negative-foreground);
+  --text-badge-neutral: var(--alias-neutral-foreground);
+  --text-badge-positive: var(--alias-positive-foreground);
+  --text-blockquote: var(--alias-muted-foreground);
+  --text-card: var(--state-card-fg);
+  --text-card-description: var(--state-card-description-fg);
+  --text-card-footer: var(--state-card-footer-fg);
+  --text-card-title: var(--state-card-title-fg);
+  --text-checkbox-description: var(--state-checkbox-description-fg);
+  --text-checkbox-label: var(--state-checkbox-label-fg);
+  --text-dialog: var(--state-dialog-fg);
+  --text-dialog-body: var(--state-dialog-fg);
+  --text-dialog-close: var(--state-dialog-close-fg);
+  --text-dialog-close-hover: var(--state-dialog-close-fg);
+  --text-dialog-description: var(--state-dialog-description-fg);
+  --text-dialog-title: var(--state-dialog-title-fg);
+  --text-disclosure: var(--state-disclosure-fg);
+  --text-form: var(--alias-foreground);
+  --text-form-description: var(--alias-muted-foreground);
+  --text-form-error: var(--role-destructive-bg);
+  --text-form-legend: var(--alias-foreground);
+  --text-input: var(--state-input-fg);
+  --text-input-description: var(--state-input-description-fg);
+  --text-input-disabled: var(--state-input-fg-disabled);
+  --text-input-file: var(--alias-foreground);
+  --text-input-invalid: var(--state-input-error-fg);
+  --text-label: var(--alias-foreground);
+  --text-label-required: var(--role-destructive-bg);
+  --text-nav-link: var(--state-nav-link-fg);
+  --text-nav-link-current: var(--state-nav-link-current-fg);
+  --text-nav-link-hover: var(--state-nav-link-fg-hover);
+  --text-pre: var(--alias-foreground);
+  --text-select: var(--state-select-fg);
+  --text-select-content: var(--state-select-content-fg);
+  --text-select-item: var(--state-select-item-fg);
+  --text-select-item-highlighted: var(--state-select-item-fg-highlighted);
+  --text-select-item-selected: var(--state-select-item-fg-selected);
+  --text-switch-description: var(--state-switch-description-fg);
+  --text-switch-label: var(--state-switch-label-fg);
+  --text-table-caption: var(--state-table-caption-fg);
+  --text-table-header: var(--state-table-header-fg);
+  --text-tabs-content: var(--state-tabs-content-fg);
+  --text-tabs-trigger: var(--state-tabs-trigger-fg);
+  --text-tabs-trigger-active: var(--state-tabs-trigger-fg-active);
+  --text-tabs-trigger-hover: var(--state-tabs-trigger-fg-hover);
+  --width-switch: var(--state-switch-width);
+  --z-dialog-content: var(--state-z-modal);
+  --z-dialog-overlay: var(--state-z-overlay);
+  --z-select-content: var(--state-z-popover);
 }
 
 /* Minimal modern reset, semantic-friendly. */
@@ -1871,21 +1484,21 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-  background: var(--ad);
-  color: var(--tV);
-  font-family: var(--fQ);
-  font-size: var(--ga);
-  line-height: var(--hL);
+  background: var(--background-body);
+  color: var(--text-body);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-ui);
 }
 
 :focus-visible {
-  outline: var(--lC) solid var(--lA);
-  outline-offset: var(--lB);
+  outline: var(--ring-global-width) solid var(--ring-global);
+  outline-offset: var(--ring-global-offset);
 }
 
 ::selection {
-  background: var(--aQ);
-  color: var(--uR);
+  background: var(--background-selection);
+  color: var(--text-selection);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1902,25 +1515,25 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--uw);
-  font-family: var(--fR);
-  line-height: var(--hJ);
+  color: var(--text-heading);
+  font-family: var(--font-family-heading);
+  line-height: var(--line-heading-ui);
   text-wrap: balance;
 }
 
 h1 {
-  font-size: var(--go);
-  margin-block: 0 var(--hP);
+  font-size: var(--font-size-heading-1);
+  margin-block: 0 var(--margin-heading-1);
 }
 
 h2 {
-  font-size: var(--gp);
-  margin-block: var(--hR) var(--hQ);
+  font-size: var(--font-size-heading-2);
+  margin-block: var(--margin-heading-2-start) var(--margin-heading-2-end);
 }
 
 h3 {
-  font-size: var(--gq);
-  margin-block: var(--hT) var(--hS);
+  font-size: var(--font-size-heading-3);
+  margin-block: var(--margin-heading-3-start) var(--margin-heading-3-end);
 }
 
 p,
@@ -1933,63 +1546,63 @@ table,
 figure,
 details,
 fieldset {
-  margin-block: 0 var(--hO);
+  margin-block: 0 var(--margin-flow);
 }
 
 a {
-  color: var(--uF);
+  color: var(--text-link);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
-  transition: color var(--ij) var(--fO);
+  transition: color var(--motion-ui) var(--ease-ui);
 }
 
 a:hover {
-  color: var(--uG);
+  color: var(--text-link-hover);
 }
 
 small {
-  color: var(--uH);
-  font-size: var(--gx);
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
 }
 
 code,
 kbd,
 samp,
 pre {
-  font-family: var(--fS);
+  font-family: var(--font-family-mono);
   font-size: 0.92em;
 }
 
 pre {
-  padding: var(--iR);
-  background: var(--aJ);
-  border: var(--bO) solid var(--bE);
-  border-radius: var(--ld);
-  color: var(--uL);
+  padding: var(--padding-pre);
+  background: var(--background-pre);
+  border: var(--border-width-ui) solid var(--border-pre);
+  border-radius: var(--radius-pre);
+  color: var(--text-pre);
   overflow-x: auto;
 }
 
 blockquote {
-  padding-inline-start: var(--ix);
-  border-inline-start: 2px solid var(--bh);
-  color: var(--tU);
+  padding-inline-start: var(--padding-blockquote);
+  border-inline-start: 2px solid var(--border-blockquote);
+  color: var(--text-blockquote);
 }
 
 hr {
   border: 0;
-  border-block-start: var(--bO) solid var(--bv);
-  margin-block: var(--hU);
+  border-block-start: var(--border-width-ui) solid var(--border-hr);
+  margin-block: var(--margin-hr);
 }
 
 figure > figcaption {
-  margin-block-start: var(--hN);
-  color: var(--uH);
-  font-size: var(--gx);
+  margin-block-start: var(--margin-figcaption);
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
 }
 
 .prose,
 article {
-  max-inline-size: min(100%, var(--hY));
+  max-inline-size: min(100%, var(--measure-prose));
 }
 
 main {
@@ -2003,7 +1616,7 @@ article > :last-child {
 }
 
 /* Macro layout primitives (class-based). Token-driven, composable.
-   Configure via --mO, --hp, --hX, --vi, --mF, --hZ. */
+   Configure via --space, --gutter, --measure, --threshold, --sidebar, --min. */
 .stack {
   display: flex;
   flex-direction: column;
@@ -2015,51 +1628,52 @@ article > :last-child {
 }
 
 .stack > * + * {
-  margin-block-start: var(--mO, var(--na));
+  margin-block-start: var(--space, var(--space-4));
 }
 
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--hp, var(--mY));
-  justify-content: var(--bQ, flex-start);
-  align-items: var(--bP, center);
+  gap: var(--gutter, var(--space-3));
+  justify-content: var(--cluster-justify, flex-start);
+  align-items: var(--cluster-align, center);
 }
 
 .grid {
   display: grid;
-  gap: var(--hp, var(--na));
+  gap: var(--gutter, var(--space-4));
+  align-items: stretch;
 }
 
 .grid[data-fit] {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--hZ, 16rem)), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min, 16rem)), 1fr));
 }
 
 .sidebar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--hp, var(--na));
+  gap: var(--gutter, var(--space-4));
 }
 
 .sidebar > :first-child {
-  flex-basis: var(--mF, 20rem);
+  flex-basis: var(--sidebar, 20rem);
   flex-grow: 1;
 }
 
 .sidebar > :last-child {
   flex-basis: 0;
   flex-grow: 999;
-  min-inline-size: var(--fK, 50%);
+  min-inline-size: var(--content, 50%);
 }
 
 .sidebar[data-side=end] > :first-child {
   flex-basis: 0;
   flex-grow: 999;
-  min-inline-size: var(--fK, 50%);
+  min-inline-size: var(--content, 50%);
 }
 
 .sidebar[data-side=end] > :last-child {
-  flex-basis: var(--mF, 20rem);
+  flex-basis: var(--sidebar, 20rem);
   flex-grow: 1;
   min-inline-size: auto;
 }
@@ -2067,30 +1681,30 @@ article > :last-child {
 .switcher {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--hp, var(--na));
+  gap: var(--gutter, var(--space-4));
 }
 
 .switcher > * {
   flex-grow: 1;
-  flex-basis: calc((var(--vi, 30rem) - 100%) * 999);
+  flex-basis: calc((var(--threshold, 30rem) - 100%) * 999);
 }
 
 .center {
   box-sizing: content-box;
-  max-inline-size: var(--hX, var(--hY));
+  max-inline-size: var(--measure, var(--measure-prose));
   margin-inline: auto;
-  padding-inline: var(--hp, var(--na));
+  padding-inline: var(--gutter, var(--space-4));
 }
 
 .cover {
   display: flex;
   flex-direction: column;
-  min-block-size: var(--fL, 100vh);
-  padding: var(--hp, var(--na));
+  min-block-size: var(--cover-min, 100vh);
+  padding: var(--gutter, var(--space-4));
 }
 
 .cover > * {
-  margin-block: var(--mO, var(--na));
+  margin-block: var(--space, var(--space-4));
 }
 
 .cover > :first-child:not(.cover-center) {
@@ -2106,7 +1720,7 @@ article > :last-child {
 }
 
 .frame {
-  aspect-ratio: var(--ln, 16/9);
+  aspect-ratio: var(--ratio, 16/9);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -2122,19 +1736,19 @@ article > :last-child {
 
 .reel {
   display: flex;
-  gap: var(--hp, var(--na));
+  gap: var(--gutter, var(--space-4));
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
-  scrollbar-color: var(--bY) transparent;
+  scrollbar-color: var(--color-border) transparent;
 }
 
 .reel > * {
-  flex: 0 0 var(--hB, auto);
+  flex: 0 0 var(--item-width, auto);
 }
 
 .region {
-  padding-block: var(--lo, var(--nd));
+  padding-block: var(--region-space, var(--space-7));
 }
 
 [data-wacss=button],
@@ -2147,22 +1761,22 @@ button:not([data-wacss]),
   flex: none;
   align-items: center;
   justify-content: center;
-  gap: var(--ow);
-  block-size: var(--oD);
+  gap: var(--state-button-gap);
+  block-size: var(--state-button-height);
   padding-block: 0;
-  padding-inline: var(--oR);
-  border: var(--oe) solid var(--oi);
-  border-radius: var(--oU);
-  background: var(--of);
-  color: var(--or);
-  font-size: var(--os);
-  font-weight: var(--ov);
+  padding-inline: var(--state-button-px);
+  border: var(--state-border-width) solid var(--state-button-border);
+  border-radius: var(--state-button-radius);
+  background: var(--state-button-bg);
+  color: var(--state-button-fg);
+  font-size: var(--state-button-font-size);
+  font-weight: var(--state-button-font-weight);
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
-  transition: background var(--rf) var(--qu), border-color var(--rf) var(--qu), color var(--rf) var(--qu), box-shadow var(--rf) var(--qu), transform var(--rf) var(--qu);
+  transition: background var(--state-motion) var(--state-ease), border-color var(--state-motion) var(--state-ease), color var(--state-motion) var(--state-ease), box-shadow var(--state-motion) var(--state-ease), transform var(--state-motion) var(--state-ease);
 }
 
 [data-wacss=button] svg,
@@ -2181,7 +1795,7 @@ button:not([data-wacss]):hover,
 [type=button]:not([data-wacss]):hover,
 [type=submit]:not([data-wacss]):hover,
 [type=reset]:not([data-wacss]):hover {
-  background: var(--oh);
+  background: var(--state-button-bg-hover);
 }
 
 [data-wacss=button]:active,
@@ -2189,8 +1803,8 @@ button:not([data-wacss]):active,
 [type=button]:not([data-wacss]):active,
 [type=submit]:not([data-wacss]):active,
 [type=reset]:not([data-wacss]):active {
-  background: var(--og);
-  transform: translateY(var(--pf));
+  background: var(--state-button-bg-active);
+  transform: translateY(var(--state-button-translate-active));
 }
 
 [data-wacss=button]:focus-visible,
@@ -2198,15 +1812,15 @@ button:not([data-wacss]):focus-visible,
 [type=button]:not([data-wacss]):focus-visible,
 [type=submit]:not([data-wacss]):focus-visible,
 [type=reset]:not([data-wacss]):focus-visible {
-  border-color: var(--oV);
-  outline: var(--oX) solid var(--oW);
+  border-color: var(--state-button-ring);
+  outline: var(--state-button-ring-width) solid var(--state-button-ring-focus);
   outline-offset: 0;
 }
 
 [data-wacss=button][aria-invalid=true],
 button:not([data-wacss])[aria-invalid=true] {
-  border-color: var(--ry);
-  outline: var(--oX) solid var(--op);
+  border-color: var(--state-role-destructive-bg);
+  outline: var(--state-button-ring-width) solid var(--state-button-destructive-ring-focus);
   outline-offset: 0;
 }
 
@@ -2217,113 +1831,113 @@ button:not([data-wacss]):disabled,
 [type=submit]:not([data-wacss]):disabled,
 [type=reset]:not([data-wacss]):disabled {
   cursor: not-allowed;
-  opacity: var(--oq);
+  opacity: var(--state-button-disabled-opacity);
   pointer-events: none;
 }
 
 /* Variants */
 [data-wacss=button][data-variant=secondary] {
-  background: var(--ar);
-  border-color: var(--bn);
-  color: var(--ue);
+  background: var(--background-button-secondary);
+  border-color: var(--border-button-secondary);
+  color: var(--text-button-secondary);
 }
 
 [data-wacss=button][data-variant=secondary]:hover {
-  background: var(--at);
+  background: var(--background-button-secondary-hover);
 }
 
 [data-wacss=button][data-variant=secondary]:active {
-  background: var(--as);
+  background: var(--background-button-secondary-active);
 }
 
 [data-wacss=button][data-variant=outline] {
-  background: var(--ao);
-  border-color: var(--bm);
-  color: var(--uc);
+  background: var(--background-button-outline);
+  border-color: var(--border-button-outline);
+  color: var(--text-button-outline);
 }
 
 [data-wacss=button][data-variant=outline]:hover {
-  background: var(--aq);
-  border-color: var(--bm);
-  color: var(--ud);
+  background: var(--background-button-outline-hover);
+  border-color: var(--border-button-outline);
+  color: var(--text-button-outline-hover);
 }
 
 [data-wacss=button][data-variant=outline]:active {
-  background: var(--ap);
+  background: var(--background-button-outline-active);
 }
 
 [data-wacss=button][data-variant=ghost] {
-  background: var(--aj);
-  border-color: var(--bk);
-  color: var(--tY);
+  background: var(--background-button-ghost);
+  border-color: var(--border-button-ghost);
+  color: var(--text-button-ghost);
 }
 
 [data-wacss=button][data-variant=ghost]:hover {
-  background: var(--al);
-  color: var(--tZ);
+  background: var(--background-button-ghost-hover);
+  color: var(--text-button-ghost-hover);
 }
 
 [data-wacss=button][data-variant=ghost]:active {
-  background: var(--ak);
+  background: var(--background-button-ghost-active);
 }
 
 [data-wacss=button][data-variant=destructive] {
-  background: var(--ag);
-  border-color: var(--bj);
-  color: var(--tX);
+  background: var(--background-button-destructive);
+  border-color: var(--border-button-destructive);
+  color: var(--text-button-destructive);
 }
 
 [data-wacss=button][data-variant=destructive]:hover {
-  background: var(--ai);
+  background: var(--background-button-destructive-hover);
 }
 
 [data-wacss=button][data-variant=destructive]:active {
-  background: var(--ah);
+  background: var(--background-button-destructive-active);
 }
 
 [data-wacss=button][data-variant=destructive]:focus-visible {
-  border-color: var(--lq);
-  outline-color: var(--lr);
+  border-color: var(--ring-button-destructive);
+  outline-color: var(--ring-button-destructive-focus);
 }
 
 [data-wacss=button][data-variant=link] {
-  background: var(--an);
-  border-color: var(--bl);
-  color: var(--ua);
+  background: var(--background-button-link);
+  border-color: var(--border-button-link);
+  color: var(--text-button-link);
   text-decoration: underline;
   text-underline-offset: 0.25rem;
 }
 
 [data-wacss=button][data-variant=link]:hover {
-  color: var(--ub);
+  color: var(--text-button-link-hover);
   text-decoration: underline;
 }
 
 /* Sizes */
 [data-wacss=button][data-size=sm] {
-  block-size: var(--ht);
-  padding-inline: var(--iA);
-  font-size: var(--gd);
+  block-size: var(--height-button-sm);
+  padding-inline: var(--padding-button-inline-sm);
+  font-size: var(--font-size-button-sm);
 }
 
 [data-wacss=button][data-size=lg] {
-  block-size: var(--hs);
-  padding-inline: var(--iz);
-  font-size: var(--gc);
+  block-size: var(--height-button-lg);
+  padding-inline: var(--padding-button-inline-lg);
+  font-size: var(--font-size-button-lg);
 }
 
 [data-wacss=button][data-size=icon] {
-  inline-size: var(--hr);
+  inline-size: var(--height-button-icon);
   padding-inline: 0;
 }
 
 /* Loading */
 [data-wacss=button-spinner] {
-  inline-size: var(--mH);
-  block-size: var(--mH);
-  border: var(--bN) solid currentColor;
+  inline-size: var(--size-button-spinner);
+  block-size: var(--size-button-spinner);
+  border: var(--border-width-button-spinner) solid currentColor;
   border-inline-end-color: transparent;
-  border-radius: var(--kP);
+  border-radius: var(--radius-button-spinner);
   animation: wacss-spin 0.7s linear infinite;
 }
 
@@ -2336,21 +1950,21 @@ label,
 [data-wacss=label] {
   display: inline-flex;
   align-items: center;
-  gap: var(--hh);
-  color: var(--uC);
-  font-size: var(--gu);
-  font-weight: var(--gN);
-  line-height: var(--hK);
+  gap: var(--gap-label);
+  color: var(--text-label);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-label);
   user-select: none;
 }
 
 [data-wacss=label-required] {
-  color: var(--uD);
+  color: var(--text-label-required);
 }
 
 [data-wacss=input] {
   display: grid;
-  gap: var(--hf);
+  gap: var(--gap-input);
   inline-size: 100%;
 }
 
@@ -2360,25 +1974,25 @@ select,
 [data-wacss=input-control] {
   inline-size: 100%;
   min-inline-size: 0;
-  padding: var(--iO) var(--iQ);
-  border: var(--bO) solid var(--bw);
-  border-radius: var(--kX);
-  background: var(--aG);
-  color: var(--ux);
-  font-size: var(--gr);
-  font-weight: var(--gL);
+  padding: var(--padding-input-block) var(--padding-input-inline);
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--text-input);
+  font-size: var(--font-size-input);
+  font-weight: var(--font-weight-input);
   outline: none;
-  transition: background var(--ij) var(--fO), border-color var(--ij) var(--fO), box-shadow var(--ij) var(--fO);
+  transition: background var(--motion-ui) var(--ease-ui), border-color var(--motion-ui) var(--ease-ui), box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 input:where(:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset])),
 select,
 [data-wacss=input-control] {
-  block-size: var(--hu);
+  block-size: var(--height-input);
 }
 
 textarea {
-  min-block-size: var(--ia);
+  min-block-size: var(--min-height-textarea);
   resize: vertical;
 }
 
@@ -2387,52 +2001,52 @@ textarea {
   textarea,
   select,
   [data-wacss=input-control] {
-    font-size: var(--gx);
+    font-size: var(--font-size-small);
   }
 }
 input::placeholder,
 textarea::placeholder,
 [data-wacss=input-control]::placeholder {
-  color: var(--je);
+  color: var(--placeholder-input);
 }
 
 input[type=file] {
-  padding-block: var(--iP);
-  padding-inline: var(--iQ);
-  border: var(--bO) solid var(--by);
-  border-radius: var(--kX);
-  background: var(--aG);
-  color: var(--uA);
-  font-size: var(--gr);
+  padding-block: var(--padding-input-file-block);
+  padding-inline: var(--padding-input-inline);
+  border: var(--border-width-ui) solid var(--border-input-file);
+  border-radius: var(--radius-input);
+  background: var(--background-input);
+  color: var(--text-input-file);
+  font-size: var(--font-size-input);
 }
 
 input[type=file]::file-selector-button {
   display: inline-flex;
   align-items: center;
-  block-size: var(--hv);
-  margin-inline-end: var(--hg);
-  padding-inline: var(--hg);
+  block-size: var(--height-input-file);
+  margin-inline-end: var(--gap-input-file);
+  padding-inline: var(--gap-input-file);
   border: 0;
-  border-radius: var(--kY);
-  background: var(--aI);
-  color: var(--uA);
-  font-size: var(--gs);
-  font-weight: var(--gM);
+  border-radius: var(--radius-input-file);
+  background: var(--background-input-file);
+  color: var(--text-input-file);
+  font-size: var(--font-size-input-file);
+  font-weight: var(--font-weight-input-file);
 }
 
 input:where(:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset])):hover,
 textarea:hover,
 select:hover,
 [data-wacss=input-control]:hover {
-  border-color: var(--bA);
+  border-color: var(--border-input-hover);
 }
 
 input:where(:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset])):focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [data-wacss=input-control]:focus-visible {
-  border-color: var(--bz);
-  outline: var(--lF) solid var(--lD);
+  border-color: var(--border-input-focus);
+  outline: var(--ring-input-width) solid var(--ring-input-focus);
   outline-offset: 0;
 }
 
@@ -2440,8 +2054,8 @@ input[aria-invalid=true],
 textarea[aria-invalid=true],
 select[aria-invalid=true],
 [data-wacss=input-control][aria-invalid=true] {
-  border-color: var(--bB);
-  outline: var(--lF) solid var(--lE);
+  border-color: var(--border-input-invalid);
+  outline: var(--ring-input-width) solid var(--ring-input-invalid-focus);
   outline-offset: 0;
 }
 
@@ -2449,48 +2063,86 @@ input:disabled,
 textarea:disabled,
 select:disabled,
 [data-wacss=input-control]:disabled {
-  background: var(--aH);
-  border-color: var(--bx);
-  color: var(--uz);
+  background: var(--background-input-disabled);
+  border-color: var(--border-input-disabled);
+  color: var(--text-input-disabled);
   cursor: not-allowed;
-  opacity: var(--ip);
+  opacity: var(--opacity-input-disabled);
   pointer-events: none;
 }
 
 [data-wacss=input-description] {
   margin: 0;
-  color: var(--uy);
-  font-size: var(--gt);
+  color: var(--text-input-description);
+  font-size: var(--font-size-input-help);
+}
+
+[data-wacss=accent-selector] {
+  display: grid;
+  gap: var(--gap-input);
+}
+
+input[type=range] {
+  inline-size: 100%;
+  accent-color: var(--alias-accent);
+}
+
+[data-wacss=color-input-row] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+[data-wacss-color-swatch] {
+  padding: var(--primitive-space-1);
+  inline-size: 2.5rem;
+  min-inline-size: 2.5rem;
+  cursor: pointer;
+}
+
+[data-wacss-color-swatch]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+[data-wacss-color-swatch]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-input) - 2px);
+}
+
+[data-wacss-color-swatch]::-moz-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-input) - 2px);
 }
 
 [data-wacss=input-error] {
   margin: 0;
-  color: var(--uB);
-  font-size: var(--gt);
-  font-weight: var(--gJ);
+  color: var(--text-input-invalid);
+  font-size: var(--font-size-input-help);
+  font-weight: var(--font-weight-form-error);
 }
 
 fieldset {
-  border: var(--bO) solid var(--bw);
-  border-radius: var(--kX);
-  padding: var(--iL);
+  border: var(--border-width-ui) solid var(--border-input);
+  border-radius: var(--radius-input);
+  padding: var(--padding-fieldset);
 }
 
 legend {
-  padding-inline: var(--iM);
+  padding-inline: var(--padding-fieldset-legend);
 }
 
 [data-wacss-help] {
-  color: var(--uy);
-  font-size: var(--gt);
-  margin-block-start: var(--hM);
+  color: var(--text-input-description);
+  font-size: var(--font-size-input-help);
+  margin-block-start: var(--margin-field-help);
 }
 
 [data-wacss-error] {
-  color: var(--uB);
-  font-size: var(--gt);
-  font-weight: var(--gJ);
-  margin-block-start: var(--hM);
+  color: var(--text-input-invalid);
+  font-size: var(--font-size-input-help);
+  font-weight: var(--font-weight-form-error);
+  margin-block-start: var(--margin-field-help);
 }
 
 table {
@@ -2499,51 +2151,51 @@ table {
 
 th,
 td {
-  padding: var(--iZ) var(--ja);
-  border-block-end: var(--bO) solid var(--bJ);
+  padding: var(--padding-table-cell-block) var(--padding-table-cell-inline);
+  border-block-end: var(--border-width-ui) solid var(--border-table);
   text-align: start;
   vertical-align: top;
 }
 
 th {
-  background: var(--aX);
-  color: var(--vb);
+  background: var(--background-table-header);
+  color: var(--text-table-header);
   font-weight: 600;
 }
 
 tbody tr {
-  background: var(--aY);
+  background: var(--background-table-row);
 }
 
 tbody tr:hover {
-  background: var(--aZ);
+  background: var(--background-table-row-hover);
 }
 
 caption {
   caption-side: bottom;
-  padding-block-start: var(--iY);
-  color: var(--va);
-  font-size: var(--gA);
+  padding-block-start: var(--padding-table-caption);
+  color: var(--text-table-caption);
+  font-size: var(--font-size-table-caption);
   text-align: start;
 }
 
 [data-wacss=disclosure] {
   interpolate-size: allow-keywords;
-  background: var(--aD);
-  border: var(--bO) solid var(--bu);
-  border-radius: var(--kV);
-  color: var(--ur);
-  padding: var(--iK);
+  background: var(--background-disclosure);
+  border: var(--border-width-ui) solid var(--border-disclosure);
+  border-radius: var(--radius-disclosure);
+  color: var(--text-disclosure);
+  padding: var(--padding-disclosure);
 }
 
 [data-wacss=disclosure] + [data-wacss=disclosure] {
-  margin-block-start: var(--gY);
+  margin-block-start: var(--gap-disclosure);
 }
 
 [data-wacss=disclosure] > summary,
 [data-wacss=disclosure-summary] {
   cursor: pointer;
-  font-weight: var(--gI);
+  font-weight: var(--font-weight-disclosure-summary);
   list-style: none;
 }
 
@@ -2553,21 +2205,21 @@ caption {
 }
 
 [data-wacss=disclosure]:hover {
-  background: var(--aE);
+  background: var(--background-disclosure-hover);
 }
 
 [data-wacss=disclosure][open]:hover {
-  background: var(--aD);
+  background: var(--background-disclosure);
 }
 
 [data-wacss=disclosure][open] > summary {
-  margin-block-end: var(--gY);
+  margin-block-end: var(--gap-disclosure);
 }
 
 [data-wacss=disclosure]::details-content {
   block-size: 0;
   overflow-y: clip;
-  transition: content-visibility var(--ie) allow-discrete, block-size var(--ie) var(--fO);
+  transition: content-visibility var(--motion-base) allow-discrete, block-size var(--motion-base) var(--ease-ui);
 }
 
 [data-wacss=disclosure][open]::details-content {
@@ -2579,63 +2231,63 @@ caption {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ke);
-  padding: var(--nV) var(--nU);
-  border: var(--oe) solid var(--nL);
-  border-radius: var(--nW);
-  background: var(--nK);
-  color: var(--nO);
-  font-family: var(--qz);
-  font-size: var(--nP);
-  font-weight: var(--nQ);
+  gap: var(--primitive-space-1);
+  padding: var(--state-badge-py) var(--state-badge-px);
+  border: var(--state-border-width) solid var(--state-badge-border);
+  border-radius: var(--state-badge-radius);
+  background: var(--state-badge-bg);
+  color: var(--state-badge-fg);
+  font-family: var(--state-font-ui);
+  font-size: var(--state-badge-font-size);
+  font-weight: var(--state-badge-font-weight);
   line-height: 1.3;
   white-space: nowrap;
   text-decoration: none;
-  transition: background var(--rf) var(--qu), color var(--rf) var(--qu), border-color var(--rf) var(--qu);
+  transition: background var(--state-motion) var(--state-ease), color var(--state-motion) var(--state-ease), border-color var(--state-motion) var(--state-ease);
 }
 
 [data-wacss=badge][data-variant=secondary] {
-  background: var(--nX);
-  border-color: var(--Y);
-  color: var(--nY);
+  background: var(--state-badge-secondary-bg);
+  border-color: var(--alias-transparent);
+  color: var(--state-badge-secondary-fg);
 }
 
 [data-wacss=badge][data-variant=destructive] {
-  background: var(--nM);
-  border-color: var(--Y);
-  color: var(--nN);
+  background: var(--state-badge-destructive-bg);
+  border-color: var(--alias-transparent);
+  color: var(--state-badge-destructive-fg);
 }
 
 [data-wacss=badge][data-variant=outline] {
-  background: var(--nR);
-  border-color: var(--nS);
-  color: var(--nT);
+  background: var(--state-badge-outline-bg);
+  border-color: var(--state-badge-outline-border);
+  color: var(--state-badge-outline-fg);
 }
 
 [data-wacss-badge][data-wacss-variant=positive],
 [data-wacss=badge][data-variant=positive] {
-  background: var(--ac);
-  border-color: var(--cQ);
-  color: var(--tS);
+  background: var(--background-badge-positive);
+  border-color: var(--color-transparent);
+  color: var(--text-badge-positive);
 }
 
 [data-wacss-badge][data-wacss-variant=neutral],
 [data-wacss=badge][data-variant=neutral] {
-  background: var(--ab);
-  border-color: var(--cQ);
-  color: var(--tR);
+  background: var(--background-badge-neutral);
+  border-color: var(--color-transparent);
+  color: var(--text-badge-neutral);
 }
 
 [data-wacss-badge][data-wacss-variant=negative],
 [data-wacss=badge][data-variant=negative] {
-  background: var(--aa);
-  border-color: var(--cQ);
-  color: var(--tQ);
+  background: var(--background-badge-negative);
+  border-color: var(--color-transparent);
+  color: var(--text-badge-negative);
 }
 
 [data-wacss=separator] {
   flex-shrink: 0;
-  background: var(--bY);
+  background: var(--color-border);
 }
 
 [data-wacss=separator][data-orientation=horizontal] {
@@ -2650,152 +2302,142 @@ caption {
 }
 
 [wacss=card],
-article[data-wacss-card],
-section[data-wacss-card],
+[data-wacss=card],
 [data-wacss-card] {
   display: flex;
   flex-direction: column;
-  gap: var(--gS);
-  padding-block: var(--iC);
-  padding-inline: var(--iG);
-  background: var(--au);
-  color: var(--uf);
-  border: var(--bO) solid var(--bo);
-  border-radius: var(--kQ);
-  box-shadow: var(--mp);
+  gap: var(--gap-card);
+  padding-block: var(--padding-card-block);
+  block-size: 100%;
+  background: var(--background-card);
+  color: var(--text-card);
+  border: var(--border-width-ui) solid var(--border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 
-[wacss=card] > :last-child,
-[data-wacss-card] > :last-child {
-  margin-block-end: 0;
-}
-
-[wacss=card-header],
-[wacss=card] > header {
+[data-wacss=card-header] {
   display: grid;
-  gap: var(--gU);
-  padding: var(--iF);
+  gap: var(--gap-card-header);
+  padding: var(--padding-card-header);
 }
 
-[wacss=card-title],
-[wacss=card] > header > h3 {
+[data-wacss=card-title] {
   margin: 0;
-  color: var(--ui);
-  font-size: var(--gg);
-  font-weight: var(--gG);
-  line-height: var(--hG);
+  color: var(--text-card-title);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  line-height: var(--line-card-title);
 }
 
-[wacss=card-description],
-[wacss=card] > header > p {
-  margin: 0;
-  color: var(--ug);
-  font-size: var(--ge);
+[data-wacss=card][data-href] {
+  cursor: pointer;
 }
 
-[wacss=card-content] {
+[data-wacss=card][data-href] [data-wacss=card-text],
+[data-wacss=card][data-href] [data-wacss=card-description],
+[data-wacss=card][data-href] p,
+[data-wacss=card][data-href] h3,
+[data-wacss=card][data-href] figcaption {
+  cursor: text;
+}
+
+[data-wacss=card-link] {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+[data-wacss=card-link]:hover {
+  text-decoration: underline;
+}
+
+[data-wacss=card-content] {
   display: grid;
-  gap: var(--gT);
-  padding: var(--iD);
+  gap: var(--gap-card-content);
+  padding: var(--padding-card-content);
 }
 
-[wacss=card-content] > :last-child {
-  margin-block-end: 0;
-}
-
-[wacss=card-media] {
+[data-wacss=card-figure] {
   margin: 0;
-  display: grid;
-  gap: var(--mW);
+  padding: 0;
 }
 
-[wacss=card-media] img,
-[wacss=card-media] video {
-  inline-size: 100%;
-  block-size: auto;
-  border-radius: calc(var(--kQ) - var(--mR));
-  display: block;
+[data-wacss=card-text] {
+  margin: 0;
+  color: var(--text-card-description);
+  font-size: var(--font-size-card-description);
 }
 
-[wacss=card-media] audio {
-  inline-size: 100%;
-}
-
-[wacss=card-media] figcaption {
-  color: var(--ug);
-  font-size: var(--ge);
-}
-
-[wacss=card-footer],
-[wacss=card] > footer {
+[data-wacss=card-footer] {
   display: flex;
   align-items: center;
-  padding: var(--iE);
-  color: var(--uh);
-  font-size: var(--gf);
+  padding: var(--padding-card-footer);
+  color: var(--text-card-footer);
+  font-size: var(--font-size-card-footer);
 }
 
 nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--hi);
+  gap: var(--gap-nav);
   padding: 0;
   list-style: none;
   margin: 0;
 }
 
 nav a {
-  color: var(--uI);
+  color: var(--text-nav-link);
   text-decoration: none;
-  transition: color var(--ij) var(--fO);
+  transition: color var(--motion-ui) var(--ease-ui);
 }
 
 nav a:hover {
-  color: var(--uK);
+  color: var(--text-nav-link-hover);
 }
 
 nav a[aria-current=page],
 nav a[aria-current=true] {
-  color: var(--uJ);
+  color: var(--text-nav-link-current);
 }
 
 [data-wacss=site-header] {
   position: sticky;
   inset-block-start: 0;
   z-index: 20;
-  margin-block-end: var(--nc);
-  padding-block: var(--mY);
-  background: color-mix(in oklch, var(--bV), transparent 10%);
+  margin-block-end: var(--space-6);
+  padding-block: var(--space-3);
+  background: color-mix(in oklch, var(--color-background), transparent 10%);
   backdrop-filter: blur(8px);
-  border-block-end: var(--bO) solid var(--bY);
+  border-block-end: var(--border-width-ui) solid var(--color-border);
 }
 
 [data-wacss=site-nav] {
   display: flex;
   align-items: center;
-  gap: var(--na);
+  gap: var(--space-4);
   inline-size: 100%;
   max-inline-size: 72rem;
   margin-inline: auto;
-  padding-inline: var(--na);
+  padding-inline: var(--space-4);
 }
 
 [data-wacss=site-brand] {
-  color: var(--cg);
-  font-size: var(--uX);
+  color: var(--color-foreground);
+  font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: -0.01em;
   text-decoration: none;
 }
 
 [data-wacss=site-brand]:hover {
-  color: var(--cg);
+  color: var(--color-foreground);
 }
 
 [data-wacss=site-nav-links] {
   display: flex;
   align-items: center;
-  gap: var(--mR);
+  gap: var(--space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2805,129 +2447,128 @@ nav a[aria-current=true] {
   display: inline-flex;
   align-items: center;
   block-size: 2rem;
-  padding-inline: var(--mY);
-  border-radius: var(--la);
-  color: var(--cm);
-  font-size: var(--uX);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-muted-foreground);
+  font-size: var(--text-sm);
   font-weight: 500;
   text-decoration: none;
-  transition: background var(--ij) var(--fO), color var(--ij) var(--fO);
+  transition: background var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=site-nav-links] a:hover {
-  background: var(--bR);
-  color: var(--bS);
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
 }
 
 [data-wacss=site-nav-links] a[aria-current=page] {
-  background: var(--bR);
-  color: var(--cg);
+  background: var(--color-accent);
+  color: var(--color-foreground);
 }
 
 [data-wacss=site-nav-actions] {
   display: flex;
   align-items: center;
-  gap: var(--mW);
+  gap: var(--space-2);
   margin-inline-start: auto;
 }
 
 [data-wacss=site-nav-actions] .theme-toggle {
-  gap: var(--mS);
+  gap: var(--space-1-5);
 }
 
 /* Demo/site layout patterns (no inline styles in pages). */
 [data-wacss=page] {
-  max-inline-size: 72rem;
   margin-inline: auto;
-  padding-inline: var(--na);
-  padding-block-end: var(--ne);
+  padding-inline: var(--space-4);
+  padding-block-end: var(--space-8);
 }
 
 [data-wacss=page-header] {
-  margin-block-end: var(--nd);
+  margin-block-end: var(--space-7);
 }
 
 [data-wacss=page-lead],
 [data-wacss=muted] {
-  color: var(--uH);
+  color: var(--text-muted);
 }
 
 [data-wacss=page-lead] {
-  max-inline-size: var(--hX);
+  max-inline-size: var(--measure);
 }
 
 [data-wacss=cluster] {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--mY);
+  gap: var(--space-3);
 }
 
 [data-wacss=cluster][data-gap="2"] {
-  gap: var(--mW);
+  gap: var(--space-2);
 }
 
 [data-wacss=cluster][data-gap="3"] {
-  gap: var(--mY);
+  gap: var(--space-3);
 }
 
 [data-wacss=grid] {
   display: grid;
-  gap: var(--na);
+  gap: var(--space-4);
 }
 
 [data-wacss=grid][data-gap="6"] {
-  gap: var(--nc);
+  gap: var(--space-6);
 }
 
 [data-wacss=grid-cards] {
   display: grid;
-  gap: var(--na);
+  gap: var(--space-4);
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   align-items: start;
 }
 
 [data-wacss=stack] {
   display: grid;
-  gap: var(--na);
+  gap: var(--space-4);
 }
 
 [data-wacss=stack][data-gap="2"] {
-  gap: var(--mW);
+  gap: var(--space-2);
 }
 
 [data-wacss=section] {
-  margin-block-start: var(--nd);
+  margin-block-start: var(--space-7);
   display: grid;
-  gap: var(--na);
+  gap: var(--space-4);
 }
 
 [data-wacss=section-bordered] {
-  margin-block-end: var(--nd);
-  border-block-start: var(--bO) solid var(--bY);
-  padding-block-start: var(--na);
+  margin-block-end: var(--space-7);
+  border-block-start: var(--border-width-ui) solid var(--color-border);
+  padding-block-start: var(--space-4);
 }
 
 [data-wacss=section-title] {
-  font-size: var(--gq);
-  margin-block-end: var(--mY);
+  font-size: var(--font-size-heading-3);
+  margin-block-end: var(--space-3);
 }
 
 [data-wacss=preview] {
-  padding: var(--na);
-  background: var(--cM);
-  border: var(--bO) solid var(--bY);
-  border-radius: var(--la);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-width-ui) solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 [data-wacss=schema] {
-  padding: var(--na);
-  background: var(--cM);
-  border: var(--bO) solid var(--bY);
-  border-radius: var(--la);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-width-ui) solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow-x: auto;
   white-space: pre-wrap;
-  font-family: var(--fS);
+  font-family: var(--font-family-mono);
   font-size: 0.9em;
 }
 
@@ -2940,35 +2581,35 @@ nav a[aria-current=true] {
 }
 
 [data-wacss=mb-5] {
-  margin-block-end: var(--nb);
+  margin-block-end: var(--space-5);
 }
 
 [data-wacss=list-disc] {
-  padding-inline-start: var(--na);
+  padding-inline-start: var(--space-4);
   list-style-type: disc;
 }
 
 [data-wacss=list-disc] > li {
-  margin-block-end: var(--mW);
+  margin-block-end: var(--space-2);
 }
 
 [data-wacss=text-sm-strong] {
-  font-size: var(--uX);
+  font-size: var(--text-sm);
   font-weight: 500;
 }
 
 [data-wacss=text-sm] {
-  font-size: var(--uX);
+  font-size: var(--text-sm);
 }
 
 [data-wacss=row] {
   display: flex;
   align-items: center;
-  gap: var(--mY);
+  gap: var(--space-3);
 }
 
 [data-wacss=row][data-gap="2"] {
-  gap: var(--mW);
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
@@ -2983,96 +2624,112 @@ nav a[aria-current=true] {
 [data-wacss=pre-compact] {
   margin: 0;
   overflow-x: auto;
-  font-size: var(--vh);
+  font-size: var(--text-xs);
 }
 
-[wacss=accordion] details {
+[data-wacss=component-grid] {
+  --min: 22rem;
+  --gutter: var(--space-4);
+  inline-size: 100%;
+}
+
+:where([wacss=accordion], [data-wacss=accordion]) details,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-item] {
   interpolate-size: allow-keywords;
   overflow: clip;
-  border-block-end: var(--oe) solid var(--no);
+  border-block-end: var(--state-border-width) solid var(--state-accordion-item-border);
   margin: 0;
   border-radius: 0;
   background: transparent;
 }
 
-[wacss=accordion] details:last-child {
+:where([wacss=accordion], [data-wacss=accordion]) details:last-child,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-item]:last-child {
   border-block-end: 0;
 }
 
-[wacss=accordion] summary {
+:where([wacss=accordion], [data-wacss=accordion]) summary,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-trigger] {
   display: block;
   cursor: pointer;
   position: relative;
-  padding: var(--nC);
-  color: var(--nx);
-  font-size: var(--nz);
-  font-weight: var(--nA);
-  line-height: var(--oc);
+  padding: var(--state-accordion-trigger-padding);
+  color: var(--state-accordion-trigger-fg);
+  font-size: var(--state-accordion-trigger-font-size);
+  font-weight: var(--state-accordion-trigger-font-weight);
+  line-height: var(--state-body-line);
   list-style: none;
-  border-radius: var(--nD);
-  background: var(--nt);
+  border-radius: var(--state-accordion-trigger-radius);
+  background: var(--state-accordion-trigger-bg);
   border: none;
   outline: none;
-  padding-inline-end: calc(var(--nn) + var(--nB));
+  padding-inline-end: calc(var(--state-accordion-icon-size) + var(--state-accordion-trigger-gap));
 }
 
-[wacss=accordion] details[open] > summary {
-  color: var(--nx);
-  background: var(--nt);
+:where([wacss=accordion], [data-wacss=accordion]) details[open] > summary,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-item][open] > [data-wacss=accordion-trigger] {
+  color: var(--state-accordion-trigger-fg);
+  background: var(--state-accordion-trigger-bg);
 }
 
-[wacss=accordion] summary::-webkit-details-marker {
+:where([wacss=accordion], [data-wacss=accordion]) summary::-webkit-details-marker {
   display: none;
 }
 
-[wacss=accordion] summary::marker {
+:where([wacss=accordion], [data-wacss=accordion]) summary::marker {
   content: "";
 }
 
-[wacss=accordion] details:not([open]) > summary:hover {
-  color: var(--ny);
-  background: var(--nv);
+:where([wacss=accordion], [data-wacss=accordion]) details:not([open]) > summary:hover,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-item]:not([open]) > [data-wacss=accordion-trigger]:hover {
+  color: var(--state-accordion-trigger-fg-hover);
+  background: var(--state-accordion-trigger-bg-hover);
   text-decoration: underline;
 }
 
-[wacss=accordion] details[open]::details-content {
+:where([wacss=accordion], [data-wacss=accordion]) details[open]::details-content {
   height: auto;
 }
 
-[wacss=accordion] details::details-content {
+:where([wacss=accordion], [data-wacss=accordion]) details::details-content {
   height: 0;
   overflow-y: clip;
-  transition: content-visibility var(--np) allow-discrete, height var(--np);
+  transition: content-visibility var(--state-accordion-motion) allow-discrete, height var(--state-accordion-motion);
 }
 
-[wacss=accordion] details > div {
-  padding: var(--ni);
-  color: var(--ng);
-  font-size: var(--nh);
+:where([wacss=accordion], [data-wacss=accordion]) details > div,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-content] {
+  padding: var(--state-accordion-content-padding);
+  color: var(--state-accordion-content-fg);
+  font-size: var(--state-accordion-content-font-size);
 }
 
-[wacss=accordion] details > div > :first-child {
+:where([wacss=accordion], [data-wacss=accordion]) details > div > :first-child,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-content] > :first-child {
   margin-block-start: 0;
 }
 
-[wacss=accordion] details > div > :last-child {
+:where([wacss=accordion], [data-wacss=accordion]) details > div > :last-child,
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-content] > :last-child {
   margin-block-end: 0;
 }
 
-[wacss=accordion] summary > svg[aria-hidden=true] {
+:where([wacss=accordion], [data-wacss=accordion]) summary > svg[aria-hidden=true],
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-icon] {
   position: absolute;
   inset-inline-end: 0;
   inset-block-start: 50%;
-  inline-size: var(--nn);
-  block-size: var(--nn);
-  color: var(--nl);
+  inline-size: var(--state-accordion-icon-size);
+  block-size: var(--state-accordion-icon-size);
+  color: var(--state-accordion-icon-fg);
   transform: translateY(-50%);
-  transition: transform 475ms var(--qu);
+  transition: transform 475ms var(--state-ease);
   pointer-events: none;
 }
 
-[wacss=accordion] details[open] > summary > svg[aria-hidden=true] {
-  color: var(--nm);
+:where([wacss=accordion], [data-wacss=accordion]) details[open] > summary > svg[aria-hidden=true],
+:where([wacss=accordion], [data-wacss=accordion]) [data-wacss=accordion-item][open] [data-wacss=accordion-icon] {
+  color: var(--state-accordion-icon-open-fg);
   transform: translateY(-50%) rotate(180deg);
 }
 
@@ -3085,28 +2742,28 @@ nav a[aria-current=true] {
   overflow: hidden;
   inline-size: 2.5rem;
   block-size: 2.5rem;
-  border-radius: var(--lb);
-  background: var(--cl);
-  color: var(--cg);
+  border-radius: var(--radius-pill);
+  background: var(--color-muted);
+  color: var(--color-foreground);
   vertical-align: middle;
 }
 
 [data-wacss=avatar][data-size=sm] {
   inline-size: 2rem;
   block-size: 2rem;
-  font-size: var(--vh);
+  font-size: var(--text-xs);
 }
 
 [data-wacss=avatar][data-size=md] {
   inline-size: 2.5rem;
   block-size: 2.5rem;
-  font-size: var(--uX);
+  font-size: var(--text-sm);
 }
 
 [data-wacss=avatar][data-size=lg] {
   inline-size: 3.5rem;
   block-size: 3.5rem;
-  font-size: var(--tT);
+  font-size: var(--text-base);
 }
 
 [data-wacss=avatar-image] {
@@ -3128,13 +2785,13 @@ nav a[aria-current=true] {
 [data-wacss=checkbox] {
   display: inline-flex;
   align-items: center;
-  gap: var(--gV);
-  padding: var(--iH);
+  gap: var(--gap-checkbox);
+  padding: var(--padding-checkbox);
   border: 0;
   background: transparent;
-  color: var(--uk);
-  font-size: var(--gi);
-  line-height: var(--hL);
+  color: var(--text-checkbox-label);
+  font-size: var(--font-size-checkbox-label);
+  line-height: var(--line-ui);
   text-align: start;
   cursor: pointer;
   outline: none;
@@ -3146,19 +2803,19 @@ nav a[aria-current=true] {
   align-items: center;
   justify-content: center;
   flex: none;
-  inline-size: var(--mI);
-  block-size: var(--mI);
-  border: var(--bO) solid var(--bp);
-  border-radius: var(--kR);
-  background: var(--av);
-  color: var(--cc);
-  box-shadow: var(--mq);
-  transition: background var(--ij) var(--fO), border-color var(--ij) var(--fO), box-shadow var(--ij) var(--fO);
+  inline-size: var(--size-checkbox);
+  block-size: var(--size-checkbox);
+  border: var(--border-width-ui) solid var(--border-checkbox);
+  border-radius: var(--radius-checkbox);
+  background: var(--background-checkbox);
+  color: var(--color-checkbox-icon);
+  box-shadow: var(--shadow-checkbox);
+  transition: background var(--motion-ui) var(--ease-ui), border-color var(--motion-ui) var(--ease-ui), box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=checkbox-control] svg {
-  inline-size: var(--mJ);
-  block-size: var(--mJ);
+  inline-size: var(--size-checkbox-icon);
+  block-size: var(--size-checkbox-icon);
   fill: none;
   stroke: currentColor;
   stroke-width: 2.5;
@@ -3168,97 +2825,97 @@ nav a[aria-current=true] {
 }
 
 [data-wacss=checkbox]:hover [data-wacss=checkbox-control] {
-  border-color: var(--bs);
-  background: var(--ay);
+  border-color: var(--border-checkbox-hover);
+  background: var(--background-checkbox-hover);
 }
 
 [data-wacss=checkbox][data-state=checked] [data-wacss=checkbox-control],
 [data-wacss=checkbox][data-state=indeterminate] [data-wacss=checkbox-control] {
-  background: var(--aw);
-  border-color: var(--bq);
+  background: var(--background-checkbox-checked);
+  border-color: var(--border-checkbox-checked);
 }
 
 [data-wacss=checkbox][data-state=checked]:hover [data-wacss=checkbox-control] {
-  background: var(--ax);
-  border-color: var(--br);
+  background: var(--background-checkbox-checked-hover);
+  border-color: var(--border-checkbox-checked-hover);
 }
 
 [data-wacss=checkbox]:focus-visible [data-wacss=checkbox-control] {
-  border-color: var(--lu);
-  outline: var(--lw) solid var(--lv);
+  border-color: var(--ring-checkbox);
+  outline: var(--ring-checkbox-width) solid var(--ring-checkbox-focus);
   outline-offset: 0;
 }
 
 [data-wacss=checkbox][aria-invalid=true] [data-wacss=checkbox-control] {
-  border-color: var(--bC);
-  outline: var(--lw) solid var(--lG);
+  border-color: var(--border-invalid-ui);
+  outline: var(--ring-checkbox-width) solid var(--ring-invalid-ui-focus);
   outline-offset: 0;
 }
 
 [data-wacss=checkbox]:disabled {
   cursor: not-allowed;
-  opacity: var(--im);
+  opacity: var(--opacity-checkbox-disabled);
   pointer-events: none;
 }
 
 [data-wacss=checkbox-description] {
   margin: 0;
-  margin-inline-start: calc(var(--mI) + var(--gV));
-  color: var(--uj);
-  font-size: var(--gh);
+  margin-inline-start: calc(var(--size-checkbox) + var(--gap-checkbox));
+  color: var(--text-checkbox-description);
+  font-size: var(--font-size-checkbox-description);
 }
 
 [data-wacss=dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--vm);
-  background: var(--aC);
-  animation: wacss-fade-in var(--if) var(--fO);
+  z-index: var(--z-dialog-overlay);
+  background: var(--background-dialog-overlay);
+  animation: wacss-fade-in var(--motion-dialog) var(--ease-ui);
 }
 
 [data-wacss=dialog-content] {
   position: fixed;
   inset-block-start: 50%;
   inset-inline-start: 50%;
-  z-index: var(--vl);
+  z-index: var(--z-dialog-content);
   display: grid;
-  gap: var(--gW);
-  inline-size: min(100vw - var(--hz) * 2, var(--hW));
-  max-block-size: calc(100dvh - var(--hz) * 2);
+  gap: var(--gap-dialog);
+  inline-size: min(100vw - var(--inset-dialog) * 2, var(--max-width-dialog));
+  max-block-size: calc(100dvh - var(--inset-dialog) * 2);
   overflow: auto;
-  padding: var(--iI);
-  border: var(--bO) solid var(--bt);
-  border-radius: var(--kT);
-  background: var(--az);
-  color: var(--ul);
-  box-shadow: var(--ms);
+  padding: var(--padding-dialog);
+  border: var(--border-width-ui) solid var(--border-dialog);
+  border-radius: var(--radius-dialog);
+  background: var(--background-dialog);
+  color: var(--text-dialog);
+  box-shadow: var(--shadow-dialog);
   transform: translate(-50%, -50%);
-  animation: wacss-dialog-in var(--if) var(--fO);
+  animation: wacss-dialog-in var(--motion-dialog) var(--ease-ui);
 }
 
 [data-wacss=dialog-title] {
   margin: 0;
-  color: var(--uq);
-  font-size: var(--gl);
-  font-weight: var(--gH);
-  line-height: var(--hH);
+  color: var(--text-dialog-title);
+  font-size: var(--font-size-dialog-title);
+  font-weight: var(--font-weight-dialog-title);
+  line-height: var(--line-dialog-title);
 }
 
 [data-wacss=dialog-description] {
   margin: 0;
-  color: var(--up);
-  font-size: var(--gk);
+  color: var(--text-dialog-description);
+  font-size: var(--font-size-dialog-description);
 }
 
 [data-wacss=dialog-body] {
-  color: var(--um);
-  font-size: var(--gj);
+  color: var(--text-dialog-body);
+  font-size: var(--font-size-dialog-body);
 }
 
 [data-wacss=dialog-footer] {
   display: flex;
   flex-direction: column-reverse;
-  gap: var(--gX);
+  gap: var(--gap-dialog-footer);
 }
 
 @media (min-width: 40rem) {
@@ -3269,37 +2926,37 @@ nav a[aria-current=true] {
 }
 [data-wacss=dialog-close] {
   position: absolute;
-  inset-block-start: var(--hA);
-  inset-inline-end: var(--hA);
+  inset-block-start: var(--inset-dialog-close);
+  inset-inline-end: var(--inset-dialog-close);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--mK) + var(--iJ) * 2);
-  block-size: calc(var(--mK) + var(--iJ) * 2);
-  padding: var(--iJ);
+  inline-size: calc(var(--size-dialog-close) + var(--padding-dialog-close) * 2);
+  block-size: calc(var(--size-dialog-close) + var(--padding-dialog-close) * 2);
+  padding: var(--padding-dialog-close);
   border: 0;
-  border-radius: var(--kU);
-  background: var(--aA);
-  color: var(--un);
-  opacity: var(--in);
+  border-radius: var(--radius-dialog-close);
+  background: var(--background-dialog-close);
+  color: var(--text-dialog-close);
+  opacity: var(--opacity-dialog-close);
   cursor: pointer;
-  transition: opacity var(--ij) var(--fO);
+  transition: opacity var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=dialog-close]:hover {
-  background: var(--aB);
-  color: var(--uo);
-  opacity: var(--io);
+  background: var(--background-dialog-close-hover);
+  color: var(--text-dialog-close-hover);
+  opacity: var(--opacity-dialog-close-hover);
 }
 
 [data-wacss=dialog-close]:focus-visible {
-  outline: var(--lz) solid var(--lx);
-  outline-offset: var(--ly);
+  outline: var(--ring-dialog-width) solid var(--ring-dialog-focus);
+  outline-offset: var(--ring-dialog-offset);
 }
 
 [data-wacss=dialog-close] svg {
-  inline-size: var(--mK);
-  block-size: var(--mK);
+  inline-size: var(--size-dialog-close);
+  block-size: var(--size-dialog-close);
   pointer-events: none;
 }
 
@@ -3316,38 +2973,38 @@ nav a[aria-current=true] {
 }
 [data-wacss=form] {
   display: grid;
-  gap: var(--gZ);
+  gap: var(--gap-form);
   inline-size: 100%;
-  background: var(--aF);
-  color: var(--us);
+  background: var(--background-form);
+  color: var(--text-form);
 }
 
 [data-wacss=form-fields] {
   display: grid;
-  grid-template-columns: repeat(var(--gP, 1), minmax(0, 1fr));
-  gap: var(--hc);
+  grid-template-columns: repeat(var(--form-columns, 1), minmax(0, 1fr));
+  gap: var(--gap-form-fields);
 }
 
 [data-wacss=form-fields][data-columns="2"] {
-  --gP: 2;
+  --form-columns: 2;
 }
 
 [data-wacss=form-fields][data-columns="3"] {
-  --gP: 3;
+  --form-columns: 3;
 }
 
 [data-wacss=form-field] {
   display: grid;
-  gap: var(--he);
+  gap: var(--gap-form-item);
   min-inline-size: 0;
 }
 
 [data-wacss=form] [data-wacss=form-group] {
   display: grid;
-  gap: var(--hd);
+  gap: var(--gap-form-group);
   min-inline-size: 0;
   margin: 0;
-  padding: var(--iN);
+  padding: var(--padding-form-group);
   border: 0;
   border-radius: 0;
 }
@@ -3355,30 +3012,30 @@ nav a[aria-current=true] {
 [data-wacss=form] [data-wacss=form-legend] {
   display: inline-flex;
   align-items: center;
-  gap: var(--hh);
+  gap: var(--gap-label);
   padding: 0;
-  color: var(--uv);
-  font-size: var(--gn);
-  font-weight: var(--gK);
-  line-height: var(--hK);
+  color: var(--text-form-legend);
+  font-size: var(--font-size-form-legend);
+  font-weight: var(--font-weight-form-legend);
+  line-height: var(--line-label);
 }
 
 [data-wacss=form-group-description] {
   margin: 0;
-  color: var(--ut);
-  font-size: var(--gm);
+  color: var(--text-form-description);
+  font-size: var(--font-size-form-description);
 }
 
 [data-wacss=form-checkboxes] {
   display: grid;
-  gap: var(--hb);
+  gap: var(--gap-form-checkboxes);
 }
 
 [data-wacss=form-error] {
   margin: 0;
-  color: var(--uu);
-  font-size: var(--gm);
-  font-weight: var(--gJ);
+  color: var(--text-form-error);
+  font-size: var(--font-size-form-description);
+  font-weight: var(--font-weight-form-error);
 }
 
 [data-wacss=form-actions] {
@@ -3386,7 +3043,7 @@ nav a[aria-current=true] {
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--ha);
+  gap: var(--gap-form-actions);
 }
 
 @media (max-width: 40rem) {
@@ -3394,9 +3051,36 @@ nav a[aria-current=true] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+[data-wacss=image],
+[data-wacss=video],
+[data-wacss=audio] {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+[data-wacss=image] img,
+[data-wacss=video] video {
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-md);
+  display: block;
+}
+
+[data-wacss=audio] audio {
+  inline-size: 100%;
+}
+
+[data-wacss=image] figcaption,
+[data-wacss=video] figcaption,
+[data-wacss=audio] figcaption {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
 [data-wacss=progress] {
   display: grid;
-  gap: var(--mW);
+  gap: var(--space-2);
   inline-size: 100%;
 }
 
@@ -3404,19 +3088,19 @@ nav a[aria-current=true] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--mW);
+  gap: var(--space-2);
 }
 
 [data-wacss=progress-label],
 [data-wacss=progress-value] {
-  color: var(--cg);
-  font-size: var(--uX);
+  color: var(--color-foreground);
+  font-size: var(--text-sm);
   font-weight: 500;
   line-height: 1;
 }
 
 [data-wacss=progress-value] {
-  color: var(--cm);
+  color: var(--color-muted-foreground);
 }
 
 [data-wacss=progress-track] {
@@ -3424,21 +3108,21 @@ nav a[aria-current=true] {
   inline-size: 100%;
   block-size: 0.5rem;
   overflow: hidden;
-  border-radius: var(--lb);
-  background: var(--cG);
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary);
 }
 
 [data-wacss=progress-indicator] {
   block-size: 100%;
   border-radius: inherit;
-  background: var(--cA);
-  transition: width 300ms var(--fO);
+  background: var(--color-primary);
+  transition: width 300ms var(--ease-ui);
 }
 
 [data-wacss=progress][data-indeterminate] [data-wacss=progress-indicator] {
   position: absolute;
   inset-block: 0;
-  animation: wacss-progress-indeterminate 1.2s var(--fO) infinite;
+  animation: wacss-progress-indeterminate 1.2s var(--ease-ui) infinite;
 }
 
 @keyframes wacss-progress-indeterminate {
@@ -3453,69 +3137,69 @@ nav a[aria-current=true] {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--hj);
+  gap: var(--gap-select);
   inline-size: 100%;
-  block-size: var(--hw);
-  padding-inline: var(--iT);
-  border: var(--bO) solid var(--bF);
-  border-radius: var(--le);
-  background: var(--aK);
-  color: var(--uM);
-  font-size: var(--gv);
+  block-size: var(--height-select);
+  padding-inline: var(--padding-select-inline);
+  border: var(--border-width-ui) solid var(--border-select);
+  border-radius: var(--radius-select);
+  background: var(--background-select);
+  color: var(--text-select);
+  font-size: var(--font-size-select);
   text-align: start;
   white-space: nowrap;
   cursor: pointer;
   outline: none;
-  box-shadow: var(--my);
-  transition: background var(--ij) var(--fO), border-color var(--ij) var(--fO), box-shadow var(--ij) var(--fO);
+  box-shadow: var(--shadow-select);
+  transition: background var(--motion-ui) var(--ease-ui), border-color var(--motion-ui) var(--ease-ui), box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=select-trigger]:hover {
-  border-color: var(--bI);
-  background: var(--aM);
+  border-color: var(--border-select-hover);
+  background: var(--background-select-hover);
 }
 
 [data-wacss=select-trigger]:focus-visible {
-  border-color: var(--bH);
-  outline: var(--lI) solid var(--lH);
+  border-color: var(--border-select-focus);
+  outline: var(--ring-select-width) solid var(--ring-select-focus);
   outline-offset: 0;
 }
 
 [data-wacss=select-trigger][aria-invalid=true] {
-  border-color: var(--bC);
-  outline: var(--lI) solid var(--lG);
+  border-color: var(--border-invalid-ui);
+  outline: var(--ring-select-width) solid var(--ring-invalid-ui-focus);
   outline-offset: 0;
 }
 
 [data-wacss=select-trigger]:disabled {
   cursor: not-allowed;
-  opacity: var(--iq);
+  opacity: var(--opacity-select-disabled);
   pointer-events: none;
 }
 
 [data-wacss=select-trigger] [data-placeholder] {
-  color: var(--jf);
+  color: var(--placeholder-select);
 }
 
 [data-wacss=select-icon] {
   flex: none;
-  inline-size: var(--mL);
-  block-size: var(--mL);
-  color: var(--cI);
+  inline-size: var(--size-select-icon);
+  block-size: var(--size-select-icon);
+  color: var(--color-select-icon);
   pointer-events: none;
 }
 
 [data-wacss=select-content] {
-  z-index: var(--vq);
-  min-inline-size: var(--ib);
-  max-block-size: var(--hV);
+  z-index: var(--z-select-content);
+  min-inline-size: var(--min-width-select-content);
+  max-block-size: var(--max-height-select-content);
   overflow: auto;
-  padding: var(--iS);
-  border: var(--bO) solid var(--bG);
-  border-radius: var(--lf);
-  background: var(--aL);
-  color: var(--uN);
-  box-shadow: var(--mz);
+  padding: var(--padding-select-content);
+  border: var(--border-width-ui) solid var(--border-select-content);
+  border-radius: var(--radius-select-content);
+  background: var(--background-select-content);
+  color: var(--text-select-content);
+  box-shadow: var(--shadow-select-content);
   outline: none;
 }
 
@@ -3527,39 +3211,39 @@ nav a[aria-current=true] {
 [data-wacss=select-item] {
   display: flex;
   align-items: center;
-  gap: var(--hj);
-  padding-block: var(--iU);
-  padding-inline: var(--iW) var(--iV);
-  border-radius: var(--lg);
-  background: var(--aN);
-  color: var(--uO);
-  font-size: var(--gw);
+  gap: var(--gap-select);
+  padding-block: var(--padding-select-item);
+  padding-inline: var(--padding-select-item-inline) var(--padding-select-item-end);
+  border-radius: var(--radius-select-item);
+  background: var(--background-select-item);
+  color: var(--text-select-item);
+  font-size: var(--font-size-select-item);
   cursor: default;
   outline: none;
   user-select: none;
 }
 
 [data-wacss=select-item][data-highlighted] {
-  background: var(--aO);
-  color: var(--uP);
+  background: var(--background-select-item-highlighted);
+  color: var(--text-select-item-highlighted);
 }
 
 [data-wacss=select-item][data-selected] {
-  background: var(--aP);
-  color: var(--uQ);
+  background: var(--background-select-item-selected);
+  color: var(--text-select-item-selected);
 }
 
 [data-wacss=select-item][data-disabled] {
   cursor: not-allowed;
-  opacity: var(--iq);
+  opacity: var(--opacity-select-disabled);
 }
 
 [data-wacss=select-item-check] {
   flex: none;
-  inline-size: var(--mM);
-  block-size: var(--mM);
+  inline-size: var(--size-select-item-check);
+  block-size: var(--size-select-item-check);
   margin-inline-start: auto;
-  color: var(--cJ);
+  color: var(--color-select-item-check);
   pointer-events: none;
   visibility: hidden;
 }
@@ -3571,13 +3255,13 @@ nav a[aria-current=true] {
 [data-wacss=switch] {
   display: inline-flex;
   align-items: center;
-  gap: var(--hk);
+  gap: var(--gap-switch);
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--uZ);
-  font-size: var(--gz);
-  line-height: var(--hL);
+  color: var(--text-switch-label);
+  font-size: var(--font-size-switch-label);
+  line-height: var(--line-ui);
   text-align: start;
   cursor: pointer;
   outline: none;
@@ -3587,66 +3271,66 @@ nav a[aria-current=true] {
   display: inline-flex;
   align-items: center;
   flex: none;
-  inline-size: var(--vk);
-  block-size: var(--hx);
-  padding: var(--iX);
-  border: var(--bO) solid transparent;
-  border-radius: var(--lj);
-  background: var(--aR);
-  box-shadow: var(--mC);
-  transition: background var(--ij) var(--fO), border-color var(--ij) var(--fO), box-shadow var(--ij) var(--fO);
+  inline-size: var(--width-switch);
+  block-size: var(--height-switch);
+  padding: var(--padding-switch);
+  border: var(--border-width-ui) solid transparent;
+  border-radius: var(--radius-switch);
+  background: var(--background-switch);
+  box-shadow: var(--shadow-switch-thumb);
+  transition: background var(--motion-ui) var(--ease-ui), border-color var(--motion-ui) var(--ease-ui), box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=switch-thumb] {
   display: block;
-  inline-size: var(--mN);
-  block-size: var(--mN);
-  border-radius: var(--lj);
-  background: var(--aV);
-  box-shadow: var(--mC);
+  inline-size: var(--size-switch-thumb);
+  block-size: var(--size-switch-thumb);
+  border-radius: var(--radius-switch);
+  background: var(--background-switch-thumb);
+  box-shadow: var(--shadow-switch-thumb);
   transform: translateX(0);
-  transition: transform var(--ii) var(--fO), background var(--ij) var(--fO);
+  transition: transform var(--motion-switch-thumb) var(--ease-ui), background var(--motion-ui) var(--ease-ui);
 }
 
 [data-wacss=switch]:hover [data-wacss=switch-track] {
-  background: var(--aU);
+  background: var(--background-switch-hover);
 }
 
 [data-wacss=switch][data-state=checked] [data-wacss=switch-track] {
-  background: var(--aS);
+  background: var(--background-switch-checked);
 }
 
 [data-wacss=switch][data-state=checked]:hover [data-wacss=switch-track] {
-  background: var(--aT);
+  background: var(--background-switch-checked-hover);
 }
 
 [data-wacss=switch][data-state=checked] [data-wacss=switch-thumb] {
-  background: var(--aW);
-  transform: translateX(var(--ik));
+  background: var(--background-switch-thumb-checked);
+  transform: translateX(var(--offset-switch-thumb));
 }
 
 [data-wacss=switch]:focus-visible [data-wacss=switch-track] {
-  border-color: var(--lJ);
-  outline: var(--lL) solid var(--lK);
+  border-color: var(--ring-switch);
+  outline: var(--ring-switch-width) solid var(--ring-switch-focus);
   outline-offset: 0;
 }
 
 [data-wacss=switch]:disabled {
   cursor: not-allowed;
-  opacity: var(--ir);
+  opacity: var(--opacity-switch-disabled);
   pointer-events: none;
 }
 
 [data-wacss=switch-description] {
   margin: 0;
-  margin-inline-start: calc(var(--vk) + var(--hk));
-  color: var(--uY);
-  font-size: var(--gy);
+  margin-inline-start: calc(var(--width-switch) + var(--gap-switch));
+  color: var(--text-switch-description);
+  font-size: var(--font-size-switch-description);
 }
 
 [wacss=tabs] {
   display: grid;
-  gap: var(--hl);
+  gap: var(--gap-tabs);
   inline-size: 100%;
 }
 
@@ -3654,14 +3338,14 @@ nav a[aria-current=true] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--hn);
+  gap: var(--gap-tabs-list);
   inline-size: fit-content;
-  block-size: var(--hy);
-  padding: var(--jc);
+  block-size: var(--height-tabs-list);
+  padding: var(--padding-tabs-list);
   border: 0;
-  border-radius: var(--lk);
-  background: var(--bb);
-  color: var(--vd);
+  border-radius: var(--radius-tabs-list);
+  background: var(--background-tabs-list);
+  color: var(--text-tabs-trigger);
 }
 
 [wacss=tabs] [role=tab] {
@@ -3669,53 +3353,53 @@ nav a[aria-current=true] {
   flex: 1;
   align-items: center;
   justify-content: center;
-  gap: var(--ho);
+  gap: var(--gap-tabs-trigger);
   block-size: calc(100% - 1px);
-  padding: var(--jd);
-  border: var(--bO) solid var(--bK);
-  border-radius: var(--ll);
-  background: var(--bc);
-  color: var(--vd);
-  font-size: var(--gB);
-  font-weight: var(--gO);
-  line-height: var(--hL);
+  padding: var(--padding-tabs-trigger);
+  border: var(--border-width-ui) solid var(--border-tabs-trigger);
+  border-radius: var(--radius-tabs-trigger);
+  background: var(--background-tabs-trigger);
+  color: var(--text-tabs-trigger);
+  font-size: var(--font-size-tabs-trigger);
+  font-weight: var(--font-weight-tabs-trigger);
+  line-height: var(--line-ui);
   white-space: nowrap;
   cursor: pointer;
   outline: none;
-  transition: background var(--ij) var(--fO), border-color var(--ij) var(--fO), color var(--ij) var(--fO), box-shadow var(--ij) var(--fO);
+  transition: background var(--motion-ui) var(--ease-ui), border-color var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui), box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 [wacss=tabs] [role=tab]:hover {
-  background: var(--be);
-  color: var(--vf);
+  background: var(--background-tabs-trigger-hover);
+  color: var(--text-tabs-trigger-hover);
 }
 
 [wacss=tabs] [role=tab][aria-selected=true] {
-  background: var(--bd);
-  border-color: var(--bL);
-  color: var(--ve);
-  box-shadow: var(--mD);
+  background: var(--background-tabs-trigger-active);
+  border-color: var(--border-tabs-trigger-active);
+  color: var(--text-tabs-trigger-active);
+  box-shadow: var(--shadow-tabs-trigger-active);
 }
 
 [wacss=tabs] [role=tab]:focus-visible {
-  border-color: var(--lM);
-  outline: var(--lO) solid var(--lN);
+  border-color: var(--ring-tabs);
+  outline: var(--ring-tabs-width) solid var(--ring-tabs-focus);
   outline-offset: 0;
 }
 
 [wacss=tabs] [role=tab][aria-disabled=true],
 [wacss=tabs] [role=tab]:disabled {
   cursor: not-allowed;
-  opacity: var(--is);
+  opacity: var(--opacity-tabs-disabled);
   pointer-events: none;
 }
 
 [wacss=tabs] [role=tabpanel] {
   display: grid;
-  gap: var(--hm);
-  padding: var(--jb);
-  background: var(--ba);
-  color: var(--vc);
+  gap: var(--gap-tabs-content);
+  padding: var(--padding-tabs-content);
+  background: var(--background-tabs-content);
+  color: var(--text-tabs-content);
   outline: none;
 }
 

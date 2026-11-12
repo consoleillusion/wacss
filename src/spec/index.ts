@@ -1,4 +1,6 @@
+import audio from "../components/Audio/schema";
 import button from "../components/Button/schema";
+import color from "../components/ColorInput/schema";
 import input from "../components/Input/schema";
 import field from "../components/Field/schema";
 import form from "../components/Form/schema";
@@ -27,9 +29,13 @@ import progress from "../components/Progress/schema";
 import meter from "../components/Meter/schema";
 import avatar from "../components/Avatar/schema";
 import aspectRatio from "../components/AspectRatio/schema";
+import image from "../components/Image/schema";
+import video from "../components/Video/schema";
 
 export const schemas = {
+  audio,
   button,
+  color,
   input,
   field,
   form,
@@ -58,6 +64,8 @@ export const schemas = {
   meter,
   avatar,
   aspectRatio,
+  image,
+  video,
 };
-export { button, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, slider, progress, meter, avatar, aspectRatio };
+export { audio, button, color, input, field, form, table, card, nav, disclosure, badge, dialog, select, popover, tooltip, tabs, dropdownMenu, toggle, switchSchema as switch, checkbox, radioGroup, separator, label, accordion, alertDialog, contextMenu, slider, progress, meter, avatar, aspectRatio, image, video };
 export default schemas;

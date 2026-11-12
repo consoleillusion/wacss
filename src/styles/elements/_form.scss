@@ -133,6 +133,34 @@ select:disabled,
   font-size: var(--font-size-input-help);
 }
 
+[data-wacss="accent-selector"] {
+  display: grid;
+  gap: var(--gap-input);
+}
+
+input[type="range"] {
+  inline-size: 100%;
+  accent-color: var(--alias-accent);
+}
+
+[data-wacss="color-input-row"] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+[data-wacss-color-swatch] {
+  padding: var(--primitive-space-1);
+  inline-size: 2.5rem;
+  min-inline-size: 2.5rem;
+  cursor: pointer;
+}
+
+[data-wacss-color-swatch]::-webkit-color-swatch-wrapper { padding: 0; }
+[data-wacss-color-swatch]::-webkit-color-swatch { border: 0; border-radius: calc(var(--radius-input) - 2px); }
+[data-wacss-color-swatch]::-moz-color-swatch { border: 0; border-radius: calc(var(--radius-input) - 2px); }
+
 [data-wacss="input-error"] {
   margin: 0;
   color: var(--text-input-invalid);

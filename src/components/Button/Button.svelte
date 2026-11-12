@@ -10,8 +10,9 @@
     type = "button",
     class: className = "",
     children,
+    label,
     ...restProps
-  }: ButtonProps = $props();
+  }: ButtonProps & { label?: string } = $props();
 
   const classes = $derived(["wacss-button", className].filter(Boolean).join(" "));
 </script>
@@ -31,7 +32,7 @@
     {#if loading}
       <span data-wacss="button-spinner" aria-hidden="true"></span>
     {/if}
-    {@render children?.()}
+    {#if children}{@render children()}{:else if label}{label}{/if}
   </a>
 {:else}
   <button
@@ -47,6 +48,6 @@
     {#if loading}
       <span data-wacss="button-spinner" aria-hidden="true"></span>
     {/if}
-    {@render children?.()}
+    {#if children}{@render children()}{:else if label}{label}{/if}
   </button>
 {/if}
