@@ -5,18 +5,18 @@
   height: var(--progress-height-static);
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-pill-static);
+  border-radius: var(--radius-full-static);
   background: var(--progress-track-static);
 }
 [role="progressbar"] > div, [data-progress-indicator] {
   height: 100%;
   background: var(--progress-indicator-static);
   border-radius: inherit;
-  transition: width var(--motion-surface-static) var(--ease-out-static), transform var(--motion-surface-static) var(--ease-out-static);
+  transition: width var(--motion-surface-static) var(--ease-interaction-static), transform var(--motion-surface-static) var(--ease-interaction-static);
 }
 [data-indeterminate] [role="progressbar"] > div {
   width: 40%;
-  animation: wacss-progress-indeterminate var(--motion-indeterminate-static) infinite var(--ease-in-out-static);
+  animation: wacss-progress-indeterminate var(--motion-indeterminate-static) infinite var(--ease-ambient-static);
 }
 @keyframes wacss-progress-indeterminate {
   0% { transform: translateX(-100%); }

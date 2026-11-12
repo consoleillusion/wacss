@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { ButtonProps } from "../types";
+  import type { ButtonProps } from "./types";
 
   let {
-    variant = "default",
-    size = "default",
-    loading = false,
-    disabled = false,
-    href,
-    type = "button",
-    class: className = "",
-    children,
-    label,
-    ...restProps
+    variant = "default"
+    , size = "default"
+    , loading = false
+    , disabled = false
+    , href
+    , type = "button"
+    , class: className = ""
+    , children
+    , label
+    , ...restProps
   }: ButtonProps & { label?: string; size?: string } = $props();
 
   const dataVariant = $derived(variant === "default" ? "secondary" : variant);

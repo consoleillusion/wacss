@@ -1,31 +1,31 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { InputProps } from "../types";
+  import type { InputProps } from "../Input/types";
   import Slider from "../Slider/Slider.svelte";
   import { persistState } from "../persist.svelte";
   import {
-    applyAccentToRoot,
-    emitAccentChange,
-    hexToHue,
-    hueToAccent,
-    oklchToHex,
-    subscribeAccentChange,
-  } from "../accent";
+    applyAccentToRoot
+    , emitAccentChange
+    , hexToHue
+    , hueToAccent
+    , oklchToHex
+    , subscribeAccentChange
+  , } from "../accent";
 
   let {
-    value = $bindable("#6d9469"),
-    label,
-    description,
-    error,
-    disabled = false,
-    id,
-    name,
-    storageKey,
-    persist = true,
-    accentSelector = false,
-    class: className = "",
-    inputClass = "",
-    ...restProps
+    value = $bindable("#6d9469")
+    , label
+    , description
+    , error
+    , disabled = false
+    , id
+    , name
+    , storageKey
+    , persist = true
+    , accentSelector = false
+    , class: className = ""
+    , inputClass = ""
+    , ...restProps
   }: InputProps & { value?: string; accentSelector?: boolean } = $props();
 
   const uid = $props.id();
@@ -102,11 +102,11 @@
   });
 
   persistState({
-    get: () => value,
-    set: (next) => { value = next; },
-    key: () => storageKey ?? (id ? `wacss:color:${id}` : "wacss:color"),
-    enabled: () => persist,
-  });
+    get: () => value
+    , set: (next) => { value = next; }
+    , key: () => storageKey ?? (id ? `wacss:color:${id}` : "wacss:color")
+    , enabled: () => persist
+  , });
 </script>
 
 <div class={classes}>

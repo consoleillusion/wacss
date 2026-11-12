@@ -1,18 +1,18 @@
 <script lang="ts">
-  import type { VideoProps } from "../types";
+  import type { VideoProps } from "./types";
 
   let {
-    src,
-    sources,
-    poster,
-    controls = true,
-    autoplay = false,
-    loop = false,
-    muted = false,
-    playsinline = true,
-    preload = "metadata",
-    class: className = "",
-    ...restProps
+    src
+    , sources
+    , poster
+    , controls = true
+    , autoplay = false
+    , loop = false
+    , muted = false
+    , playsinline = true
+    , preload = "metadata"
+    , class: className = ""
+    , ...restProps
   }: VideoProps = $props();
 </script>
 

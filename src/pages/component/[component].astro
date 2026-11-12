@@ -36,7 +36,7 @@ import Nav from "../../components/Nav/Nav.astro";
 import Disclosure from "../../components/Disclosure/Disclosure.astro";
 import DataTable from "../../components/DataTable/DataTable.svelte";
 import PertChart from "../../components/PertChart/PertChart.svelte";
-import TokenGraph from "../../components/TokenGraph/TokenGraph.svelte";
+import NodeLinkDiagram from "../../components/NodeLinkDiagram/NodeLinkDiagram.svelte";
 import { collectTokenLayers } from "../../spec/tokens";
 import Alert from "../../components/Alert/Alert.svelte";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb.svelte";
@@ -50,117 +50,143 @@ import { ClientRouter } from "astro:transitions";
 import ThemeScript from "../../components/ThemeScript.astro";
 const entry: string = (Astro.params.component ?? "").toLowerCase();
 
-const accordionItems = [
-  { value: "one", title: "First item", content: "The accordion renders from an items array." },
-  { value: "two", title: "Second item", content: "Only one item is open at a time by default." },
-  { value: "three", title: "Third item", content: "Set type=\"multiple\" to open several." },
+const accordionItems =
+[ { value: "one", title: "First item", content: "The accordion renders from an items array." }
+, { value: "two", title: "Second item", content: "Only one item is open at a time by default." }
+, { value: "three", title: "Third item", content: "Set type=\"multiple\" to open several." }
 ];
 
-const selectOptions = [
-  { value: "sakura", label: "Sakura" },
-  { value: "matcha", label: "Matcha" },
-  { value: "sumi", label: "Sumi" },
-  { value: "aizome", label: "Aizome" },
-  { value: "kurenai", label: "Kurenai" },
+const selectOptions =
+[ { value: "sakura", label: "Sakura" }
+, { value: "matcha", label: "Matcha" }
+, { value: "sumi", label: "Sumi" }
+, { value: "aizome", label: "Aizome" }
+, { value: "kurenai", label: "Kurenai" }
 ];
 
-const tabs = [
-  { value: "overview", label: "Overview", content: "Data-driven tabs with persisted selection." },
-  { value: "usage", label: "Usage", content: "Pass a tabs array and the component renders the rest." },
-  { value: "tokens", label: "Tokens", content: "Every visual value comes from a component or state token." },
+const tabs =
+[ { value: "overview", label: "Overview", content: "Data-driven tabs with persisted selection." }
+, { value: "usage"
+  , label: "Usage"
+  , content: "Pass a tabs array and the component renders the rest."
+  }
+, { value: "tokens"
+  , label: "Tokens"
+  , content: "Every visual value comes from a component or state token."
+  }
 ];
 
-const datatableColumns = [
-  { id: "version", header: "Version", width: 90, sort: true },
-  { id: "title", header: "Release", flexgrow: 1, editor: "text" },
-  { id: "date", header: "Date", width: 120, sort: true, editor: "datepicker" },
-  {
-    id: "status",
-    header: "Status",
-    width: 120,
-    editor: {
-      type: "richselect",
-      config: {
-        options: [
-          { id: "Current", label: "Current" },
-          { id: "Shipped", label: "Shipped" },
-          { id: "Fix", label: "Fix" },
-        ],
-      },
-    },
-  },
+const datatableColumns =
+[ { id: "version", header: "Version", width: 90, sort: true }
+, { id: "title", header: "Release", flexgrow: 1, editor: "text" }
+, { id: "date", header: "Date", width: 120, sort: true, editor: "datepicker" }
+, { id: "status"
+  , header: "Status"
+  , width: 120
+  , editor:
+      { type: "richselect"
+      , config:
+          { options:
+              [ { id: "Current", label: "Current" }
+              , { id: "Shipped", label: "Shipped" }
+              , { id: "Fix", label: "Fix" }
+              ]
+          }
+      }
+  }
 ];
-const datatableRows = [
-  { id: 1, version: "0.2.0", title: "DataTable component", date: "2026-11-13", status: "Current" },
-  { id: 2, version: "0.1.2", title: "Theme persists across view transitions", date: "2026-11-05", status: "Fix" },
-  { id: 3, version: "0.1.0", title: "Initial component set", date: "2026-10-28", status: "Shipped" },
-  { id: 4, version: "0.0.9", title: "Token hierarchy rulebook", date: "2026-10-21", status: "Shipped" },
-  { id: 5, version: "0.0.8", title: "Card figures bleed to the edge", date: "2026-10-14", status: "Shipped" },
+const datatableRows =
+[ { id: 1, version: "0.2.0", title: "DataTable component", date: "2026-11-13", status: "Current" }
+, { id: 2
+  , version: "0.1.2"
+  , title: "Theme persists across view transitions"
+  , date: "2026-11-05"
+  , status: "Fix"
+  }
+, { id: 3, version: "0.1.0", title: "Initial component set", date: "2026-10-28", status: "Shipped" }
+, { id: 4
+  , version: "0.0.9"
+  , title: "Token hierarchy rulebook"
+  , date: "2026-10-21"
+  , status: "Shipped"
+  }
+, { id: 5
+  , version: "0.0.8"
+  , title: "Card figures bleed to the edge"
+  , date: "2026-10-14"
+  , status: "Shipped"
+  }
 ];
 
-const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Components", href: "/component/" },
-  { label: "Breadcrumb" },
+const breadcrumbItems =
+[ { label: "Home", href: "/" }
+, { label: "Components", href: "/component/" }
+, { label: "Breadcrumb" }
 ];
 
 const tokenLayers = collectTokenLayers();
 
-const pertTasks = [
-  { id: "A", name: "Requirements", optimistic: 3, likely: 5, pessimistic: 9 },
-  { id: "B", name: "Design", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["A"] },
-  { id: "C", name: "Frontend", optimistic: 5, likely: 8, pessimistic: 14, dependsOn: ["B"] },
-  { id: "D", name: "Backend", optimistic: 4, likely: 6, pessimistic: 10, dependsOn: ["B"] },
-  { id: "E", name: "QA", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["C"] },
-  { id: "F", name: "Performance", optimistic: 2, likely: 4, pessimistic: 6, dependsOn: ["D"] },
-  { id: "G", name: "Staging deploy", optimistic: 1, likely: 2, pessimistic: 4, dependsOn: ["E", "F"] },
-  { id: "H", name: "Launch", optimistic: 1, likely: 1, pessimistic: 2, dependsOn: ["G"] },
+const pertTasks =
+[ { id: "A", name: "Requirements", optimistic: 3, likely: 5, pessimistic: 9 }
+, { id: "B", name: "Design", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["A"] }
+, { id: "C", name: "Frontend", optimistic: 5, likely: 8, pessimistic: 14, dependsOn: ["B"] }
+, { id: "D", name: "Backend", optimistic: 4, likely: 6, pessimistic: 10, dependsOn: ["B"] }
+, { id: "E", name: "QA", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["C"] }
+, { id: "F", name: "Performance", optimistic: 2, likely: 4, pessimistic: 6, dependsOn: ["D"] }
+, { id: "G"
+  , name: "Staging deploy"
+  , optimistic: 1
+  , likely: 2
+  , pessimistic: 4
+  , dependsOn: ["E", "F"]
+  }
+, { id: "H", name: "Launch", optimistic: 1, likely: 1, pessimistic: 2, dependsOn: ["G"] }
 ];
 
-const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, unknown> }> = {
-  audio: { Component: Audio, schema: schemas.audio },
-  button: { Component: Button, schema: schemas.button },
-  card: { Component: Card, schema: schemas.card },
-  input: { Component: Input, schema: schemas.input },
-  form: { Component: FormDemo, schema: schemas.form },
-  label: { Component: Label, schema: schemas.label },
-  accordion: { Component: Accordion, schema: schemas.accordion },
-  checkbox: { Component: Checkbox, schema: schemas.checkbox },
-  switch: { Component: Switch, schema: schemas.switch },
-  select: { Component: Select, schema: schemas.select },
-  dialog: { Component: Dialog, schema: schemas.dialog },
-  tabs: { Component: Tabs, schema: schemas.tabs },
-  badge: { Component: Badge, schema: schemas.badge },
-  separator: { Component: Separator, schema: schemas.separator },
-  progress: { Component: Progress, schema: schemas.progress },
-  avatar: { Component: Avatar, schema: schemas.avatar },
-  popover: { Component: Popover, schema: schemas.popover },
-  dropdownmenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
-  toggle: { Component: Toggle, schema: schemas.toggle },
-  radiogroup: { Component: RadioGroup, schema: schemas.radioGroup },
-  alertdialog: { Component: AlertDialog, schema: schemas.alertDialog },
-  contextmenu: { Component: ContextMenu, schema: schemas.contextMenu },
-  slider: { Component: Slider, schema: schemas.slider },
-  meter: { Component: Meter, schema: schemas.meter },
-  aspectratio: { Component: AspectRatio, schema: schemas.aspectRatio },
-  color: { Component: ColorInput, schema: schemas.color },
-  colorpicker: { Component: ColorPicker, schema: schemas.colorPicker },
-  datepicker: { Component: DatePicker, schema: schemas.datePicker },
-  navigationmenu: { Component: NavigationMenu, schema: schemas.navigationMenu },
-  field: { Component: Field, schema: schemas.field },
-  table: { Component: null, schema: schemas.table },
-  nav: { Component: Nav, schema: schemas.nav },
-  disclosure: { Component: Disclosure, schema: schemas.disclosure },
-  image: { Component: Image, schema: schemas.image },
-  video: { Component: Video, schema: schemas.video },
-  datatable: { Component: DataTable, schema: schemas.datatable },
-  pertchart: { Component: PertChart, schema: schemas.pertChart },
-  tokengraph: { Component: TokenGraph, schema: schemas.tokenGraph },
-  alert: { Component: Alert, schema: schemas.alert },
-  breadcrumb: { Component: Breadcrumb, schema: schemas.breadcrumb },
-  pagination: { Component: Pagination, schema: schemas.pagination },
-  skeleton: { Component: Skeleton, schema: schemas.skeleton },
-  textarea: { Component: Textarea, schema: schemas.textarea },
+const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, unknown> }> =
+{ audio: { Component: Audio, schema: schemas.audio }
+, button: { Component: Button, schema: schemas.button }
+, card: { Component: Card, schema: schemas.card }
+, input: { Component: Input, schema: schemas.input }
+, form: { Component: FormDemo, schema: schemas.form }
+, label: { Component: Label, schema: schemas.label }
+, accordion: { Component: Accordion, schema: schemas.accordion }
+, checkbox: { Component: Checkbox, schema: schemas.checkbox }
+, switch: { Component: Switch, schema: schemas.switch }
+, select: { Component: Select, schema: schemas.select }
+, dialog: { Component: Dialog, schema: schemas.dialog }
+, tabs: { Component: Tabs, schema: schemas.tabs }
+, badge: { Component: Badge, schema: schemas.badge }
+, separator: { Component: Separator, schema: schemas.separator }
+, progress: { Component: Progress, schema: schemas.progress }
+, avatar: { Component: Avatar, schema: schemas.avatar }
+, popover: { Component: Popover, schema: schemas.popover }
+, dropdownmenu: { Component: DropdownMenu, schema: schemas.dropdownMenu }
+, toggle: { Component: Toggle, schema: schemas.toggle }
+, radiogroup: { Component: RadioGroup, schema: schemas.radioGroup }
+, alertdialog: { Component: AlertDialog, schema: schemas.alertDialog }
+, contextmenu: { Component: ContextMenu, schema: schemas.contextMenu }
+, slider: { Component: Slider, schema: schemas.slider }
+, meter: { Component: Meter, schema: schemas.meter }
+, aspectratio: { Component: AspectRatio, schema: schemas.aspectRatio }
+, color: { Component: ColorInput, schema: schemas.color }
+, colorpicker: { Component: ColorPicker, schema: schemas.colorPicker }
+, datepicker: { Component: DatePicker, schema: schemas.datePicker }
+, navigationmenu: { Component: NavigationMenu, schema: schemas.navigationMenu }
+, field: { Component: Field, schema: schemas.field }
+, table: { Component: null, schema: schemas.table }
+, nav: { Component: Nav, schema: schemas.nav }
+, disclosure: { Component: Disclosure, schema: schemas.disclosure }
+, image: { Component: Image, schema: schemas.image }
+, video: { Component: Video, schema: schemas.video }
+, datatable: { Component: DataTable, schema: schemas.datatable }
+, pertchart: { Component: PertChart, schema: schemas.pertChart }
+, nodelinkdiagram: { Component: NodeLinkDiagram, schema: schemas.nodeLinkDiagram }
+, alert: { Component: Alert, schema: schemas.alert }
+, breadcrumb: { Component: Breadcrumb, schema: schemas.breadcrumb }
+, pagination: { Component: Pagination, schema: schemas.pagination }
+, skeleton: { Component: Skeleton, schema: schemas.skeleton }
+, textarea: { Component: Textarea, schema: schemas.textarea }
 };
 
 const componentInfo = COMPONENTS[entry];
@@ -190,8 +216,8 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
       lines.push(
         `${indent}${key}: [${value
           .map((v) => (typeof v === "object" && v !== null ? JSON.stringify(v) : String(v)))
-          .join(", ")}]`,
-      );
+          .join(", ")}]`
+      , );
     } else {
       lines.push(`${indent}${key}: ${JSON.stringify(value)}`);
     }
@@ -279,9 +305,9 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
               </div>
             )}
             {entry === "textarea" && <Textarea client:load label="Notes" placeholder="Write something memorable…" description="Stored in localStorage by default." rows={5} />}
-            {entry === "tokengraph" && (
+            {entry === "nodelinkdiagram" && (
               <div style="inline-size: 100%; block-size: calc(100vh - 4rem);">
-                <TokenGraph client:load layers={tokenLayers} />
+                <NodeLinkDiagram client:load layers={tokenLayers} />
               </div>
             )}
             {entry === "pertchart" && (
@@ -350,14 +376,14 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
             {entry === "navigationmenu" && (
               <NavigationMenu client:load items={[
                 { label: "Getting started", links: [
-                  { href: "#", label: "Introduction", description: "Token-driven global CSS components." },
-                  { href: "#", label: "Installation", description: "Add dist/wacss.css to your project." },
-                ]},
-                { label: "Components", links: [
-                  { href: "/component/button/", label: "Button", description: "Actions and variants." },
-                  { href: "/component/form/", label: "Form", description: "JSON Schema-driven forms." },
-                ]},
-                { label: "Docs", href: "/component/" },
+                  { href: "#", label: "Introduction", description: "Token-driven global CSS components." }
+                , { href: "#", label: "Installation", description: "Add dist/wacss.css to your project." }
+                ]}
+              , { label: "Components", links: [
+                  { href: "/component/button/", label: "Button", description: "Actions and variants." }
+                , { href: "/component/form/", label: "Form", description: "JSON Schema-driven forms." }
+                ]}
+              , { label: "Docs", href: "/component/" }
               ]} />
             )}
           </div>

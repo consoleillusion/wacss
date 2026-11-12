@@ -1,9 +1,9 @@
 <script lang="ts">
   let {
-    lines = 1,
-    circle = false,
-    class: className = "",
-    ...restProps
+    lines = 1
+    , circle = false
+    , class: className = ""
+    , ...restProps
   }: {
     /** Number of bar lines to render (ignored when `circle` is set). */
     lines?: number;

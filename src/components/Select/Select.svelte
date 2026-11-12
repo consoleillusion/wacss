@@ -1,42 +1,42 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { Select as BitsSelect } from "bits-ui";
-  import type { SelectProps } from "../types";
+  import type { SelectProps } from "./types";
   import { persistState } from "../persist.svelte";
   import { ACCENT_THEME_NAMES, emitAccentChange, readAccentState, subscribeAccentChange } from "../accent";
 
   let {
-    options = [],
-    type = "single",
-    value = $bindable<string | string[]>(type === "multiple" ? [] : ""),
-    placeholder = "Select an option",
-    disabled = false,
-    required = false,
-    name,
-    id,
-    storageKey = "wacss:select",
-    persist = true,
-    class: className = "",
-    contentClass = "",
-    triggerProps,
-    onValueChange,
-    accentSelector = false,
-    ...restProps
+    options = []
+    , type = "single"
+    , value = $bindable<string | string[]>(type === "multiple" ? [] : "")
+    , placeholder = "Select an option"
+    , disabled = false
+    , required = false
+    , name
+    , id
+    , storageKey = "wacss:select"
+    , persist = true
+    , class: className = ""
+    , contentClass = ""
+    , triggerProps
+    , onValueChange
+    , accentSelector = false
+    , ...restProps
   }: SelectProps & { onValueChange?: (value: string | string[]) => void; accentSelector?: boolean } = $props();
 
   const classes = $derived(["", className].filter(Boolean).join(" "));
   const contentClasses = $derived(
-    ["", contentClass].filter(Boolean).join(" "),
-  );
+    ["", contentClass].filter(Boolean).join(" ")
+  , );
 
   const items = $derived(
     accentSelector
       ? [
-          ...options.map((o) => ({ value: o.value, label: o.label, disabled: o.disabled })),
-          { value: "custom", label: "Custom" },
-        ]
-      : options,
-  );
+          ...options.map((o) => ({ value: o.value, label: o.label, disabled: o.disabled }))
+          , { value: "custom", label: "Custom" }
+        , ]
+      : options
+  , );
 
   function applyAccent(next: string | string[], fromUser = false) {
     if (!accentSelector || Array.isArray(next)) return;
@@ -82,11 +82,11 @@
   });
 
   persistState({
-    get: () => value,
-    set: (next) => { value = next; if (!accentSelector) return; if (typeof next === "string" && next === "custom") return; onValueChange?.(next); applyAccent(next, false); },
-    key: () => storageKey,
-    enabled: () => persist,
-  });
+    get: () => value
+    , set: (next) => { value = next; if (!accentSelector) return; if (typeof next === "string" && next === "custom") return; onValueChange?.(next); applyAccent(next, false); }
+    , key: () => storageKey
+    , enabled: () => persist
+  , });
 </script>
 
 <BitsSelect.Root

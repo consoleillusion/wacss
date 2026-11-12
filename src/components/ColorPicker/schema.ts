@@ -1,15 +1,17 @@
-import { commonAttributes } from "../commonAttributes";
+import { commonAttributes } from "../component";
 
-export default {
-  title: "ColorPicker",
-  description: "A color picker with native swatch and hex value input.",
-  type: "object",
-  properties: {
-    ...commonAttributes,
-    value: { type: "string", description: "Selected color value." },
-    label: { type: "string" },
-    description: { type: "string" },
-    disabled: { type: "boolean", default: false },
-  },
-  additionalProperties: true,
+export const style = { properties: [], states: ["static"] } as const;
+
+export const component =
+{ title: "ColorPicker"
+, description: "A color picker with native swatch and hex value input."
+, type: "object"
+, properties:
+    { ...commonAttributes
+    , value: { type: "string", description: "Selected color value." }
+    , label: { type: "string" }
+    , description: { type: "string" }
+    , disabled: { type: "boolean", default: false }
+    }
+, additionalProperties: true
 } as const;

@@ -1,27 +1,15 @@
 ---
-interface AccordionItem {
-  value: string;
-  title: string;
-  content?: string;
-  disabled?: boolean;
-}
+import type { AccordionProps } from "./types";
 
-interface Props {
-  items?: AccordionItem[];
-  type?: "single" | "multiple";
-  value?: string | string[];
-  name?: string;
-  class?: string;
-  [key: string]: unknown;
-}
+type Props = AccordionProps & { name?: string };
 
 const {
-  items = [],
-  type = "single",
-  value = "",
-  name,
-  class: className = "",
-  ...rest
+  items = []
+  , type = "single"
+  , value = ""
+  , name
+  , class: className = ""
+  , ...rest
 } = Astro.props as Props;
 
 const groupName = type === "single" ? (name ?? "") : undefined;

@@ -13,40 +13,40 @@ button, [role="button"] {
   justify-content: center;
   gap: var(--button-gap-static);
   white-space: nowrap;
-  border: var(--border-width-static) solid var(--button-border-standard-static);
+  border: var(--border-width-static) solid var(--button-border-static);
   border-radius: var(--button-radius-static);
-  background: var(--button-background-standard-static);
-  color: var(--button-color-standard-static);
+  background: var(--button-background-static);
+  color: var(--button-color-static);
   min-height: var(--button-height-static);
   padding: var(--button-padding-block-static) var(--button-padding-inline-static);
   font-size: var(--button-font-size-static);
-  font-weight: var(--weight-medium-static);
+  font-weight: var(--weight-ui-static);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
-    color var(--motion-interaction-static) var(--ease-interaction-static),
-    border-color var(--motion-interaction-static) var(--ease-interaction-static),
-    box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
+    , color var(--motion-interaction-static) var(--ease-interaction-static)
+    , border-color var(--motion-interaction-static) var(--ease-interaction-static)
+    , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 button:hover, [role="button"]:hover {
-  background: var(--button-background-standard-hover);
-  color: var(--button-color-standard-hover);
+  background: var(--button-background-hover);
+  color: var(--button-color-hover);
 }
 
 /* Disabled: scoped to interactive elements, not every aria-disabled element. */
-button:disabled, input:disabled, select:disabled, textarea:disabled,
-optgroup:disabled, fieldset:disabled,
-[role="button"][aria-disabled="true"], a[aria-disabled="true"],
-[data-disabled] {
+button:disabled, input:disabled, select:disabled, textarea:disabled
+, optgroup:disabled, fieldset:disabled
+, [role="button"][aria-disabled="true"], a[aria-disabled="true"]
+, [data-disabled] {
   cursor: not-allowed;
-  opacity: var(--opacity-disabled-static);
+  opacity: var(--opacity-inert-static);
   pointer-events: none;
 }
 fieldset:disabled > * { pointer-events: none; }
 
 /* --- Text inputs --- */
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
-select, textarea {
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"])
+, select, textarea {
   display: flex;
   width: 100%;
   border: var(--border-width-static) solid var(--input-border-static);
@@ -56,8 +56,8 @@ select, textarea {
   min-height: var(--input-height-static);
   padding: var(--input-padding-block-static) var(--input-padding-inline-static);
   font-size: var(--input-font-size-static);
-  transition: border-color var(--motion-interaction-static) var(--ease-interaction-static),
-    box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: border-color var(--motion-interaction-static) var(--ease-interaction-static)
+    , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 textarea { min-height: 5rem; }
 
@@ -74,25 +74,25 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
   border-color: var(--input-border-invalid);
 }
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid,
-select:user-invalid,
-textarea:user-invalid {
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid
+, select:user-invalid
+, textarea:user-invalid {
   border-color: var(--input-border-invalid);
 }
-input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible,
-textarea[aria-invalid="true"]:focus-visible,
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid:focus-visible,
-select:user-invalid:focus-visible,
-textarea:user-invalid:focus-visible {
+input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible
+, textarea[aria-invalid="true"]:focus-visible
+, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid:focus-visible
+, select:user-invalid:focus-visible
+, textarea:user-invalid:focus-visible {
   box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-invalid);
 }
 
 /* Color swatch input: compact swatch, not a stretched field. */
 input[type="color"] {
   appearance: none;
-  inline-size: calc(var(--space-step-static) * 10.0);
+  inline-size: calc(var(--space-unit-static) * 10.0);
   min-height: var(--input-height-static);
-  padding: calc(var(--space-step-static) * 1.0);
+  padding: calc(var(--space-unit-static) * 1.0);
   border: var(--border-width-static) solid var(--input-border-static);
   border-radius: var(--input-radius-static);
   background: var(--input-background-static);
@@ -113,11 +113,11 @@ input[type="checkbox"], input[type="radio"] {
 /* --- Labels --- */
 label {
   font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-medium-static);
+  font-weight: var(--weight-ui-static);
   line-height: 1;
 }
-label > span[aria-hidden="true"],
-legend > span[aria-hidden="true"] { color: var(--color-destructive-static); margin-inline-start: 2px; }
+label > span[aria-hidden="true"]
+, legend > span[aria-hidden="true"] { color: var(--color-destructive-static); margin-inline-start: 2px; }
 
 /* --- Headings: editorial rhythm --- */
 h1, h2, h3, h4, h5, h6 {
@@ -126,15 +126,15 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--line-heading-static);
   text-wrap: balance;
 }
-h1 { font-size: calc(var(--text-base-static) * 2.25); margin-block: calc(var(--space-step-static) * 8.0) calc(var(--space-step-static) * 4.0); }
-h2 { font-size: calc(var(--text-base-static) * 1.5); margin-block: calc(var(--space-step-static) * 8.0) calc(var(--space-step-static) * 3.0); }
-h3 { font-size: calc(var(--text-base-static) * 1.25); margin-block: calc(var(--space-step-static) * 6.0) calc(var(--space-step-static) * 2.0); }
-h4 { font-size: calc(var(--text-base-static) * 1.125); }
-h5 { font-size: var(--text-base-static); }
-h6 { font-size: calc(var(--text-base-static) * 0.875); }
-p { margin-block: calc(var(--space-step-static) * 3.0); }
+h1 { font-size: calc(var(--text-size-body-static) * 2.25); margin-block: calc(var(--space-unit-static) * 8.0) calc(var(--space-unit-static) * 4.0); }
+h2 { font-size: calc(var(--text-size-body-static) * 1.5); margin-block: calc(var(--space-unit-static) * 8.0) calc(var(--space-unit-static) * 3.0); }
+h3 { font-size: calc(var(--text-size-body-static) * 1.25); margin-block: calc(var(--space-unit-static) * 6.0) calc(var(--space-unit-static) * 2.0); }
+h4 { font-size: calc(var(--text-size-body-static) * 1.125); }
+h5 { font-size: var(--text-size-body-static); }
+h6 { font-size: calc(var(--text-size-body-static) * 0.875); }
+p { margin-block: calc(var(--space-unit-static) * 3.0); }
 p:first-child { margin-block-start: 0; }
 p:last-child { margin-block-end: 0; }
 
 /* --- Lists --- */
-ul, ol { padding-inline-start: calc(var(--space-step-static) * 6.0); }
+ul, ol { padding-inline-start: calc(var(--space-unit-static) * 6.0); }

@@ -4,9 +4,9 @@
 label:has(input[type="checkbox"]) {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
   font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-normal-static);
+  font-weight: var(--weight-body-static);
 }
 input[type="checkbox"] {
   width: var(--checkbox-size-static);
@@ -18,19 +18,19 @@ input[type="checkbox"] {
 [data-checkbox-root] {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
   background: transparent;
   border: 0;
   border-radius: 0;
   min-height: auto;
   padding: 0;
-  color: var(--color-foreground-static);
+  color: var(--color-text-static);
   font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-normal-static);
+  font-weight: var(--weight-body-static);
   cursor: pointer;
   width: fit-content;
 }
-[data-checkbox-root]:hover { background: transparent; color: var(--color-foreground-static); }
+[data-checkbox-root]:hover { background: transparent; color: var(--color-text-static); }
 
 /* The indicator span carries data-state. */
 [data-checkbox-root] > span[data-state] {
@@ -44,9 +44,9 @@ input[type="checkbox"] {
   border-radius: var(--checkbox-radius-static);
   background: var(--checkbox-background-static);
   color: transparent;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
-    border-color var(--motion-interaction-static) var(--ease-interaction-static),
-    color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
+    , border-color var(--motion-interaction-static) var(--ease-interaction-static)
+    , color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-checkbox-root] > span[data-state] > svg {
   inline-size: 0.75rem;
@@ -57,13 +57,13 @@ input[type="checkbox"] {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-[data-checkbox-root] > span[data-state="checked"],
-[data-checkbox-root] > span[data-state="indeterminate"] {
-  background: var(--checkbox-background-checked-static);
-  border-color: var(--checkbox-border-checked-static);
+[data-checkbox-root] > span[data-state="checked"]
+, [data-checkbox-root] > span[data-state="indeterminate"] {
+  background: var(--checkbox-background-checked);
+  border-color: var(--checkbox-border-checked);
   color: var(--checkbox-color-static);
 }
-[data-checkbox-root]:hover > span[data-state="checked"],
-[data-checkbox-root]:hover > span[data-state="indeterminate"] {
-  background: color-mix(in oklch, var(--checkbox-background-checked-static), var(--color-base-light-inverse-static) 10%);
+[data-checkbox-root]:hover > span[data-state="checked"]
+, [data-checkbox-root]:hover > span[data-state="indeterminate"] {
+  background: color-mix(in oklch, var(--checkbox-background-checked), var(--color-base-light-inverse-static) 10%);
 }

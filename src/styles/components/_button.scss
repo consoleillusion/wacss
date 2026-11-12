@@ -1,42 +1,77 @@
-/* Button - shadcn-svelte look; consumes L4/L5 tokens only. */
+/* Button - variants resolve to layer-5 tokens; no per-variant global tokens. */
 
-button[data-variant],
-a[data-variant] {
-  border-radius: var(--radius-control-static);
+button[data-variant]
+, a[data-variant] {
+  --button-variant-background: var(--button-background-static);
+  --button-variant-color: var(--button-color-static);
+  --button-variant-border: var(--button-border-static);
+  background: var(--button-variant-background);
+  color: var(--button-variant-color);
+  border-color: var(--button-variant-border);
+  border-radius: var(--button-radius-static);
+
   &[data-variant="primary"] {
-    background: var(--button-background-primary-static);
-    color: var(--button-color-primary-static);
-    border-color: var(--button-border-primary-static);
-    &:hover { background: var(--button-background-primary-hover); color: var(--button-color-primary-hover); }
+    --button-variant-background: var(--color-pop-static);
+    --button-variant-color: var(--color-on-accent-static);
+    --button-variant-border: var(--color-clear-static);
   }
   &[data-variant="secondary"] {
-    background: var(--button-background-secondary-static);
-    color: var(--button-color-secondary-static);
-    border-color: var(--button-border-secondary-static);
-    &:hover { background: var(--button-background-secondary-hover); color: var(--button-color-secondary-hover); }
+    --button-variant-background: var(--color-muted-static);
+    --button-variant-color: var(--color-text-static);
+    --button-variant-border: var(--color-clear-static);
   }
   &[data-variant="destructive"] {
-    background: var(--button-background-destructive-static);
-    color: var(--button-color-destructive-static);
-    border-color: var(--button-border-destructive-static);
-    &:hover { background: var(--button-background-destructive-hover); color: var(--button-color-destructive-hover); }
+    --button-variant-background: var(--color-destructive-static);
+    --button-variant-color: var(--color-destructive-foreground-static);
+    --button-variant-border: var(--color-clear-static);
   }
   &[data-variant="link"] {
-    background: var(--button-background-link-static);
-    color: var(--button-color-link-static);
-    border-color: var(--button-border-link-static);
+    --button-variant-background: var(--color-clear-static);
+    --button-variant-color: var(--color-text-static);
+    --button-variant-border: var(--color-clear-static);
     text-decoration-line: underline;
     text-underline-offset: 4px;
     height: auto;
     padding: 0;
-    &:hover { color: var(--button-color-link-hover); }
   }
 
-  &[data-size="sm"] { min-height: var(--button-height-sm-static); padding: 0 0.75rem; font-size: calc(var(--text-base-static) * 0.75); }
-  &[data-size="lg"] { min-height: var(--button-height-lg-static); padding: 0.5rem 1.5rem; }
-  &[data-size="icon"] { inline-size: var(--button-height-icon-static); block-size: var(--button-height-icon-static); min-height: var(--button-height-icon-static); padding: 0; }
+  &:hover {
+    background: color-mix(
+      in oklch
+      , var(--button-variant-background)
+      , var(--color-text-static) 12%
+      , var(--color-clear-static)
+    );
+    color: color-mix(
+      in oklch
+      , var(--button-variant-color)
+      , var(--color-text-static) 12%
+      , var(--color-clear-static)
+    );
+  }
+  &[data-variant="link"]:hover {
+    color: var(--color-accent-static);
+  }
 
-  &[data-loading] { position: relative; }
+  &[data-size="sm"] {
+    min-height: var(--button-height-sm-static);
+    padding: 0 0.75rem;
+    font-size: calc(var(--text-size-body-static) * 0.75);
+  }
+  &[data-size="lg"] {
+    min-height: var(--button-height-lg-static);
+    padding: 0.5rem 1.5rem;
+  }
+  &[data-size="icon"] {
+    inline-size: var(--button-height-icon-static);
+    block-size: var(--button-height-icon-static);
+    min-height: var(--button-height-icon-static);
+    padding: 0;
+  }
+
+  &[data-loading] {
+    position: relative;
+  }
 }
 
 a[data-variant] {
@@ -52,4 +87,8 @@ a[data-variant] {
   animation: wacss-spin 0.6s linear infinite;
 }
 
-@keyframes wacss-spin { to { transform: rotate(360deg); } }
+@keyframes wacss-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

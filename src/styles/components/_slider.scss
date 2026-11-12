@@ -15,7 +15,7 @@
   width: 100%;
   flex-grow: 1;
   overflow: hidden;
-  border-radius: var(--radius-pill-static);
+  border-radius: var(--radius-full-static);
   background: var(--slider-track-static);
 }
 [data-slider-range] {
@@ -31,7 +31,7 @@
   border-radius: 50%;
   border: 2px solid var(--slider-thumb-border-static);
   background: var(--slider-thumb-static);
-  box-shadow: var(--shadow-1-static);
+  box-shadow: var(--shadow-rest-static);
   transition: box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-slider-thumb]:focus-visible {
@@ -40,6 +40,6 @@
 }
 
 [data-slider-root][data-disabled] {
-  opacity: var(--opacity-disabled-static);
+  opacity: var(--opacity-inert-static);
   pointer-events: none;
 }

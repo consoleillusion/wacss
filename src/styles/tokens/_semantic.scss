@@ -1,4 +1,4 @@
-/* Level 2 - Semantic: meanings built from primitives. Colour prima: --color-accent. */
+/* Level 2 - Semantic: meanings built from primitives only. Colour prima: --color-accent. */
 
 $palettes: sakura, matcha, sumi, aizome, kurenai;
 
@@ -14,7 +14,6 @@ $palettes: sakura, matcha, sumi, aizome, kurenai;
   color-scheme: dark;
 
   /* --- Accent prima; everything else derives from it --- */
-  --color-well: var(--color-dark-well);
   --color-accent: var(--color-dark-sumi);
   --color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
   --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
@@ -22,15 +21,12 @@ $palettes: sakura, matcha, sumi, aizome, kurenai;
   /* --- Surfaces and text --- */
   --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 2%);
   --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
-  --color-well: var(--color-dark-well); /* already set above; kept honest for the light mixin */
+  --color-well: var(--color-dark-well);
+  --color-well-fixed: var(--color-dark-well);
   --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
-  --color-background: var(--color-base);
-  --color-card: var(--color-surface);
-  --color-popover: var(--color-surface);
   --color-text: var(--color-base-light-inverse);
-  --color-foreground: var(--color-text);
-  --color-muted: color-mix(in oklch, var(--color-base), var(--color-foreground) 5%);
-  --color-muted-foreground: color-mix(in oklch, var(--color-foreground) 65%, transparent);
+  --color-muted: color-mix(in oklch, var(--color-base), var(--color-text) 5%);
+  --color-muted-foreground: color-mix(in oklch, var(--color-text) 65%, transparent);
   --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
   --color-ring: var(--color-accent);
   --color-overlay: color-mix(in oklch, var(--color-black) 50%, transparent);
@@ -41,6 +37,7 @@ $palettes: sakura, matcha, sumi, aizome, kurenai;
   --color-destructive-foreground: var(--color-white);
   /* ink-on-accent: near-black above L 0.6, near-white below */
   --color-on-accent: oklch(from var(--color-accent) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --color-clear: var(--color-transparent);
 
   /* Palette attribute switches the prima. No classes, ever. */
   @each $name in $palettes {
@@ -71,20 +68,48 @@ $palettes: sakura, matcha, sumi, aizome, kurenai;
   --font-body: var(--font-sans);
   --font-heading: var(--font-body);
   --font-ui: var(--font-body);
+  --font-code: var(--font-mono);
   --text-size-body: var(--text-base);
   --text-size-ui: calc(var(--text-base) * 0.875);
   --line-body: var(--line-normal);
   --line-heading: var(--line-tight);
   --weight-body: var(--weight-normal);
+  --weight-ui: var(--weight-medium);
   --weight-heading: var(--weight-semibold);
 
-  /* Shape, depth, motion (prima: --radius-surface, --shadow-surface, --motion-interaction) */
+  /* Shape, depth, motion (prima: --radius-control, --shadow-surface, --motion-interaction) */
   --radius-control: var(--radius);
   --radius-surface: var(--radius);
+  --radius-increment: var(--radius-step);
+  --radius-full: var(--radius-pill);
+  --shadow-rest: var(--shadow-1);
   --shadow-surface: var(--shadow-2);
   --shadow-overlay: var(--shadow-3);
   --motion-interaction: var(--motion-fast);
   --motion-surface: var(--motion-base);
+  --motion-ambient: var(--motion-slow);
+  --motion-reveal: var(--motion-slowest);
+  --motion-indeterminate: var(--duration-indeterminate);
   --ease-interaction: var(--ease-out);
+  --ease-ambient: var(--ease-in-out);
   --border-width: var(--border-width-1);
+  --space-unit: var(--space-step);
+  --measure-body: var(--measure);
+  --measure-content-min: var(--percent-content-min);
+  --layout-justify: var(--justify-start);
+  --layout-align: var(--align-center);
+  --layer-overlay: var(--z-overlay);
+  --opacity-inert: var(--opacity-disabled);
+
+  /* Graph categorical hues (bridged through L3–L5 for the dependency diagram) */
+  --graph-layer-1: var(--color-dark-matcha);
+  --graph-layer-2: var(--color-dark-aizome);
+  --graph-layer-3: var(--color-dark-amber);
+  --graph-layer-4: var(--color-dark-kurenai);
+  --graph-layer-5: var(--color-accent);
+  --graph-on-layer-1: oklch(from var(--graph-layer-1) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --graph-on-layer-2: oklch(from var(--graph-layer-2) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --graph-on-layer-3: oklch(from var(--graph-layer-3) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --graph-on-layer-4: oklch(from var(--graph-layer-4) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --graph-on-layer-5: oklch(from var(--graph-layer-5) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
 }

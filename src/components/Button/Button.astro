@@ -1,10 +1,10 @@
 ---
 const {
-  type = "button",
-  variant = "default",
-  size = "default",
-  disabled = false,
-  ...attrs
+  type = "button"
+  , variant = "default"
+  , size = "default"
+  , disabled = false
+  , ...attrs
 } = Astro.props;
 const dataVariant = variant === "default" ? "secondary" : variant;
 ---

@@ -16,12 +16,12 @@ form fieldset {
 }
 form legend {
   font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-medium-static);
+  font-weight: var(--weight-ui-static);
   padding: 0;
-  margin-block-end: calc(var(--space-step-static) * 1.0);
+  margin-block-end: calc(var(--space-unit-static) * 1.0);
 }
-form legend + p,
-form fieldset > p {
+form legend + p
+, form fieldset > p {
   margin: 0;
   font-size: var(--text-size-ui-static);
   color: var(--field-description-color-static);
@@ -34,8 +34,8 @@ form div:has(> [aria-invalid="true"]) > p {
 }
 
 /* Control wrappers render label + control + help/error */
-form fieldset > div,
-form > div > div {
+form fieldset > div
+, form > div > div {
   display: grid;
   gap: var(--field-gap-static);
 }
@@ -44,16 +44,16 @@ form > div > div {
 form fieldset > div > div {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
 }
 
 /* Submit/reset row */
 form > div:last-child {
   display: flex;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
   align-items: center;
 }
 
 /* Hidden fields and form-wide disabled state */
 input[type="hidden"] { display: none !important; }
-form[data-disabled] { opacity: var(--opacity-disabled-static); pointer-events: none; }
+form[data-disabled] { opacity: var(--opacity-inert-static); pointer-events: none; }

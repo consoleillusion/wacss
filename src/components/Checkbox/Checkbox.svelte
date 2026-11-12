@@ -1,36 +1,36 @@
 <script lang="ts">
   import { Checkbox as BitsCheckbox } from "bits-ui";
-  import type { CheckboxProps } from "../types";
+  import type { CheckboxProps } from "./types";
   import { persistState } from "../persist.svelte";
 
   let {
-    checked = $bindable(false),
-    indeterminate = $bindable(false),
-    label,
-    description,
-    disabled = false,
-    required = false,
-    readonly = false,
-    name,
-    value,
-    id,
-    storageKey,
-    persist = true,
-    class: className = "",
-    ...restProps
+    checked = $bindable(false)
+    , indeterminate = $bindable(false)
+    , label
+    , description
+    , disabled = false
+    , required = false
+    , readonly = false
+    , name
+    , value
+    , id
+    , storageKey
+    , persist = true
+    , class: className = ""
+    , ...restProps
   }: CheckboxProps = $props();
 
   const uid = $props.id();
   const inputId = $derived(id ?? `checkbox-${uid}`);
 
   persistState({
-    get: () => checked,
-    set: (next) => {
+    get: () => checked
+    , set: (next) => {
       checked = next;
-    },
-    key: () => storageKey ?? (id ? `wacss:checkbox:${id}` : "wacss:checkbox"),
-    enabled: () => persist,
-  });
+    }
+    , key: () => storageKey ?? (id ? `wacss:checkbox:${id}` : "wacss:checkbox")
+    , enabled: () => persist
+  , });
 </script>
 
 <div data-field class={className || undefined}>

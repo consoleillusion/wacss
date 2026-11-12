@@ -2,13 +2,13 @@
   import { Pagination } from "bits-ui";
 
   let {
-    total,
-    perPage = 10,
-    page = $bindable(1),
-    siblingCount = 1,
-    loop = false,
-    class: className = "",
-    ...restProps
+    total
+    , perPage = 10
+    , page = $bindable(1)
+    , siblingCount = 1
+    , loop = false
+    , class: className = ""
+    , ...restProps
   }: {
     /** Total number of items to paginate. */
     total: number;
