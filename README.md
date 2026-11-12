@@ -193,6 +193,35 @@ A data-driven surface for presenting content. Placing a component in a card need
 - Cards sit in a full-width `.grid`, intrinsically sized so it reflows on resize or drawer toggle without special logic.
 - Each card has a header, a figure containing one component, and its schema description below.
 
+```scss
+.card {
+  width: 30rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.card__figure {
+  min-height: 0;
+  margin: 0;
+}
+
+.card__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__content {
+  min-height: 0;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+.card__figure  { order: 1; }
+.card__content { order: 2; }
+```
+
 ## Accordion
 
 It's now possible to do pure css accordions with smooth css animations, so do it that way.

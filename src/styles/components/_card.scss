@@ -2,8 +2,8 @@
    Cards use a simple .card class (no semantic element exists for a card). */
 
 .card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto;
   inline-size: 100%;
   overflow: hidden;
   background: var(--card-background);
@@ -13,17 +13,17 @@
   box-shadow: var(--card-shadow);
 }
 
-/* Card geometry: 3 units wide, 4 units high (aspect-ratio 3 / 4).
-   Figure spans the full width and takes 3/7 of the card height;
-   the body takes 4/7. Flex-grow 3 vs 4 with zero basis splits the
-   height exactly 3:7 and 4:7. */
+/* Geometry: card is 3 units wide and 4 units high. Content comes first in
+   source order (correct document outline) and is reordered with CSS:
+   figure 3/7 of the height, body 4/7. */
 .card:has(> [data-slot="card-figure"]) {
   aspect-ratio: 3 / 4;
+  grid-template-rows: 3fr 4fr;
 }
 
 .card > [data-slot="card-figure"] {
+  order: 1;
   margin: 0;
-  flex: 3 0 0;
   min-block-size: 0;
   overflow: hidden;
   display: flex;
@@ -44,6 +44,7 @@
   flex: 1 1 auto;
   min-block-size: 0;
   inline-size: 100%;
+  block-size: 100%;
   object-fit: cover;
 }
 .card > [data-slot="card-figure"] audio {
@@ -56,11 +57,12 @@
 }
 
 .card > [data-slot="card-content"] {
+  order: 2;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
   padding: var(--card-padding);
-  flex: 4 0 0;
+  box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
 }
@@ -86,11 +88,10 @@
   font-size: var(--text-sm);
   color: var(--card-description-color);
 }
-.card > [data-slot="card-footer"] {
+.card [data-slot="card-footer"] {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0 var(--card-padding) var(--card-padding);
   margin-block-start: auto;
   font-size: var(--text-sm);
   color: var(--card-description-color);
