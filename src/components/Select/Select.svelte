@@ -42,13 +42,13 @@
     if (!accentSelector || Array.isArray(next)) return;
     if (next === "custom") {
       try {
-        const c = localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent");
+        const c = localStorage.getItem("wacss:accent-color");
         if (c) {
           document.documentElement.style.setProperty("--color-theme", c);
           document.documentElement.style.setProperty("--color-accent", c);
+          emitAccentChange({ source: "custom", color: c });
         }
       } catch {}
-      emitAccentChange({ source: "custom", color: localStorage.getItem("wacss:accent-color") ?? localStorage.getItem("wacss:accent") ?? "" });
       return;
     }
     // Don't clobber an active custom accent unless user explicitly picks a preset.
