@@ -1,0 +1,107 @@
+/* Macro layout primitives (class-based). Token-driven, composable.
+   Configure via --space, --gutter, --measure, --threshold, --sidebar, --min. */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.stack > * { margin-block: 0; }
+.stack > * + * { margin-block-start: var(--space, var(--space-4)); }
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gutter, var(--space-3));
+  justify-content: var(--cluster-justify, flex-start);
+  align-items: var(--cluster-align, center);
+}
+
+.grid {
+  display: grid;
+  gap: var(--gutter, var(--space-4));
+}
+.grid[data-fit] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min, 16rem)), 1fr));
+}
+
+.sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gutter, var(--space-4));
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar, 20rem);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content, 50%);
+}
+.sidebar[data-side="end"] > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content, 50%);
+}
+.sidebar[data-side="end"] > :last-child {
+  flex-basis: var(--sidebar, 20rem);
+  flex-grow: 1;
+  min-inline-size: auto;
+}
+
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gutter, var(--space-4));
+}
+.switcher > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--threshold, 30rem) - 100%) * 999);
+}
+
+.center {
+  box-sizing: content-box;
+  max-inline-size: var(--measure, var(--measure-prose));
+  margin-inline: auto;
+  padding-inline: var(--gutter, var(--space-4));
+}
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  min-block-size: var(--cover-min, 100vh);
+  padding: var(--gutter, var(--space-4));
+}
+.cover > * { margin-block: var(--space, var(--space-4)); }
+.cover > :first-child:not(.cover-center) { margin-block-start: 0; }
+.cover > :last-child:not(.cover-center) { margin-block-end: 0; }
+.cover > .cover-center { margin-block: auto; }
+
+.frame {
+  aspect-ratio: var(--ratio, 16 / 9);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.frame > img,
+.frame > video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.reel {
+  display: flex;
+  gap: var(--gutter, var(--space-4));
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: var(--color-border) transparent;
+}
+.reel > * { flex: 0 0 var(--item-width, auto); }
+
+.region {
+  padding-block: var(--region-space, var(--space-7));
+}

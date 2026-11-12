@@ -4,18 +4,15 @@ A high-level, data-driven Svelte component library with a single global, token-d
 
 The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, accessibility, calm defaults, and a small public surface over configuration.
 
-## Forms from JSON Schema
-
-Providing `onSubmit` prevents native submission and receives the current values object.
-
 ## Token hierarchy
 
-Styling is a strict four-layer cascade. A layer may only reference the layer above it; component normal states use component tokens and interactive states use state tokens.
+Styling is a strict five-layer cascade. A layer may only reference the layer above it; component normal states use component tokens and interactive states use state tokens.
 
 1. **Primitive** — raw values only: hues, type scale, space, radius, shadow, motion (`--color-zinc`, `--space-4`, `--radius-md`, `--motion-fast`).
 2. **Alias** — semantic roles built from primitives (`--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body`, `--shadow-surface`).
 3. **Component** — component roles built from alias tokens (`--background-button`, `--text-button`, `--radius-card`, `--padding-dialog`).
-4. **State** — hover, active, focus, selected, and disabled values derived from component tokens (`--background-button-hover`, `--ring-input-focus`, `--opacity-switch-disabled`).
+4. **Role** . Primary, Secondary, Tertiary, Standard. This is a layer that allows for emphasis. (`--background-button-standard`, `--background-button-primary`). Just use standard if you do not want any special emphasis. A standard button will be a reference to secondary by default. A standard button has standard styling. A primary button has call to action styling and the `pop` color.
+5. **State** — hover, active, focus, selected, and disabled values derived from component tokens (`--background-button-hover`, `--ring-input-focus`, `--opacity-switch-disabled`).
 
 ```css
 :root {
@@ -63,7 +60,7 @@ Based on the codebase, established decisions, and the direction set in this proj
 2. Global, classless-first styling (no Tailwind, no scoped component styles)
 - Goal: All styling lives in global SCSS (src/styles/** → built to dist/wacss.css), not in Tailwind utilities or Svelte/Astro scoped `<style>` blocks.
 - Intent: A single, coherent global stylesheet/theme that can style the interface consistently.
-- Direction (in progress): Prefer semantic tags and ARIA/HTML state attributes for targeting; avoid data-* hooks where a tag or ARIA/semantic attribute expresses the same thing, and use plain (non-data-*) attributes only where no semantic equivalent exists.
+- Direction (in progress): Prefer semantic tags and ARIA/HTML state attributes for targeting; avoid data-* hooks where a tag or ARIA/semantic attribute expresses the same thing, and use plain (non-data-* ) attributes only where no semantic equivalent exists.
 3. Strict, hierarchical design-token system (styling source of truth)
 - Goal: All visual decisions flow through a disciplined token hierarchy so the UI is systematically themeable and consistent.
 - Five levels (in order of derivation):
@@ -105,3 +102,8 @@ Based on the codebase, established decisions, and the direction set in this proj
 - Goal: Enable rich composition without markup composition by resolving known building blocks from data.
 - Intent: For cases like rendering named components or media from data, use explicit, library-controlled mappings/registries and typed schemas rather than ad-hoc embedded component trees.
 In short: wacss aims to be a data-driven, globally themed, token-governed Svelte/Astro component library that achieves shadcn-like polish without Tailwind or scoped styles, favors native/accessible mechanics, and is designed so that changing values at the right token level (with compact, SCSS-generated definitions) can restyle the entire interface consistently.
+12. Color ramps should not be declared. Instead, compoonents on a more applied level deviate from the more general level by using color-mix or calc functions.
+
+## Forms from JSON Schema
+
+Declarative forms with jsonschema.

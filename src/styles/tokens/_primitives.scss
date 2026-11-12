@@ -8,57 +8,48 @@
    ========================================================================== */
 
 $primitive-colors: (
-  "zinc-50": oklch(98.5% 0 0),
-  "zinc-100": oklch(97% 0 0),
-  "zinc-200": oklch(92.2% 0 0),
-  "zinc-400": oklch(70.8% 0 0),
-  "zinc-500": oklch(55.6% 0 0),
-  "zinc-800": oklch(26.9% 0 0),
-  "zinc-900": oklch(20.5% 0 0),
-  "zinc-950": oklch(14.5% 0 0),
   "white": oklch(100% 0 0),
   "black": oklch(0% 0 0),
+  "stone": oklch(98.5% 0.004 95),
+  "charcoal": oklch(24% 0.01 160),
+  "zinc": oklch(55.6% 0 0),
+  "matcha": oklch(82% 0.16 145),
+  "sakura": oklch(74% 0.13 10),
+  "sumi": oklch(92% 0 0),
   "red": oklch(57.7% 0.245 27.325),
-  "red-dark": oklch(70.4% 0.191 22.216),
   "green": oklch(62.7% 0.17 149),
   "amber": oklch(76.9% 0.155 70),
-  "indigo": oklch(58.5% 0.19 275),
-  "sky": oklch(68.5% 0.14 237),
-  "violet": oklch(60.6% 0.21 292),
-  "rose": oklch(64.5% 0.2 12),
-  "white-10": oklch(100% 0 0 / 10%),
-  "white-15": oklch(100% 0 0 / 15%),
-  "black-50": oklch(0% 0 0 / 50%),
   "transparent": transparent,
 );
 
+/* Derived scales: base values + multipliers (fewer explicit tokens). */
 $primitive-space: (
-  "0": 0rem,
-  "0-5": 0.125rem,
-  "1": 0.25rem,
-  "1-5": 0.375rem,
-  "2": 0.5rem,
-  "2-5": 0.625rem,
-  "3": 0.75rem,
-  "3-5": 0.875rem,
-  "4": 1rem,
-  "5": 1.25rem,
-  "6": 1.5rem,
-  "7": 1.75rem,
-  "8": 2rem,
-  "10": 2.5rem,
-  "12": 3rem,
-  "16": 4rem,
+  "0": 0,
+  "0-5": 0.5,
+  "1": 1,
+  "1-5": 1.5,
+  "2": 2,
+  "2-5": 2.5,
+  "3": 3,
+  "3-5": 3.5,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "10": 10,
+  "12": 12,
+  "16": 16,
 );
 
 $primitive-text: (
-  "xs": 0.75rem,
-  "sm": 0.875rem,
-  "base": 1rem,
-  "lg": 1.125rem,
-  "xl": 1.25rem,
-  "2xl": 1.5rem,
-  "3xl": 1.875rem,
+  "xs": 0.75,
+  "sm": 0.875,
+  "base": 1,
+  "lg": 1.125,
+  "xl": 1.25,
+  "2xl": 1.5,
+  "3xl": 1.875,
 );
 
 $primitive-leading: (
@@ -68,18 +59,17 @@ $primitive-leading: (
 );
 
 $primitive-radius-scale: (
-  "1": 0.125rem,
-  "2": 0.25rem,
-  "3": 0.375rem,
-  "4": 0.5rem,
-  "5": 0.625rem,
-  "6": 0.75rem,
-  "7": 0.875rem,
-  "8": 1rem,
-  "9": 1.25rem,
-  "10": 1.5rem,
-  "11": 2rem,
-  "12": 9999px,
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 10,
+  "10": 12,
+  "11": 16,
 );
 
 $primitive-shadow: (
@@ -92,10 +82,10 @@ $primitive-shadow: (
 );
 
 $primitive-motion: (
-  "1": 150ms,
-  "2": 200ms,
-  "3": 320ms,
-  "4": 475ms,
+  "1": 1,
+  "2": 1.333,
+  "3": 2.133,
+  "4": 3.167,
 );
 
 $primitive-ease: (
@@ -103,12 +93,12 @@ $primitive-ease: (
 );
 
 $primitive-z: (
-  "1": 10,
-  "2": 20,
-  "3": 30,
-  "4": 40,
-  "5": 50,
-  "6": 60,
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
 );
 
 $primitive-weight: (
@@ -118,54 +108,63 @@ $primitive-weight: (
 );
 
 $primitive-border-width: (
-  "1": 1px,
-  "2": 2px,
-  "3": 3px,
+  "1": 1,
+  "2": 2,
+  "3": 3,
 );
 
 :root {
+  /* Bases: derived scales reference these (fewer real values). */
+  --primitive-space-unit: 0.25rem;
+  --primitive-radius-unit: 0.125rem;
+  --primitive-text-unit: 1rem;
+  --primitive-motion-unit: 150ms;
+  --primitive-z-unit: 10;
+  --primitive-border-width-unit: 1px;
+
   @each $name, $value in $primitive-colors {
     --primitive-color-#{$name}: #{$value};
   }
 
-  @each $name, $value in $primitive-space {
-    --primitive-space-#{$name}: #{$value};
+  @each $name, $n in $primitive-space {
+    --primitive-space-#{$name}: calc(var(--primitive-space-unit) * #{$n});
   }
 
-  @each $name, $value in $primitive-text {
-    --primitive-text-#{$name}: #{$value};
+  @each $name, $n in $primitive-text {
+    --primitive-text-#{$name}: calc(var(--primitive-text-unit) * #{$n});
   }
 
   @each $name, $value in $primitive-leading {
     --primitive-leading-#{$name}: #{$value};
   }
 
-  @each $name, $value in $primitive-radius-scale {
-    --primitive-radius-#{$name}: #{$value};
+  @each $name, $n in $primitive-radius-scale {
+    --primitive-radius-#{$name}: calc(var(--primitive-radius-unit) * #{$n});
   }
+  --primitive-radius-12: 9999px;
 
   @each $name, $value in $primitive-shadow {
     --primitive-shadow-#{$name}: #{$value};
   }
 
-  @each $name, $value in $primitive-motion {
-    --primitive-motion-#{$name}: #{$value};
+  @each $name, $n in $primitive-motion {
+    --primitive-motion-#{$name}: calc(var(--primitive-motion-unit) * #{$n});
   }
 
   @each $name, $value in $primitive-ease {
     --primitive-ease-#{$name}: #{$value};
   }
 
-  @each $name, $value in $primitive-z {
-    --primitive-z-#{$name}: #{$value};
+  @each $name, $n in $primitive-z {
+    --primitive-z-#{$name}: calc(var(--primitive-z-unit) * #{$n});
   }
 
   @each $name, $value in $primitive-weight {
     --primitive-weight-#{$name}: #{$value};
   }
 
-  @each $name, $value in $primitive-border-width {
-    --primitive-border-width-#{$name}: #{$value};
+  @each $name, $n in $primitive-border-width {
+    --primitive-border-width-#{$name}: calc(var(--primitive-border-width-unit) * #{$n});
   }
 
   /* Primitive families (real values). */
@@ -174,15 +173,15 @@ $primitive-border-width: (
   --primitive-measure: 68ch;
   --primitive-opacity-disabled: 0.5;
 
-  /* Compatibility names (real values) kept for tooling/migration; prefer primitive-* */
+  /* Compatibility aliases */
   --mix-color: var(--primitive-color-white);
   @each $name, $value in $primitive-colors {
     --color-#{$name}: var(--primitive-color-#{$name});
   }
-  @each $name, $value in $primitive-space {
+  @each $name, $n in $primitive-space {
     --space-#{$name}: var(--primitive-space-#{$name});
   }
-  @each $name, $value in $primitive-text {
+  @each $name, $n in $primitive-text {
     --text-#{$name}: var(--primitive-text-#{$name});
   }
   --leading-tight: var(--primitive-leading-tight);

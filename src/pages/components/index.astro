@@ -22,18 +22,18 @@ const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title })
   </head>
   <body>
     <SiteNav current="/components/" />
-    <div style="max-width: 72rem; margin: 0 auto; padding: 0 var(--space-4) var(--space-8);">
-    <h1>Components</h1>
-    <p style="color: var(--text-muted); margin-block-end: var(--space-5);">
-      Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
-    </p>
-    <ul style="padding-inline-start: var(--space-4); list-style-type: disc;">
-      {list.map((item) => (
-        <li style="margin-block-end: var(--space-2);">
-          <a href={`/components/${item.key}/`}>{item.title}</a>
-        </li>
-      ))}
-    </ul>
+    <div data-wacss="page">
+      <h1>Components</h1>
+      <p data-wacss="muted mb-5">
+        Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
+      </p>
+      <ul data-wacss="list-disc">
+        {list.map((item) => (
+          <li>
+            <a href={`/components/${item.key}/`}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
     </div>
   </body>
 </html>

@@ -11,6 +11,7 @@
   text-align: start;
   cursor: pointer;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 [data-wacss="checkbox-control"] {

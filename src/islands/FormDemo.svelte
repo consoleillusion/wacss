@@ -78,7 +78,7 @@
   }
 </script>
 
-<div style="display: grid; gap: var(--space-6);">
+<div data-wacss="grid" data-gap="6">
   <Form
     {jsonschema}
     columns={2}
@@ -90,11 +90,7 @@
 
   {#if submitted}
     <Card title="Submitted values" description="The onSubmit callback receives the current form values.">
-      <pre style="margin: 0; overflow-x: auto; font-size: var(--text-xs);">{JSON.stringify(
-        submitted,
-        null,
-        2,
-      )}</pre>
+      <pre data-wacss="pre-compact">{JSON.stringify(submitted, null, 2)}</pre>
     </Card>
   {/if}
 </div>

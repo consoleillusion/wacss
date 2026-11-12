@@ -19,6 +19,5 @@ nav a:hover {
 
 nav a[aria-current="page"],
 nav a[aria-current="true"] {
-  border-block-end: var(--border-width-ui) solid var(--border-nav-link-current);
   color: var(--text-nav-link-current);
 }

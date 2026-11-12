@@ -1,7 +1,10 @@
 .prose,
-main,
 article {
   max-inline-size: min(100%, var(--measure-prose));
+}
+
+main {
+  max-inline-size: none;
 }
 
 .prose > :last-child,
