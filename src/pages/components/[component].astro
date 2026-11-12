@@ -11,17 +11,18 @@ import Switch from "../../components/Switch/Switch.svelte";
 import Select from "../../components/Select/Select.svelte";
 import Dialog from "../../components/Dialog/Dialog.svelte";
 import Tabs from "../../components/Tabs/Tabs.svelte";
+import Badge from "../../components/Badge/Badge.svelte";
+import Separator from "../../components/Separator/Separator.svelte";
+import Progress from "../../components/Progress/Progress.svelte";
+import Avatar from "../../components/Avatar/Avatar.svelte";
 import Popover from "../../components/Popover/Popover.svelte";
 import DropdownMenu from "../../components/DropdownMenu/DropdownMenu.svelte";
 import Toggle from "../../components/Toggle/Toggle.svelte";
 import RadioGroup from "../../components/RadioGroup/RadioGroup.svelte";
-import Separator from "../../components/Separator/Separator.svelte";
 import AlertDialog from "../../components/AlertDialog/AlertDialog.svelte";
 import ContextMenu from "../../components/ContextMenu/ContextMenu.svelte";
 import Slider from "../../components/Slider/Slider.svelte";
-import Progress from "../../components/Progress/Progress.svelte";
 import Meter from "../../components/Meter/Meter.svelte";
-import Avatar from "../../components/Avatar/Avatar.svelte";
 import AspectRatio from "../../components/AspectRatio/AspectRatio.svelte";
 import FormDemo from "../../islands/FormDemo.svelte";
 
@@ -59,17 +60,18 @@ const COMPONENTS: Record<string, { Component: unknown; schema: Record<string, un
   select: { Component: Select, schema: schemas.select },
   dialog: { Component: Dialog, schema: schemas.dialog },
   tabs: { Component: Tabs, schema: schemas.tabs },
+  badge: { Component: Badge, schema: schemas.badge },
+  separator: { Component: Separator, schema: schemas.separator },
+  progress: { Component: Progress, schema: schemas.progress },
+  avatar: { Component: Avatar, schema: schemas.avatar },
   popover: { Component: Popover, schema: schemas.popover },
   dropdownMenu: { Component: DropdownMenu, schema: schemas.dropdownMenu },
   toggle: { Component: Toggle, schema: schemas.toggle },
   radioGroup: { Component: RadioGroup, schema: schemas.radioGroup },
-  separator: { Component: Separator, schema: schemas.separator },
   alertDialog: { Component: AlertDialog, schema: schemas.alertDialog },
   contextMenu: { Component: ContextMenu, schema: schemas.contextMenu },
   slider: { Component: Slider, schema: schemas.slider },
-  progress: { Component: Progress, schema: schemas.progress },
   meter: { Component: Meter, schema: schemas.meter },
-  avatar: { Component: Avatar, schema: schemas.avatar },
   aspectRatio: { Component: AspectRatio, schema: schemas.aspectRatio },
 };
 
@@ -88,17 +90,18 @@ export function getStaticPaths() {
     "select",
     "dialog",
     "tabs",
+    "badge",
+    "separator",
+    "progress",
+    "avatar",
     "popover",
     "dropdownMenu",
     "toggle",
     "radioGroup",
-    "separator",
     "alertDialog",
     "contextMenu",
     "slider",
-    "progress",
     "meter",
-    "avatar",
     "aspectRatio",
   ].map((key) => ({ params: { component: key } }));
 }
@@ -195,17 +198,43 @@ function renderSchema(obj: Record<string, unknown>, depth = 0): string {
               </Dialog>
             )}
             {entry === "tabs" && <Tabs client:load tabs={tabs} />}
+            {entry === "badge" && (
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+                <Badge>Default</Badge>
+                <Badge variant="secondary">Secondary</Badge>
+                <Badge variant="destructive">Destructive</Badge>
+                <Badge variant="outline">Outline</Badge>
+              </div>
+            )}
+            {entry === "separator" && (
+              <div style="display: grid; gap: var(--space-4); inline-size: 100%;">
+                <div style="display: grid; gap: var(--space-2);">
+                  <span style="font-size: var(--text-sm); font-weight: 500;">Horizontal</span>
+                  <Separator />
+                </div>
+                <div style="display: flex; align-items: center; gap: var(--space-3); block-size: 2rem;">
+                  <span style="font-size: var(--text-sm);">Left</span>
+                  <Separator orientation="vertical" />
+                  <span style="font-size: var(--text-sm);">Right</span>
+                </div>
+              </div>
+            )}
+            {entry === "progress" && <Progress client:load value={62} label="Progress" showValue />}
+            {entry === "avatar" && (
+              <div style="display: flex; gap: var(--space-3); align-items: center;">
+                <Avatar alt="Ada Lovelace" fallback="AL" size="sm" />
+                <Avatar alt="Ada Lovelace" fallback="AL" />
+                <Avatar alt="Ada Lovelace" fallback="AL" size="lg" />
+              </div>
+            )}
             {entry === "popover" && <Popover client:load />}
             {entry === "dropdownMenu" && <DropdownMenu client:load />}
             {entry === "toggle" && <Toggle client:load />}
             {entry === "radioGroup" && <RadioGroup client:load />}
-            {entry === "separator" && <Separator client:load />}
             {entry === "alertDialog" && <AlertDialog client:load />}
             {entry === "contextMenu" && <ContextMenu client:load />}
             {entry === "slider" && <Slider client:load />}
-            {entry === "progress" && <Progress client:load />}
             {entry === "meter" && <Meter client:load />}
-            {entry === "avatar" && <Avatar client:load />}
             {entry === "aspectRatio" && <AspectRatio client:load />}
           </div>
         </section>

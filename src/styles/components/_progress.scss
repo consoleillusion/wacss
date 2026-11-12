@@ -1,0 +1,55 @@
+[data-wacss="progress"] {
+  display: grid;
+  gap: var(--space-2);
+  inline-size: 100%;
+}
+
+[data-wacss="progress-header"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+[data-wacss="progress-label"],
+[data-wacss="progress-value"] {
+  color: var(--color-foreground);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1;
+}
+
+[data-wacss="progress-value"] {
+  color: var(--color-muted-foreground);
+}
+
+[data-wacss="progress-track"] {
+  position: relative;
+  inline-size: 100%;
+  block-size: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary);
+}
+
+[data-wacss="progress-indicator"] {
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width 300ms var(--ease-ui);
+}
+
+[data-wacss="progress"][data-indeterminate] [data-wacss="progress-indicator"] {
+  position: absolute;
+  inset-block: 0;
+  animation: wacss-progress-indeterminate 1.2s var(--ease-ui) infinite;
+}
+
+@keyframes wacss-progress-indeterminate {
+  0% {
+    inset-inline-start: -40%;
+  }
+  100% {
+    inset-inline-start: 100%;
+  }
+}

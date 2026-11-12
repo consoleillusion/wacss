@@ -1,0 +1,48 @@
+[data-wacss="avatar"] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  vertical-align: middle;
+}
+
+[data-wacss="avatar"][data-size="sm"] {
+  inline-size: 2rem;
+  block-size: 2rem;
+  font-size: var(--text-xs);
+}
+
+[data-wacss="avatar"][data-size="md"] {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  font-size: var(--text-sm);
+}
+
+[data-wacss="avatar"][data-size="lg"] {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  font-size: var(--text-base);
+}
+
+[data-wacss="avatar-image"] {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+[data-wacss="avatar-fallback"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 100%;
+  font-weight: 500;
+  line-height: 1;
+}

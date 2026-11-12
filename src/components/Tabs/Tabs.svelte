@@ -19,13 +19,9 @@
     ...restProps
   }: TabsProps = $props();
 
-  const classes = $derived(["wacss-tabs", className].filter(Boolean).join(" "));
-  const listClasses = $derived(
-    ["wacss-tabs-list", listClass].filter(Boolean).join(" "),
-  );
-  const contentClasses = $derived(
-    ["wacss-tabs-content", contentClass].filter(Boolean).join(" "),
-  );
+  const classes = $derived([className].filter(Boolean).join(" "));
+  const listClasses = $derived([listClass].filter(Boolean).join(" "));
+  const contentClasses = $derived([contentClass].filter(Boolean).join(" "));
 
   persistState({
     get: () => value,
@@ -44,27 +40,19 @@
   {activationMode}
   {loop}
   {disabled}
-  class={classes}
-  data-wacss="tabs"
+  class={classes || undefined}
+  wacss="tabs"
 >
-  <BitsTabs.List class={listClasses} data-wacss="tabs-list">
+  <BitsTabs.List class={listClasses || undefined}>
     {#each tabs as tab (tab.value)}
-      <BitsTabs.Trigger
-        value={tab.value}
-        disabled={tab.disabled}
-        data-wacss="tabs-trigger"
-      >
+      <BitsTabs.Trigger value={tab.value} disabled={tab.disabled}>
         {tab.label}
       </BitsTabs.Trigger>
     {/each}
   </BitsTabs.List>
 
   {#each tabs as tab, index (tab.value)}
-    <BitsTabs.Content
-      value={tab.value}
-      class={contentClasses}
-      data-wacss="tabs-panel"
-    >
+    <BitsTabs.Content value={tab.value} class={contentClasses || undefined}>
       {#if tab.content}
         <p>{tab.content}</p>
       {/if}

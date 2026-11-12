@@ -4,191 +4,9 @@ A high-level, data-driven Svelte component library with a single global, token-d
 
 The **wa** in `wacss` comes from **和 (wa)**: harmony, balance, and working with the grain of the web. The library favors web standards, accessibility, calm defaults, and a small public surface over configuration.
 
-## Install
-
-```bash
-bun add wacss bits-ui svelte
-```
-
-Import the stylesheet once in your app shell:
-
-```ts
-import "wacss/styles";
-```
-
-Then import components from the package root:
-
-```svelte
-<script>
-  import { Accordion, Button, Card, Checkbox, Dialog, Form, Input, Label, Select, Switch, Tabs } from "wacss";
-</script>
-```
-
-## Quick start
-
-```svelte
-<script>
-  import { Accordion, Button, Card, Input, Select, Tabs } from "wacss";
-
-  const items = [
-    { value: "tokens", title: "One token set", content: "Paste a new token set at :root and everything follows." },
-    { value: "global", title: "Global styles only", content: "Components carry no scoped styles." },
-  ];
-
-  const options = [
-    { value: "sakura", label: "Sakura" },
-    { value: "matcha", label: "Matcha" },
-  ];
-
-  const tabs = [
-    { value: "overview", label: "Overview", content: "A data-driven tab panel." },
-    { value: "usage", label: "Usage", content: "Pass a tabs array and the component renders the rest." },
-  ];
-</script>
-
-<Card title="Account" description="Update your details.">
-  <Input label="Email" type="email" placeholder="you@example.com" />
-  <Select {options} placeholder="Choose a theme" />
-  <Button>Save changes</Button>
-</Card>
-
-<Accordion {items} />
-<Tabs {tabs} />
-```
-
-Every component is styled entirely by global CSS. There are no Tailwind classes, no scoped Svelte styles, and no per-component CSS files.
-
-## Components
-
-The core components share one shape: data in, UI out.
-
-| Component | Data / value props | Notes |
-|---|---|---|
-| `Accordion` | `items`, `value`, `type` | Single or multiple open items. |
-| `Button` | `variant`, `size`, `loading`, `href` | Renders `<button>` or `<a>`. |
-| `Card` | `title`, `description`, `footer` | Optional header, content, and footer. |
-| `Checkbox` | `checked`, `indeterminate`, `label` | Uses bits-ui internally. |
-| `Dialog` | `open`, `title`, `description`, `triggerLabel` | Modal with trigger, body, and footer snippets. |
-| `Form` | `schema`, `values`, `uiSchema`, `action`, `target` | Renders a complete form from JSON Schema. |
-| `Input` | `value`, `label`, `description`, `error` | Label, help text, and error wiring included. |
-| `Label` | `for`, `text`, `required` | Styled form label. |
-| `Select` | `options`, `value`, `type` | Single or multiple selection. |
-| `Switch` | `checked`, `label`, `description` | Uses bits-ui internally. |
-| `Tabs` | `tabs`, `value` | Data-driven tab list and panels. |
-
-All are exported from the package root. TypeScript prop types are exported alongside them (`AccordionProps`, `SelectOption`, `TabsItem`, `FormProps`, `JsonSchema`, and so on).
-
 ## Forms from JSON Schema
 
-`Form` accepts a JSON Schema and infers the right control for every property. No field markup is required. The prop is named `jsonschema`; `schema` is accepted as an alias.
-
-```svelte
-<script>
-  import { Form } from "wacss";
-
-  const jsonschema = {
-    $id: "profile",
-    type: "object",
-    required: ["name", "email"],
-    properties: {
-      name: { type: "string", title: "Full name" },
-      email: { type: "string", format: "email", title: "Email" },
-      age: { type: "integer", title: "Age", minimum: 0, maximum: 120 },
-      role: { type: "string", title: "Role", enum: ["Engineer", "Designer"] },
-      newsletter: { type: "boolean", title: "Product updates" },
-      interests: {
-        type: "array",
-        title: "Interests",
-        items: { type: "string", enum: ["Design", "Engineering", "Product"] },
-      },
-      bio: { type: "string", title: "Bio", maxLength: 280 },
-      address: {
-        type: "object",
-        title: "Address",
-        properties: {
-          street: { type: "string", title: "Street" },
-          city: { type: "string", title: "City" },
-        },
-      },
-    },
-  };
-</script>
-
-<Form {jsonschema} action="/api/profile" method="post" target="_self" />
-```
-
-`action`, `method`, `target`, and `enctype` are ordinary props on the form element, separate from the schema. Without `onSubmit`, the browser submits natively.
-
-Handle submission on the client when you need to:
-
-```svelte
-<Form
-  {jsonschema}
-  onSubmit={async (values, event) => {
-    await fetch("/api/profile", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(values),
-    });
-  }}
-/>
-```
-
 Providing `onSubmit` prevents native submission and receives the current values object.
-
-### Inference
-
-| Schema shape | Control |
-|---|---|
-| `string` | text input |
-| `string` with `format: "email" \| "uri" \| "tel" \| "password" \| "date" \| "time" \| "date-time" \| "month" \| "week" \| "color"` | matching native input type |
-| `string` with `maxLength > 120` | textarea |
-| `integer` / `number` | number input with min, max, and step |
-| `boolean` | switch |
-| `enum` / `const` variants | select |
-| `array` of enum values | checkbox group |
-| other `array` | textarea |
-| `object` | nested fieldset |
-| `const` | hidden input |
-
-`$ref`, `$defs`, `allOf`, `oneOf`, and `anyOf` enums are resolved before inference. Defaults come from `default` and `const`; otherwise strings start empty, booleans start `false`, and arrays start empty.
-
-### Presentation and validation
-
-```svelte
-<Form
-  {jsonschema}
-  columns={2}
-  uiSchema={{
-    email: { placeholder: "you@example.com" },
-    bio: { widget: "textarea", help: "Keep it short." },
-    "address.city": { label: "Town" },
-  }}
-  errors={{ email: "That address is already in use." }}
-/>
-```
-
-`uiSchema` is keyed by dot path and accepts either a widget name (`"email": "textarea"`) or an object with `widget`, `label`, `help`, `placeholder`, `autocomplete`, `order`, `hidden`, `disabled`, `readonly`, and `columns`. Widgets: `auto`, `text`, `email`, `password`, `url`, `tel`, `search`, `number`, `textarea`, `select`, `checkboxes`, `switch`, `date`, `time`, `datetime-local`, `month`, `week`, `color`, `range`, `hidden`, and `group`.
-
-Other useful props: `values` for controlled values, `errors` for server-side messages keyed by dot path, `nameFormat="bracket"` to submit nested names as `address[city]`, `columns` for the root grid, `submitLabel`, `submitVariant`, `showSubmit`, `resetLabel`, `showReset`, `disabled`, and `readonly`.
-
-## Persistence
-
-Value-like state (`Accordion` open items, `Input` text, `Checkbox`/`Switch` checked state, `Select` selection, `Tabs` selection, and `Form` values) uses `localStorage` as the source of truth after hydration. The server renders the passed or default value; on mount the stored value replaces it; subsequent changes are written back.
-
-```svelte
-<!-- Default key: wacss:select -->
-<Select {options} />
-
-<!-- Separate instances need separate keys -->
-<Select {options} storageKey="account:country" />
-<Select {options} storageKey="account:language" />
-
-<!-- Opt out entirely -->
-<Input label="Search" persist={false} />
-```
-
-Default keys: `wacss:accordion`, `wacss:input`, `wacss:checkbox`, `wacss:switch`, `wacss:select`, `wacss:tabs`, and `wacss:form`. `Input`, `Checkbox`, and `Switch` append their `id` when one is provided. `Form` uses `wacss:form:<schema.$id>` when the schema has an `$id`.
 
 ## Token hierarchy
 
@@ -216,64 +34,74 @@ Styling is a strict four-layer cascade. A layer may only reference the layer abo
   --background-button-hover: color-mix(in oklch, var(--background-button), var(--mix-color) 10%);
 }
 
-[data-wacss="button"] {
+button {
   background: var(--background-button);
   color: var(--text-button);
 }
 
-[data-wacss="button"]:hover {
+button:hover {
   background: var(--background-button-hover);
 }
 ```
 
 Because every component style consumes these tokens, restyling the library means replacing one token set at `:root`. Light and dark values follow `prefers-color-scheme`; add the `light` or `dark` class to `<html>` to override.
 
-The source lives in `src/styles/`:
-
-```text
-src/styles/tokens/_primitives.scss   raw values
-src/styles/tokens/_alias.scss        semantic roles + light/dark themes
-src/styles/tokens/_components.scss   component roles
-src/styles/tokens/_states.scss       interactive state values
-src/styles/base/                     reset, global, typography, prose
-src/styles/elements/                 native element styles
-src/styles/patterns/                 layout patterns
-src/styles/components/               data-wacss component styles
-```
-
 ## Attribute hooks
 
 Semantic attributes (`aria-*`, `data-state`, `data-disabled`) come from the native elements or bits-ui. Visual hooks are namespaced as `data-wacss="..."` so they never collide with user content:
 
-```html
-<button data-wacss="button" data-variant="outline" data-size="sm">Save</button>
-<div data-wacss="select-trigger" data-state="open">…</div>
-```
-
-## Development
-
-Requires Bun.
-
-```bash
-bun install
-bun run build        # build dist/wacss.css and dist/wacss.min.css
-bun run build:demo   # build the Astro demo into demo-dist/
-```
-
-Project layout:
-
-```text
-scripts/build.js       Sass compile + Lightning CSS minify
-src/components/*/      Svelte components + colocated schema.ts
-src/components/index.ts  Package root exports
-src/components/types.ts  Shared public prop types
-src/components/persist.svelte.ts  localStorage-backed reactive state
-src/components/Form/    JSON Schema inference and recursive field rendering
-src/spec/index.ts      Schema index
-src/styles/            Global SCSS source
-dist/                  Built CSS
-```
-
 ## Aesthetic direction
 
 Calming, spacious, faded, and readable: muted palettes, gentle surfaces, subtle borders and shadows, and transitions that help usability without demanding attention. The default look follows shadcn-svelte; the token hierarchy is what makes it yours.
+
+## Principles, Goals, and Purposes of wacss
+Based on the codebase, established decisions, and the direction set in this project, the library aims to follow these principles and goals:
+1. Data-driven, high-level (“one-line”) component APIs
+- Goal: Components should be usable by passing data, not by assembling lots of markup or child components.
+- Pattern: Provide fully rendered UI from props like items, options, tabs, values, jsonschema/uiSchema, media, component + data, etc. (e.g. `<Accordion items={...} />`, `<Tabs tabs={...} />`, `<Form jsonschema={...} />`, `<Card component="..." data={...} />`).
+- Intent: Minimize boilerplate and imperative composition; favor declarative data/configuration over “500 attributes” or deeply nested wrapper components.
+2. Global, classless-first styling (no Tailwind, no scoped component styles)
+- Goal: All styling lives in global SCSS (src/styles/** → built to dist/wacss.css), not in Tailwind utilities or Svelte/Astro scoped `<style>` blocks.
+- Intent: A single, coherent global stylesheet/theme that can style the interface consistently.
+- Direction (in progress): Prefer semantic tags and ARIA/HTML state attributes for targeting; avoid data-* hooks where a tag or ARIA/semantic attribute expresses the same thing, and use plain (non-data-*) attributes only where no semantic equivalent exists.
+3. Strict, hierarchical design-token system (styling source of truth)
+- Goal: All visual decisions flow through a disciplined token hierarchy so the UI is systematically themeable and consistent.
+- Five levels (in order of derivation):
+1. Primitive / global — real/raw values only; no references upward.
+2. Alias / semantic — semantic meanings derived from primitives (e.g. background/foreground/primary/muted).
+3. Component — component anatomy and base values derived from alias/semantic tokens.
+4. Role — emphasis roles derived from component tokens (e.g. primary, secondary, tertiary, normal; normal aliases secondary).
+5. State — finalized, state-specific tokens (default/hover/active/focus/disabled/selected/open, etc.) derived from role/component/alias/primitive.
+- Rules/intent:
+- Only primitives hold real values. Higher levels reference lower levels, never raw literals (except where structurally necessary during definition).
+- All styling consumes finalized state tokens (the end of the chain) so appearance is controlled through the token system.
+- No hierarchy confusion: each level has a clear responsibility and derivation direction.
+4. Whole-interface theming by “paste-at-any-level” overrides
+- Goal: A user should be able to paste/override a token set at any single level (primitives, alias/semantic, component, role, or state) and restyle the whole interface coherently.
+- Intent: Make re-theming, branding, and customization simple and predictable without hunting through component CSS.
+5. Compact, maintainable token definitions (SCSS-driven)
+- Goal: Keep higher-level token files (and styling) concise and easy to modify with few changes.
+- Means: Use SCSS features—loops, maps, mixins, and variables—to generate scales and families (e.g. spacing, radius 1–12, color ramps, theme maps) instead of repetitive hand-written declarations.
+- Intent: Small edits at the right level should propagate broadly.
+6. Visual and behavioral alignment with shadcn-svelte (without Tailwind)
+- Goal: Default look-and-feel should match shadcn-svelte’s design language and component behavior as closely as practical.
+- Constraint: Achieve that parity using the library’s own global SCSS and token system, not Tailwind classes or copied utility patterns.
+7. Prefer native, simple, and accessible platform features
+- Goal: Use built-in HTML/CSS capabilities when they satisfy the need, reducing JavaScript and complexity.
+- Examples/intent:
+- Accordion: native <details>/<summary> with CSS-only open/close animation (no JavaScript for toggling/animation).
+- Leverage semantic elements, form controls, and ARIA/HTML states for behavior and styling hooks where appropriate.
+- Purpose: Better accessibility, robustness, performance, and progressive behavior.
+8. Built-in theming and user experience affordances
+- Goal: Provide first-class, ready-to-use experience primitives.
+- Examples/intent: Light/dark theme support with a top-right toggle, persisted preference (e.g. localStorage) and flash-prevention, and a consistent navbar/site chrome—all styled through the same token/global-SCSS system.
+9. Consistent state, persistence, and interactivity model
+- Goal: Value/stateful components behave predictably and can preserve user state where appropriate.
+- Intent: Components support controlled/bindable values and, where relevant, optional persistence (e.g. storage keys/defaults) as part of a coherent interaction model.
+10. Svelte and Astro compatibility as a component library
+- Goal: Deliver components usable in Svelte and/or Astro contexts with a unified styling system and exports/types.
+- Intent: One library (wacss) with shared tokens/CSS and component implementations appropriate to each environment (e.g. .svelte islands, .astro components where native/SSR-friendly).
+11. Extensibility through structured data and registries (where needed)
+- Goal: Enable rich composition without markup composition by resolving known building blocks from data.
+- Intent: For cases like rendering named components or media from data, use explicit, library-controlled mappings/registries and typed schemas rather than ad-hoc embedded component trees.
+In short: wacss aims to be a data-driven, globally themed, token-governed Svelte/Astro component library that achieves shadcn-like polish without Tailwind or scoped styles, favors native/accessible mechanics, and is designed so that changing values at the right token level (with compact, SCSS-generated definitions) can restyle the entire interface consistently.
