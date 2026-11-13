@@ -1,0 +1,65 @@
+/* Alert - a block-level callout for messages that deserve attention. */
+
+[data-alert-root] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: calc(var(--space-step-static) * 3.0);
+  align-items: start;
+  padding: calc(var(--space-step-static) * 3.0) calc(var(--space-step-static) * 4.0);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+}
+
+[data-alert-icon] {
+  display: inline-flex;
+  padding-block-start: 2px;
+  color: var(--alert-icon);
+}
+[data-alert-icon] svg {
+  inline-size: calc(var(--space-step-static) * 5.0);
+  block-size: calc(var(--space-step-static) * 5.0);
+  stroke-width: 1.75;
+}
+
+[data-alert-body] {
+  display: grid;
+  gap: calc(var(--space-step-static) * 1.0);
+  min-inline-size: 0;
+}
+
+[data-alert-title] {
+  margin: 0;
+  font-size: var(--text-size-ui-static);
+  font-weight: var(--weight-medium-static);
+  line-height: var(--line-tight-static);
+  color: var(--color-foreground-static);
+}
+
+[data-alert-description] {
+  margin: 0;
+  font-size: var(--text-size-ui-static);
+  color: var(--field-description-color-static);
+  line-height: var(--line-normal-static);
+}
+
+/* Variants: tint background + icon from the semantic hue */
+[data-alert-root][data-variant="warning"] {
+  --alert-icon: var(--alert-icon-warning-static);
+  background: var(--alert-background-warning-static);
+  border-color: var(--alert-border-warning-static);
+}
+[data-alert-root][data-variant="info"] {
+  --alert-icon: var(--alert-icon-info-static);
+  background: var(--alert-background-info-static);
+  border-color: var(--alert-border-info-static);
+}
+[data-alert-root][data-variant="positive"] {
+  --alert-icon: var(--alert-icon-positive-static);
+  background: var(--alert-background-positive-static);
+  border-color: var(--alert-border-positive-static);
+}
+[data-alert-root][data-variant="destructive"] {
+  --alert-icon: var(--alert-icon-destructive-static);
+  background: var(--alert-background-destructive-static);
+  border-color: var(--alert-border-destructive-static);
+}

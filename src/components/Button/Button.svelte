@@ -14,7 +14,7 @@
     ...restProps
   }: ButtonProps & { label?: string; size?: string } = $props();
 
-  const dataVariant = $derived(variant === "default" ? "primary" : variant);
+  const dataVariant = $derived(variant === "default" ? "secondary" : variant);
   const dataSize = $derived(size === "default" ? "md" : size);
 </script>
 

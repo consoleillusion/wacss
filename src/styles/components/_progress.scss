@@ -2,21 +2,21 @@
 
 [role="progressbar"], [data-progress-root] {
   position: relative;
-  height: var(--progress-height);
+  height: var(--progress-height-static);
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-pill);
-  background: var(--progress-track);
+  border-radius: var(--radius-pill-static);
+  background: var(--progress-track-static);
 }
 [role="progressbar"] > div, [data-progress-indicator] {
   height: 100%;
-  background: var(--progress-indicator);
+  background: var(--progress-indicator-static);
   border-radius: inherit;
-  transition: width var(--motion-surface) var(--ease-out), transform var(--motion-surface) var(--ease-out);
+  transition: width var(--motion-surface-static) var(--ease-out-static), transform var(--motion-surface-static) var(--ease-out-static);
 }
 [data-indeterminate] [role="progressbar"] > div {
   width: 40%;
-  animation: wacss-progress-indeterminate 1.2s infinite ease-in-out;
+  animation: wacss-progress-indeterminate var(--motion-indeterminate-static) infinite var(--ease-in-out-static);
 }
 @keyframes wacss-progress-indeterminate {
   0% { transform: translateX(-100%); }

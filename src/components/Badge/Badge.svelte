@@ -12,13 +12,14 @@
   }: BadgeProps & { label?: string } = $props();
 
   const Tag = $derived(href ? "a" : as);
+  const cls = $derived(["badge", className].filter(Boolean).join(" "));
 </script>
 
 <svelte:element
   this={Tag}
   {...restProps}
   {href}
-  class={className || undefined}
+  class={cls}
   data-variant={variant}
 >
   {#if children}{@render children()}{:else if label}{label}{/if}

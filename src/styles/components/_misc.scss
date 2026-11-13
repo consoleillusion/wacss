@@ -6,7 +6,7 @@ a {
   text-decoration: underline;
   text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
   text-underline-offset: 3px;
-  transition: text-decoration-color var(--motion-interaction) var(--ease-interaction);
+  transition: text-decoration-color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 a:hover { text-decoration-color: currentColor; }
 nav a, article[data-card] a, a[data-variant] {
@@ -15,23 +15,23 @@ nav a, article[data-card] a, a[data-variant] {
 
 /* Inline code and code blocks */
 code, kbd, samp, pre {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono-static);
   font-size: 0.875em;
 }
 code {
-  background: var(--color-muted);
-  border-radius: var(--radius-1);
+  background: var(--color-muted-static);
+  border-radius: calc(var(--radius-step-static) * 1);
   padding: 0.125rem 0.375rem;
 }
 pre {
-  background: var(--color-muted);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-surface);
-  padding: var(--space-4);
-  margin-block: var(--space-4);
+  background: var(--color-muted-static);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+  padding: calc(var(--space-step-static) * 4.0);
+  margin-block: calc(var(--space-step-static) * 4.0);
   overflow-x: auto;
-  font-size: var(--text-size-ui);
-  line-height: var(--line-normal);
+  font-size: var(--text-size-ui-static);
+  line-height: var(--line-normal-static);
 }
 pre code {
   background: transparent;
@@ -46,26 +46,26 @@ kbd {
   min-inline-size: 1.5rem;
   text-align: center;
   padding: 0.125rem 0.375rem;
-  border: var(--border-width) solid var(--color-border);
+  border: var(--border-width-static) solid var(--color-border-static);
   border-block-end-width: 2px;
-  border-radius: var(--radius-2);
-  background: var(--color-muted);
-  font-size: var(--text-xs);
+  border-radius: calc(var(--radius-step-static) * 2);
+  background: var(--color-muted-static);
+  font-size: calc(var(--text-base-static) * 0.75);
   line-height: 1.2;
 }
 
 /* Blockquote: quiet, editorial */
 blockquote {
-  margin: var(--space-4) 0;
-  padding-inline-start: var(--space-4);
-  border-inline-start: 2px solid var(--color-border);
-  color: var(--color-muted-foreground);
+  margin: calc(var(--space-step-static) * 4.0) 0;
+  padding-inline-start: calc(var(--space-step-static) * 4.0);
+  border-inline-start: 2px solid var(--color-border-static);
+  color: var(--color-muted-foreground-static);
   font-style: italic;
 }
 
 /* Text selection carries the accent */
 ::selection {
-  background: color-mix(in oklch, var(--color-accent) 25%, transparent);
+  background: color-mix(in oklch, var(--color-accent-static) 25%, transparent);
 }
 
 /* Motion respects user preference */

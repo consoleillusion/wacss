@@ -6,11 +6,12 @@ const {
   disabled = false,
   ...attrs
 } = Astro.props;
+const dataVariant = variant === "default" ? "secondary" : variant;
 ---
 <button
   type={type}
   disabled={disabled}
-  data-variant={variant}
+  data-variant={dataVariant}
   data-size={size}
   {...attrs}
 ><slot /></button>

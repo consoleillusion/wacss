@@ -58,10 +58,10 @@
       } catch {}
     }
     const root = document.documentElement;
-    for (const t of ACCENT_THEME_NAMES) root.classList.remove(`theme-${t}`);
+    root.removeAttribute("data-palette");
     root.style.removeProperty("--color-theme");
     root.style.removeProperty("--color-accent");
-    if (ACCENT_THEME_NAMES.includes(next)) root.classList.add(`theme-${next}`);
+    if (ACCENT_THEME_NAMES.includes(next)) root.setAttribute("data-palette", next);
     try {
       localStorage.setItem("wacss:accent", next);
       localStorage.removeItem("wacss:accent-color");

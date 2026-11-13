@@ -331,7 +331,7 @@
   {#if showSubmit || showReset}
     <div>
       {#if showReset}
-        <Button type="reset" variant="ghost" disabled={disabled}>{resetLabel}</Button>
+        <Button type="reset" variant="secondary" disabled={disabled}>{resetLabel}</Button>
       {/if}
       {#if showSubmit}
         <Button

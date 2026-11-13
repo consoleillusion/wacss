@@ -1,20 +1,29 @@
 /* Level 2 - Semantic: meanings built from primitives. Colour prima: --color-accent. */
 
-:root {
-  color-scheme: light dark;
+$palettes: sakura, matcha, sumi, aizome, kurenai;
 
-  /* Accent: the colour prima. --color-theme is the custom-accent escape hatch set by JS. */
-  --color-accent: var(--color-theme, var(--color-dark-sumi));
-
-  /* Base/surface chain derives from accent + base-light.
-     The neutral pillars carry the accent hue at ~1% chroma, so text and
-     surfaces get only a very mild accent tinge instead of a saturated cast. */
+/* Light-theme overrides: shared between the explicit attribute and the media query. */
+@mixin light-theme() {
+  color-scheme: light;
   --color-base-light: oklch(from var(--color-accent) 97% 0.01 h);
   --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
-  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 4%);
-  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
-  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
+  --color-well: var(--color-light-well);
+}
 
+:root {
+  color-scheme: dark;
+
+  /* --- Accent prima; everything else derives from it --- */
+  --color-well: var(--color-dark-well);
+  --color-accent: var(--color-dark-sumi);
+  --color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
+  --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
+
+  /* --- Surfaces and text --- */
+  --color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 2%);
+  --color-surface: color-mix(in oklch, var(--color-base), var(--color-base-light-inverse) 4%);
+  --color-well: var(--color-dark-well); /* already set above; kept honest for the light mixin */
+  --color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
   --color-background: var(--color-base);
   --color-card: var(--color-surface);
   --color-popover: var(--color-surface);
@@ -25,78 +34,57 @@
   --color-border: color-mix(in oklch, var(--color-text) 15%, transparent);
   --color-ring: var(--color-accent);
   --color-overlay: color-mix(in oklch, var(--color-black) 50%, transparent);
-  --color-destructive: var(--color-red);
-  --color-positive: var(--color-green);
+  --color-destructive: var(--color-dark-red);
+  --color-positive: var(--color-dark-green);
+  --color-info: var(--color-dark-aizome);
+  --color-warning: var(--color-dark-amber);
+  --color-destructive-foreground: var(--color-white);
+  /* ink-on-accent: near-black above L 0.6, near-white below */
+  --color-on-accent: oklch(from var(--color-accent) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
 
-  /* Typography meanings */
+  /* Palette attribute switches the prima. No classes, ever. */
+  @each $name in $palettes {
+    &[data-palette="#{$name}"] { --color-accent: var(--color-dark-#{$name}); }
+    &[data-palette="#{$name}"][data-theme="light"] { --color-accent: var(--color-light-#{$name}); }
+  }
+
+  /* Light via media query; guarded so an explicit dark attr wins. */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      @include light-theme();
+      @each $name in $palettes {
+        &[data-palette="#{$name}"] { --color-accent: var(--color-light-#{$name}); }
+      }
+      &:not([data-palette]) { --color-accent: var(--color-light-sumi); }
+    }
+  }
+  /* Explicit light attribute */
+  &[data-theme="light"] {
+    @include light-theme();
+    @each $name in $palettes {
+      &[data-palette="#{$name}"] { --color-accent: var(--color-light-#{$name}); }
+    }
+    &:not([data-palette]) { --color-accent: var(--color-light-sumi); }
+  }
+
+  /* Typography meanings (prima: --font-body; siblings derive from it) */
   --font-body: var(--font-sans);
-  --font-heading: var(--font-sans);
-  --font-ui: var(--font-sans);
+  --font-heading: var(--font-body);
+  --font-ui: var(--font-body);
   --text-size-body: var(--text-base);
-  --text-size-ui: var(--text-sm);
+  --text-size-ui: calc(var(--text-base) * 0.875);
   --line-body: var(--line-normal);
   --line-heading: var(--line-tight);
   --weight-body: var(--weight-normal);
   --weight-heading: var(--weight-semibold);
 
-  /* Shape, depth, motion */
-  --radius-control: var(--radius-4);
-  --radius-surface: var(--radius-6);
+  /* Shape, depth, motion (prima: --radius-surface, --shadow-surface, --motion-interaction) */
+  --radius-control: var(--radius);
+  --radius-surface: var(--radius);
   --shadow-surface: var(--shadow-2);
   --shadow-overlay: var(--shadow-3);
   --motion-interaction: var(--motion-fast);
   --motion-surface: var(--motion-base);
   --ease-interaction: var(--ease-out);
   --border-width: var(--border-width-1);
-}
-
-/* --- Theme resolution: explicit attr > media query --- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) {
-    color-scheme: dark;
-    --color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
-  }
-}
-:root[data-theme=light] { color-scheme: light; --color-base-light: oklch(from var(--color-accent) 97% 0.01 h); }
-:root[data-theme=dark] { color-scheme: dark; --color-base-light: oklch(from var(--color-accent) 18% 0.01 h); }
-
-/* data-palette accent mapping (dark by default, light variant in light mode) */
-:root[data-palette=sakura] { --color-accent: var(--color-dark-sakura); }
-:root[data-palette=sakura][data-theme=light] { --color-accent: var(--color-light-sakura); }
-:root[data-palette=matcha] { --color-accent: var(--color-dark-matcha); }
-:root[data-palette=matcha][data-theme=light] { --color-accent: var(--color-light-matcha); }
-:root[data-palette=sumi] { --color-accent: var(--color-dark-sumi); }
-:root[data-palette=sumi][data-theme=light] { --color-accent: var(--color-light-sumi); }
-:root[data-palette=aizome] { --color-accent: var(--color-dark-aizome); }
-:root[data-palette=aizome][data-theme=light] { --color-accent: var(--color-light-aizome); }
-:root[data-palette=kurenai] { --color-accent: var(--color-dark-kurenai); }
-:root[data-palette=kurenai][data-theme=light] { --color-accent: var(--color-light-kurenai); }
-:root[data-palette=yakisugi] { --color-accent: var(--color-dark-yakisugi); }
-:root[data-palette=yakisugi][data-theme=light] { --color-accent: var(--color-light-yakisugi); }
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme=dark])[data-palette=sakura] { --color-accent: var(--color-light-sakura); }
-  :root:not([data-theme=dark])[data-palette=matcha] { --color-accent: var(--color-light-matcha); }
-  :root:not([data-theme=dark])[data-palette=sumi] { --color-accent: var(--color-light-sumi); }
-  :root:not([data-theme=dark])[data-palette=aizome] { --color-accent: var(--color-light-aizome); }
-  :root:not([data-theme=dark])[data-palette=kurenai] { --color-accent: var(--color-light-kurenai); }
-  :root:not([data-theme=dark])[data-palette=yakisugi] { --color-accent: var(--color-light-yakisugi); }
-  :root:not([data-palette]):not([data-theme=dark]) { --color-accent: var(--color-light-sumi); }
-}
-:root[data-theme=light]:not([data-palette]) { --color-accent: var(--color-light-sumi); }
-
-/* .theme-* classes mirror data-palette (JS applies these for persisted accents) */
-$theme-names: sakura, matcha, sumi, aizome, kurenai, yakisugi;
-@each $name in $theme-names {
-  .theme-#{$name} { --color-accent: var(--color-dark-#{$name}); }
-}
-@media (prefers-color-scheme: light) {
-  @each $name in $theme-names {
-    :root:not([data-theme=dark]).theme-#{$name},
-    :root:not([data-theme=dark]) .theme-#{$name} { --color-accent: var(--color-light-#{$name}); }
-  }
-}
-@each $name in $theme-names {
-  :root[data-theme=light].theme-#{$name},
-  :root[data-theme=light] .theme-#{$name} { --color-accent: var(--color-light-#{$name}); }
 }

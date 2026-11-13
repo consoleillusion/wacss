@@ -3,33 +3,33 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-size-ui);
+  font-size: var(--text-size-ui-static);
   caption-side: bottom;
 }
 table caption {
-  margin-block-start: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--color-muted-foreground);
+  margin-block-start: calc(var(--space-step-static) * 2.0);
+  font-size: calc(var(--text-base-static) * 0.75);
+  color: var(--color-muted-foreground-static);
   text-align: start;
 }
 table th {
   text-align: start;
-  font-weight: var(--table-head-weight);
-  color: var(--table-head-color);
-  padding: var(--table-cell-padding-block) var(--table-cell-padding-inline);
-  border-block-end: var(--border-width) solid var(--table-row-border);
+  font-weight: var(--table-head-weight-static);
+  color: var(--table-head-color-static);
+  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
   vertical-align: bottom;
 }
 table td {
-  padding: var(--table-cell-padding-block) var(--table-cell-padding-inline);
-  border-block-end: var(--border-width) solid var(--table-row-border);
+  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
   vertical-align: middle;
 }
 table tbody tr {
-  transition: background var(--motion-interaction) var(--ease-interaction);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static);
 }
 table tbody tr:hover {
-  background: var(--table-row-hover);
+  background: var(--table-row-hover-static);
 }
 table tbody tr:last-child td {
   border-block-end: none;

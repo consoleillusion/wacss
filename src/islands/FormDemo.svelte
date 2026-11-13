@@ -78,7 +78,7 @@
   }
 </script>
 
-<div class="stack" style="--space: var(--space-6)">
+<div class="stack" style="--space: calc(var(--space-step) * 6.0)">
   <Form
     {jsonschema}
     columns={2}

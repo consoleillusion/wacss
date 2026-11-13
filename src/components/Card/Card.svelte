@@ -6,7 +6,14 @@
   import Avatar from "../Avatar/Avatar.svelte";
   import Badge from "../Badge/Badge.svelte";
   import Button from "../Button/Button.svelte";
+  import Alert from "../Alert/Alert.svelte";
+  import Breadcrumb from "../Breadcrumb/Breadcrumb.svelte";
+  import Pagination from "../Pagination/Pagination.svelte";
+  import Skeleton from "../Skeleton/Skeleton.svelte";
+  import Textarea from "../Textarea/Textarea.svelte";
   import Checkbox from "../Checkbox/Checkbox.svelte";
+  import DataTable from "../DataTable/DataTable.svelte";
+  import PertChart from "../PertChart/PertChart.svelte";
   import ColorInput from "../ColorInput/ColorInput.svelte";
   import ColorPicker from "../ColorPicker/ColorPicker.svelte";
   import DatePicker from "../DatePicker/DatePicker.svelte";
@@ -26,11 +33,15 @@ import Progress from "../Progress/Progress.svelte";
 
   const registry: Record<string, Component<any>> = {
     Accordion,
+    Alert,
     Audio,
     Avatar,
     Badge,
+    Breadcrumb,
     Button,
     Checkbox,
+    DataTable,
+    PertChart,
     Color: ColorInput,
     ColorInput,
     ColorPicker,
@@ -41,12 +52,15 @@ import Progress from "../Progress/Progress.svelte";
     Input,
     Label,
     NavigationMenu,
+    Pagination,
     Progress,
+    Skeleton,
     Select,
     Separator,
     Slider,
     Switch,
     Tabs,
+    Textarea,
     Video,
   };
 
@@ -63,12 +77,13 @@ import Progress from "../Progress/Progress.svelte";
     component,
     data,
     href,
+    ctaLabel = "Open component",
     orientation = "portrait",
     class: className = "",
     children,
     footerSnippet,
     ...restProps
-  }: CardProps & { href?: string; orientation?: "portrait" | "square" | "landscape" } = $props();
+  }: CardProps & { href?: string; ctaLabel?: string; orientation?: "portrait" | "square" | "landscape" } = $props();
 
   const classes = $derived(["card", className].filter(Boolean).join(" "));
   const headerText = $derived(typeof header === "string" ? header : title);
@@ -113,16 +128,15 @@ import Progress from "../Progress/Progress.svelte";
   const hasHeader = $derived(Boolean((header && typeof header !== "string") || headerText));
   const hasBody = $derived(Boolean(bodyText || bodyContent.component || bodyContent.text || children));
   const hasContent = $derived(hasHeader || hasBody);
-
-  function onCardClick(e: MouseEvent) {
-    if (!href) return;
-    const target = e.target as HTMLElement | null;
-    if (!target) return;
-    if (target.closest("a, button, input, select, textarea, label, video, audio, [role='button'], figure")) return;
-    const sel = globalThis.getSelection?.();
-    if (sel && sel.toString().length > 0) return;
-    window.location.href = href;
-  }
+  // Image and video go edge-to-edge; everything else in the figure gets padding.
+  const figureKind = $derived.by(() => {
+    if (figureInfo.kind === "media") return figureInfo.name.toLowerCase();
+    if (figureInfo.kind === "component") {
+      const n = figureInfo.name.toLowerCase();
+      if (n === "image" || n === "video") return n;
+    }
+    return "component";
+  });
 </script>
 
 <svelte:element
@@ -131,8 +145,6 @@ import Progress from "../Progress/Progress.svelte";
   class={classes || undefined}
   data-card
   data-orientation={orientation !== "portrait" ? orientation : undefined}
-  data-href={href || undefined}
-  onclick={onCardClick}
 >
   {#if hasContent}
     <div data-slot="card-content">
@@ -140,9 +152,7 @@ import Progress from "../Progress/Progress.svelte";
         <div data-slot="card-header">{@render header()}</div>
       {:else if headerText}
         <div data-slot="card-header">
-          <h3 data-slot="card-title">
-            {#if href}<a href={href}>{headerText}</a>{:else}{headerText}{/if}
-          </h3>
+          <h3 data-slot="card-title">{headerText}</h3>
         </div>
       {/if}
 
@@ -166,25 +176,34 @@ import Progress from "../Progress/Progress.svelte";
       {:else if footer}
         <footer data-slot="card-footer">{footer}</footer>
       {/if}
+
+      {#if href}
+        <Button href={href} variant="default" data-slot="card-cta">
+          <span>{ctaLabel}</span>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </Button>
+      {/if}
     </div>
   {/if}
 
   {#if hasFigure}
     {#if figureInfo.kind === "component"}
       {@const Comp = registry[figureInfo.name]}
-      <figure data-slot="card-figure">
+      <div data-slot="card-figure" data-figure-kind={figureKind}>
         <Comp {...figureInfo.props} />
-      </figure>
+      </div>
     {:else if figureInfo.kind === "media"}
       {@const Comp = registry[figureInfo.name]}
       {#if Comp}
-        <figure data-slot="card-figure">
+        <div data-slot="card-figure" data-figure-kind={figureKind}>
           <Comp {...figureInfo.props} />
-        </figure>
+        </div>
       {:else}
-        <figure data-slot="card-figure">
+        <div data-slot="card-figure" data-figure-kind={figureKind}>
           <img src={(figureInfo.props as any).src} alt={(figureInfo.props as any).alt ?? ""} />
-        </figure>
+        </div>
       {/if}
     {/if}
   {/if}

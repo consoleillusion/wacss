@@ -1,0 +1,49 @@
+/* Audio - native <audio> styled through wacss tokens.
+   Chrome renders the media-controls shadow DOM from color-scheme. The
+   most legible pairing in both themes is a dark pill on any backdrop:
+   light-scheme controls (white glyphs) on a #111 panel. */
+audio {
+  background: var(--color-dark-well-static);
+  border-radius: var(--radius-control-static);
+  color-scheme: only light;
+}
+audio::-webkit-media-controls-enclosure {
+  overflow: hidden;
+  background-color: var(--color-dark-well-static);
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-panel {
+  background-color: var(--color-dark-well-static);
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-timeline-container {
+  overflow: hidden;
+  background-color: var(--color-border-static);
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-timeline {
+  background-color: transparent;
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-seek-to-start-button,
+audio::-webkit-media-controls-seek-to-end-button,
+audio::-webkit-media-controls-overflow-button,
+audio::-webkit-media-controls-fullscreen-button,
+audio::-webkit-media-controls-closed-captions-button {
+  background-color: transparent;
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-volume-slider-container {
+  background-color: var(--color-dark-well-static);
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-volume-slider {
+  background-color: var(--color-border-static);
+  border-radius: var(--radius-control-static);
+}
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  border-radius: var(--radius-control-static);
+}

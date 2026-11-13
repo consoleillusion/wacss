@@ -1,0 +1,33 @@
+/* Skeleton - a quiet placeholder that pulses while content loads. */
+
+[data-skeleton-root] {
+  display: grid;
+  gap: calc(var(--space-step-static) * 2.0);
+  inline-size: 100%;
+}
+
+[data-skeleton-circle],
+[data-skeleton-bar] {
+  display: block;
+  background: var(--skeleton-background-static);
+  animation: wacss-skeleton-pulse calc(var(--motion-slow-static) * 4) var(--ease-in-out-static) infinite;
+}
+
+[data-skeleton-circle] {
+  inline-size: calc(var(--space-step-static) * 12.0);
+  block-size: calc(var(--space-step-static) * 12.0);
+  border-radius: var(--radius-pill-static);
+}
+
+[data-skeleton-bar] {
+  block-size: calc(var(--space-step-static) * 4.0);
+  inline-size: 100%;
+  border-radius: calc(var(--radius-step-static) * 1);
+}
+
+[data-skeleton-bar][data-short] { inline-size: 66%; }
+
+@keyframes wacss-skeleton-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}

@@ -5,12 +5,13 @@
   display: grid;
   grid-template-rows: auto;
   inline-size: 100%;
+  min-inline-size: 0;
   overflow: hidden;
-  background: var(--card-background);
-  color: var(--card-color);
-  border: var(--border-width) solid var(--card-border);
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
+  background: var(--card-background-static);
+  color: var(--card-color-static);
+  border: var(--border-width-static) solid var(--card-border-static);
+  border-radius: var(--card-radius-static);
+  box-shadow: var(--card-shadow-static);
 }
 
 /* Geometry: card is 3 units wide and 4 units high. Content comes first in
@@ -18,7 +19,7 @@
    figure 3/7 of the height, body 4/7. */
 .card:has(> [data-slot="card-figure"]) {
   aspect-ratio: 3 / 4;
-  grid-template-rows: 3fr 4fr;
+  grid-template-rows: minmax(0, 3fr) minmax(0, 4fr);
 }
 
 .card > [data-slot="card-figure"] {
@@ -26,9 +27,16 @@
   margin: 0;
   min-block-size: 0;
   overflow: hidden;
+  background: var(--color-well-static);
+  padding: var(--card-padding-static);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/* Image and video go to the edge; other figure content keeps the padding. */
+.card > [data-slot="card-figure"][data-figure-kind="image"],
+.card > [data-slot="card-figure"][data-figure-kind="video"] {
+  padding: 0;
 }
 
 /* Media components render their own figure; it fills the card figure. */
@@ -50,49 +58,66 @@
 .card > [data-slot="card-figure"] audio {
   inline-size: 100%;
 }
+/* Textarea figure: fill the figure so the notes component reads in place */
+.card > [data-slot="card-figure"] [data-textarea-root] {
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-step-static) * 1.0);
+}
+.card > [data-slot="card-figure"] [data-textarea-root] label {
+  font-size: calc(var(--text-base-static) * 0.75);
+  color: var(--color-muted-foreground-static);
+}
+.card > [data-slot="card-figure"] [data-textarea-root] textarea {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  resize: none;
+}
 .card > [data-slot="card-figure"] figcaption {
-  padding: var(--space-2) var(--card-padding);
-  font-size: var(--text-xs);
-  color: var(--card-description-color);
+  padding: calc(var(--space-step-static) * 2.0) var(--card-padding-static);
+  font-size: calc(var(--text-base-static) * 0.75);
+  color: var(--card-description-color-static);
 }
 
 .card > [data-slot="card-content"] {
   order: 2;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--card-padding);
+  gap: calc(var(--space-step-static) * 3.0);
+  padding: var(--card-padding-static);
   box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
 }
 .card > [data-slot="card-content"] > p { margin: 0; }
-.card [data-slot="card-header"] { display: grid; gap: var(--space-1); }
+.card [data-slot="card-header"] { display: grid; gap: calc(var(--space-step-static) * 1.0); }
 .card [data-slot="card-title"] {
   margin: 0;
-  font-size: var(--card-title-size);
-  font-weight: var(--weight-semibold);
-  line-height: var(--line-heading);
-  color: var(--color-foreground);
+  font-size: var(--card-title-size-static);
+  font-weight: var(--weight-semibold-static);
+  line-height: var(--line-heading-static);
+  color: var(--color-foreground-static);
 }
-.card [data-slot="card-title"] a { color: inherit; text-decoration: none; }
-.card [data-slot="card-title"] a:hover { text-decoration: underline; }
-/* Text keeps the text cursor; pointer is reserved for following the link. */
-.card[data-href] { cursor: pointer; }
-.card[data-href] [data-slot="card-description"],
-.card[data-href] [data-slot="card-content"] {
-  cursor: text;
+
+/* CTA: the Button component supplies the styling; this only positions it. */
+[data-slot="card-cta"] {
+  align-self: start;
+  justify-self: start;
+  margin-block-start: auto;
 }
 .card [data-slot="card-description"] {
   margin: 0;
-  font-size: var(--text-sm);
-  color: var(--card-description-color);
+  font-size: calc(var(--text-base-static) * 0.875);
+  color: var(--card-description-color-static);
 }
 .card [data-slot="card-footer"] {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: calc(var(--space-step-static) * 2.0);
   margin-block-start: auto;
-  font-size: var(--text-sm);
-  color: var(--card-description-color);
+  font-size: calc(var(--text-base-static) * 0.875);
+  color: var(--card-description-color-static);
 }

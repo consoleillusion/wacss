@@ -1,0 +1,35 @@
+---
+import "../../../dist/wacss.min.css";
+import { schemas } from "../../spec/index";
+import SiteNav from "../../components/SiteNav.astro";
+import { ClientRouter } from "astro:transitions";
+import ThemeScript from "../../components/ThemeScript.astro";
+
+const list = Object.entries(schemas).map(([key, s]) => ({ key, title: s.title }));
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
+    <title>wacss · Components</title>
+    <ThemeScript />
+  </head>
+  <body>
+    <SiteNav current="/component/" />
+    <main>
+      <h1>Components</h1>
+      <p>
+        Each page shows a live preview and the component schema. The core components are high-level and data-driven; the rest are thin bits-ui wrappers kept for comparison.
+      </p>
+      <ul>
+        {list.map((item) => (
+          <li>
+            <a href={`/component/${item.key.toLowerCase()}/`}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>

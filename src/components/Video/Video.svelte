@@ -5,7 +5,6 @@
     src,
     sources,
     poster,
-    caption,
     controls = true,
     autoplay = false,
     loop = false,
@@ -26,5 +25,4 @@
       {/each}
     {/if}
   </video>
-  {#if caption}<figcaption>{caption}</figcaption>{/if}
 </figure>

@@ -8,7 +8,7 @@ export default {
     ...commonAttributes,
     variant: {
       type: "string",
-      enum: ["default", "secondary", "outline", "ghost", "destructive", "link"],
+      enum: ["default", "primary", "secondary", "destructive", "link"],
       default: "default",
     },
     size: {

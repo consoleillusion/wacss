@@ -3,6 +3,8 @@ import "../../dist/wacss.min.css";
 import { Card } from "../components";
 import SiteNav from "../components/SiteNav.astro";
 import { schemas } from "../spec/index";
+import { ClientRouter } from "astro:transitions";
+import ThemeScript from "../components/ThemeScript.astro";
 
 const accordionItems = [
   { value: "one", title: "Token driven", content: "Change tokens, restyle the interface." },
@@ -15,7 +17,6 @@ const selectOptions = [
   { value: "sumi", label: "Sumi" },
   { value: "aizome", label: "Aizome" },
   { value: "kurenai", label: "Kurenai" },
-  { value: "yakisugi", label: "Yakisugi" },
 ];
 
 const tabs = [
@@ -25,21 +26,52 @@ const tabs = [
 
 const navMenuItems = [
   { label: "Getting started", links: [
-    { href: "/components/", label: "Introduction", description: "Explore components." },
-    { href: "/components/button/", label: "Button", description: "Actions and variants." },
+    { href: "/component/", label: "Introduction", description: "Explore components." },
+    { href: "/component/button/", label: "Button", description: "Actions and variants." },
   ]},
-  { label: "Components", href: "/components/" },
+  { label: "Components", href: "/component/" },
+];
+
+const datatableColumns = [
+  { id: "version", header: "Version", width: 84, sort: true },
+  { id: "title", header: "Release", flexgrow: 1, editor: "text" },
+  { id: "status", header: "Status", width: 80 },
+];
+const datatableRows = [
+  { id: 1, version: "0.2.0", title: "DataTable", status: "Current" },
+  { id: 2, version: "0.1.0", title: "Components", status: "Shipped" },
+  { id: 3, version: "0.0.9", title: "Token rules", status: "Shipped" },
+];
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Components", href: "/component/" },
+  { label: "Homepage" },
+];
+
+const pertTasks = [
+  { id: "A", name: "Requirements", optimistic: 3, likely: 5, pessimistic: 9 },
+  { id: "B", name: "Design", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["A"] },
+  { id: "C", name: "Frontend", optimistic: 5, likely: 8, pessimistic: 14, dependsOn: ["B"] },
+  { id: "D", name: "Backend", optimistic: 4, likely: 6, pessimistic: 10, dependsOn: ["B"] },
+  { id: "E", name: "QA", optimistic: 3, likely: 5, pessimistic: 8, dependsOn: ["C"] },
 ];
 
 const showcase = [
   { key: "button", figure: { title: "Button", variant: "default", label: "Primary action" } },
   { key: "badge", figure: { title: "Badge", label: "Badge" } },
   { key: "avatar", figure: { title: "Avatar", alt: "Ada Lovelace", fallback: "AL" } },
-  { key: "input", figure: { title: "Input", label: "Email", type: "email", placeholder: "you@example.com" } },
-  { key: "slider", figure: { component: "Slider", accentSelector: true } },
+  { key: "input", figure: { title: "Input", label: "Email", type: "email", placeholder: "you@example.com", required: true } },
+  { key: "slider", figure: { component: "Slider", value: 40 } },
   { key: "colorpicker", figure: { component: "ColorPicker", label: "Color", value: "#6d9469" } },
   { key: "datepicker", figure: { component: "DatePicker", label: "Date" } },
   { key: "navigationmenu", figure: { component: "NavigationMenu", items: navMenuItems } },
+  { key: "datatable", figure: { component: "DataTable", data: { columns: datatableColumns, data: datatableRows } } },
+  { key: "pertchart", figure: { component: "PertChart", data: { tasks: pertTasks } } },
+  { key: "alert", figure: { component: "Alert", title: "Heads up", description: "This is an informational alert." } },
+  { key: "breadcrumb", figure: { component: "Breadcrumb", items: breadcrumbItems } },
+  { key: "pagination", figure: { component: "Pagination", total: 87 } },
+  { key: "skeleton", figure: { component: "Skeleton", lines: 3 } },
+  { key: "textarea", figure: { component: "Textarea", label: "Notes", placeholder: "Write something…" } },
   { key: "checkbox", figure: { title: "Checkbox", label: "Accept terms", description: "Remembered in localStorage." } },
   { key: "switch", figure: { title: "Switch", label: "Notifications" } },
   { key: "select", figure: { title: "Select", options: selectOptions, placeholder: "Choose accent", accentSelector: true, storageKey: "wacss:accent" } },
@@ -48,8 +80,8 @@ const showcase = [
   { key: "tabs", figure: { title: "Tabs", tabs } },
   { key: "accordion", figure: { title: "Accordion", items: accordionItems } },
   { key: "label", figure: { title: "Label", text: "Label", required: true } },
-  { key: "image", figure: { title: "Image", src: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop", alt: "Matcha tea", caption: "Matcha" } },
-  { key: "video", figure: { title: "Video", src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "Sample video" } },
+  { key: "image", figure: { title: "Image", src: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&q=80&auto=format&fit=crop", alt: "Matcha tea" } },
+  { key: "video", figure: { title: "Video", src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" } },
   { key: "audio", figure: { title: "Audio", src: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3", caption: "Sample audio" } },
 ];
 ---
@@ -58,22 +90,9 @@ const showcase = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
     <title>wacss</title>
-    <script is:inline>
-      (() => {
-        try {
-          const stored = localStorage.getItem("wacss:theme");
-          if (stored === "light" || stored === "dark") document.documentElement.setAttribute("data-theme", stored);
-          const accent = localStorage.getItem("wacss:accent");
-          const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai", "yakisugi"];
-          if (accent && themes.includes(accent)) document.documentElement.classList.add(`theme-${accent}`);
-          else if (accent === "custom") {
-            const c = localStorage.getItem("wacss:accent-color");
-            if (c) { document.documentElement.style.setProperty("--color-theme", c); document.documentElement.style.setProperty("--color-accent", c); }
-          }
-        } catch {}
-      })();
-    </script>
+    <ThemeScript />
   </head>
   <body>
     <SiteNav current="/" />
@@ -89,7 +108,7 @@ const showcase = [
 
       <section class="grid" data-fit style="--min: 22rem;">
           {showcase.map((item) => {
-            const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key;
+            const schemaKey = item.key === "colorpicker" ? "colorPicker" : item.key === "datepicker" ? "datePicker" : item.key === "navigationmenu" ? "navigationMenu" : item.key === "pertchart" ? "pertChart" : item.key;
             const schema = (schemas as any)[schemaKey];
             return schema ? (
               <Card
@@ -97,7 +116,7 @@ const showcase = [
                 header={schema.title}
                 text={schema.description}
                 figure={item.figure}
-                href={`/components/${item.key}/`}
+                href={`/component/${item.key}/`}
               />
             ) : null;
           })}

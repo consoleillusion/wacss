@@ -32,7 +32,7 @@ const isOpen = (itemValue: string) => {
   return value === itemValue;
 };
 ---
-<section {...rest} class={classes || undefined} wacss="accordion">
+<section {...rest} class={classes || undefined} data-accordion-root>
   {items.map((item) => {
     const open = isOpen(item.value);
     return (

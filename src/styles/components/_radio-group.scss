@@ -2,51 +2,51 @@
 
 [data-radio-group-root] {
   display: grid;
-  gap: var(--space-2);
+  gap: calc(var(--space-step-static) * 2.0);
 }
 [data-radio-group-item] {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--radio-size);
-  block-size: var(--radio-size);
+  inline-size: var(--radio-size-static);
+  block-size: var(--radio-size-static);
   flex-shrink: 0;
   padding: 0;
   min-height: 0;
-  border: var(--border-width) solid var(--radio-border);
+  border: var(--border-width-static) solid var(--radio-border-static);
   border-radius: 50%;
-  background: var(--radio-background);
-  transition: background var(--motion-interaction) var(--ease-interaction),
-    border-color var(--motion-interaction) var(--ease-interaction);
+  background: var(--radio-background-static);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
+    border-color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-radio-group-item]:hover {
-  background: var(--radio-background);
-  border-color: color-mix(in oklch, var(--radio-border), var(--color-foreground) 30%);
+  background: var(--radio-background-static);
+  border-color: color-mix(in oklch, var(--radio-border-static), var(--color-foreground-static) 30%);
 }
 [data-radio-group-item]:focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline: var(--focus-ring-width-static) solid var(--focus-ring-static);
   outline-offset: 2px;
 }
 [data-radio-group-item][data-state="checked"] {
-  background: var(--radio-background-checked);
-  border-color: var(--radio-background-checked);
+  background: var(--radio-background-checked-static);
+  border-color: var(--radio-background-checked-static);
 }
 [data-radio-group-item][data-state="checked"]::after {
   content: "";
-  inline-size: calc(var(--radio-size) / 2.5);
-  block-size: calc(var(--radio-size) / 2.5);
+  inline-size: calc(var(--radio-size-static) / 2.5);
+  block-size: calc(var(--radio-size-static) / 2.5);
   border-radius: 50%;
-  background: var(--radio-dot);
+  background: var(--radio-dot-static);
 }
 [data-radio-group-item][data-disabled] {
-  opacity: var(--opacity-disabled);
+  opacity: var(--opacity-disabled-static);
   pointer-events: none;
 }
 
 /* Native radio inputs */
 input[type="radio"] {
-  width: var(--radio-size);
-  height: var(--radio-size);
-  accent-color: var(--color-accent);
+  width: var(--radio-size-static);
+  height: var(--radio-size-static);
+  accent-color: var(--color-accent-static);
 }

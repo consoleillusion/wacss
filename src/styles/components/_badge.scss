@@ -1,52 +1,51 @@
 /* Badge - small inline pill; variants map to badge roles. */
 
-span[data-variant],
-a[data-variant] {
+.badge {
   display: inline-flex;
   align-items: center;
-  border-radius: var(--badge-radius);
-  border: var(--border-width) solid transparent;
-  padding: var(--badge-padding-block) var(--badge-padding-inline);
-  font-size: var(--badge-font-size);
-  font-weight: var(--badge-font-weight);
-  line-height: var(--badge-line-height);
+  border-radius: var(--badge-radius-static);
+  border: var(--border-width-static) solid transparent;
+  padding: var(--badge-padding-block-static) var(--badge-padding-inline-static);
+  font-size: var(--badge-font-size-static);
+  font-weight: var(--badge-font-weight-static);
+  line-height: var(--badge-line-height-static);
   width: fit-content;
-  transition: background var(--motion-interaction) var(--ease-interaction),
-    color var(--motion-interaction) var(--ease-interaction);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
+    color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
-span[data-variant="default"], a[data-variant="default"] {
-  background: var(--badge-background-standard);
-  color: var(--badge-color-standard);
-  border-color: var(--badge-border-standard);
+.badge[data-variant="default"] {
+  background: var(--badge-background-standard-static);
+  color: var(--badge-color-standard-static);
+  border-color: var(--badge-border-standard-static);
 }
-span[data-variant="secondary"], a[data-variant="secondary"],
-span[data-variant="positive"], a[data-variant="positive"],
-span[data-variant="negative"], a[data-variant="negative"],
-span[data-variant="neutral"], a[data-variant="neutral"] {
-  background: var(--badge-background-secondary);
-  color: var(--badge-color-secondary);
-  border-color: var(--badge-border-secondary);
+.badge[data-variant="secondary"],
+.badge[data-variant="positive"],
+.badge[data-variant="negative"],
+.badge[data-variant="neutral"] {
+  background: var(--badge-background-secondary-static);
+  color: var(--badge-color-secondary-static);
+  border-color: var(--badge-border-secondary-static);
 }
-span[data-variant="positive"], a[data-variant="positive"] {
-  background: var(--badge-background-positive);
-  color: var(--badge-color-positive);
+.badge[data-variant="positive"] {
+  background: var(--badge-background-positive-static);
+  color: var(--badge-color-positive-static);
 }
-span[data-variant="negative"], a[data-variant="negative"] {
-  background: var(--badge-background-negative);
-  color: var(--badge-color-negative);
+.badge[data-variant="negative"] {
+  background: var(--badge-background-negative-static);
+  color: var(--badge-color-negative-static);
 }
-span[data-variant="neutral"], a[data-variant="neutral"] {
-  background: var(--badge-background-neutral);
-  color: var(--badge-color-neutral);
+.badge[data-variant="neutral"] {
+  background: var(--badge-background-neutral-static);
+  color: var(--badge-color-neutral-static);
 }
-span[data-variant="outline"], a[data-variant="outline"] {
-  background: var(--badge-background-outline);
-  color: var(--badge-color-outline);
-  border-color: var(--badge-border-outline);
+.badge[data-variant="outline"] {
+  background: var(--badge-background-outline-static);
+  color: var(--badge-color-outline-static);
+  border-color: var(--badge-border-outline-static);
 }
-span[data-variant="destructive"], a[data-variant="destructive"] {
-  background: var(--badge-background-destructive);
-  color: var(--badge-color-destructive);
-  border-color: var(--badge-border-destructive);
+.badge[data-variant="destructive"] {
+  background: var(--badge-background-destructive-static);
+  color: var(--badge-color-destructive-static);
+  border-color: var(--badge-border-destructive-static);
 }

@@ -1,0 +1,137 @@
+/* TokenGraph - xyflow node-link diagram Themed through wacss tokens.
+   xyflow renders nodes as .svelte-flow__node and a custom node element is provided per node.
+   Handles are invisible: edges connect through nodes purely by id. */
+
+[data-token-graph-root] {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  position: relative;
+  block-size: 100%;
+  min-block-size: 30rem;
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+  overflow: hidden;
+  background: var(--color-background-static);
+}
+
+/* --- Toolbar --- */
+[data-token-graph-root] [data-toolbar] {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(var(--space-step-static) * 3.0);
+  padding: calc(var(--space-step-static) * 2.0) calc(var(--space-step-static) * 3.0);
+  border-block-end: var(--border-width-static) solid var(--color-border-static);
+  background: var(--color-surface-static);
+}
+[data-token-graph-root] [data-search] { position: relative; }
+[data-token-graph-root] .visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+[data-token-graph-root] [data-search] input {
+  inline-size: 16rem;
+  padding: calc(var(--space-step-static) * 2.0) calc(var(--space-step-static) * 3.0);
+  background: var(--color-background-static);
+  border: var(--border-width-static) solid var(--input-border-static);
+  border-radius: var(--radius-control-static);
+  font-size: var(--text-size-ui-static);
+  color: var(--color-foreground-static);
+}
+[data-token-graph-root] [data-search] input:focus-visible {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+}
+
+[data-token-graph-root] [data-actions] {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space-step-static) * 2.0);
+  margin-inline-start: auto;
+}
+[data-token-graph-root] [data-actions] [data-active] {
+  background: var(--button-background-secondary-static);
+  color: var(--button-color-secondary-static);
+}
+[data-token-graph-root] [data-count] {
+  font-size: var(--text-size-ui-static);
+  color: var(--color-muted-foreground-static);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Nodes --- */
+[data-token-graph-root] .svelte-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+[data-token-graph-root] .svelte-flow__node {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+[data-token-graph-root] [data-token-node] {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  padding-inline: calc(var(--space-step-static) * 2.0);
+  padding-block: calc(var(--space-step-static) * 1.0);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-control-static);
+  background: var(--color-well-static);
+  color: var(--color-foreground-static);
+  font-family: var(--font-mono-static);
+  font-size: calc(var(--text-base-static) * 0.75);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+[data-token-graph-root] [data-token-node][data-layer="1"] { background: var(--color-well-static); }
+[data-token-graph-root] [data-token-node][data-layer="2"] { background: color-mix(in oklch, var(--color-accent-static) 22%, var(--color-well-static)); }
+[data-token-graph-root] [data-token-node][data-layer="3"] { background: var(--color-card-static); }
+[data-token-graph-root] [data-token-node][data-layer="4"] { background: var(--color-muted-static); }
+[data-token-graph-root] [data-token-node][data-layer="5"] { background: var(--color-well-static); border-color: var(--color-accent-static); }
+[data-token-graph-root] .svelte-flow__node.selected [data-token-node] {
+  border-color: var(--color-accent-static);
+  box-shadow: 0 0 0 calc(var(--space-step-static) * 1.0) color-mix(in oklch, var(--color-accent-static) 30%, transparent);
+}
+
+/* --- Detail panel --- */
+[data-token-graph-root] [data-detail] {
+  position: absolute;
+  inset-inline-end: calc(var(--space-step-static) * 4.0);
+  inset-block-end: calc(var(--space-step-static) * 4.0);
+  inline-size: 24rem;
+  display: grid;
+  gap: calc(var(--space-step-static) * 2.0);
+  padding: calc(var(--space-step-static) * 3.0) calc(var(--space-step-static) * 4.0);
+  background: var(--color-surface-static);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+  box-shadow: var(--shadow-overlay-static);
+  z-index: var(--popover-z-static);
+}
+[data-token-graph-root] [data-detail-head] { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--space-step-static) * 2.0); }
+[data-token-graph-root] [data-detail-name] { font-family: var(--font-mono-static); font-size: var(--text-size-ui-static); overflow-wrap: anywhere; }
+[data-token-graph-root] [data-detail-meta] { margin: 0; font-size: var(--text-size-ui-static); color: var(--color-muted-foreground-static); }
+[data-token-graph-root] [data-detail-value] { font-family: var(--font-mono-static); font-size: calc(var(--text-base-static) * 0.75); color: var(--color-foreground-static); overflow-wrap: anywhere; }
+[data-token-graph-root] [data-detail-refs] { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: calc(var(--space-step-static) * 1.5); }
+[data-token-graph-root] [data-ref] {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono-static);
+  font-size: calc(var(--text-base-static) * 0.75);
+  padding: 2px calc(var(--space-step-static) * 1.5);
+  background: var(--button-background-secondary-static);
+  color: var(--button-color-secondary-static);
+  border: none;
+  border-radius: calc(var(--radius-step-static) * 2);
+  cursor: pointer;
+}
+[data-token-graph-root] [data-ref]:hover { background: var(--button-background-secondary-hover); }

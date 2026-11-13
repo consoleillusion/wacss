@@ -1,17 +1,17 @@
-/* Toggle (bits-ui) - ghost button with a pressed state. */
+/* Toggle (bits-ui) - default (secondary) button with a pressed state. */
 
 [data-toggle-root] {
-  background: var(--button-background-ghost);
-  color: var(--button-color-ghost);
-  border-color: var(--button-border-ghost);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  border-color: var(--button-border-standard-static);
 }
 [data-toggle-root]:hover {
-  background: var(--button-background-ghost-hover);
-  color: var(--button-color-ghost-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 [data-toggle-root][data-state="on"] {
-  background: var(--button-background-secondary);
-  color: var(--button-color-secondary);
+  background: var(--button-background-secondary-static);
+  color: var(--button-color-secondary-static);
 }
 [data-toggle-root][data-state="on"]:hover {
   background: var(--button-background-secondary-hover);
@@ -19,9 +19,9 @@
 /* Buttons show state: an "on" icon carries the semantic positive colour. */
 [data-toggle-root][data-state="on"] svg,
 [data-toggle-root][aria-pressed="true"] svg {
-  color: var(--color-positive);
+  color: var(--color-positive-static);
 }
 [data-toggle-root][aria-pressed="true"] {
-  background: var(--button-background-secondary);
-  color: var(--button-color-secondary);
+  background: var(--button-background-secondary-static);
+  color: var(--button-color-secondary-static);
 }
