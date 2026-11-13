@@ -21,6 +21,12 @@
   align-items: stretch;
   inline-size: 100%;
 }
+.grid[data-bleed] {
+  /* Full-bleed: cancel the parent's inline padding and span the viewport */
+  margin-inline: calc(50% - 50vw);
+  inline-size: 100vw;
+  padding-inline: calc(var(--space-unit-static) * 4);
+}
 .grid[data-fit] {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-static)), 1fr));
 }
