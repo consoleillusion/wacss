@@ -101,7 +101,7 @@
   --input-background-static-role: var(--input-background);
   --input-border-static-role: var(--input-border);
   --input-border-focus-role: var(--color-ring-source-role);
-  --input-border-invalid-role: color-mix(in oklch, var(--input-border-static-role), var(--color-destructive-source-role) 30%, var(--color-clear-source-role));
+  --input-border-invalid-role: color-mix(in oklch, var(--input-border-static-role), var(--color-destructive-source-role) 85%);
   --input-color-static-role: var(--input-color);
   --input-placeholder-color-static-role: var(--input-placeholder-color);
   --input-radius-static-role: var(--input-radius);
@@ -111,7 +111,7 @@
   --input-font-size-static-role: var(--input-font-size);
   --input-ring-static-role: var(--input-ring);
   --input-ring-focus-role: var(--color-ring-source-role);
-  --input-ring-invalid-role: color-mix(in oklch, var(--input-ring-static-role), var(--color-destructive-source-role) 30%, var(--color-clear-source-role));
+  --input-ring-invalid-role: color-mix(in oklch, var(--input-ring-static-role), var(--color-destructive-source-role) 85%);
 
   /* --- menu --- */
   --menu-background-static-role: var(--menu-background);

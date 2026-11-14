@@ -31,92 +31,22 @@ const OUT =
 , l5: join(root, "src/styles/tokens/_state.scss")
 };
 
-const FOLDER_TO_FAMILY =
-{ Accordion: "accordion"
-, Alert: "alert"
-, AlertDialog: "alert-dialog"
-, AspectRatio: "aspect-ratio"
-, Audio: "audio"
-, Avatar: "avatar"
-, Badge: "badge"
-, Breadcrumb: "breadcrumb"
-, Button: "button"
-, Card: "card"
-, Checkbox: "checkbox"
-, ColorInput: "color-input"
-, ColorPicker: "color-picker"
-, ContextMenu: "context-menu"
-, DataTable: "datatable"
-, DatePicker: "datepicker"
-, Dialog: "dialog"
-, Disclosure: "disclosure"
-, DropdownMenu: "menu"
-, Field: "field"
-, Form: "form"
-, Image: "image"
-, Input: "input"
-, Label: "label"
-, Meter: "meter"
-, NavigationMenu: "nav"
-, Nav: "nav-prim"
-, Pagination: "pagination"
-, PertChart: "pert-chart"
-, Popover: "popover"
-, Progress: "progress"
-, RadioGroup: "radio"
-, Select: "select"
-, Separator: "separator"
-, Skeleton: "skeleton"
-, Slider: "slider"
-, Switch: "switch"
-, Table: "table"
-, Tabs: "tabs"
-, Textarea: "textarea"
-, Toggle: "toggle"
-, NodeLinkDiagram: "node-link-diagram"
-, Tooltip: "tooltip"
-, Video: "video"
-};
-const familyOf = (folder) =>
-  FOLDER_TO_FAMILY[folder] ?? folder.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+const FOLDER_TO_FAMILY ={ Accordion: "accordion", Alert: "alert", AlertDialog: "alert-dialog", AspectRatio: "aspect-ratio", Audio: "audio", Avatar: "avatar", Badge: "badge", Breadcrumb: "breadcrumb", Button: "button", Card: "card", Checkbox: "checkbox", ColorInput: "color-input", ColorPicker: "color-picker", ContextMenu: "context-menu", DataTable: "datatable", DatePicker: "datepicker", Dialog: "dialog", Disclosure: "disclosure", DropdownMenu: "menu", Field: "field", Form: "form", Image: "image", Input: "input", Label: "label", Meter: "meter", NavigationMenu: "nav", Nav: "nav-prim", Pagination: "pagination", PertChart: "pert-chart", Popover: "popover", Progress: "progress", RadioGroup: "radio", Select: "select", Separator: "separator", Skeleton: "skeleton", Slider: "slider", Switch: "switch", Table: "table", Tabs: "tabs", Textarea: "textarea", Toggle: "toggle", NodeLinkDiagram: "node-link-diagram", Tooltip: "tooltip", Video: "video"}
+const familyOf = folder => FOLDER_TO_FAMILY[folder] ?? folder.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
-const AFFORDANCES = new Set(
-[ "static"
-, "hover"
-, "focus"
-, "active"
-, "disabled"
-, "selected"
-, "checked"
-, "invalid"
-, "open"
-, "highlighted"
-, "pressed"
-, "current"
-, "loading"
-]);
+const AFFORDANCES = new Set([ "static", "hover", "focus", "active", "disabled", "selected", "checked", "invalid", "open", "highlighted", "pressed", "current", "loading"])
 
 // Shared state recipes. A recipe receives the property's layer-4 base role.
 // States that cannot be derived this way must be supplied explicitly in L3.
 const RECIPES =
-{ hover:
-    (role) =>
-    `color-mix(in oklch, var(${role}), var(--color-text-source-role) 12%, var(--color-clear-source-role))`
-, active:
-    (role) =>
-    `color-mix(in oklch, var(${role}), var(--color-text-source-role) 18%, var(--color-clear-source-role))`
-, pressed:
-    (role) =>
-    `color-mix(in oklch, var(${role}), var(--color-text-source-role) 18%, var(--color-clear-source-role))`
-, highlighted:
-    (role) =>
-    `color-mix(in oklch, var(${role}), var(--color-text-source-role) 8%, var(--color-clear-source-role))`
-, focus: () => `var(--color-ring-source-role)`
-, invalid:
-    (role) =>
-    `color-mix(in oklch, var(${role}), var(--color-destructive-source-role) 30%, var(--color-clear-source-role))`
-, disabled: (role) => `var(${role})`
-, loading: (role) => `var(${role})`
+{ hover: (role:string) => `color-mix(in oklch, var(${role}), var(--color-text-source-role) 12%, var(--color-clear-source-role))`
+, active: (role:string) => `color-mix(in oklch, var(${role}), var(--color-text-source-role) 18%, var(--color-clear-source-role))`
+, pressed: (role:string) => `color-mix(in oklch, var(${role}), var(--color-text-source-role) 18%, var(--color-clear-source-role))`
+, highlighted: (role:string) => `color-mix(in oklch, var(${role}), var(--color-text-source-role) 8%, var(--color-clear-source-role))`
+, focus: (role:string) => `var(--color-ring-source-role)`
+, invalid: (role:string) => `color-mix(in oklch, var(${role}), var(--color-destructive-source-role) 85%)`
+, disabled: (role:string) => `var(${role})`
+, loading: (role:string) => `var(${role})`
 };
 
 // --- load schemas ------------------------------------------------------------
