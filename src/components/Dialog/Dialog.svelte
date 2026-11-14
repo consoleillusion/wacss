@@ -1,18 +1,18 @@
 <script lang="ts">
   import { Dialog as BitsDialog } from "bits-ui";
-  import type { DialogProps } from "../types";
+  import type { DialogProps } from "./types";
 
   let {
-    open = $bindable(false),
-    title,
-    description,
-    triggerLabel = "Open dialog",
-    closeLabel = "Close dialog",
-    class: className = "",
-    children,
-    footer,
-    trigger,
-    ...restProps
+    open = $bindable(false)
+    , title
+    , description
+    , triggerLabel = "Open dialog"
+    , closeLabel = "Close dialog"
+    , class: className = ""
+    , children
+    , footer
+    , trigger
+    , ...restProps
   }: DialogProps = $props();
 </script>
 

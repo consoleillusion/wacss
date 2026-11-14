@@ -19,10 +19,7 @@ const minPath = path.join(outDir, "wacss.min.css");
 //   (e.g. --alert-accent) — they are not part of the documented token API.
 // Runtime-coupled names (anything also referenced outside src/styles, e.g.
 // --xy-* consumed by @xyflow/svelte) are kept verbatim and logged.
-const READABLE_LAYERS = [
-  "src/styles/tokens/_primitives.scss",
-  "src/styles/tokens/_semantic.scss",
-];
+const READABLE_LAYERS = ["src/styles/tokens/_primitives.scss", "src/styles/tokens/_semantic.scss"];
 
 /** Declared custom property names in a token layer source file. */
 const declaredNames = async (file) => {

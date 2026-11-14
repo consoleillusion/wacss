@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Handle, Position, type NodeProps, type Node } from "@xyflow/svelte";
 
-  export type TokenNodeData = {
+  export type NodeLinkNodeData = {
     name: string;
     value: string;
     layer: string;
@@ -9,9 +9,9 @@
     refs: string[];
   };
 
-  type TokenNode = Node<TokenNodeData, "token">;
+  type NodeLinkNode = Node<NodeLinkNodeData, "token">;
 
-  let { data }: NodeProps<TokenNode> = $props();
+  let { data }: NodeProps<NodeLinkNode> = $props();
 
   const layer = data.layer.charAt(1);
 </script>

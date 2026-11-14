@@ -5,16 +5,16 @@
   type DateValue = CalendarDate;
 
   let {
-    value = $bindable(""),
-    label,
-    description,
-    error,
-    disabled = false,
-    id,
-    name,
-    placeholder = "Pick a date",
-    class: className = "",
-    ...restProps
+    value = $bindable("")
+    , label
+    , description
+    , error
+    , disabled = false
+    , id
+    , name
+    , placeholder = "Pick a date"
+    , class: className = ""
+    , ...restProps
   }: {
     value?: string;
     label?: string;

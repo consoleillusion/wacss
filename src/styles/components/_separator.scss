@@ -5,16 +5,16 @@
   background: var(--separator-color-static);
   border: none;
 }
-[role="separator"][data-orientation="horizontal"],
-[data-separator-root][data-orientation="horizontal"],
-hr {
-  height: var(--border-width-1-static);
+[role="separator"][data-orientation="horizontal"]
+, [data-separator-root][data-orientation="horizontal"]
+, hr {
+  height: var(--border-width-static);
   width: 100%;
 }
-[role="separator"][data-orientation="vertical"],
-[data-separator-root][data-orientation="vertical"] {
-  width: var(--border-width-1-static);
+[role="separator"][data-orientation="vertical"]
+, [data-separator-root][data-orientation="vertical"] {
+  width: var(--border-width-static);
   height: auto;
   align-self: stretch;
 }
-hr { margin: calc(var(--space-step-static) * 4.0) 0; }
+hr { margin: calc(var(--space-unit-static) * 4.0) 0; }

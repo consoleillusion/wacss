@@ -1,60 +1,44 @@
-/* Level 1 - Primitive: raw values only. No component may consume these directly. */
+/* Level 1 - Primitive: raw values only. No var() references, ever. */
 
 :root {
-  /* --- Spacing scale (Ma; prima: --space-step) --- */
+  /* --- Spacing scale (prima: --space-step) --- */
   --space-step: 0.25rem;
 
   /* --- Colour primitives (prima: the palette set; light variants derive from the dark ones) --- */
-  $colors: (
-    "sakura": oklch(62% 0.085 5deg),
-    "matcha": oklch(62% 0.075 140deg),
-    "sumi": oklch(60% 0.01 260deg),
-    "aizome": oklch(60% 0.075 250deg),
-    "kurenai": oklch(60% 0.095 25deg),
-    "red": oklch(57.7% 0.245 27.325deg),
-    "green": oklch(62.7% 0.17 149deg),
-    "amber": oklch(76.9% 0.155 70deg),
-  );
+  --color-dark-sakura: oklch(62% 0.085 5deg);
+  --color-light-sakura: oklch(from oklch(62% 0.085 5deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-matcha: oklch(62% 0.075 140deg);
+  --color-light-matcha: oklch(from oklch(62% 0.075 140deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-sumi: oklch(60% 0.01 260deg);
+  --color-light-sumi: oklch(from oklch(60% 0.01 260deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-aizome: oklch(60% 0.075 250deg);
+  --color-light-aizome: oklch(from oklch(60% 0.075 250deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-kurenai: oklch(60% 0.095 25deg);
+  --color-light-kurenai: oklch(from oklch(60% 0.095 25deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-red: oklch(57.7% 0.245 27.325deg);
+  --color-light-red: oklch(from oklch(57.7% 0.245 27.325deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-green: oklch(62.7% 0.17 149deg);
+  --color-light-green: oklch(from oklch(62.7% 0.17 149deg) calc(l + .1) calc(c * .8) h);
+  --color-dark-amber: oklch(76.9% 0.155 70deg);
+  --color-light-amber: oklch(from oklch(76.9% 0.155 70deg) calc(l + .1) calc(c * .8) h);
   --color-white: oklch(99% 0 0deg);
   --color-black: oklch(2% 0 0deg);
   --color-transparent: transparent;
-  --color-theme: var(--color-dark-sumi); /* colour prima override hook (set inline by the accent picker / themeToggle) */
-  @each $name, $color in $colors {
-    --color-dark-#{$name}: #{$color};
-    --color-light-#{$name}: oklch(from #{$color} calc(l + .1) calc(c * .8) h);
-  }
   --color-dark-well: #111111;
   --color-light-well: #fafafa;
 
   /* --- Type scale (prima: --text-base) --- */
   --text-base: 1rem;
 
-  /* --- Control sizes (prima: --size-control-height-md; siblings step by --space-step) --- */
-  --size-control-height-sm: calc(var(--size-control-height-md) - var(--space-step));
-  --size-control-height-md: 2.25rem;
-  --size-control-height-lg: calc(var(--size-control-height-md) + var(--space-step));
-  --size-indicator: calc(var(--text-base) - var(--space-step) / 2);
-  --size-avatar-sm: calc(var(--size-avatar-md) - calc(var(--space-step) * 2));
-  --size-avatar-md: 2.5rem;
-  --size-avatar-lg: calc(var(--size-avatar-md) + calc(var(--space-step) * 2));
-  --size-dialog-max-width: 32rem;
-  --size-dialog-max-height: 40rem;
-  --size-form-columns-min: 16rem;
-  --size-popover-min: 8rem;
-  --size-grid-min: 20rem;
-  --size-sidebar: 20rem;
-  --percent-content-min: 50%;
-
   /* --- Border widths (prima: --border-width-1) --- */
   --border-width-1: 1px;
-  --cluster-justify: flex-start;
-  --cluster-align: center;
-
-  --size-menu-content: 24rem;
-  --motion-indeterminate: 1200ms;
 
   /* --- Z index (prima: --z-overlay) --- */
   --z-overlay: 50;
+  --percent-content-min: 50%;
+  --justify-start: flex-start;
+  --align-center: center;
+  --duration-indeterminate: 1200ms;
 
   /* --- Radius (prima: --radius; --radius-step scales anywhere) --- */
   --radius: 0.2rem;
@@ -79,7 +63,7 @@
   --motion-fast: 150ms;
   --motion-base: 220ms;
   --motion-slow: 350ms;
-  --motion-accordion: 475ms;
+  --motion-slowest: 475ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 

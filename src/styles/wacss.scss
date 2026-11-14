@@ -2,6 +2,7 @@
 @use "tokens/primitives";
 @use "tokens/semantic";
 @use "tokens/component";
+@use "tokens/component-source";
 @use "tokens/role";
 @use "tokens/state";
 
@@ -39,7 +40,7 @@
 @use "components/navigation-menu";
 @use "components/datatable";
 @use "components/pert-chart";
-@use "components/token-graph";
+@use "components/node-link-diagram";
 @use "components/breadcrumb";
 @use "components/textarea";
 @use "components/alert";

@@ -22,9 +22,9 @@
   };
 
   let {
-    tasks = [] as PertTask[],
-    class: className = "",
-    ...restProps
+    tasks = [] as PertTask[]
+    , class: className = ""
+    , ...restProps
   }: {
     tasks?: PertTask[];
     class?: string;
@@ -98,22 +98,22 @@
       const task = byId.get(id)!;
       const node = g.node(id);
       return {
-        id,
-        type: "pert" as const,
-        position: { x: node.x - NODE_WIDTH / 2, y: node.y - NODE_HEIGHT / 2 },
-        data: {
-          id,
-          name: task.name,
-          optimistic: task.optimistic,
-          likely: task.likely,
-          pessimistic: task.pessimistic,
-          expected: es.has(id) ? ef.get(id)! - es.get(id)! : expectedOf(task),
-          es: es.get(id) ?? 0,
-          ef: ef.get(id) ?? 0,
-          slack: slack.get(id) ?? 0,
-          critical: critical.has(id),
-        },
-      };
+        id
+        , type: "pert" as const
+        , position: { x: node.x - NODE_WIDTH / 2, y: node.y - NODE_HEIGHT / 2 }
+        , data: {
+          id
+          , name: task.name
+          , optimistic: task.optimistic
+          , likely: task.likely
+          , pessimistic: task.pessimistic
+          , expected: es.has(id) ? ef.get(id)! - es.get(id)! : expectedOf(task)
+          , es: es.get(id) ?? 0
+          , ef: ef.get(id) ?? 0
+          , slack: slack.get(id) ?? 0
+          , critical: critical.has(id)
+        , }
+      , };
     });
   });
 
@@ -123,16 +123,16 @@
       (t.dependsOn ?? [])
         .filter((dep) => tasks.some((u) => u.id === dep))
         .map((dep) => ({
-          id: `${dep}->${t.id}`,
-          source: dep,
-          target: t.id,
-          type: "smoothstep" as const,
-          animated: false,
-          style: critical.has(dep) && critical.has(t.id)
+          id: `${dep}->${t.id}`
+          , source: dep
+          , target: t.id
+          , type: "smoothstep" as const
+          , animated: false
+          , style: critical.has(dep) && critical.has(t.id)
             ? "stroke: var(--color-accent); stroke-width: 2.5;"
-            : "stroke: var(--color-border); stroke-width: 1.5;",
-        })),
-    );
+            : "stroke: var(--color-border); stroke-width: 1.5;"
+        , }))
+    , );
   });
 
   const nodeTypes = { pert: PertNode };
@@ -159,10 +159,10 @@
     const contentH = maxY - minY;
     const zoom = Math.min(w / contentW, h / contentH, 1) * 0.92;
     viewport = {
-      zoom,
-      x: (w - contentW * zoom) / 2 - minX * zoom,
-      y: (h - contentH * zoom) / 2 - minY * zoom,
-    };
+      zoom
+      , x: (w - contentW * zoom) / 2 - minX * zoom
+      , y: (h - contentH * zoom) / 2 - minY * zoom
+    , };
     hasFitted = true;
   });
 </script>

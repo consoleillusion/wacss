@@ -1,16 +1,25 @@
-import { commonAttributes } from "../commonAttributes";
+import { commonAttributes } from "../component";
 
-export default {
-  title: "Pagination",
-  description: "Page controls backed by bits-ui Pagination. Binds the current page.",
-  type: "object",
-  properties: {
-    ...commonAttributes,
-    total: { type: "number", description: "Total number of items to paginate." },
-    perPage: { type: "number", default: 10 },
-    page: { type: "number", default: 1, description: "Current page, 1-based." },
-    siblingCount: { type: "number", default: 1 },
-    loop: { type: "boolean", default: false },
-  },
-  additionalProperties: true,
+export const style =
+{ properties:
+    [ { property: "background", states: ["hover", "selected"] }
+    , { property: "color", states: ["hover", "selected"] }
+    , { property: "gap" }
+    ]
+, states: ["static", "hover", "selected"]
+} as const;
+
+export const component =
+{ title: "Pagination"
+, description: "Page controls backed by bits-ui Pagination. Binds the current page."
+, type: "object"
+, properties:
+    { ...commonAttributes
+    , total: { type: "number", description: "Total number of items to paginate." }
+    , perPage: { type: "number", default: 10 }
+    , page: { type: "number", default: 1, description: "Current page, 1-based." }
+    , siblingCount: { type: "number", default: 1 }
+    , loop: { type: "boolean", default: false }
+    }
+, additionalProperties: true
 } as const;

@@ -1,5 +1,16 @@
 import { onMount } from "svelte";
 
+/** Shared persistence contract for value-like component state. */
+export type WacssPersistProps = {
+  /**
+   * localStorage key. Defaults to `wacss:<component>`.
+   * Set this when you have more than one instance of the same component.
+   */
+  storageKey?: string;
+  /** Persist value-like state to localStorage. Defaults to `true`. */
+  persist?: boolean;
+};
+
 type PersistConfig<T> = {
   /** Read the current value. */
   get: () => T;

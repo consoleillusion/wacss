@@ -4,16 +4,16 @@ import Accordion from "../Accordion/Accordion.astro";
 const components: Record<string, any> = { Accordion };
 
 const {
-  as: Tag = "article",
-  title,
-  description,
-  footer,
-  media,
-  content,
-  component,
-  data = {},
-  class: className = "",
-  ...rest
+  as: Tag = "article"
+  , title
+  , description
+  , footer
+  , media
+  , content
+  , component
+  , data = {}
+  , class: className = ""
+  , ...rest
 } = Astro.props as any;
 
 const Comp = component ? components[component] : content?.component ? components[content.component] : null;

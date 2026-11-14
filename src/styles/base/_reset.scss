@@ -4,8 +4,8 @@ img, video, canvas, audio, iframe { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
 :root { color-scheme: light dark; }
 body {
-  background: var(--color-background-static);
-  color: var(--color-foreground-static);
+  background: var(--color-base-static);
+  color: var(--color-text-static);
   font-family: var(--font-body-static);
   font-size: var(--text-size-body-static);
   line-height: var(--line-body-static);

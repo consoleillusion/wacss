@@ -2,7 +2,7 @@
 
 [data-radio-group-root] {
   display: grid;
-  gap: calc(var(--space-step-static) * 2.0);
+  gap: calc(var(--space-unit-static) * 2.0);
 }
 [data-radio-group-item] {
   position: relative;
@@ -17,20 +17,20 @@
   border: var(--border-width-static) solid var(--radio-border-static);
   border-radius: 50%;
   background: var(--radio-background-static);
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
-    border-color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
+    , border-color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-radio-group-item]:hover {
   background: var(--radio-background-static);
-  border-color: color-mix(in oklch, var(--radio-border-static), var(--color-foreground-static) 30%);
+  border-color: color-mix(in oklch, var(--radio-border-static), var(--color-text-static) 30%);
 }
 [data-radio-group-item]:focus-visible {
   outline: var(--focus-ring-width-static) solid var(--focus-ring-static);
   outline-offset: 2px;
 }
 [data-radio-group-item][data-state="checked"] {
-  background: var(--radio-background-checked-static);
-  border-color: var(--radio-background-checked-static);
+  background: var(--radio-background-checked);
+  border-color: var(--radio-background-checked);
 }
 [data-radio-group-item][data-state="checked"]::after {
   content: "";
@@ -40,7 +40,7 @@
   background: var(--radio-dot-static);
 }
 [data-radio-group-item][data-disabled] {
-  opacity: var(--opacity-disabled-static);
+  opacity: var(--opacity-inert-static);
   pointer-events: none;
 }
 

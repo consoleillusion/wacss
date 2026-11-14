@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { LabelProps } from "../types";
+  import type { LabelProps } from "./types";
 
   let {
-    for: htmlFor,
-    text,
-    required = false,
-    class: className = "",
-    children,
-    ...restProps
+    for: htmlFor
+    , text
+    , required = false
+    , class: className = ""
+    , children
+    , ...restProps
   }: LabelProps = $props();
 
   const classes = $derived(["", className].filter(Boolean).join(" "));

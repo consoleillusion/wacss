@@ -1,20 +1,11 @@
 <script lang="ts">
-  export type BreadcrumbItem = {
-    /** The display text for this crumb. */
-    label: string;
-    /** Optional href. Items without one render as plain text. */
-    href?: string;
-  };
+  import type { BreadcrumbItem, BreadcrumbProps } from "./types";
 
   let {
-    items = [] as BreadcrumbItem[],
-    class: className = "",
-    ...restProps
-  }: {
-    items?: BreadcrumbItem[];
-    class?: string;
-    [key: string]: unknown;
-  } = $props();
+    items = [] as BreadcrumbItem[]
+    , class: className = ""
+    , ...restProps
+  }: BreadcrumbProps = $props();
 </script>
 
 {#if items.length}

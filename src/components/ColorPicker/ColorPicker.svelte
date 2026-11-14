@@ -1,20 +1,20 @@
 <script lang="ts">
-  import type { InputProps } from "../types";
+  import type { InputProps } from "../Input/types";
   import { persistState } from "../persist.svelte";
 
   let {
-    value = $bindable("#6d9469"),
-    label,
-    description,
-    error,
-    disabled = false,
-    id,
-    name,
-    storageKey,
-    persist = true,
-    class: className = "",
-    inputClass = "",
-    ...restProps
+    value = $bindable("#6d9469")
+    , label
+    , description
+    , error
+    , disabled = false
+    , id
+    , name
+    , storageKey
+    , persist = true
+    , class: className = ""
+    , inputClass = ""
+    , ...restProps
   }: InputProps & { value?: string } = $props();
 
   const uid = $props.id();
@@ -33,11 +33,11 @@
   }
 
   persistState({
-    get: () => value,
-    set: (next) => { value = next; },
-    key: () => storageKey ?? (id ? `wacss:color-picker:${id}` : "wacss:color-picker"),
-    enabled: () => persist,
-  });
+    get: () => value
+    , set: (next) => { value = next; }
+    , key: () => storageKey ?? (id ? `wacss:color-picker:${id}` : "wacss:color-picker")
+    , enabled: () => persist
+  , });
 </script>
 
 <div class={classes}>

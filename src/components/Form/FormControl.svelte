@@ -23,27 +23,27 @@
   };
 
   let {
-    id,
-    name,
-    label,
-    help,
-    error,
-    required = false,
-    disabled = false,
-    readonly = false,
-    type = "text",
-    value = "",
-    placeholder,
-    autocomplete,
-    min,
-    max,
-    step,
-    minlength,
-    maxlength,
-    pattern,
-    rows,
-    oninput,
-  }: FormControlProps = $props();
+    id
+    , name
+    , label
+    , help
+    , error
+    , required = false
+    , disabled = false
+    , readonly = false
+    , type = "text"
+    , value = ""
+    , placeholder
+    , autocomplete
+    , min
+    , max
+    , step
+    , minlength
+    , maxlength
+    , pattern
+    , rows
+    , oninput
+  , }: FormControlProps = $props();
 
   const multiline = $derived(type === "textarea");
   const helpId = $derived(error || help ? `${id}-help` : undefined);

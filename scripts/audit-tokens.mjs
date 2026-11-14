@@ -1,15 +1,16 @@
-// Token audit — enforces the hierarchy rules the README documents:
+// Token audit — enforces the strict five-layer chain the README documents:
 //
 //  A. Layer-5 affordance law: every layer-5 token name must end in an
 //     affordance word — static, hover, focus, active, disabled, selected,
 //     checked, invalid, open, highlighted, pressed, current, loading.
-//     And rendered styles (src/styles/components/*.scss, src/styles/base/*.scss)
+//     Rendered styles (src/styles/components/*.scss, src/styles/base/*.scss)
 //     may only reference layer-5 tokens (or component-local custom properties).
-//  B. Token layers reference only layers at or above themselves
-//     (L2→L1, L3→L1..L3, L4→L1..L4; L5 may reference anything).
-//     No layer references downward, no undefined tokens.
+//  B. Strict adjacency — a layer may reference only itself and its immediate
+//     predecessor: L1 (literals only), L2→{L1,L2}, L3→{L2,L3}, L4→{L3,L4},
+//     L5→{L4,L5}. Skips (L5→L3, L3→L1, …) and upward references fail.
+//     Every referenced token must be declared.
 //  C. Only layer 1 holds raw literal values. In layers 2–5 a declaration may
-//     only contain var() references, keywords, and function calls.
+//     only contain var() references, function calls, and CSS keywords.
 //
 // Exits non-zero and prints every violation on failure.
 
@@ -20,123 +21,139 @@ import { fileURLToPath } from "node:url";
 const root = join(path_dirname(), "..");
 function path_dirname() { return join(fileURLToPath(import.meta.url), ".."); }
 
-const LAYERS = [
-  ["L1", "src/styles/tokens/_primitives.scss"],
-  ["L2", "src/styles/tokens/_semantic.scss"],
-  ["L3", "src/styles/tokens/_component.scss"],
-  ["L4", "src/styles/tokens/_role.scss"],
-  ["L5", "src/styles/tokens/_state.scss"],
+const LAYERS =
+[ ["L1", ["src/styles/tokens/_primitives.scss"]]
+, ["L2", ["src/styles/tokens/_semantic.scss"]]
+, ["L3", ["src/styles/tokens/_component.scss", "src/styles/tokens/_component-source.scss"]]
+, ["L4", ["src/styles/tokens/_role.scss"]]
+, ["L5", ["src/styles/tokens/_state.scss"]]
 ];
-const RENDERED_DIRS = ["src/styles/components", "src/styles/base"]; // (kept for future rules)
+
+// A layer may reference itself and its immediate predecessor only.
+const ADJACENT =
+{ L1: new Set()
+, L2: new Set(["L1", "L2"])
+, L3: new Set(["L2", "L3"])
+, L4: new Set(["L3", "L4"])
+, L5: new Set(["L4", "L5"])
+};
 
 const violations = [];
 const fail = (rule, file, message) => violations.push({ rule, file, message });
 
-// --- token inventory ---
+const stripComments = (src) => src.replace(/\/\*[\s\S]*?\*\//g, "");
+
+// A `var(--token)` reference. Sass interpolation (`var(--color-dark-#{$name})`)
+// is not a token name and is skipped.
+const refsIn = (value) =>
+  [...value.matchAll(/var\(\s*(--[\w-]+)/g)]
+    .map((m) => m[1])
+    .filter((name) => !name.endsWith("-"));
+
+// --- token inventory ---------------------------------------------------------
 const layerOf = {};
-const source = {};
-for (const [layer, file] of LAYERS) {
-  const text = readFileSync(join(root, file), "utf8");
-  source[layer] = text;
-  for (const m of text.matchAll(/^\s*(--[\w-]+)\s*:/gm)) layerOf[m[1]] = layer;
-}
-// Expand Sass @each-generated palette variables (e.g. --color-dark-sumi):
-// they are produced from the $colors map keys at build time.
-{
-  const text = source["L1"];
-  for (const m of text.matchAll(/^\s*"([a-z]+)":\s*oklch/gm)) {
-    layerOf[`--color-dark-${m[1]}`] = "L1";
-    layerOf[`--color-light-${m[1]}`] = "L1";
+const source = {}; // layer -> [ { file, text } ]
+for (const [layer, files] of LAYERS) {
+  source[layer] = files.map((file) => ({ file, text: readFileSync(join(root, file), "utf8") }));
+  for (const { file, text } of source[layer]) {
+    for (const m of stripComments(text).matchAll(/^\s*(--[\w-]+)\s*:/gm)) {
+      if (layerOf[m[1]] === undefined) layerOf[m[1]] = { layer, file };
+    }
   }
 }
-const layerRank = { L1: 1, L2: 2, L3: 3, L4: 4, L5: 5 };
 
-function stripComments(src) {
-  return src.replace(/\/\*[\s\S]*?\*\//g, "");
-}
-
-// Remove functions together with their contents, innermost-first, so what
-// remains are bare tokens/literals of the declaration. Replacements carry no
-// parentheses so outer calls can collapse in the next pass.
-function stripFunctions(src) {
-  let out = src;
-  let prev;
-  const re = /[A-Za-z_-][\w-]*\([^()]*\)/g;
-  do { prev = out; out = out.replace(re, "SF"); } while (out !== prev);
-  return out;
-}
-
-// --- Rule A1: layer-5 tokens must carry an affordance at the affordance position ---
-// The final hyphen segment of every layer-5 token name must be one of the
-// permitted affordances. Anything else at that position is a layer label,
-// an emphasis word, or an alien category — not a state.
+// --- Rule A1: layer-5 tokens must end in an affordance -----------------------
 const AFFORDANCES = new Set([
   "static", "hover", "focus", "active", "disabled",
   "selected", "checked", "invalid", "open", "highlighted",
   "pressed", "current", "loading",
 ]);
-{
-  const text = stripComments(readFileSync(join(root, "src/styles/tokens/_state.scss"), "utf8"));
-  for (const m of text.matchAll(/^\s*(--[\w-]+)\s*:/gm)) {
+for (const { file, text } of source.L5) {
+  for (const m of stripComments(text).matchAll(/^\s*(--[\w-]+)\s*:/gm)) {
     const tail = m[1].slice(2).split("-").pop();
-    if (!AFFORDANCES.has(tail)) fail("A", "src/styles/tokens/_state.scss", `${m[1]} — layer-5 tokens must end in an affordance (${[...AFFORDANCES].join(", ")})`);
+    if (!AFFORDANCES.has(tail)) {
+      fail("A", file, `${m[1]} — layer-5 tokens must end in an affordance (${[...AFFORDANCES].join(", ")})`);
+    }
   }
 }
 
-// --- Rule A2: rendered styles consume layer-5 tokens only ---
-// Component-local custom properties (declared in the rendered files themselves,
-// e.g. --alert-icon in _alert.scss) are the only other permitted references.
+// --- Rule A2: rendered styles consume layer-5 tokens only --------------------
 const renderedFiles = (dir) =>
   readdirSync(join(root, dir)).filter((f) => f.endsWith(".scss")).map((f) => `${dir}/${f}`);
 const rendered = ["src/styles/components", "src/styles/base"].flatMap(renderedFiles);
 const localProps = new Set();
 for (const f of rendered) {
-  const text = stripComments(readFileSync(join(root, f), "utf8"));
-  for (const m of text.matchAll(/^\s*(--[\w-]+)\s*:/gm)) localProps.add(m[1]);
+  for (const m of stripComments(readFileSync(join(root, f), "utf8")).matchAll(/^\s*(--[\w-]+)\s*:/gm)) {
+    localProps.add(m[1]);
+  }
 }
 for (const f of rendered) {
   const text = stripComments(readFileSync(join(root, f), "utf8"));
-  for (const m of text.matchAll(/var\(\s*(--[\w-]+)/g)) {
-    const name = m[1];
-    const layer = layerOf[name];
-    if (layer === "L5") continue;
-    if (!layer && localProps.has(name)) continue; // component-local alias
-    fail("A", f, `var(${name}) — rendered styles may only consume layer-5 tokens (plus component-local custom properties); this resolves to ${layer ?? "nothing declared"}`);
+  for (const name of refsIn(text)) {
+    const declared = layerOf[name];
+    if (declared?.layer === "L5") continue;
+    if (!declared && localProps.has(name)) continue; // component-local alias
+    fail("A", f, `var(${name}) — rendered styles may only consume layer-5 tokens (plus component-local custom properties); this resolves to ${declared?.layer ?? "nothing declared"}`);
   }
 }
 
-// --- Rule B ---
-for (const [layer, file] of LAYERS) {
-  const text = stripComments(source[layer]);
-  for (const m of text.matchAll(/var\(\s*(--[\w-]+)(#?)/g)) {
-    const target = m[1];
-    if (m[2] === "#") continue; // Sass interpolation like var(--color-dark-#{$name}) generates --color-dark-*
-    const targetLayer = layerOf[target];
-    if (!targetLayer) { fail("B", file, `var(${target}) — token is not defined in any layer`); continue; }
-    if (layerRank[targetLayer] > layerRank[layer]) {
-      fail("B", file, `var(${target}) — ${layer} may not reference ${targetLayer} (downward reference)`);
+// --- Rule B: strict adjacency -------------------------------------------------
+for (const [layer] of LAYERS) {
+  for (const { file, text } of source[layer]) {
+    for (const line of stripComments(text).split("\n")) {
+      const decl = /^\s*(--[\w-]+)\s*:(.*)$/.exec(line);
+      if (!decl) continue;
+      for (const target of refsIn(decl[2])) {
+        const declared = layerOf[target];
+        if (!declared) {
+          fail("B", file, `var(${target}) — token is not declared in any layer`);
+          continue;
+        }
+        if (!ADJACENT[layer].has(declared.layer)) {
+          fail("B", file, `${decl[1]} → var(${target}) — ${layer} may reference only ${[...ADJACENT[layer]].join("/") || "nothing"}; ${target} is ${declared.layer}`);
+        }
+      }
     }
   }
 }
 
-// --- Rule C ---
-// A declaration value is allowed iff it is entirely composed of:
-//   - var() references,
-//   - other function calls (calc/clamp/oklch/color-mix/min/max…),
-//   - keywords (inherit/transparent/…).
-// Anything else — bare numerics, colors, fonts — must be a primitive in layer 1.
-for (const [layer, file] of LAYERS) {
+// --- Rule C: only layer 1 holds raw literals ----------------------------------
+// A value in L2–L5 must be composed of var() references, function calls, and
+// CSS keywords only.
+const KEYWORDS = new Set([
+  "transparent", "inherit", "initial", "unset", "revert", "revert-layer",
+  "currentcolor", "auto", "none", "normal", "bold", "bolder", "lighter",
+]);
+const stripFunctions = (src) => {
+  let out = src;
+  let prev;
+  const re = /[A-Za-z_-][\w-]*\([^()]*\)/g;
+  do { prev = out; out = out.replace(re, " "); } while (out !== prev);
+  return out;
+};
+for (const [layer] of LAYERS) {
   if (layer === "L1") continue;
-  const text = stripComments(source[layer]);
-  for (const line of text.split("\n")) {
-    const m = /^\s*(--[\w-]+)\s*:(.*)$/.exec(line);
-    if (!m) continue; // not a declaration (selector, etc.)
-    const [, name, value] = m;
-    const bare = stripFunctions(value).replace(/SF/g, "");
-    // Keywords that may legitimately appear bare:
-    const keywordOnly = /^\s*(transparent|inherit|initial|unset|revert|currentColor|auto|none|normal|bold(er)?|lighter)?\s*;?\s*$/i;
-    if (keywordOnly.test(bare)) continue;
-    fail("C", file, `${name}: literal outside layer 1 — "${value.trim()}"`);
+  for (const { file, text } of source[layer]) {
+    for (const line of stripComments(text).split("\n")) {
+      const m = /^\s*(--[\w-]+)\s*:(.*)$/.exec(line);
+      if (!m) continue;
+      const [, name, value] = m;
+      const bare = stripFunctions(value)
+        .replace(/var/g, " ")
+        .replace(/--[\w-]+/g, " ")
+        .trim()
+        .replace(/^[,;]+|[,;]+$/g, "")
+        .trim();
+      if (bare === "" || KEYWORDS.has(bare.toLowerCase())) continue;
+      fail("C", file, `${name}: literal outside layer 1 — "${value.trim()}"`);
+    }
+  }
+}
+
+// --- Rule D: layer 1 is literals only — no var() references -------------------
+for (const { file, text } of source.L1) {
+  for (const name of refsIn(stripComments(text))) {
+    fail("D", file, `var(${name}) — layer 1 must hold raw literals only`);
   }
 }
 

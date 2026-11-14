@@ -9,9 +9,9 @@
   };
 
   let {
-    items = [] as NavItem[],
-    class: className = "",
-    ...restProps
+    items = [] as NavItem[]
+    , class: className = ""
+    , ...restProps
   }: {
     items?: NavItem[];
     class?: string;

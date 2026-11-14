@@ -1,11 +1,10 @@
-import { commonAttributes } from "../commonAttributes";
+import { commonAttributes } from "../component";
 
-export default {
-  title: "AspectRatio",
-  type: "object",
-  properties: {
-    ...commonAttributes,
-    ratio: { type: "number" },
-  },
-  additionalProperties: true,
+export const style = { properties: [], states: ["static"] } as const;
+
+export const component =
+{ title: "AspectRatio"
+, type: "object"
+, properties: { ...commonAttributes, ratio: { type: "number" } }
+, additionalProperties: true
 } as const;

@@ -1,32 +1,32 @@
 <script lang="ts">
   import { Tabs as BitsTabs } from "bits-ui";
-  import type { TabsProps } from "../types";
+  import type { TabsProps } from "./types";
   import { persistState } from "../persist.svelte";
 
   let {
-    tabs = [],
-    value = $bindable(tabs[0]?.value ?? ""),
-    orientation = "horizontal",
-    activationMode = "automatic",
-    loop = true,
-    disabled = false,
-    storageKey = "wacss:tabs",
-    persist = true,
-    class: className = "",
-    listClass = "",
-    contentClass = "",
-    children,
-    ...restProps
+    tabs = []
+    , value = $bindable(tabs[0]?.value ?? "")
+    , orientation = "horizontal"
+    , activationMode = "automatic"
+    , loop = true
+    , disabled = false
+    , storageKey = "wacss:tabs"
+    , persist = true
+    , class: className = ""
+    , listClass = ""
+    , contentClass = ""
+    , children
+    , ...restProps
   }: TabsProps = $props();
 
   persistState({
-    get: () => value,
-    set: (next) => {
+    get: () => value
+    , set: (next) => {
       value = next;
-    },
-    key: () => storageKey,
-    enabled: () => persist,
-  });
+    }
+    , key: () => storageKey
+    , enabled: () => persist
+  , });
 </script>
 
 <BitsTabs.Root

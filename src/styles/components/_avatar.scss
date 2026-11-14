@@ -9,7 +9,7 @@
   block-size: var(--avatar-size-static);
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: var(--radius-pill-static);
+  border-radius: var(--radius-full-static);
   background: var(--avatar-fallback-background-static);
 }
 [data-avatar] > img {
@@ -25,7 +25,7 @@
   inline-size: 100%;
   block-size: 100%;
   font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-medium-static);
+  font-weight: var(--weight-ui-static);
   color: var(--avatar-fallback-color-static);
   user-select: none;
 }

@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { AccordionProps } from "../types";
+  import type { AccordionProps } from "./types";
 
   let {
-    items = [],
-    type = "single",
-    value = "",
-    name,
-    disabled = false,
-    class: className = "",
-    children,
-    ...restProps
+    items = []
+    , type = "single"
+    , value = ""
+    , name
+    , disabled = false
+    , class: className = ""
+    , children
+    , ...restProps
   }: AccordionProps & { name?: string } = $props();
 
   const groupName = type === "single" ? (name ?? "") : undefined;

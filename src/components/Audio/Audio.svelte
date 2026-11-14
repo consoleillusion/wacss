@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { AudioProps } from "../types";
+  import type { AudioProps } from "./types";
 
   let {
-    src,
-    sources,
-    caption,
-    controls = true,
-    autoplay = false,
-    loop = false,
-    muted = false,
-    preload = "metadata",
-    class: className = "",
-    ...restProps
+    src
+    , sources
+    , caption
+    , controls = true
+    , autoplay = false
+    , loop = false
+    , muted = false
+    , preload = "metadata"
+    , class: className = ""
+    , ...restProps
   }: AudioProps = $props();
 </script>
 

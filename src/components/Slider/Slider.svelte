@@ -2,14 +2,14 @@
   import { Slider } from "bits-ui";
 
   let {
-    value = $bindable(50),
-    min = 0,
-    max = 100,
-    step = 1,
-    disabled = false,
-    class: className = "",
-    onValueChange,
-    ...restProps
+    value = $bindable(50)
+    , min = 0
+    , max = 100
+    , step = 1
+    , disabled = false
+    , class: className = ""
+    , onValueChange
+    , ...restProps
   }: {
     value?: number;
     min?: number;

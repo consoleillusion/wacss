@@ -1,4 +1,4 @@
-import type { FormUiField, FormUiSchema, FormWidget, JsonSchema } from "../types";
+import type { FormUiField, FormUiSchema, FormWidget, JsonSchema } from "./types";
 
 /* Schema resolution ------------------------------------------------------- */
 

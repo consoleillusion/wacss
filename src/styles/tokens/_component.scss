@@ -1,220 +1,248 @@
-/* Level 3 - Component: component anatomy built from semantic tokens.
-   Each family names a prima, and the rest derive from it. */
+/* Level 3 - Component: hand-maintained primas. Values derive from layer 2 only. */
 
 :root {
-  /* --- Button (prima: --button-background) --- */
-  --button-background: color-mix(in oklch, var(--color-foreground) 8%, transparent);
-  --button-color: var(--color-foreground);
-  --button-border: transparent;
-  --button-radius: var(--radius-control);
-  --button-padding-block: calc(var(--space-step) * 2.0);
-  --button-padding-inline: calc(var(--space-step) * 4.0);
-  --button-font-size: var(--text-size-ui);
-  --button-gap: calc(var(--space-step) * 2.0);
-  --button-height: var(--size-control-height-md);
-  --button-height-sm: var(--size-control-height-sm);
-  --button-height-lg: var(--size-control-height-lg);
-  --button-height-icon: var(--size-control-height-md);
 
-  /* --- Badge (prima: --badge-background) --- */
-  --badge-background: var(--color-accent);
-  --badge-color: var(--color-on-accent);
-  --badge-border: transparent;
-  --badge-radius: var(--radius-pill);
-  --badge-padding-block: calc(var(--space-step) * 0.5);
-  --badge-padding-inline: calc(var(--space-step) * 2.0);
-  --badge-font-size: calc(var(--text-base) * 0.75);
-  --badge-line-height: var(--line-tight);
-  --badge-font-weight: var(--weight-medium);
-
-  /* --- Card (prima: --card-background) --- */
-  --card-background: var(--color-card);
-  --card-color: var(--color-foreground);
-  --card-border: var(--color-border);
-  --card-radius: var(--radius-surface);
-  --card-padding: calc(var(--space-step) * 6.0);
-  --card-shadow: var(--shadow-surface);
-  --card-title-size: var(--text-base);
-  --card-description-color: var(--color-muted-foreground);
-
-  /* --- Input (prima: --input-border) --- */
-  --input-background: var(--color-background);
-  --input-color: var(--color-foreground);
-  --input-border: var(--color-border);
-  --input-radius: var(--radius-control);
-  --input-padding-block: calc(var(--space-step) * 2.0);
-  --input-padding-inline: calc(var(--space-step) * 3.0);
-  --input-height: var(--size-control-height-md);
-  --input-font-size: var(--text-size-ui);
-  --input-placeholder-color: var(--color-muted-foreground);
-
-  /* --- Field / form (prima: --field-description-color) --- */
-  --field-gap: calc(var(--space-step) * 2.0);
-  --field-description-color: var(--color-muted-foreground);
-  --form-gap: calc(var(--space-step) * 4.0);
-  --form-columns-min: var(--size-form-columns-min);
-
-  /* --- Select (prima: --select-background; derives from input) --- */
-  --select-background: var(--input-background);
-  --select-color: var(--input-color);
-  --select-border: var(--input-border);
-  --select-radius: var(--input-radius);
-  --select-height: var(--input-height);
-  --select-item-background: transparent;
-  --select-item-radius: calc(var(--radius-step) * 2);
-
-  /* --- Popover surface (prima: --popover-background) --- */
-  --popover-background: var(--color-popover);
-  --popover-color: var(--color-foreground);
-  --popover-border: var(--color-border);
-  --popover-radius: var(--radius-surface);
-  --popover-shadow: var(--shadow-overlay);
-  --popover-padding: calc(var(--space-step) * 1.0);
-  --popover-min-width: var(--size-popover-min);
-  --popover-z: var(--z-overlay);
-
-  /* --- Menu (prima: --menu-background; surface aliases popover) --- */
-  --menu-background: var(--popover-background);
-  --menu-color: var(--popover-color);
-  --menu-border: var(--popover-border);
-  --menu-radius: var(--popover-radius);
-  --menu-shadow: var(--popover-shadow);
-  --menu-padding: var(--popover-padding);
-  --menu-item-radius: calc(var(--radius-step) * 2);
-  --menu-item-padding-block: calc(var(--space-step) * 1.5);
-  --menu-item-padding-inline: calc(var(--space-step) * 2.0);
-  --menu-item-font-size: var(--text-size-ui);
-  --menu-item-gap: calc(var(--space-step) * 2.0);
-  --menu-item-indicator-size: var(--size-indicator);
-
-  /* --- Tooltip (prima: --tooltip-background) --- */
-  --tooltip-background: var(--color-foreground);
-  --tooltip-color: var(--color-on-accent);
-  --tooltip-border: transparent;
-  --tooltip-radius: calc(var(--radius-step) * 2);
-  --tooltip-shadow: var(--shadow-overlay);
-  --tooltip-padding-block: calc(var(--space-step) * 1.5);
-  --tooltip-padding-inline: calc(var(--space-step) * 3.0);
-  --tooltip-font-size: calc(var(--text-base) * 0.75);
-
-  /* --- Dialog (prima: --dialog-background) --- */
-  --dialog-background: var(--color-popover);
-  --dialog-color: var(--color-foreground);
-  --dialog-border: var(--color-border);
-  --dialog-radius: var(--radius-surface);
-  --dialog-shadow: var(--shadow-overlay);
-  --dialog-padding: calc(var(--space-step) * 6.0);
-  --dialog-gap: calc(var(--space-step) * 4.0);
-  --dialog-max-width: var(--size-dialog-max-width);
-  --dialog-max-height: min(85vh, var(--size-dialog-max-height));
-  --dialog-overlay: var(--color-overlay);
-  --dialog-z: var(--popover-z);
-
-  /* --- Separator (prima: --separator-color) --- */
-  --separator-color: var(--color-border);
-
-  /* --- Switch (prima: --switch-track) --- */
-  --switch-track: color-mix(in oklch, var(--color-foreground) 20%, transparent);
-  --switch-track-checked: var(--color-accent);
-  --switch-thumb: var(--color-background);
-  --switch-thumb-checked: var(--color-on-accent);
-  --switch-width: var(--size-control-height-md);
-  --switch-height: calc(var(--space-step) * 5.0);
-  --switch-thumb-size: calc(var(--space-step) * 4.0);
-
-  /* --- Checkbox (prima: --checkbox-background) --- */
-  --checkbox-background: transparent;
-  --checkbox-background-checked: var(--color-accent);
-  --checkbox-color: var(--color-on-accent);
-  --checkbox-border: var(--color-border);
-  --checkbox-border-checked: var(--checkbox-background-checked);
-  --checkbox-size: calc(var(--space-step) * 4.0);
-  --checkbox-radius: calc(var(--radius-step) * 1);
-
-  /* --- Radio (prima: --radio-border) --- */
-  --radio-background: transparent;
-  --radio-background-checked: var(--color-accent);
-  --radio-border: var(--color-border);
-  --radio-dot: var(--color-on-accent);
-  --radio-size: calc(var(--space-step) * 4.0);
-
-  /* --- Progress (prima: --progress-indicator) --- */
-  --progress-track: color-mix(in oklch, var(--color-foreground) 12%, transparent);
-  --progress-indicator: var(--color-positive);
-  --progress-height: calc(var(--space-step) * 2.0);
-
-  /* --- Slider (prima: --slider-track) --- */
-  --slider-track: color-mix(in oklch, var(--color-foreground) 15%, transparent);
-  --slider-range: var(--color-accent);
-  --slider-thumb: var(--color-background);
-  --slider-thumb-border: var(--color-accent);
-  --slider-thumb-size: calc(var(--space-step) * 4.0);
-
-  /* --- Tabs (prima: --tabs-list-background) --- */
-  --tabs-list-background: color-mix(in oklch, var(--color-foreground) 6%, transparent);
-  --tabs-list-color: var(--color-muted-foreground);
-  --tabs-trigger-background: transparent;
-  --tabs-trigger-color: inherit;
-  --tabs-trigger-background-active: var(--color-background);
-  --tabs-trigger-color-active: var(--color-foreground);
-  --tabs-height: var(--size-control-height-md);
-  --tabs-trigger-padding-block: calc(var(--space-step) * 1.0);
-  --tabs-trigger-padding-inline: calc(var(--space-step) * 3.0);
-
-  /* --- Accordion (prima: --accordion-border) --- */
+  /* --- accordion --- */
   --accordion-border: var(--color-border);
-  --accordion-trigger-padding-block: calc(var(--space-step) * 4.0);
-  --accordion-trigger-color: var(--color-foreground);
-  --accordion-content-color: var(--color-foreground);
-  --accordion-transition: var(--motion-accordion);
+  --accordion-trigger-color: var(--color-text);
+  --accordion-content-color: var(--color-text);
+  --accordion-trigger-padding-block: calc(var(--space-unit) * 4.0);
+  --accordion-transition: var(--motion-reveal);
 
-  /* --- Avatar (prima: --avatar-size) --- */
-  --avatar-size: var(--size-avatar-md);
-  --avatar-size-sm: var(--size-avatar-sm);
-  --avatar-size-lg: var(--size-avatar-lg);
-  --avatar-fallback-background: var(--color-muted);
-  --avatar-fallback-color: var(--color-muted-foreground);
-
-  /* --- Table (prima: --table-head-color) --- */
-  --table-head-color: var(--color-muted-foreground);
-  --table-head-weight: var(--weight-medium);
-  --table-cell-padding-block: calc(var(--space-step) * 2.0);
-  --table-cell-padding-inline: calc(var(--space-step) * 3.0);
-  --table-row-border: var(--color-border);
-  --table-row-hover: var(--color-muted);
-
-  /* --- Navigation menu (prima: --nav-trigger-color) --- */
-  --nav-trigger-color: var(--color-foreground);
-  --nav-trigger-color-active: var(--color-foreground);
-  --nav-content-background: var(--popover-background);
-  --nav-content-border: var(--popover-border);
-  --nav-content-radius: var(--popover-radius);
-  --nav-content-shadow: var(--popover-shadow);
-  --nav-content-padding: calc(var(--space-step) * 2.0);
-  --nav-link-color: var(--color-foreground);
-  --nav-link-description-color: var(--color-muted-foreground);
-
-  /* --- Pagination (prima: --pagination-background) --- */
-  --pagination-background: transparent;
-  --pagination-color: var(--color-muted-foreground);
-  --pagination-color-hover: var(--color-foreground);
-  --pagination-background-selected: var(--color-accent);
-  --pagination-color-selected: var(--color-on-accent);
-  --pagination-gap: calc(var(--space-step) * 1.0);
-
-  /* --- Skeleton (prima: --skeleton-background) --- */
-  --skeleton-background: color-mix(in oklch, var(--color-foreground) 12%, transparent);
-  /* --- Alert --- */
+  /* --- alert --- */
   --alert-icon-info: var(--color-info);
   --alert-icon-warning: var(--color-warning);
   --alert-icon-positive: var(--color-positive);
   --alert-icon-destructive: var(--color-destructive);
-  --alert-background-info: color-mix(in oklch, var(--color-info) 8%, transparent);
-  --alert-background-warning: color-mix(in oklch, var(--color-warning) 8%, transparent);
-  --alert-background-positive: color-mix(in oklch, var(--color-positive) 8%, transparent);
-  --alert-background-destructive: color-mix(in oklch, var(--color-destructive) 8%, transparent);
-  --alert-border-info: color-mix(in oklch, var(--color-info) 35%, transparent);
-  --alert-border-warning: color-mix(in oklch, var(--color-warning) 35%, transparent);
-  --alert-border-positive: color-mix(in oklch, var(--color-positive) 35%, transparent);
-  --alert-border-destructive: color-mix(in oklch, var(--color-destructive) 35%, transparent);
+  --alert-background-info: color-mix(in oklch, var(--color-info) 8%, var(--color-clear));
+  --alert-background-warning: color-mix(in oklch, var(--color-warning) 8%, var(--color-clear));
+  --alert-background-positive: color-mix(in oklch, var(--color-positive) 8%, var(--color-clear));
+  --alert-background-destructive: color-mix(in oklch, var(--color-destructive) 8%, var(--color-clear));
+  --alert-border-info: color-mix(in oklch, var(--color-info) 35%, var(--color-clear));
+  --alert-border-warning: color-mix(in oklch, var(--color-warning) 35%, var(--color-clear));
+  --alert-border-positive: color-mix(in oklch, var(--color-positive) 35%, var(--color-clear));
+  --alert-border-destructive: color-mix(in oklch, var(--color-destructive) 35%, var(--color-clear));
+
+  /* --- avatar --- */
+  --avatar-size: calc(var(--space-unit) * 10);
+  --avatar-size-sm: calc(calc(var(--space-unit) * 10) - calc(var(--space-unit) * 2));
+  --avatar-size-lg: calc(calc(var(--space-unit) * 10) + calc(var(--space-unit) * 2));
+  --avatar-fallback-background: var(--color-muted);
+  --avatar-fallback-color: var(--color-muted-foreground);
+
+  /* --- badge --- */
+  --badge-background: var(--color-accent);
+  --badge-border: var(--color-clear);
+  --badge-color: var(--color-on-accent);
+  --badge-radius: var(--radius-full);
+  --badge-padding-block: calc(var(--space-unit) * 0.5);
+  --badge-padding-inline: calc(var(--space-unit) * 2.0);
+  --badge-font-size: calc(var(--text-size-body) * 0.75);
+  --badge-line-height: var(--line-heading);
+  --badge-font-weight: var(--weight-ui);
+
+  /* --- button --- */
+  --button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
+  --button-border: var(--color-clear);
+  --button-color: var(--color-text);
+  --button-radius: var(--radius-control);
+  --button-padding-block: calc(var(--space-unit) * 2.0);
+  --button-padding-inline: calc(var(--space-unit) * 4.0);
+  --button-font-size: var(--text-size-ui);
+  --button-gap: calc(var(--space-unit) * 2.0);
+  --button-height: calc(var(--space-unit) * 9);
+  --button-height-sm: calc(calc(var(--space-unit) * 9) - var(--space-unit));
+  --button-height-lg: calc(calc(var(--space-unit) * 9) + var(--space-unit));
+  --button-height-icon: calc(var(--space-unit) * 9);
+
+  /* --- card --- */
+  --card-background: var(--color-surface);
+  --card-border: var(--color-border);
+  --card-color: var(--color-text);
+  --card-description-color: var(--color-muted-foreground);
+  --card-radius: var(--radius-surface);
+  --card-padding: calc(var(--space-unit) * 6.0);
+  --card-shadow: var(--shadow-surface);
+  --card-title-size: var(--text-size-body);
+
+  /* --- checkbox --- */
+  --checkbox-background: var(--color-clear);
+  --checkbox-background-checked-value: var(--color-accent);
+  --checkbox-border: var(--color-border);
+  --checkbox-border-checked-value: var(--color-accent);
+  --checkbox-color: var(--color-on-accent);
+  --checkbox-size: calc(var(--space-unit) * 4.0);
+  --checkbox-radius: calc(var(--radius-increment) * 1);
+
+  /* --- dialog --- */
+  --dialog-background: var(--color-surface);
+  --dialog-border: var(--color-border);
+  --dialog-color: var(--color-text);
+  --dialog-overlay: var(--color-overlay);
+  --dialog-radius: var(--radius-surface);
+  --dialog-shadow: var(--shadow-overlay);
+  --dialog-padding: calc(var(--space-unit) * 6.0);
+  --dialog-gap: calc(var(--space-unit) * 4.0);
+  --dialog-max-width: calc(var(--space-unit) * 128);
+  --dialog-max-height: min(85vh, calc(var(--space-unit) * 160));
+  --dialog-z: var(--layer-overlay);
+
+  /* --- menu --- */
+  --menu-background: var(--color-surface);
+  --menu-border: var(--color-border);
+  --menu-color: var(--color-text);
+  --menu-radius: var(--radius-surface);
+  --menu-shadow: var(--shadow-overlay);
+  --menu-padding: calc(var(--space-unit) * 1.0);
+  --menu-item-radius: calc(var(--radius-increment) * 2);
+  --menu-item-padding-block: calc(var(--space-unit) * 1.5);
+  --menu-item-padding-inline: calc(var(--space-unit) * 2.0);
+  --menu-item-font-size: var(--text-size-ui);
+  --menu-item-gap: calc(var(--space-unit) * 2.0);
+  --menu-item-indicator-size: calc(var(--text-size-body) - var(--space-unit) / 2);
+  --menu-item-background: var(--color-clear);
+  --menu-item-color: var(--color-text);
+
+  /* --- field --- */
+  --field-gap: calc(var(--space-unit) * 2.0);
+  --field-description-color: var(--color-muted-foreground);
+
+  /* --- form --- */
+  --form-gap: calc(var(--space-unit) * 4.0);
+  --form-columns-min: calc(var(--space-unit) * 64);
+
+  /* --- input --- */
+  --input-background: var(--color-base);
+  --input-border: var(--color-border);
+  --input-color: var(--color-text);
+  --input-placeholder-color: var(--color-muted-foreground);
+  --input-radius: var(--radius-control);
+  --input-padding-block: calc(var(--space-unit) * 2.0);
+  --input-padding-inline: calc(var(--space-unit) * 3.0);
+  --input-height: calc(var(--space-unit) * 9);
+  --input-font-size: var(--text-size-ui);
+  --input-ring: color-mix(in oklch, var(--color-ring) 35%, var(--color-clear));
+
+  /* --- nav --- */
+  --nav-trigger-color: var(--color-text);
+  --nav-trigger-color-active-value: var(--color-text);
+  --nav-content-background: var(--color-surface);
+  --nav-content-border: var(--color-border);
+  --nav-content-radius: var(--radius-surface);
+  --nav-content-shadow: var(--shadow-overlay);
+  --nav-content-padding: calc(var(--space-unit) * 2.0);
+  --nav-link-color: var(--color-text);
+  --nav-link-description-color: var(--color-muted-foreground);
+
+  /* --- pagination --- */
+  --pagination-background: var(--color-clear);
+  --pagination-background-selected-value: var(--color-accent);
+  --pagination-color: var(--color-muted-foreground);
+  --pagination-color-selected-value: var(--color-on-accent);
+  --pagination-gap: calc(var(--space-unit) * 1.0);
+
+  /* --- popover --- */
+  --popover-background: var(--color-surface);
+  --popover-border: var(--color-border);
+  --popover-color: var(--color-text);
+  --popover-radius: var(--radius-surface);
+  --popover-shadow: var(--shadow-overlay);
+  --popover-padding: calc(var(--space-unit) * 1.0);
+  --popover-min-width: calc(var(--space-unit) * 32);
+  --popover-z: var(--layer-overlay);
+
+  /* --- progress --- */
+  --progress-track: color-mix(in oklch, var(--color-text) 12%, var(--color-clear));
+  --progress-indicator: var(--color-positive);
+  --progress-height: calc(var(--space-unit) * 2.0);
+
+  /* --- radio --- */
+  --radio-background: var(--color-clear);
+  --radio-background-checked-value: var(--color-accent);
+  --radio-border: var(--color-border);
+  --radio-border-checked-value: var(--color-accent);
+  --radio-dot: var(--color-on-accent);
+  --radio-size: calc(var(--space-unit) * 4.0);
+
+  /* --- select --- */
+  --select-background: var(--color-base);
+  --select-border: var(--color-border);
+  --select-color: var(--color-text);
+  --select-item-background: var(--color-clear);
+  --select-item-color: var(--color-text);
+  --select-item-radius: calc(var(--radius-increment) * 2);
+  --select-radius: var(--radius-control);
+  --select-height: calc(var(--space-unit) * 9);
+
+  /* --- separator --- */
+  --separator-color: var(--color-border);
+
+  /* --- skeleton --- */
+  --skeleton-background: color-mix(in oklch, var(--color-text) 12%, var(--color-clear));
+
+  /* --- slider --- */
+  --slider-track: color-mix(in oklch, var(--color-text) 15%, var(--color-clear));
+  --slider-range: var(--color-accent);
+  --slider-thumb: var(--color-base);
+  --slider-thumb-border: var(--color-accent);
+  --slider-thumb-size: calc(var(--space-unit) * 4.0);
+
+  /* --- switch --- */
+  --switch-track: color-mix(in oklch, var(--color-text) 20%, var(--color-clear));
+  --switch-track-checked-value: var(--color-accent);
+  --switch-thumb: var(--color-base);
+  --switch-thumb-checked-value: var(--color-on-accent);
+  --switch-width: calc(var(--space-unit) * 9);
+  --switch-height: calc(var(--space-unit) * 5.0);
+  --switch-thumb-size: calc(var(--space-unit) * 4.0);
+
+  /* --- table --- */
+  --table-head-color: var(--color-muted-foreground);
+  --table-head-weight: var(--weight-ui);
+  --table-cell-padding-block: calc(var(--space-unit) * 2.0);
+  --table-cell-padding-inline: calc(var(--space-unit) * 3.0);
+  --table-row-border: var(--color-border);
+  --table-row-background: var(--color-clear);
+  --table-row-background-hover-value: var(--color-muted);
+
+  /* --- tabs --- */
+  --tabs-list-background: color-mix(in oklch, var(--color-text) 6%, var(--color-clear));
+  --tabs-list-color: var(--color-muted-foreground);
+  --tabs-trigger-background: var(--color-clear);
+  --tabs-trigger-color: var(--color-muted-foreground);
+  --tabs-trigger-background-active-value: var(--color-base);
+  --tabs-trigger-color-active-value: var(--color-text);
+  --tabs-height: calc(var(--space-unit) * 9);
+  --tabs-trigger-padding-block: calc(var(--space-unit) * 1.0);
+  --tabs-trigger-padding-inline: calc(var(--space-unit) * 3.0);
+
+  /* --- tooltip --- */
+  --tooltip-background: var(--color-text);
+  --tooltip-border: var(--color-clear);
+  --tooltip-color: var(--color-on-accent);
+  --tooltip-radius: calc(var(--radius-increment) * 2);
+  --tooltip-shadow: var(--shadow-overlay);
+  --tooltip-padding-block: calc(var(--space-unit) * 1.5);
+  --tooltip-padding-inline: calc(var(--space-unit) * 3.0);
+  --tooltip-font-size: calc(var(--text-size-body) * 0.75);
+
+  /* --- Layout utilities --- */
+  --cluster-justify: var(--layout-justify);
+  --cluster-align: var(--layout-align);
+  --control-height-sm: calc(var(--space-unit) * 8);
+  --overlay-content-max: calc(var(--space-unit) * 96);
+  --stack-gap: calc(var(--space-unit) * 4);
+  --cluster-gap: calc(var(--space-unit) * 3);
+  --grid-gap: calc(var(--space-unit) * 4);
+  --sidebar-gap: calc(var(--space-unit) * 4);
+  --center-padding: calc(var(--space-unit) * 4);
+  --grid-min: calc(var(--space-unit) * 80);
+  --sidebar-width: calc(var(--space-unit) * 80);
+  --content-min: var(--measure-content-min);
+
+  /* --- Focus ring utilities --- */
+  --focus-ring: var(--color-ring);
+  --focus-ring-offset: var(--color-base);
+  --focus-ring-width: calc(var(--border-width) * 2);
+  --focus-ring-span: calc(var(--border-width) * 3);
 }

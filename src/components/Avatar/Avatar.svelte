@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { AvatarProps } from "../types";
+  import type { AvatarProps } from "./types";
 
   let {
-    src,
-    alt = "",
-    fallback,
-    size = "md",
-    class: className = "",
-    ...restProps
+    src
+    , alt = ""
+    , fallback
+    , size = "md"
+    , class: className = ""
+    , ...restProps
   }: AvatarProps = $props();
 
   let error = $state(false);

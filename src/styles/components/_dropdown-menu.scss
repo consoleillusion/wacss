@@ -2,18 +2,18 @@
    This file holds dropdown-specific parts. */
 
 [data-dropdown-menu-trigger] {
-  background: var(--button-background-standard-static);
-  color: var(--button-color-standard-static);
-  border-color: var(--button-border-standard-static);
-  box-shadow: var(--shadow-1-static);
+  background: var(--button-background-static);
+  color: var(--button-color-static);
+  border-color: var(--button-border-static);
+  box-shadow: var(--shadow-rest-static);
 }
 [data-dropdown-menu-trigger]:hover {
-  background: var(--button-background-standard-hover);
-  color: var(--button-color-standard-hover);
+  background: var(--button-background-hover);
+  color: var(--button-color-hover);
 }
 [data-dropdown-menu-trigger][data-state="open"] {
-  background: var(--button-background-standard-hover);
-  color: var(--button-color-standard-hover);
+  background: var(--button-background-hover);
+  color: var(--button-color-hover);
 }
 
 /* Submenu triggers carry a chevron */
@@ -29,10 +29,10 @@
 }
 
 /* Shortcut hint aligned to the end */
-[data-dropdown-menu-item] > [data-shortcut],
-[data-dropdown-menu-shortcut] {
+[data-dropdown-menu-item] > [data-shortcut]
+, [data-dropdown-menu-shortcut] {
   margin-inline-start: auto;
-  font-size: calc(var(--text-base-static) * 0.75);
+  font-size: calc(var(--text-size-body-static) * 0.75);
   color: var(--color-muted-foreground-static);
   letter-spacing: 0.05em;
 }

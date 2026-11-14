@@ -1,0 +1,180 @@
+/* NodeLinkDiagram - xyflow node-link diagram Themed through wacss tokens.
+   xyflow renders nodes as .svelte-flow__node and a custom node element is provided per node.
+   Handles are invisible: edges connect through nodes purely by id. */
+
+[data-node-link-diagram-root] {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  position: relative;
+  block-size: 100%;
+  min-block-size: 30rem;
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+  overflow: hidden;
+  background: var(--color-base-static);
+}
+
+/* --- Toolbar --- */
+[data-node-link-diagram-root] [data-toolbar] {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(var(--space-unit-static) * 3.0);
+  padding: calc(var(--space-unit-static) * 2.0) calc(var(--space-unit-static) * 3.0);
+  border-block-end: var(--border-width-static) solid var(--color-border-static);
+  background: var(--color-surface-static);
+}
+[data-node-link-diagram-root] [data-filter] {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space-unit-static) * 1.5);
+  font-size: var(--text-size-ui-static);
+  color: var(--color-muted-foreground-static);
+}
+[data-node-link-diagram-root] [data-filter] select {
+  padding: calc(var(--space-unit-static) * 1.5) calc(var(--space-unit-static) * 2.5);
+  padding-inline-end: calc(var(--space-unit-static) * 5.0);
+  background: var(--color-base-static);
+  border: var(--border-width-static) solid var(--input-border-static);
+  border-radius: var(--radius-control-static);
+  font-size: var(--text-size-ui-static);
+  color: var(--color-text-static);
+}
+[data-node-link-diagram-root] [data-filter] select:focus-visible {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+}
+[data-node-link-diagram-root] [data-search] { position: relative; }
+[data-node-link-diagram-root] .visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+[data-node-link-diagram-root] [data-search] input {
+  inline-size: 16rem;
+  padding: calc(var(--space-unit-static) * 2.0) calc(var(--space-unit-static) * 3.0);
+  background: var(--color-base-static);
+  border: var(--border-width-static) solid var(--input-border-static);
+  border-radius: var(--radius-control-static);
+  font-size: var(--text-size-ui-static);
+  color: var(--color-text-static);
+}
+[data-node-link-diagram-root] [data-search] input:focus-visible {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+}
+
+[data-node-link-diagram-root] [data-actions] {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space-unit-static) * 2.0);
+  margin-inline-start: auto;
+}
+[data-node-link-diagram-root] [data-actions] [data-active] {
+  /* toggled on: render with primary emphasis */
+}
+
+[data-node-link-diagram-root] [data-count] {
+  font-size: var(--text-size-ui-static);
+  color: var(--color-muted-foreground-static);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Nodes --- */
+[data-node-link-diagram-root] .svelte-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+[data-node-link-diagram-root] .svelte-flow__node {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+[data-node-link-diagram-root] [data-token-node] {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  padding-inline: calc(var(--space-unit-static) * 2.0);
+  padding-block: calc(var(--space-unit-static) * 1.0);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-control-static);
+  color: var(--color-text-static);
+  font-family: var(--font-code-static);
+  font-size: calc(var(--text-size-body-static) * 0.75);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  background: color-mix(in oklch, var(--color-text-static) 8%, transparent);
+}
+/* Layer colours — L1 … L5 by category, read alike on dark and light themes. */
+[data-node-link-diagram-root] [data-token-node][data-layer="1"] { background: color-mix(in oklch, var(--graph-layer-1-static) 55%, transparent); border-color: var(--graph-layer-1-static); color: var(--graph-on-layer-1-static); }
+[data-node-link-diagram-root] [data-token-node][data-layer="2"] { background: color-mix(in oklch, var(--graph-layer-2-static) 55%, transparent); border-color: var(--graph-layer-2-static); color: var(--graph-on-layer-2-static); }
+[data-node-link-diagram-root] [data-token-node][data-layer="3"] { background: color-mix(in oklch, var(--graph-layer-3-static) 65%, transparent); border-color: var(--graph-layer-3-static); color: var(--color-text-static); }
+[data-node-link-diagram-root] [data-token-node][data-layer="4"] { background: color-mix(in oklch, var(--graph-layer-4-static) 55%, transparent); border-color: var(--graph-layer-4-static); color: var(--graph-on-layer-4-static); }
+[data-node-link-diagram-root] [data-token-node][data-layer="5"] {
+  background: color-mix(in oklch, var(--graph-layer-5-static) 55%, transparent);
+  border-color: var(--graph-layer-5-static);
+  color: var(--color-text-static);
+}
+[data-node-link-diagram-root] .svelte-flow__node.selected [data-token-node] {
+  border-color: var(--color-accent-static);
+  box-shadow: 0 0 0 calc(var(--space-unit-static) * 1.0) color-mix(in oklch, var(--color-accent-static) 30%, transparent);
+}
+
+/* --- Layout status --- */
+[data-node-link-diagram-root] [data-layout-status] {
+  position: absolute;
+  inset-block-start: calc(var(--space-unit-static) * 3.0);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  padding: calc(var(--space-unit-static) * 1.5) calc(var(--space-unit-static) * 3.0);
+  background: var(--color-surface-static);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-control-static);
+  box-shadow: var(--shadow-overlay-static);
+  font-size: var(--text-size-ui-static);
+  color: var(--color-muted-foreground-static);
+  pointer-events: none;
+  z-index: var(--popover-z-static);
+}
+
+/* --- Detail panel --- */
+[data-node-link-diagram-root] [data-detail] {
+  position: absolute;
+  inset-inline-end: calc(var(--space-unit-static) * 4.0);
+  inset-block-end: calc(var(--space-unit-static) * 4.0);
+  inline-size: 24rem;
+  display: grid;
+  gap: calc(var(--space-unit-static) * 2.0);
+  padding: calc(var(--space-unit-static) * 3.0) calc(var(--space-unit-static) * 4.0);
+  background: var(--color-surface-static);
+  border: var(--border-width-static) solid var(--color-border-static);
+  border-radius: var(--radius-surface-static);
+  box-shadow: var(--shadow-overlay-static);
+  z-index: var(--popover-z-static);
+}
+[data-node-link-diagram-root] [data-detail-head] { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--space-unit-static) * 2.0); }
+[data-node-link-diagram-root] [data-detail-name] { font-family: var(--font-code-static); font-size: var(--text-size-ui-static); overflow-wrap: anywhere; }
+[data-node-link-diagram-root] [data-detail-meta] { margin: 0; font-size: var(--text-size-ui-static); color: var(--color-muted-foreground-static); }
+[data-node-link-diagram-root] [data-detail-value] { font-family: var(--font-code-static); font-size: calc(var(--text-size-body-static) * 0.75); color: var(--color-text-static); overflow-wrap: anywhere; }
+[data-node-link-diagram-root] [data-detail-refs] { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: calc(var(--space-unit-static) * 1.5); }
+[data-node-link-diagram-root] [data-ref] {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-code-static);
+  font-size: calc(var(--text-size-body-static) * 0.75);
+  padding: 2px calc(var(--space-unit-static) * 1.5);
+  background: var(--button-background-static);
+  color: var(--button-color-static);
+  border: none;
+  border-radius: calc(var(--radius-increment-static) * 2);
+  cursor: pointer;
+}
+[data-node-link-diagram-root] [data-ref]:hover { background: var(--button-background-hover); }

@@ -1,51 +1,60 @@
-/* Badge - small inline pill; variants map to badge roles. */
+/* Badge - small inline pill; variants resolve to layer-5 tokens. */
 
 .badge {
+  --badge-variant-background: var(--badge-background-static);
+  --badge-variant-color: var(--badge-color-static);
+  --badge-variant-border: var(--badge-border-static);
   display: inline-flex;
   align-items: center;
+  background: var(--badge-variant-background);
+  color: var(--badge-variant-color);
+  border: var(--border-width-static) solid var(--badge-variant-border);
   border-radius: var(--badge-radius-static);
-  border: var(--border-width-static) solid transparent;
   padding: var(--badge-padding-block-static) var(--badge-padding-inline-static);
   font-size: var(--badge-font-size-static);
   font-weight: var(--badge-font-weight-static);
   line-height: var(--badge-line-height-static);
   width: fit-content;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static),
-    color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition:
+    background var(--motion-interaction-static) var(--ease-interaction-static)
+    , color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
-.badge[data-variant="default"] {
-  background: var(--badge-background-standard-static);
-  color: var(--badge-color-standard-static);
-  border-color: var(--badge-border-standard-static);
-}
-.badge[data-variant="secondary"],
-.badge[data-variant="positive"],
-.badge[data-variant="negative"],
-.badge[data-variant="neutral"] {
-  background: var(--badge-background-secondary-static);
-  color: var(--badge-color-secondary-static);
-  border-color: var(--badge-border-secondary-static);
+.badge[data-variant="secondary"] {
+  --badge-variant-background: var(--color-muted-static);
+  --badge-variant-color: var(--color-text-static);
+  --badge-variant-border: var(--color-clear-static);
 }
 .badge[data-variant="positive"] {
-  background: var(--badge-background-positive-static);
-  color: var(--badge-color-positive-static);
+  --badge-variant-background: color-mix(
+    in oklch
+    , var(--color-positive-static) 15%
+    , var(--color-clear-static)
+  );
+  --badge-variant-color: var(--color-positive-static);
+  --badge-variant-border: var(--color-clear-static);
 }
 .badge[data-variant="negative"] {
-  background: var(--badge-background-negative-static);
-  color: var(--badge-color-negative-static);
+  --badge-variant-background: color-mix(
+    in oklch
+    , var(--color-destructive-static) 15%
+    , var(--color-clear-static)
+  );
+  --badge-variant-color: var(--color-destructive-static);
+  --badge-variant-border: var(--color-clear-static);
 }
 .badge[data-variant="neutral"] {
-  background: var(--badge-background-neutral-static);
-  color: var(--badge-color-neutral-static);
+  --badge-variant-background: var(--color-muted-static);
+  --badge-variant-color: var(--color-muted-foreground-static);
+  --badge-variant-border: var(--color-clear-static);
 }
 .badge[data-variant="outline"] {
-  background: var(--badge-background-outline-static);
-  color: var(--badge-color-outline-static);
-  border-color: var(--badge-border-outline-static);
+  --badge-variant-background: var(--color-clear-static);
+  --badge-variant-color: var(--color-text-static);
+  --badge-variant-border: var(--color-border-static);
 }
 .badge[data-variant="destructive"] {
-  background: var(--badge-background-destructive-static);
-  color: var(--badge-color-destructive-static);
-  border-color: var(--badge-border-destructive-static);
+  --badge-variant-background: var(--color-destructive-static);
+  --badge-variant-color: var(--color-destructive-foreground-static);
+  --badge-variant-border: var(--color-clear-static);
 }
