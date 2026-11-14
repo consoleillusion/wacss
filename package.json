@@ -30,11 +30,9 @@
     "tokens:show": "bun scripts/emit-tokens.mjs --show",
     "dev": "astro dev",
     "preview": "astro preview",
-    "check": "biome check .",
     "audit:tokens": "bun scripts/audit-tokens.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.6",
     "@types/bun": "latest",
     "astro": "7.4.7",
     "sass": "^1.101.0",
