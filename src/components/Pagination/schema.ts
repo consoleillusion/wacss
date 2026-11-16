@@ -1,11 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background", states: ["hover", "selected"] }
-    , { property: "color", states: ["hover", "selected"] }
-    , { property: "gap" }
-    ]
+export const meta =
+{ name: "pagination"
+, cssProperties: ["background", "color", "gap"]
+, roles: ["standard"]
 , states: ["static", "hover", "selected"]
 } as const;
 

@@ -6,7 +6,7 @@
 [data-accordion-root] details {
   interpolate-size: allow-keywords;
   overflow: clip;
-  border-block-end: var(--border-width-static) solid var(--accordion-border-static);
+  border-block-end: var(--border-width-static) solid var(--accordion-border-standard-static);
 }
 
 [data-accordion-root] details summary {
@@ -14,10 +14,10 @@
   cursor: pointer;
   position: relative;
   list-style: none;
-  padding: var(--accordion-trigger-padding-block-static) calc(var(--space-unit-static) * 8.0) var(--accordion-trigger-padding-block-static) 0;
+  padding: var(--accordion-trigger-padding-block-standard-static) calc(var(--space-unit-static) * 8.0) var(--accordion-trigger-padding-block-standard-static) 0;
   font-size: var(--text-size-body-static);
   font-weight: var(--weight-ui-static);
-  color: var(--accordion-trigger-color-static);
+  color: var(--accordion-trigger-color-standard-static);
   text-align: start;
   transition: color var(--motion-interaction-static) var(--ease-interaction-static);
 }
@@ -39,14 +39,14 @@
   height: 0;
   overflow-y: clip;
   transition:
-    content-visibility var(--accordion-transition-static) allow-discrete
-    , height var(--accordion-transition-static) var(--ease-interaction-static);
+    content-visibility var(--accordion-transition-standard-static) allow-discrete
+    , height var(--accordion-transition-standard-static) var(--ease-interaction-static);
 }
 [data-accordion-root] details[open]::details-content { height: auto; }
 
 [data-accordion-content] {
   font-size: var(--text-size-body-static);
-  color: var(--accordion-content-color-static);
+  color: var(--accordion-content-color-standard-static);
   padding-block-end: calc(var(--space-unit-static) * 4.0);
 }
 [data-accordion-content] > :first-child { margin-block-start: 0; }

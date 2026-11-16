@@ -1,6 +1,11 @@
 import { commonAttributes } from "../component";
 
-export const style = { properties: [{ property: "background" }], states: ["static"] } as const;
+export const meta =
+{ name: "skeleton"
+, cssProperties: ["background"]
+, roles: ["standard"]
+, states: ["static"]
+} as const;
 
 export const component =
 { title: "Skeleton"

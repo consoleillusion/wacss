@@ -1,7 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties: [{ property: "track" }, { property: "indicator" }, { property: "height" }]
+export const meta =
+{ name: "progress"
+, cssProperties: ["track", "indicator", "height"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

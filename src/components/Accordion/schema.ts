@@ -1,13 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "border" }
-    , { property: "trigger-color" }
-    , { property: "content-color" }
-    , { property: "trigger-padding-block" }
-    , { property: "transition" }
-    ]
+export const meta =
+{ name: "accordion"
+, cssProperties: ["border", "trigger-color", "content-color", "trigger-padding-block", "transition"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

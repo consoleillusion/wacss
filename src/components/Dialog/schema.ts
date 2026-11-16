@@ -1,19 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "overlay" }
-    , { property: "radius" }
-    , { property: "shadow" }
-    , { property: "padding" }
-    , { property: "gap" }
-    , { property: "max-width" }
-    , { property: "max-height" }
-    , { property: "z" }
-    ]
+export const meta =
+{ name: "dialog"
+, cssProperties: ["background", "border", "color", "overlay", "radius", "shadow", "padding", "gap", "max-width", "max-height", "z"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

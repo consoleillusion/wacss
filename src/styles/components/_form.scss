@@ -2,7 +2,7 @@
 
 form {
   display: grid;
-  gap: var(--form-gap-static);
+  gap: var(--form-gap-standard-static);
 }
 
 /* Fieldset groups */
@@ -11,7 +11,7 @@ form fieldset {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
   min-inline-size: 0;
 }
 form legend {
@@ -24,7 +24,7 @@ form legend + p
 , form fieldset > p {
   margin: 0;
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 /* An error paragraph trails the field content inside a fieldset. */
 form fieldset > div ~ p { color: var(--color-destructive-static); }
@@ -37,7 +37,7 @@ form div:has(> [aria-invalid="true"]) > p {
 form fieldset > div
 , form > div > div {
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
 }
 
 /* Checkbox lists inside fieldsets */

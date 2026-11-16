@@ -1,20 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background", states: ["hover"] }
-    , { property: "border" }
-    , { property: "color", states: ["hover"] }
-    , { property: "radius" }
-    , { property: "padding-block" }
-    , { property: "padding-inline" }
-    , { property: "font-size" }
-    , { property: "gap" }
-    , { property: "height" }
-    , { property: "height-sm" }
-    , { property: "height-lg" }
-    , { property: "height-icon" }
-    ]
+export const meta =
+{ name: "button"
+, cssProperties: ["background", "border", "color", "radius", "padding-block", "padding-inline", "font-size", "gap", "height", "height-sm", "height-lg", "height-icon"]
+, roles: ["standard", "primary", "secondary", "danger", "tertiary"]
 , states: ["static", "hover"]
 } as const;
 

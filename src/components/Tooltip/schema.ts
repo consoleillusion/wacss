@@ -1,16 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "radius" }
-    , { property: "shadow" }
-    , { property: "padding-block" }
-    , { property: "padding-inline" }
-    , { property: "font-size" }
-    ]
+export const meta =
+{ name: "tooltip"
+, cssProperties: ["background", "border", "color", "radius", "shadow", "padding-block", "padding-inline", "font-size"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

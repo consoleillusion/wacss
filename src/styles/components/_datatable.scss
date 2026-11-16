@@ -89,11 +89,11 @@
   --wx-table-drag-zone-shadow: var(--shadow-overlay-static);
 
   /* popup / dropdown */
-  --wx-popup-z-index: var(--popover-z-static);
-  --wx-popup-background: var(--popover-background-static);
-  --wx-popup-shadow: var(--popover-shadow-static);
+  --wx-popup-z-index: var(--popover-z-standard-static);
+  --wx-popup-background: var(--popover-background-standard-static);
+  --wx-popup-shadow: var(--popover-shadow-standard-static);
   --wx-popup-border: var(--border-width-static) solid var(--color-border-static);
-  --wx-popup-border-radius: var(--popover-radius-static);
+  --wx-popup-border-radius: var(--popover-radius-standard-static);
 
   /* checkbox (multi-select) */
   --wx-checkbox-border-width: calc(var(--border-width-static) * 2);
@@ -111,10 +111,10 @@
   --wx-input-font-color: var(--color-text-static);
   --wx-input-background: var(--color-base-static);
   --wx-input-placeholder-color: var(--color-muted-foreground-static);
-  --wx-input-border: var(--input-border-static);
-  --wx-input-border-focus: var(--input-border-focus);
-  --wx-input-border-radius: var(--input-radius-static);
-  --wx-input-height: var(--input-height-static);
+  --wx-input-border: var(--input-border-standard-static);
+  --wx-input-border-focus: var(--input-border-standard-focus);
+  --wx-input-border-radius: var(--input-radius-standard-static);
+  --wx-input-height: var(--input-height-standard-static);
 }
 
 [data-datatable-root] *

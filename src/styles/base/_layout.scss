@@ -22,9 +22,9 @@
   inline-size: 100%;
 }
 .grid[data-bleed] {
-  /* Full-bleed: cancel the parent's inline padding and span the viewport */
-  margin-inline: calc(50% - 50vw);
-  inline-size: 100vw;
+  /* Full-bleed: cancel the page shell's inline padding. Avoid 100vw here —
+     viewport units include the scrollbar and cause horizontal overflow. */
+  margin-inline: calc(var(--space-unit-static) * -4);
   padding-inline: calc(var(--space-unit-static) * 4);
 }
 .grid[data-fit] {
@@ -74,7 +74,7 @@
 
 [data-columns] {
   display: grid;
-  gap: var(--form-gap-static);
+  gap: var(--form-gap-standard-static);
 }
 @media (max-width: 48rem) { /* raw value required: custom properties are not allowed in media feature values */
   [data-columns="2"], [data-columns="3"], [data-columns="4"] { grid-template-columns: minmax(0, 1fr); }
@@ -138,3 +138,47 @@ body > main {
 
 /* --- Sections --- */
 section + section { margin-block-start: calc(var(--space-unit-static) * 8.0); }
+
+/* --- Editorial page patterns --- */
+.page-flow {
+  display: grid;
+  gap: clamp(calc(var(--space-unit-static) * 10), 6vw, calc(var(--space-unit-static) * 18));
+}
+.page-flow > * { margin-block: 0; }
+main > header + section { margin-block-start: calc(var(--space-unit-static) * 10.0); }
+.page-hero {
+  display: grid;
+  gap: calc(var(--space-unit-static) * 5);
+  max-inline-size: 48rem;
+  padding-block-start: calc(var(--space-unit-static) * 4);
+}
+.page-hero > :is(h1, p) { margin-block: 0; }
+.page-hero h1 {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  line-height: 1.05;
+  max-inline-size: 16ch;
+}
+.page-eyebrow {
+  font-size: calc(var(--text-size-body-static) * 0.8125);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground-static);
+}
+.page-lede {
+  max-inline-size: var(--measure-body-static);
+  font-size: calc(var(--text-size-body-static) * 1.125);
+  line-height: var(--line-body-static);
+  color: var(--color-muted-foreground-static);
+}
+.page-section {
+  display: grid;
+  gap: calc(var(--space-unit-static) * 6);
+  scroll-margin-block-start: calc(var(--space-unit-static) * 20);
+}
+.page-section > :is(h2, p) { margin-block: 0; }
+.page-note {
+  border-block-start: var(--border-width-static) solid var(--color-border-static);
+  padding-block-start: calc(var(--space-unit-static) * 4);
+}
+.page-note > :is(h3, p) { margin-block: 0; }
+.page-note > p + p { margin-block-start: calc(var(--space-unit-static) * 2); }

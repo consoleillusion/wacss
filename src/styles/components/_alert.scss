@@ -1,19 +1,25 @@
-/* Alert - a block-level callout for messages that deserve attention. */
+/* Alert - a block-level callout for messages that deserve attention.
+   Each data-variant binds one role's L5 tokens; the anatomy reads the
+   component-local current-* aliases. */
 
 [data-alert-root] {
+  --alert-current-icon: var(--alert-icon-informational-static);
+  --alert-current-background: var(--alert-background-informational-static);
+  --alert-current-border: var(--alert-border-informational-static);
   display: grid;
   grid-template-columns: auto 1fr;
   gap: calc(var(--space-unit-static) * 3.0);
   align-items: start;
   padding: calc(var(--space-unit-static) * 3.0) calc(var(--space-unit-static) * 4.0);
-  border: var(--border-width-static) solid var(--color-border-static);
+  background: var(--alert-current-background);
+  border: var(--border-width-static) solid var(--alert-current-border);
   border-radius: var(--radius-surface-static);
 }
 
 [data-alert-icon] {
   display: inline-flex;
   padding-block-start: 2px;
-  color: var(--alert-icon);
+  color: var(--alert-current-icon);
 }
 [data-alert-icon] svg {
   inline-size: calc(var(--space-unit-static) * 5.0);
@@ -38,28 +44,25 @@
 [data-alert-description] {
   margin: 0;
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  /* Body copy, not helper text: full-strength ink keeps 4.5:1 on every
+     status surface in both themes (muted ink dipped to 3.7:1 in dark). */
+  color: var(--color-text-static);
   line-height: var(--line-body-static);
 }
 
-/* Variants: tint background + icon from the semantic hue */
-[data-alert-root][data-variant="warning"] {
-  --alert-icon: var(--alert-icon-warning-static);
-  background: var(--alert-background-warning-static);
-  border-color: var(--alert-border-warning-static);
-}
-[data-alert-root][data-variant="info"] {
-  --alert-icon: var(--alert-icon-info-static);
-  background: var(--alert-background-info-static);
-  border-color: var(--alert-border-info-static);
-}
+/* Roles: info is informational, then positive / warn / danger. */
 [data-alert-root][data-variant="positive"] {
-  --alert-icon: var(--alert-icon-positive-static);
-  background: var(--alert-background-positive-static);
-  border-color: var(--alert-border-positive-static);
+  --alert-current-icon: var(--alert-icon-positive-static);
+  --alert-current-background: var(--alert-background-positive-static);
+  --alert-current-border: var(--alert-border-positive-static);
+}
+[data-alert-root][data-variant="warning"] {
+  --alert-current-icon: var(--alert-icon-warn-static);
+  --alert-current-background: var(--alert-background-warn-static);
+  --alert-current-border: var(--alert-border-warn-static);
 }
 [data-alert-root][data-variant="destructive"] {
-  --alert-icon: var(--alert-icon-destructive-static);
-  background: var(--alert-background-destructive-static);
-  border-color: var(--alert-border-destructive-static);
+  --alert-current-icon: var(--alert-icon-danger-static);
+  --alert-current-background: var(--alert-background-danger-static);
+  --alert-current-border: var(--alert-border-danger-static);
 }

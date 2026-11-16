@@ -11,15 +11,15 @@ button, [role="button"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--button-gap-static);
+  gap: var(--button-gap-standard-static);
   white-space: nowrap;
-  border: var(--border-width-static) solid var(--button-border-static);
-  border-radius: var(--button-radius-static);
-  background: var(--button-background-static);
-  color: var(--button-color-static);
-  min-height: var(--button-height-static);
-  padding: var(--button-padding-block-static) var(--button-padding-inline-static);
-  font-size: var(--button-font-size-static);
+  border: var(--border-width-static) solid var(--button-border-standard-static);
+  border-radius: var(--button-radius-standard-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  min-height: var(--button-height-standard-static);
+  padding: var(--button-padding-block-standard-static) var(--button-padding-inline-standard-static);
+  font-size: var(--button-font-size-standard-static);
   font-weight: var(--weight-ui-static);
   line-height: 1;
   cursor: pointer;
@@ -29,8 +29,8 @@ button, [role="button"] {
     , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 button:hover, [role="button"]:hover {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 /* Disabled: scoped to interactive elements, not every aria-disabled element. */
@@ -49,64 +49,64 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 , select, textarea {
   display: flex;
   width: 100%;
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
-  color: var(--input-color-static);
-  min-height: var(--input-height-static);
-  padding: var(--input-padding-block-static) var(--input-padding-inline-static);
-  font-size: var(--input-font-size-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
+  color: var(--input-color-standard-static);
+  min-height: var(--input-height-standard-static);
+  padding: var(--input-padding-block-standard-static) var(--input-padding-inline-standard-static);
+  font-size: var(--input-font-size-standard-static);
   transition: border-color var(--motion-interaction-static) var(--ease-interaction-static)
     , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 textarea { min-height: 5rem; }
 
-::placeholder { color: var(--input-placeholder-color-static); opacity: 1; }
+::placeholder { color: var(--input-placeholder-color-standard-static); opacity: 1; }
 
 /* Focus ring on fields: border + soft halo, no double outline. */
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: none;
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 /* Invalid */
 input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid
 , select:user-invalid
 , textarea:user-invalid {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible
 , textarea[aria-invalid="true"]:focus-visible
 , input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid:focus-visible
 , select:user-invalid:focus-visible
 , textarea:user-invalid:focus-visible {
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-invalid);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-invalid);
 }
 
 /* Color swatch input: compact swatch, not a stretched field. */
 input[type="color"] {
   appearance: none;
   inline-size: calc(var(--space-unit-static) * 10.0);
-  min-height: var(--input-height-static);
+  min-height: var(--input-height-standard-static);
   padding: calc(var(--space-unit-static) * 1.0);
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
   cursor: pointer;
 }
 input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-input[type="color"]::-webkit-color-swatch { border: none; border-radius: calc(var(--input-radius-static) - 2px); }
+input[type="color"]::-webkit-color-swatch { border: none; border-radius: calc(var(--input-radius-standard-static) - 2px); }
 
 /* Native select keeps its OS-provided chevron. */
 
 /* Native checkboxes/radios tinted with the accent. */
 input[type="checkbox"], input[type="radio"] {
-  inline-size: var(--checkbox-size-static);
-  block-size: var(--checkbox-size-static);
+  inline-size: var(--checkbox-size-standard-static);
+  block-size: var(--checkbox-size-standard-static);
   accent-color: var(--color-accent-static);
 }
 

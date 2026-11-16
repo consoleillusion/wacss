@@ -14,22 +14,22 @@ table caption {
 }
 table th {
   text-align: start;
-  font-weight: var(--table-head-weight-static);
-  color: var(--table-head-color-static);
-  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
-  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
+  font-weight: var(--table-head-weight-standard-static);
+  color: var(--table-head-color-standard-static);
+  padding: var(--table-cell-padding-block-standard-static) var(--table-cell-padding-inline-standard-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-standard-static);
   vertical-align: bottom;
 }
 table td {
-  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
-  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
+  padding: var(--table-cell-padding-block-standard-static) var(--table-cell-padding-inline-standard-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-standard-static);
   vertical-align: middle;
 }
 table tbody tr {
   transition: background var(--motion-interaction-static) var(--ease-interaction-static);
 }
 table tbody tr:hover {
-  background: var(--table-row-background-hover);
+  background: var(--table-row-background-standard-hover);
 }
 table tbody tr:last-child td {
   border-block-end: none;

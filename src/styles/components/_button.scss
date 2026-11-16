@@ -1,71 +1,74 @@
-/* Button - variants resolve to layer-5 tokens; no per-variant global tokens. */
+/* Button - variants bind role tokens; the anatomy reads current-* aliases. */
 
 button[data-variant]
 , a[data-variant] {
-  --button-variant-background: var(--button-background-static);
-  --button-variant-color: var(--button-color-static);
-  --button-variant-border: var(--button-border-static);
-  background: var(--button-variant-background);
-  color: var(--button-variant-color);
-  border-color: var(--button-variant-border);
-  border-radius: var(--button-radius-static);
+  --button-current-background: var(--button-background-standard-static);
+  --button-current-color: var(--button-color-standard-static);
+  --button-current-border: var(--button-border-standard-static);
+  background: var(--button-current-background);
+  color: var(--button-current-color);
+  border-color: var(--button-current-border);
+  border-radius: var(--button-radius-standard-static);
+
+  &:hover {
+    background: var(--button-background-standard-hover);
+    color: var(--button-color-standard-hover);
+  }
 
   &[data-variant="primary"] {
-    --button-variant-background: var(--color-pop-static);
-    --button-variant-color: var(--color-on-accent-static);
-    --button-variant-border: var(--color-clear-static);
+    --button-current-background: var(--button-background-primary-static);
+    --button-current-color: var(--button-color-primary-static);
+    --button-current-border: var(--button-border-primary-static);
+    &:hover {
+      background: var(--button-background-primary-hover);
+      color: var(--button-color-primary-hover);
+    }
   }
   &[data-variant="secondary"] {
-    --button-variant-background: var(--color-muted-static);
-    --button-variant-color: var(--color-text-static);
-    --button-variant-border: var(--color-clear-static);
+    --button-current-background: var(--button-background-secondary-static);
+    --button-current-color: var(--button-color-secondary-static);
+    --button-current-border: var(--button-border-secondary-static);
+    &:hover {
+      background: var(--button-background-secondary-hover);
+      color: var(--button-color-secondary-hover);
+    }
   }
   &[data-variant="destructive"] {
-    --button-variant-background: var(--color-destructive-static);
-    --button-variant-color: var(--color-destructive-foreground-static);
-    --button-variant-border: var(--color-clear-static);
+    --button-current-background: var(--button-background-danger-static);
+    --button-current-color: var(--button-color-danger-static);
+    --button-current-border: var(--button-border-danger-static);
+    &:hover {
+      background: var(--button-background-danger-hover);
+      color: var(--button-color-danger-hover);
+    }
   }
   &[data-variant="link"] {
-    --button-variant-background: var(--color-clear-static);
-    --button-variant-color: var(--color-text-static);
-    --button-variant-border: var(--color-clear-static);
+    --button-current-background: var(--button-background-tertiary-static);
+    --button-current-color: var(--button-color-tertiary-static);
+    --button-current-border: var(--button-border-tertiary-static);
     text-decoration-line: underline;
     text-underline-offset: 4px;
     height: auto;
     padding: 0;
-  }
-
-  &:hover {
-    background: color-mix(
-      in oklch
-      , var(--button-variant-background)
-      , var(--color-text-static) 12%
-      , var(--color-clear-static)
-    );
-    color: color-mix(
-      in oklch
-      , var(--button-variant-color)
-      , var(--color-text-static) 12%
-      , var(--color-clear-static)
-    );
-  }
-  &[data-variant="link"]:hover {
-    color: var(--color-accent-static);
+    &:hover {
+      background: var(--button-background-tertiary-hover);
+      color: var(--color-accent-static);
+    }
   }
 
   &[data-size="sm"] {
-    min-height: var(--button-height-sm-static);
+    min-height: var(--button-height-sm-standard-static);
     padding: 0 0.75rem;
     font-size: calc(var(--text-size-body-static) * 0.75);
   }
   &[data-size="lg"] {
-    min-height: var(--button-height-lg-static);
+    min-height: var(--button-height-lg-standard-static);
     padding: 0.5rem 1.5rem;
   }
   &[data-size="icon"] {
-    inline-size: var(--button-height-icon-static);
-    block-size: var(--button-height-icon-static);
-    min-height: var(--button-height-icon-static);
+    inline-size: var(--button-height-icon-standard-static);
+    block-size: var(--button-height-icon-standard-static);
+    min-height: var(--button-height-icon-standard-static);
     padding: 0;
   }
 

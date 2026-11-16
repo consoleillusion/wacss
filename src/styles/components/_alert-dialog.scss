@@ -3,27 +3,27 @@
 [data-alert-dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--dialog-z-static);
-  background: var(--dialog-overlay-static);
+  z-index: var(--dialog-z-standard-static);
+  background: var(--dialog-overlay-standard-static);
 }
 [data-alert-dialog-content] {
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: var(--dialog-z-static);
+  z-index: var(--dialog-z-standard-static);
   display: grid;
-  gap: var(--dialog-gap-static);
+  gap: var(--dialog-gap-standard-static);
   width: 100%;
-  max-width: var(--dialog-max-width-static);
-  max-height: var(--dialog-max-height-static);
+  max-width: var(--dialog-max-width-standard-static);
+  max-height: var(--dialog-max-height-standard-static);
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: var(--border-width-static) solid var(--dialog-border-static);
-  background: var(--dialog-background-static);
-  color: var(--dialog-color-static);
-  padding: var(--dialog-padding-static);
-  border-radius: var(--dialog-radius-static);
-  box-shadow: var(--dialog-shadow-static);
+  border: var(--border-width-static) solid var(--dialog-border-standard-static);
+  background: var(--dialog-background-standard-static);
+  color: var(--dialog-color-standard-static);
+  padding: var(--dialog-padding-standard-static);
+  border-radius: var(--dialog-radius-standard-static);
+  box-shadow: var(--dialog-shadow-standard-static);
 }
 [data-alert-dialog-overlay][data-state="open"] { animation: wacss-fade-in var(--motion-surface-static) var(--ease-interaction-static); }
 [data-alert-dialog-content][data-state="open"] { animation: wacss-pop-in var(--motion-surface-static) var(--ease-interaction-static); }
@@ -36,9 +36,9 @@
 }
 [data-alert-dialog-description] {
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 [data-alert-dialog-action][data-variant="destructive"]
 , [data-alert-dialog-cancel] {
-  min-height: var(--button-height-static);
+  min-height: var(--button-height-standard-static);
 }
