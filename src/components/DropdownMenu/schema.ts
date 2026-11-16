@@ -1,22 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "radius" }
-    , { property: "shadow" }
-    , { property: "padding" }
-    , { property: "item-radius" }
-    , { property: "item-padding-block" }
-    , { property: "item-padding-inline" }
-    , { property: "item-font-size" }
-    , { property: "item-gap" }
-    , { property: "item-indicator-size" }
-    , { property: "item-background", states: ["highlighted"] }
-    , { property: "item-color", states: ["highlighted"] }
-    ]
+export const meta =
+{ name: "menu"
+, cssProperties: ["background", "border", "color", "radius", "shadow", "padding", "item-radius", "item-padding-block", "item-padding-inline", "item-font-size", "item-gap", "item-indicator-size", "item-background", "item-color"]
+, roles: ["standard"]
 , states: ["static", "highlighted"]
 } as const;
 

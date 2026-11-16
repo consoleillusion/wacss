@@ -4,13 +4,13 @@
 [data-pagination-root] {
   display: inline-flex;
   align-items: center;
-  gap: var(--pagination-gap-static);
+  gap: var(--pagination-gap-standard-static);
 }
 
 [data-pagination-root] > div {
   display: flex;
   align-items: center;
-  gap: var(--pagination-gap-static);
+  gap: var(--pagination-gap-standard-static);
   padding: 0;
 }
 
@@ -24,10 +24,10 @@
   block-size: calc(var(--space-unit-static) * 8.0);
   min-height: calc(var(--space-unit-static) * 8.0);
   padding: 0;
-  background: var(--pagination-background-static);
+  background: var(--pagination-background-standard-static);
   border: var(--border-width-static) solid transparent;
   border-radius: var(--radius-control-static);
-  color: var(--pagination-color-static);
+  color: var(--pagination-color-standard-static);
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-body-static);
   line-height: 1;
@@ -39,13 +39,13 @@
 [data-pagination-prev]:hover
 , [data-pagination-next]:hover
 , [data-pagination-page]:hover {
-  background: var(--pagination-background-hover);
-  color: var(--pagination-color-hover);
+  background: var(--pagination-background-standard-hover);
+  color: var(--pagination-color-standard-hover);
 }
 
 [data-pagination-page][data-selected] {
-  background: var(--pagination-background-selected);
-  color: var(--pagination-color-selected);
+  background: var(--pagination-background-standard-selected);
+  color: var(--pagination-color-standard-selected);
   font-weight: var(--weight-ui-static);
 }
 

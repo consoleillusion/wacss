@@ -1,16 +1,16 @@
 /* Tooltip (bits-ui) - inverted surface. */
 
 [data-tooltip-content] {
-  z-index: calc(var(--popover-z-static) + 10);
+  z-index: calc(var(--popover-z-standard-static) + 10);
   width: fit-content;
   max-width: 18rem;
-  border-radius: var(--tooltip-radius-static);
-  border: var(--border-width-static) solid var(--tooltip-border-static);
-  background: var(--tooltip-background-static);
-  color: var(--tooltip-color-static);
-  padding: var(--tooltip-padding-block-static) var(--tooltip-padding-inline-static);
-  font-size: var(--tooltip-font-size-static);
-  box-shadow: var(--tooltip-shadow-static);
+  border-radius: var(--tooltip-radius-standard-static);
+  border: var(--border-width-static) solid var(--tooltip-border-standard-static);
+  background: var(--tooltip-background-standard-static);
+  color: var(--tooltip-color-standard-static);
+  padding: var(--tooltip-padding-block-standard-static) var(--tooltip-padding-inline-standard-static);
+  font-size: var(--tooltip-font-size-standard-static);
+  box-shadow: var(--tooltip-shadow-standard-static);
 }
 /* Opacity-only: bits-ui positions content with an inline transform. */
 [data-tooltip-content][data-state="delayed-open"]
@@ -22,5 +22,5 @@
 }
 
 [data-tooltip-content] > svg {
-  fill: var(--tooltip-background-static);
+  fill: var(--tooltip-background-standard-static);
 }

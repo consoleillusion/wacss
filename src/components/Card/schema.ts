@@ -1,16 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border" }
-    , { property: "color" }
-    , { property: "description-color" }
-    , { property: "radius" }
-    , { property: "padding" }
-    , { property: "shadow" }
-    , { property: "title-size" }
-    ]
+export const meta =
+{ name: "card"
+, cssProperties: ["background", "figure-background", "border", "color", "description-color", "radius", "padding", "shadow", "title-size"]
+, roles: ["standard"]
 , states: ["static"]
 } as const;
 

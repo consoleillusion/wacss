@@ -7,11 +7,11 @@
   inline-size: 100%;
   min-inline-size: 0;
   overflow: hidden;
-  background: var(--card-background-static);
-  color: var(--card-color-static);
-  border: var(--border-width-static) solid var(--card-border-static);
-  border-radius: var(--card-radius-static);
-  box-shadow: var(--card-shadow-static);
+  background: var(--card-background-standard-static);
+  color: var(--card-color-standard-static);
+  border: var(--border-width-static) solid var(--card-border-standard-static);
+  border-radius: var(--card-radius-standard-static);
+  box-shadow: var(--card-shadow-standard-static);
 }
 
 /* Geometry: card is 3 units wide and 4 units high. Content comes first in
@@ -27,8 +27,8 @@
   margin: 0;
   min-block-size: 0;
   overflow: hidden;
-  background: var(--color-surface-static);
-  padding: var(--card-padding-static);
+  background: var(--card-figure-background-standard-static);
+  padding: var(--card-padding-standard-static);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,9 +77,9 @@
   resize: none;
 }
 .card > [data-slot="card-figure"] figcaption {
-  padding: calc(var(--space-unit-static) * 2.0) var(--card-padding-static);
+  padding: calc(var(--space-unit-static) * 2.0) var(--card-padding-standard-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }
 
 .card > [data-slot="card-content"] {
@@ -87,7 +87,7 @@
   display: flex;
   flex-direction: column;
   gap: calc(var(--space-unit-static) * 3.0);
-  padding: var(--card-padding-static);
+  padding: var(--card-padding-standard-static);
   box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
@@ -96,7 +96,7 @@
 .card [data-slot="card-header"] { display: grid; gap: calc(var(--space-unit-static) * 1.0); }
 .card [data-slot="card-title"] {
   margin: 0;
-  font-size: var(--card-title-size-static);
+  font-size: var(--card-title-size-standard-static);
   font-weight: var(--weight-heading-static);
   line-height: var(--line-heading-static);
   color: var(--color-text-static);
@@ -111,7 +111,7 @@
 .card [data-slot="card-description"] {
   margin: 0;
   font-size: calc(var(--text-size-body-static) * 0.875);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }
 .card [data-slot="card-footer"] {
   display: flex;
@@ -119,5 +119,5 @@
   gap: calc(var(--space-unit-static) * 2.0);
   margin-block-start: auto;
   font-size: calc(var(--text-size-body-static) * 0.875);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }

@@ -1,11 +1,11 @@
 /* Field primitives: label + control + description/error.
    Base input/label styling lives in base/elements; this covers field anatomy. */
 
-[data-field] { display: grid; gap: var(--field-gap-static); }
+[data-field] { display: grid; gap: var(--field-gap-standard-static); }
 [data-field] p { margin: 0; }
 [data-field-description] {
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 [data-field-error] { font-size: var(--text-size-ui-static); color: var(--color-destructive-static); }
 

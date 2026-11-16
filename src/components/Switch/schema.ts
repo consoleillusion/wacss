@@ -1,13 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "track", states: ["hover", "checked"] }
-    , { property: "thumb", states: ["hover", "checked"] }
-    , { property: "width" }
-    , { property: "height" }
-    , { property: "thumb-size" }
-    ]
+export const meta =
+{ name: "switch"
+, cssProperties: ["track", "thumb", "width", "height", "thumb-size"]
+, roles: ["standard"]
 , states: ["static", "hover", "checked"]
 } as const;
 

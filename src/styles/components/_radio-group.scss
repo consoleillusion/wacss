@@ -9,35 +9,35 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--radio-size-static);
-  block-size: var(--radio-size-static);
+  inline-size: var(--radio-size-standard-static);
+  block-size: var(--radio-size-standard-static);
   flex-shrink: 0;
   padding: 0;
   min-height: 0;
-  border: var(--border-width-static) solid var(--radio-border-static);
+  border: var(--border-width-static) solid var(--radio-border-standard-static);
   border-radius: 50%;
-  background: var(--radio-background-static);
+  background: var(--radio-background-standard-static);
   transition: background var(--motion-interaction-static) var(--ease-interaction-static)
     , border-color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-radio-group-item]:hover {
-  background: var(--radio-background-static);
-  border-color: color-mix(in oklch, var(--radio-border-static), var(--color-text-static) 30%);
+  background: var(--radio-background-standard-hover);
+  border-color: var(--radio-border-standard-hover);
 }
 [data-radio-group-item]:focus-visible {
   outline: var(--focus-ring-width-static) solid var(--focus-ring-static);
   outline-offset: 2px;
 }
 [data-radio-group-item][data-state="checked"] {
-  background: var(--radio-background-checked);
-  border-color: var(--radio-background-checked);
+  background: var(--radio-background-standard-checked);
+  border-color: var(--radio-background-standard-checked);
 }
 [data-radio-group-item][data-state="checked"]::after {
   content: "";
-  inline-size: calc(var(--radio-size-static) / 2.5);
-  block-size: calc(var(--radio-size-static) / 2.5);
+  inline-size: calc(var(--radio-size-standard-static) / 2.5);
+  block-size: calc(var(--radio-size-standard-static) / 2.5);
   border-radius: 50%;
-  background: var(--radio-dot-static);
+  background: var(--radio-dot-standard-static);
 }
 [data-radio-group-item][data-disabled] {
   opacity: var(--opacity-inert-static);
@@ -46,7 +46,7 @@
 
 /* Native radio inputs */
 input[type="radio"] {
-  width: var(--radio-size-static);
-  height: var(--radio-size-static);
+  width: var(--radio-size-standard-static);
+  height: var(--radio-size-standard-static);
   accent-color: var(--color-accent-static);
 }

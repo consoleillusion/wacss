@@ -1,20 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "icon-info" }
-    , { property: "icon-warning" }
-    , { property: "icon-positive" }
-    , { property: "icon-destructive" }
-    , { property: "background-info" }
-    , { property: "background-warning" }
-    , { property: "background-positive" }
-    , { property: "background-destructive" }
-    , { property: "border-info" }
-    , { property: "border-warning" }
-    , { property: "border-positive" }
-    , { property: "border-destructive" }
-    ]
+export const meta =
+{ name: "alert"
+, cssProperties: ["icon", "background", "border"]
+, roles: ["informational", "positive", "warn", "danger"]
 , states: ["static"]
 } as const;
 

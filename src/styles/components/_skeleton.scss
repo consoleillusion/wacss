@@ -9,7 +9,7 @@
 [data-skeleton-circle]
 , [data-skeleton-bar] {
   display: block;
-  background: var(--skeleton-background-static);
+  background: var(--skeleton-background-standard-static);
   animation: wacss-skeleton-pulse calc(var(--motion-ambient-static) * 4) var(--ease-ambient-static) infinite;
 }
 

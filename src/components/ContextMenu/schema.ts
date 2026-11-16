@@ -1,6 +1,11 @@
 import { commonAttributes } from "../component";
 
-export const style = { properties: [], states: ["static"] } as const;
+export const meta =
+{ name: "context-menu"
+, cssProperties: []
+, roles: ["standard"]
+, states: ["static"]
+} as const;
 
 export const component =
 { title: "ContextMenu"

@@ -1,18 +1,9 @@
 import { commonAttributes } from "../component";
 
-export const style =
-{ properties:
-    [ { property: "background" }
-    , { property: "border", states: ["focus", "invalid"] }
-    , { property: "color" }
-    , { property: "placeholder-color" }
-    , { property: "radius" }
-    , { property: "padding-block" }
-    , { property: "padding-inline" }
-    , { property: "height" }
-    , { property: "font-size" }
-    , { property: "ring", states: ["focus", "invalid"] }
-    ]
+export const meta =
+{ name: "input"
+, cssProperties: ["background", "border", "color", "placeholder-color", "radius", "padding-block", "padding-inline", "height", "font-size", "ring"]
+, roles: ["standard"]
 , states: ["static", "focus", "invalid"]
 } as const;
 

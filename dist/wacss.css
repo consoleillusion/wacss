@@ -25,6 +25,11 @@
   --color-transparent: transparent;
   --color-dark-well: #111111;
   --color-light-well: #fafafa;
+  /* --- Interaction scale (prima: --interaction-base; step retunes every state) ---
+     Percentages only: the state recipes mix a role colour toward the theme's
+     interaction pole by these amounts. No ramp — a base plus one step. */
+  --interaction-base: 10%;
+  --interaction-step: 4%;
   /* --- Type scale (prima: --text-base) --- */
   --text-base: 1rem;
   /* --- Border widths (prima: --border-width-1) --- */
@@ -90,10 +95,40 @@
   --color-positive: var(--color-dark-green);
   --color-info: var(--color-dark-aizome);
   --color-warning: var(--color-dark-amber);
+  /* Status surfaces: an opaque tinted well per semantic hue, not a faint wash.
+     oklab (cartesian) holds the hue; oklch would rotate green/red toward the
+     base's hue and read as blue/purple. */
+  --color-info-surface: color-mix(in oklab, var(--color-info) 34%, var(--color-base));
+  --color-warning-surface: color-mix(in oklab, var(--color-warning) 34%, var(--color-base));
+  --color-positive-surface: color-mix(in oklab, var(--color-positive) 34%, var(--color-base));
+  --color-destructive-surface: color-mix(in oklab, var(--color-destructive) 34%, var(--color-base));
   --color-destructive-foreground: var(--color-white);
-  /* ink-on-accent: near-black above L 0.6, near-white below */
-  --color-on-accent: oklch(from var(--color-accent) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  /* Readable status ink on a status surface: keeps the hue, borrows enough of
+     --color-text to clear 4.5:1 in both themes (the reference resolves at use,
+     so one definition serves light and dark). */
+  --color-positive-on-surface: color-mix(in oklab, var(--color-positive) 45%, var(--color-text));
+  --color-destructive-on-surface: color-mix(in oklab, var(--color-destructive) 45%, var(--color-text));
+  /* ink-on-accent: near-black above L 0.6, near-white below. The `1000%`
+     slope makes the switch crisp around the midpoint; the percentage unit is
+     required — `l * 100` is a plain number and makes the whole calc invalid. */
+  --color-on-accent: oklch(from var(--color-accent) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
   --color-clear: var(--color-transparent);
+  /* --- Interaction states ---
+     One pole flips with the theme: white on dark, black on light. Generated
+     state recipes mix a role colour toward this pole, so hover lifts on dark
+     and deepens on light without per-component values. Override the pole (or
+     the mix scale below) at runtime to retheme every interactive state. */
+  --color-interaction: var(--color-white);
+  /* Mix scale: highlighted = base − step, hover/open = base,
+     selected/checked/current = base + ½ step, active/pressed = base + 2 steps. */
+  --mix-highlighted: calc(var(--interaction-base) - var(--interaction-step));
+  --mix-hover: var(--interaction-base);
+  --mix-selected: calc(var(--interaction-base) + var(--interaction-step) * 0.5);
+  --mix-checked: calc(var(--interaction-base) + var(--interaction-step) * 0.5);
+  --mix-current: calc(var(--interaction-base) + var(--interaction-step) * 0.5);
+  --mix-open: var(--interaction-base);
+  --mix-active: calc(var(--interaction-base) + var(--interaction-step) * 2);
+  --mix-pressed: calc(var(--interaction-base) + var(--interaction-step) * 2);
   /* Palette attribute switches the prima. No classes, ever. */
 }
 :root[data-palette=sakura] {
@@ -127,31 +162,41 @@
   --color-accent: var(--color-light-kurenai);
 }
 :root {
-  /* Light via media query; guarded so an explicit dark attr wins. */
+  /* Light via media query; guarded so an explicit dark attr wins.
+     Nesting with & keeps the selector as :root:not(...), not :root :root:not(...). */
 }
 @media (prefers-color-scheme: light) {
-  :root :root:not([data-theme=dark]) {
+  :root:not([data-theme=dark]) {
     color-scheme: light;
+    /* Interaction states darken in light mode. */
+    --color-interaction: var(--color-black);
     --color-base-light: oklch(from var(--color-accent) 97% 0.01 h);
     --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
     --color-well: var(--color-light-well);
+    /* Status surfaces: pale paper tints in light mode.
+       Blended in oklab, not oklch: a polar mix rotates hue toward the base,
+       turning green/red tints blue/purple. oklab keeps each status hue intact. */
+    --color-info-surface: color-mix(in oklab, var(--color-info) 16%, var(--color-base));
+    --color-warning-surface: color-mix(in oklab, var(--color-warning) 16%, var(--color-base));
+    --color-positive-surface: color-mix(in oklab, var(--color-positive) 16%, var(--color-base));
+    --color-destructive-surface: color-mix(in oklab, var(--color-destructive) 16%, var(--color-base));
   }
-  :root :root:not([data-theme=dark])[data-palette=sakura] {
+  :root:not([data-theme=dark])[data-palette=sakura] {
     --color-accent: var(--color-light-sakura);
   }
-  :root :root:not([data-theme=dark])[data-palette=matcha] {
+  :root:not([data-theme=dark])[data-palette=matcha] {
     --color-accent: var(--color-light-matcha);
   }
-  :root :root:not([data-theme=dark])[data-palette=sumi] {
+  :root:not([data-theme=dark])[data-palette=sumi] {
     --color-accent: var(--color-light-sumi);
   }
-  :root :root:not([data-theme=dark])[data-palette=aizome] {
+  :root:not([data-theme=dark])[data-palette=aizome] {
     --color-accent: var(--color-light-aizome);
   }
-  :root :root:not([data-theme=dark])[data-palette=kurenai] {
+  :root:not([data-theme=dark])[data-palette=kurenai] {
     --color-accent: var(--color-light-kurenai);
   }
-  :root :root:not([data-theme=dark]):not([data-palette]) {
+  :root:not([data-theme=dark]):not([data-palette]) {
     --color-accent: var(--color-light-sumi);
   }
 }
@@ -160,9 +205,18 @@
 }
 :root[data-theme=light] {
   color-scheme: light;
+  /* Interaction states darken in light mode. */
+  --color-interaction: var(--color-black);
   --color-base-light: oklch(from var(--color-accent) 97% 0.01 h);
   --color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
   --color-well: var(--color-light-well);
+  /* Status surfaces: pale paper tints in light mode.
+     Blended in oklab, not oklch: a polar mix rotates hue toward the base,
+     turning green/red tints blue/purple. oklab keeps each status hue intact. */
+  --color-info-surface: color-mix(in oklab, var(--color-info) 16%, var(--color-base));
+  --color-warning-surface: color-mix(in oklab, var(--color-warning) 16%, var(--color-base));
+  --color-positive-surface: color-mix(in oklab, var(--color-positive) 16%, var(--color-base));
+  --color-destructive-surface: color-mix(in oklab, var(--color-destructive) 16%, var(--color-base));
 }
 :root[data-theme=light][data-palette=sakura] {
   --color-accent: var(--color-light-sakura);
@@ -224,11 +278,11 @@
   --graph-layer-3: var(--color-dark-amber);
   --graph-layer-4: var(--color-dark-kurenai);
   --graph-layer-5: var(--color-accent);
-  --graph-on-layer-1: oklch(from var(--graph-layer-1) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
-  --graph-on-layer-2: oklch(from var(--graph-layer-2) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
-  --graph-on-layer-3: oklch(from var(--graph-layer-3) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
-  --graph-on-layer-4: oklch(from var(--graph-layer-4) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
-  --graph-on-layer-5: oklch(from var(--graph-layer-5) clamp(18%, calc(60% - l * 100), 92%) 0.01 h);
+  --graph-on-layer-1: oklch(from var(--graph-layer-1) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
+  --graph-on-layer-2: oklch(from var(--graph-layer-2) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
+  --graph-on-layer-3: oklch(from var(--graph-layer-3) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
+  --graph-on-layer-4: oklch(from var(--graph-layer-4) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
+  --graph-on-layer-5: oklch(from var(--graph-layer-5) clamp(18%, calc((0.6 - l) * 1000%), 92%) 0.01 h);
 }
 
 /* Level 3 - Component: hand-maintained primas. Values derive from layer 2 only. */
@@ -240,18 +294,18 @@
   --accordion-trigger-padding-block: calc(var(--space-unit) * 4.0);
   --accordion-transition: var(--motion-reveal);
   /* --- alert --- */
-  --alert-icon-info: var(--color-info);
-  --alert-icon-warning: var(--color-warning);
-  --alert-icon-positive: var(--color-positive);
-  --alert-icon-destructive: var(--color-destructive);
-  --alert-background-info: color-mix(in oklch, var(--color-info) 8%, var(--color-clear));
-  --alert-background-warning: color-mix(in oklch, var(--color-warning) 8%, var(--color-clear));
-  --alert-background-positive: color-mix(in oklch, var(--color-positive) 8%, var(--color-clear));
-  --alert-background-destructive: color-mix(in oklch, var(--color-destructive) 8%, var(--color-clear));
-  --alert-border-info: color-mix(in oklch, var(--color-info) 35%, var(--color-clear));
-  --alert-border-warning: color-mix(in oklch, var(--color-warning) 35%, var(--color-clear));
-  --alert-border-positive: color-mix(in oklch, var(--color-positive) 35%, var(--color-clear));
-  --alert-border-destructive: color-mix(in oklch, var(--color-destructive) 35%, var(--color-clear));
+  --alert-icon: var(--color-info);
+  --alert-icon-positive-value: var(--color-positive);
+  --alert-icon-warn-value: var(--color-warning);
+  --alert-icon-danger-value: var(--color-destructive);
+  --alert-background: var(--color-info-surface);
+  --alert-background-positive-value: var(--color-positive-surface);
+  --alert-background-warn-value: var(--color-warning-surface);
+  --alert-background-danger-value: var(--color-destructive-surface);
+  --alert-border: color-mix(in oklch, var(--color-info) 55%, var(--color-clear));
+  --alert-border-positive-value: color-mix(in oklch, var(--color-positive) 55%, var(--color-clear));
+  --alert-border-warn-value: color-mix(in oklch, var(--color-warning) 55%, var(--color-clear));
+  --alert-border-danger-value: color-mix(in oklch, var(--color-destructive) 55%, var(--color-clear));
   /* --- avatar --- */
   --avatar-size: calc(var(--space-unit) * 10);
   --avatar-size-sm: calc(calc(var(--space-unit) * 10) - calc(var(--space-unit) * 2));
@@ -260,8 +314,16 @@
   --avatar-fallback-color: var(--color-muted-foreground);
   /* --- badge --- */
   --badge-background: var(--color-accent);
+  --badge-background-secondary-value: var(--color-muted);
+  --badge-background-tertiary-value: var(--color-muted);
+  --badge-background-positive-value: var(--color-positive-surface);
+  --badge-background-danger-value: var(--color-destructive-surface);
   --badge-border: var(--color-clear);
   --badge-color: var(--color-on-accent);
+  --badge-color-secondary-value: var(--color-text);
+  --badge-color-tertiary-value: var(--color-muted-foreground);
+  --badge-color-positive-value: var(--color-positive-on-surface);
+  --badge-color-danger-value: var(--color-destructive-on-surface);
   --badge-radius: var(--radius-full);
   --badge-padding-block: calc(var(--space-unit) * 0.5);
   --badge-padding-inline: calc(var(--space-unit) * 2.0);
@@ -270,8 +332,16 @@
   --badge-font-weight: var(--weight-ui);
   /* --- button --- */
   --button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
+  --button-background-primary-value: var(--color-pop);
+  --button-background-secondary-value: var(--color-muted);
+  --button-background-danger-value: var(--color-destructive);
+  --button-background-tertiary-value: var(--color-clear);
   --button-border: var(--color-clear);
   --button-color: var(--color-text);
+  --button-color-primary-value: var(--color-on-accent);
+  --button-color-secondary-value: var(--color-text);
+  --button-color-danger-value: var(--color-destructive-foreground);
+  --button-color-tertiary-value: var(--color-text);
   --button-radius: var(--radius-control);
   --button-padding-block: calc(var(--space-unit) * 2.0);
   --button-padding-inline: calc(var(--space-unit) * 4.0);
@@ -283,6 +353,7 @@
   --button-height-icon: calc(var(--space-unit) * 9);
   /* --- card --- */
   --card-background: var(--color-surface);
+  --card-figure-background: var(--color-well);
   --card-border: var(--color-border);
   --card-color: var(--color-text);
   --card-description-color: var(--color-muted-foreground);
@@ -292,9 +363,9 @@
   --card-title-size: var(--text-size-body);
   /* --- checkbox --- */
   --checkbox-background: var(--color-clear);
-  --checkbox-background-checked-value: var(--color-accent);
+  --checkbox-background-standard-checked-value: var(--color-accent);
   --checkbox-border: var(--color-border);
-  --checkbox-border-checked-value: var(--color-accent);
+  --checkbox-border-standard-checked-value: var(--color-accent);
   --checkbox-color: var(--color-on-accent);
   --checkbox-size: calc(var(--space-unit) * 4.0);
   --checkbox-radius: calc(var(--radius-increment) * 1);
@@ -344,7 +415,7 @@
   --input-ring: color-mix(in oklch, var(--color-ring) 35%, var(--color-clear));
   /* --- nav --- */
   --nav-trigger-color: var(--color-text);
-  --nav-trigger-color-active-value: var(--color-text);
+  --nav-trigger-color-standard-active-value: var(--color-text);
   --nav-content-background: var(--color-surface);
   --nav-content-border: var(--color-border);
   --nav-content-radius: var(--radius-surface);
@@ -354,9 +425,9 @@
   --nav-link-description-color: var(--color-muted-foreground);
   /* --- pagination --- */
   --pagination-background: var(--color-clear);
-  --pagination-background-selected-value: var(--color-accent);
+  --pagination-background-standard-selected-value: var(--color-accent);
   --pagination-color: var(--color-muted-foreground);
-  --pagination-color-selected-value: var(--color-on-accent);
+  --pagination-color-standard-selected-value: var(--color-on-accent);
   --pagination-gap: calc(var(--space-unit) * 1.0);
   /* --- popover --- */
   --popover-background: var(--color-surface);
@@ -373,9 +444,9 @@
   --progress-height: calc(var(--space-unit) * 2.0);
   /* --- radio --- */
   --radio-background: var(--color-clear);
-  --radio-background-checked-value: var(--color-accent);
+  --radio-background-standard-checked-value: var(--color-accent);
   --radio-border: var(--color-border);
-  --radio-border-checked-value: var(--color-accent);
+  --radio-border-standard-checked-value: var(--color-accent);
   --radio-dot: var(--color-on-accent);
   --radio-size: calc(var(--space-unit) * 4.0);
   /* --- select --- */
@@ -399,9 +470,9 @@
   --slider-thumb-size: calc(var(--space-unit) * 4.0);
   /* --- switch --- */
   --switch-track: color-mix(in oklch, var(--color-text) 20%, var(--color-clear));
-  --switch-track-checked-value: var(--color-accent);
+  --switch-track-standard-checked-value: var(--color-accent);
   --switch-thumb: var(--color-base);
-  --switch-thumb-checked-value: var(--color-on-accent);
+  --switch-thumb-standard-checked-value: var(--color-on-accent);
   --switch-width: calc(var(--space-unit) * 9);
   --switch-height: calc(var(--space-unit) * 5.0);
   --switch-thumb-size: calc(var(--space-unit) * 4.0);
@@ -412,14 +483,14 @@
   --table-cell-padding-inline: calc(var(--space-unit) * 3.0);
   --table-row-border: var(--color-border);
   --table-row-background: var(--color-clear);
-  --table-row-background-hover-value: var(--color-muted);
+  --table-row-background-standard-hover-value: var(--color-muted);
   /* --- tabs --- */
   --tabs-list-background: color-mix(in oklch, var(--color-text) 6%, var(--color-clear));
   --tabs-list-color: var(--color-muted-foreground);
   --tabs-trigger-background: var(--color-clear);
   --tabs-trigger-color: var(--color-muted-foreground);
-  --tabs-trigger-background-active-value: var(--color-base);
-  --tabs-trigger-color-active-value: var(--color-text);
+  --tabs-trigger-background-standard-active-value: var(--color-base);
+  --tabs-trigger-color-standard-active-value: var(--color-text);
   --tabs-height: calc(var(--space-unit) * 9);
   --tabs-trigger-padding-block: calc(var(--space-unit) * 1.0);
   --tabs-trigger-padding-inline: calc(var(--space-unit) * 3.0);
@@ -452,7 +523,7 @@
   --focus-ring-span: calc(var(--border-width) * 3);
 }
 
-/* Level 3 - Component source aliases — generated by scripts/emit-tokens.mjs. Do not edit. */
+/* Level 3 - Component source aliases — generated by scripts/emit-tokens.ts. Do not edit. */
 :root {
   --color-accent-source: var(--color-accent);
   --color-base-source: var(--color-base);
@@ -462,6 +533,7 @@
   --color-destructive-source: var(--color-destructive);
   --color-destructive-foreground-source: var(--color-destructive-foreground);
   --color-info-source: var(--color-info);
+  --color-interaction-source: var(--color-interaction);
   --color-muted-source: var(--color-muted);
   --color-muted-foreground-source: var(--color-muted-foreground);
   --color-on-accent-source: var(--color-on-accent);
@@ -473,6 +545,14 @@
   --color-warning-source: var(--color-warning);
   --color-well-source: var(--color-well);
   --color-well-fixed-source: var(--color-well-fixed);
+  --mix-active-source: var(--mix-active);
+  --mix-checked-source: var(--mix-checked);
+  --mix-current-source: var(--mix-current);
+  --mix-highlighted-source: var(--mix-highlighted);
+  --mix-hover-source: var(--mix-hover);
+  --mix-open-source: var(--mix-open);
+  --mix-pressed-source: var(--mix-pressed);
+  --mix-selected-source: var(--mix-selected);
   --graph-layer-1-source: var(--graph-layer-1);
   --graph-layer-2-source: var(--graph-layer-2);
   --graph-layer-3-source: var(--graph-layer-3);
@@ -512,222 +592,292 @@
   --opacity-inert-source: var(--opacity-inert);
 }
 
-/* Level 4 - Role — generated by scripts/emit-tokens.mjs. Do not edit. */
+/* Level 4 - Role — generated by scripts/emit-tokens.ts. Do not edit. */
 :root {
   /* --- accordion --- */
-  --accordion-border-static-role: var(--accordion-border);
-  --accordion-trigger-color-static-role: var(--accordion-trigger-color);
-  --accordion-content-color-static-role: var(--accordion-content-color);
-  --accordion-trigger-padding-block-static-role: var(--accordion-trigger-padding-block);
-  --accordion-transition-static-role: var(--accordion-transition);
+  --accordion-border-standard: var(--accordion-border);
+  --accordion-trigger-color-standard: var(--accordion-trigger-color);
+  --accordion-content-color-standard: var(--accordion-content-color);
+  --accordion-trigger-padding-block-standard: var(--accordion-trigger-padding-block);
+  --accordion-transition-standard: var(--accordion-transition);
   /* --- alert --- */
-  --alert-icon-info-static-role: var(--alert-icon-info);
-  --alert-icon-warning-static-role: var(--alert-icon-warning);
-  --alert-icon-positive-static-role: var(--alert-icon-positive);
-  --alert-icon-destructive-static-role: var(--alert-icon-destructive);
-  --alert-background-info-static-role: var(--alert-background-info);
-  --alert-background-warning-static-role: var(--alert-background-warning);
-  --alert-background-positive-static-role: var(--alert-background-positive);
-  --alert-background-destructive-static-role: var(--alert-background-destructive);
-  --alert-border-info-static-role: var(--alert-border-info);
-  --alert-border-warning-static-role: var(--alert-border-warning);
-  --alert-border-positive-static-role: var(--alert-border-positive);
-  --alert-border-destructive-static-role: var(--alert-border-destructive);
+  --alert-icon-informational: var(--alert-icon);
+  --alert-icon-positive: var(--alert-icon-positive-value);
+  --alert-icon-warn: var(--alert-icon-warn-value);
+  --alert-icon-danger: var(--alert-icon-danger-value);
+  --alert-background-informational: var(--alert-background);
+  --alert-background-positive: var(--alert-background-positive-value);
+  --alert-background-warn: var(--alert-background-warn-value);
+  --alert-background-danger: var(--alert-background-danger-value);
+  --alert-border-informational: var(--alert-border);
+  --alert-border-positive: var(--alert-border-positive-value);
+  --alert-border-warn: var(--alert-border-warn-value);
+  --alert-border-danger: var(--alert-border-danger-value);
   /* --- avatar --- */
-  --avatar-size-static-role: var(--avatar-size);
-  --avatar-size-sm-static-role: var(--avatar-size-sm);
-  --avatar-size-lg-static-role: var(--avatar-size-lg);
-  --avatar-fallback-background-static-role: var(--avatar-fallback-background);
-  --avatar-fallback-color-static-role: var(--avatar-fallback-color);
+  --avatar-size-standard: var(--avatar-size);
+  --avatar-size-sm-standard: var(--avatar-size-sm);
+  --avatar-size-lg-standard: var(--avatar-size-lg);
+  --avatar-fallback-background-standard: var(--avatar-fallback-background);
+  --avatar-fallback-color-standard: var(--avatar-fallback-color);
   /* --- badge --- */
-  --badge-background-static-role: var(--badge-background);
-  --badge-border-static-role: var(--badge-border);
-  --badge-color-static-role: var(--badge-color);
-  --badge-radius-static-role: var(--badge-radius);
-  --badge-padding-block-static-role: var(--badge-padding-block);
-  --badge-padding-inline-static-role: var(--badge-padding-inline);
-  --badge-font-size-static-role: var(--badge-font-size);
-  --badge-line-height-static-role: var(--badge-line-height);
-  --badge-font-weight-static-role: var(--badge-font-weight);
+  --badge-background-standard: var(--badge-background);
+  --badge-background-secondary: var(--badge-background-secondary-value);
+  --badge-background-tertiary: var(--badge-background-tertiary-value);
+  --badge-background-positive: var(--badge-background-positive-value);
+  --badge-background-danger: var(--badge-background-danger-value);
+  --badge-border-standard: var(--badge-border);
+  --badge-border-secondary: var(--badge-border);
+  --badge-border-tertiary: var(--badge-border);
+  --badge-border-positive: var(--badge-border);
+  --badge-border-danger: var(--badge-border);
+  --badge-color-standard: var(--badge-color);
+  --badge-color-secondary: var(--badge-color-secondary-value);
+  --badge-color-tertiary: var(--badge-color-tertiary-value);
+  --badge-color-positive: var(--badge-color-positive-value);
+  --badge-color-danger: var(--badge-color-danger-value);
+  --badge-radius-standard: var(--badge-radius);
+  --badge-radius-secondary: var(--badge-radius);
+  --badge-radius-tertiary: var(--badge-radius);
+  --badge-radius-positive: var(--badge-radius);
+  --badge-radius-danger: var(--badge-radius);
+  --badge-padding-block-standard: var(--badge-padding-block);
+  --badge-padding-block-secondary: var(--badge-padding-block);
+  --badge-padding-block-tertiary: var(--badge-padding-block);
+  --badge-padding-block-positive: var(--badge-padding-block);
+  --badge-padding-block-danger: var(--badge-padding-block);
+  --badge-padding-inline-standard: var(--badge-padding-inline);
+  --badge-padding-inline-secondary: var(--badge-padding-inline);
+  --badge-padding-inline-tertiary: var(--badge-padding-inline);
+  --badge-padding-inline-positive: var(--badge-padding-inline);
+  --badge-padding-inline-danger: var(--badge-padding-inline);
+  --badge-font-size-standard: var(--badge-font-size);
+  --badge-font-size-secondary: var(--badge-font-size);
+  --badge-font-size-tertiary: var(--badge-font-size);
+  --badge-font-size-positive: var(--badge-font-size);
+  --badge-font-size-danger: var(--badge-font-size);
+  --badge-line-height-standard: var(--badge-line-height);
+  --badge-line-height-secondary: var(--badge-line-height);
+  --badge-line-height-tertiary: var(--badge-line-height);
+  --badge-line-height-positive: var(--badge-line-height);
+  --badge-line-height-danger: var(--badge-line-height);
+  --badge-font-weight-standard: var(--badge-font-weight);
+  --badge-font-weight-secondary: var(--badge-font-weight);
+  --badge-font-weight-tertiary: var(--badge-font-weight);
+  --badge-font-weight-positive: var(--badge-font-weight);
+  --badge-font-weight-danger: var(--badge-font-weight);
   /* --- button --- */
-  --button-background-static-role: var(--button-background);
-  --button-background-hover-role: color-mix(in oklch, var(--button-background-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --button-border-static-role: var(--button-border);
-  --button-color-static-role: var(--button-color);
-  --button-color-hover-role: color-mix(in oklch, var(--button-color-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --button-radius-static-role: var(--button-radius);
-  --button-padding-block-static-role: var(--button-padding-block);
-  --button-padding-inline-static-role: var(--button-padding-inline);
-  --button-font-size-static-role: var(--button-font-size);
-  --button-gap-static-role: var(--button-gap);
-  --button-height-static-role: var(--button-height);
-  --button-height-sm-static-role: var(--button-height-sm);
-  --button-height-lg-static-role: var(--button-height-lg);
-  --button-height-icon-static-role: var(--button-height-icon);
+  --button-background-standard: var(--button-background);
+  --button-background-primary: var(--button-background-primary-value);
+  --button-background-secondary: var(--button-background-secondary-value);
+  --button-background-danger: var(--button-background-danger-value);
+  --button-background-tertiary: var(--button-background-tertiary-value);
+  --button-border-standard: var(--button-border);
+  --button-border-primary: var(--button-border);
+  --button-border-secondary: var(--button-border);
+  --button-border-danger: var(--button-border);
+  --button-border-tertiary: var(--button-border);
+  --button-color-standard: var(--button-color);
+  --button-color-primary: var(--button-color-primary-value);
+  --button-color-secondary: var(--button-color-secondary-value);
+  --button-color-danger: var(--button-color-danger-value);
+  --button-color-tertiary: var(--button-color-tertiary-value);
+  --button-radius-standard: var(--button-radius);
+  --button-radius-primary: var(--button-radius);
+  --button-radius-secondary: var(--button-radius);
+  --button-radius-danger: var(--button-radius);
+  --button-radius-tertiary: var(--button-radius);
+  --button-padding-block-standard: var(--button-padding-block);
+  --button-padding-block-primary: var(--button-padding-block);
+  --button-padding-block-secondary: var(--button-padding-block);
+  --button-padding-block-danger: var(--button-padding-block);
+  --button-padding-block-tertiary: var(--button-padding-block);
+  --button-padding-inline-standard: var(--button-padding-inline);
+  --button-padding-inline-primary: var(--button-padding-inline);
+  --button-padding-inline-secondary: var(--button-padding-inline);
+  --button-padding-inline-danger: var(--button-padding-inline);
+  --button-padding-inline-tertiary: var(--button-padding-inline);
+  --button-font-size-standard: var(--button-font-size);
+  --button-font-size-primary: var(--button-font-size);
+  --button-font-size-secondary: var(--button-font-size);
+  --button-font-size-danger: var(--button-font-size);
+  --button-font-size-tertiary: var(--button-font-size);
+  --button-gap-standard: var(--button-gap);
+  --button-gap-primary: var(--button-gap);
+  --button-gap-secondary: var(--button-gap);
+  --button-gap-danger: var(--button-gap);
+  --button-gap-tertiary: var(--button-gap);
+  --button-height-standard: var(--button-height);
+  --button-height-primary: var(--button-height);
+  --button-height-secondary: var(--button-height);
+  --button-height-danger: var(--button-height);
+  --button-height-tertiary: var(--button-height);
+  --button-height-sm-standard: var(--button-height-sm);
+  --button-height-sm-primary: var(--button-height-sm);
+  --button-height-sm-secondary: var(--button-height-sm);
+  --button-height-sm-danger: var(--button-height-sm);
+  --button-height-sm-tertiary: var(--button-height-sm);
+  --button-height-lg-standard: var(--button-height-lg);
+  --button-height-lg-primary: var(--button-height-lg);
+  --button-height-lg-secondary: var(--button-height-lg);
+  --button-height-lg-danger: var(--button-height-lg);
+  --button-height-lg-tertiary: var(--button-height-lg);
+  --button-height-icon-standard: var(--button-height-icon);
+  --button-height-icon-primary: var(--button-height-icon);
+  --button-height-icon-secondary: var(--button-height-icon);
+  --button-height-icon-danger: var(--button-height-icon);
+  --button-height-icon-tertiary: var(--button-height-icon);
   /* --- card --- */
-  --card-background-static-role: var(--card-background);
-  --card-border-static-role: var(--card-border);
-  --card-color-static-role: var(--card-color);
-  --card-description-color-static-role: var(--card-description-color);
-  --card-radius-static-role: var(--card-radius);
-  --card-padding-static-role: var(--card-padding);
-  --card-shadow-static-role: var(--card-shadow);
-  --card-title-size-static-role: var(--card-title-size);
+  --card-background-standard: var(--card-background);
+  --card-figure-background-standard: var(--card-figure-background);
+  --card-border-standard: var(--card-border);
+  --card-color-standard: var(--card-color);
+  --card-description-color-standard: var(--card-description-color);
+  --card-radius-standard: var(--card-radius);
+  --card-padding-standard: var(--card-padding);
+  --card-shadow-standard: var(--card-shadow);
+  --card-title-size-standard: var(--card-title-size);
   /* --- checkbox --- */
-  --checkbox-background-static-role: var(--checkbox-background);
-  --checkbox-background-checked-role: var(--checkbox-background-checked-value);
-  --checkbox-border-static-role: var(--checkbox-border);
-  --checkbox-border-checked-role: var(--checkbox-border-checked-value);
-  --checkbox-color-static-role: var(--checkbox-color);
-  --checkbox-size-static-role: var(--checkbox-size);
-  --checkbox-radius-static-role: var(--checkbox-radius);
+  --checkbox-background-standard: var(--checkbox-background);
+  --checkbox-border-standard: var(--checkbox-border);
+  --checkbox-color-standard: var(--checkbox-color);
+  --checkbox-size-standard: var(--checkbox-size);
+  --checkbox-radius-standard: var(--checkbox-radius);
+  --checkbox-background-standard-checked-role: var(--checkbox-background-standard-checked-value);
+  --checkbox-border-standard-checked-role: var(--checkbox-border-standard-checked-value);
   /* --- dialog --- */
-  --dialog-background-static-role: var(--dialog-background);
-  --dialog-border-static-role: var(--dialog-border);
-  --dialog-color-static-role: var(--dialog-color);
-  --dialog-overlay-static-role: var(--dialog-overlay);
-  --dialog-radius-static-role: var(--dialog-radius);
-  --dialog-shadow-static-role: var(--dialog-shadow);
-  --dialog-padding-static-role: var(--dialog-padding);
-  --dialog-gap-static-role: var(--dialog-gap);
-  --dialog-max-width-static-role: var(--dialog-max-width);
-  --dialog-max-height-static-role: var(--dialog-max-height);
-  --dialog-z-static-role: var(--dialog-z);
+  --dialog-background-standard: var(--dialog-background);
+  --dialog-border-standard: var(--dialog-border);
+  --dialog-color-standard: var(--dialog-color);
+  --dialog-overlay-standard: var(--dialog-overlay);
+  --dialog-radius-standard: var(--dialog-radius);
+  --dialog-shadow-standard: var(--dialog-shadow);
+  --dialog-padding-standard: var(--dialog-padding);
+  --dialog-gap-standard: var(--dialog-gap);
+  --dialog-max-width-standard: var(--dialog-max-width);
+  --dialog-max-height-standard: var(--dialog-max-height);
+  --dialog-z-standard: var(--dialog-z);
   /* --- field --- */
-  --field-gap-static-role: var(--field-gap);
-  --field-description-color-static-role: var(--field-description-color);
+  --field-gap-standard: var(--field-gap);
+  --field-description-color-standard: var(--field-description-color);
   /* --- form --- */
-  --form-gap-static-role: var(--form-gap);
-  --form-columns-min-static-role: var(--form-columns-min);
+  --form-gap-standard: var(--form-gap);
+  --form-columns-min-standard: var(--form-columns-min);
   /* --- input --- */
-  --input-background-static-role: var(--input-background);
-  --input-border-static-role: var(--input-border);
-  --input-border-focus-role: var(--color-ring-source-role);
-  --input-border-invalid-role: color-mix(in oklch, var(--input-border-static-role), var(--color-destructive-source-role) 85%);
-  --input-color-static-role: var(--input-color);
-  --input-placeholder-color-static-role: var(--input-placeholder-color);
-  --input-radius-static-role: var(--input-radius);
-  --input-padding-block-static-role: var(--input-padding-block);
-  --input-padding-inline-static-role: var(--input-padding-inline);
-  --input-height-static-role: var(--input-height);
-  --input-font-size-static-role: var(--input-font-size);
-  --input-ring-static-role: var(--input-ring);
-  --input-ring-focus-role: var(--color-ring-source-role);
-  --input-ring-invalid-role: color-mix(in oklch, var(--input-ring-static-role), var(--color-destructive-source-role) 85%);
+  --input-background-standard: var(--input-background);
+  --input-border-standard: var(--input-border);
+  --input-color-standard: var(--input-color);
+  --input-placeholder-color-standard: var(--input-placeholder-color);
+  --input-radius-standard: var(--input-radius);
+  --input-padding-block-standard: var(--input-padding-block);
+  --input-padding-inline-standard: var(--input-padding-inline);
+  --input-height-standard: var(--input-height);
+  --input-font-size-standard: var(--input-font-size);
+  --input-ring-standard: var(--input-ring);
   /* --- menu --- */
-  --menu-background-static-role: var(--menu-background);
-  --menu-border-static-role: var(--menu-border);
-  --menu-color-static-role: var(--menu-color);
-  --menu-radius-static-role: var(--menu-radius);
-  --menu-shadow-static-role: var(--menu-shadow);
-  --menu-padding-static-role: var(--menu-padding);
-  --menu-item-radius-static-role: var(--menu-item-radius);
-  --menu-item-padding-block-static-role: var(--menu-item-padding-block);
-  --menu-item-padding-inline-static-role: var(--menu-item-padding-inline);
-  --menu-item-font-size-static-role: var(--menu-item-font-size);
-  --menu-item-gap-static-role: var(--menu-item-gap);
-  --menu-item-indicator-size-static-role: var(--menu-item-indicator-size);
-  --menu-item-background-static-role: var(--menu-item-background);
-  --menu-item-background-highlighted-role: color-mix(in oklch, var(--menu-item-background-static-role), var(--color-text-source-role) 8%, var(--color-clear-source-role));
-  --menu-item-color-static-role: var(--menu-item-color);
-  --menu-item-color-highlighted-role: color-mix(in oklch, var(--menu-item-color-static-role), var(--color-text-source-role) 8%, var(--color-clear-source-role));
+  --menu-background-standard: var(--menu-background);
+  --menu-border-standard: var(--menu-border);
+  --menu-color-standard: var(--menu-color);
+  --menu-radius-standard: var(--menu-radius);
+  --menu-shadow-standard: var(--menu-shadow);
+  --menu-padding-standard: var(--menu-padding);
+  --menu-item-radius-standard: var(--menu-item-radius);
+  --menu-item-padding-block-standard: var(--menu-item-padding-block);
+  --menu-item-padding-inline-standard: var(--menu-item-padding-inline);
+  --menu-item-font-size-standard: var(--menu-item-font-size);
+  --menu-item-gap-standard: var(--menu-item-gap);
+  --menu-item-indicator-size-standard: var(--menu-item-indicator-size);
+  --menu-item-background-standard: var(--menu-item-background);
+  --menu-item-color-standard: var(--menu-item-color);
   /* --- nav --- */
-  --nav-trigger-color-static-role: var(--nav-trigger-color);
-  --nav-trigger-color-active-role: var(--nav-trigger-color-active-value);
-  --nav-content-background-static-role: var(--nav-content-background);
-  --nav-content-border-static-role: var(--nav-content-border);
-  --nav-content-radius-static-role: var(--nav-content-radius);
-  --nav-content-shadow-static-role: var(--nav-content-shadow);
-  --nav-content-padding-static-role: var(--nav-content-padding);
-  --nav-link-color-static-role: var(--nav-link-color);
-  --nav-link-description-color-static-role: var(--nav-link-description-color);
+  --nav-trigger-color-standard: var(--nav-trigger-color);
+  --nav-content-background-standard: var(--nav-content-background);
+  --nav-content-border-standard: var(--nav-content-border);
+  --nav-content-radius-standard: var(--nav-content-radius);
+  --nav-content-shadow-standard: var(--nav-content-shadow);
+  --nav-content-padding-standard: var(--nav-content-padding);
+  --nav-link-color-standard: var(--nav-link-color);
+  --nav-link-description-color-standard: var(--nav-link-description-color);
+  --nav-trigger-color-standard-active-role: var(--nav-trigger-color-standard-active-value);
   /* --- pagination --- */
-  --pagination-background-static-role: var(--pagination-background);
-  --pagination-background-hover-role: color-mix(in oklch, var(--pagination-background-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --pagination-background-selected-role: var(--pagination-background-selected-value);
-  --pagination-color-static-role: var(--pagination-color);
-  --pagination-color-hover-role: color-mix(in oklch, var(--pagination-color-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --pagination-color-selected-role: var(--pagination-color-selected-value);
-  --pagination-gap-static-role: var(--pagination-gap);
+  --pagination-background-standard: var(--pagination-background);
+  --pagination-color-standard: var(--pagination-color);
+  --pagination-gap-standard: var(--pagination-gap);
+  --pagination-background-standard-selected-role: var(--pagination-background-standard-selected-value);
+  --pagination-color-standard-selected-role: var(--pagination-color-standard-selected-value);
   /* --- popover --- */
-  --popover-background-static-role: var(--popover-background);
-  --popover-border-static-role: var(--popover-border);
-  --popover-color-static-role: var(--popover-color);
-  --popover-radius-static-role: var(--popover-radius);
-  --popover-shadow-static-role: var(--popover-shadow);
-  --popover-padding-static-role: var(--popover-padding);
-  --popover-min-width-static-role: var(--popover-min-width);
-  --popover-z-static-role: var(--popover-z);
+  --popover-background-standard: var(--popover-background);
+  --popover-border-standard: var(--popover-border);
+  --popover-color-standard: var(--popover-color);
+  --popover-radius-standard: var(--popover-radius);
+  --popover-shadow-standard: var(--popover-shadow);
+  --popover-padding-standard: var(--popover-padding);
+  --popover-min-width-standard: var(--popover-min-width);
+  --popover-z-standard: var(--popover-z);
   /* --- progress --- */
-  --progress-track-static-role: var(--progress-track);
-  --progress-indicator-static-role: var(--progress-indicator);
-  --progress-height-static-role: var(--progress-height);
+  --progress-track-standard: var(--progress-track);
+  --progress-indicator-standard: var(--progress-indicator);
+  --progress-height-standard: var(--progress-height);
   /* --- radio --- */
-  --radio-background-static-role: var(--radio-background);
-  --radio-background-checked-role: var(--radio-background-checked-value);
-  --radio-border-static-role: var(--radio-border);
-  --radio-border-checked-role: var(--radio-border-checked-value);
-  --radio-dot-static-role: var(--radio-dot);
-  --radio-size-static-role: var(--radio-size);
+  --radio-background-standard: var(--radio-background);
+  --radio-border-standard: var(--radio-border);
+  --radio-dot-standard: var(--radio-dot);
+  --radio-size-standard: var(--radio-size);
+  --radio-background-standard-checked-role: var(--radio-background-standard-checked-value);
+  --radio-border-standard-checked-role: var(--radio-border-standard-checked-value);
   /* --- select --- */
-  --select-background-static-role: var(--select-background);
-  --select-border-static-role: var(--select-border);
-  --select-color-static-role: var(--select-color);
-  --select-item-background-static-role: var(--select-item-background);
-  --select-item-background-highlighted-role: color-mix(in oklch, var(--select-item-background-static-role), var(--color-text-source-role) 8%, var(--color-clear-source-role));
-  --select-item-color-static-role: var(--select-item-color);
-  --select-item-color-highlighted-role: color-mix(in oklch, var(--select-item-color-static-role), var(--color-text-source-role) 8%, var(--color-clear-source-role));
-  --select-item-radius-static-role: var(--select-item-radius);
-  --select-radius-static-role: var(--select-radius);
-  --select-height-static-role: var(--select-height);
+  --select-background-standard: var(--select-background);
+  --select-border-standard: var(--select-border);
+  --select-color-standard: var(--select-color);
+  --select-item-background-standard: var(--select-item-background);
+  --select-item-color-standard: var(--select-item-color);
+  --select-item-radius-standard: var(--select-item-radius);
+  --select-radius-standard: var(--select-radius);
+  --select-height-standard: var(--select-height);
   /* --- separator --- */
-  --separator-color-static-role: var(--separator-color);
+  --separator-color-standard: var(--separator-color);
   /* --- skeleton --- */
-  --skeleton-background-static-role: var(--skeleton-background);
+  --skeleton-background-standard: var(--skeleton-background);
   /* --- slider --- */
-  --slider-track-static-role: var(--slider-track);
-  --slider-range-static-role: var(--slider-range);
-  --slider-thumb-static-role: var(--slider-thumb);
-  --slider-thumb-border-static-role: var(--slider-thumb-border);
-  --slider-thumb-size-static-role: var(--slider-thumb-size);
+  --slider-track-standard: var(--slider-track);
+  --slider-range-standard: var(--slider-range);
+  --slider-thumb-standard: var(--slider-thumb);
+  --slider-thumb-border-standard: var(--slider-thumb-border);
+  --slider-thumb-size-standard: var(--slider-thumb-size);
   /* --- switch --- */
-  --switch-track-static-role: var(--switch-track);
-  --switch-track-hover-role: color-mix(in oklch, var(--switch-track-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --switch-track-checked-role: var(--switch-track-checked-value);
-  --switch-thumb-static-role: var(--switch-thumb);
-  --switch-thumb-hover-role: color-mix(in oklch, var(--switch-thumb-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --switch-thumb-checked-role: var(--switch-thumb-checked-value);
-  --switch-width-static-role: var(--switch-width);
-  --switch-height-static-role: var(--switch-height);
-  --switch-thumb-size-static-role: var(--switch-thumb-size);
+  --switch-track-standard: var(--switch-track);
+  --switch-thumb-standard: var(--switch-thumb);
+  --switch-width-standard: var(--switch-width);
+  --switch-height-standard: var(--switch-height);
+  --switch-thumb-size-standard: var(--switch-thumb-size);
+  --switch-track-standard-checked-role: var(--switch-track-standard-checked-value);
+  --switch-thumb-standard-checked-role: var(--switch-thumb-standard-checked-value);
   /* --- table --- */
-  --table-head-color-static-role: var(--table-head-color);
-  --table-head-weight-static-role: var(--table-head-weight);
-  --table-cell-padding-block-static-role: var(--table-cell-padding-block);
-  --table-cell-padding-inline-static-role: var(--table-cell-padding-inline);
-  --table-row-border-static-role: var(--table-row-border);
-  --table-row-background-static-role: var(--table-row-background);
-  --table-row-background-hover-role: var(--table-row-background-hover-value);
+  --table-head-color-standard: var(--table-head-color);
+  --table-head-weight-standard: var(--table-head-weight);
+  --table-cell-padding-block-standard: var(--table-cell-padding-block);
+  --table-cell-padding-inline-standard: var(--table-cell-padding-inline);
+  --table-row-border-standard: var(--table-row-border);
+  --table-row-background-standard: var(--table-row-background);
+  --table-row-background-standard-hover-role: var(--table-row-background-standard-hover-value);
   /* --- tabs --- */
-  --tabs-list-background-static-role: var(--tabs-list-background);
-  --tabs-list-color-static-role: var(--tabs-list-color);
-  --tabs-trigger-background-static-role: var(--tabs-trigger-background);
-  --tabs-trigger-background-active-role: var(--tabs-trigger-background-active-value);
-  --tabs-trigger-color-static-role: var(--tabs-trigger-color);
-  --tabs-trigger-color-hover-role: color-mix(in oklch, var(--tabs-trigger-color-static-role), var(--color-text-source-role) 12%, var(--color-clear-source-role));
-  --tabs-trigger-color-active-role: var(--tabs-trigger-color-active-value);
-  --tabs-height-static-role: var(--tabs-height);
-  --tabs-trigger-padding-block-static-role: var(--tabs-trigger-padding-block);
-  --tabs-trigger-padding-inline-static-role: var(--tabs-trigger-padding-inline);
+  --tabs-list-background-standard: var(--tabs-list-background);
+  --tabs-list-color-standard: var(--tabs-list-color);
+  --tabs-trigger-background-standard: var(--tabs-trigger-background);
+  --tabs-trigger-color-standard: var(--tabs-trigger-color);
+  --tabs-height-standard: var(--tabs-height);
+  --tabs-trigger-padding-block-standard: var(--tabs-trigger-padding-block);
+  --tabs-trigger-padding-inline-standard: var(--tabs-trigger-padding-inline);
+  --tabs-trigger-background-standard-active-role: var(--tabs-trigger-background-standard-active-value);
+  --tabs-trigger-color-standard-active-role: var(--tabs-trigger-color-standard-active-value);
   /* --- tooltip --- */
-  --tooltip-background-static-role: var(--tooltip-background);
-  --tooltip-border-static-role: var(--tooltip-border);
-  --tooltip-color-static-role: var(--tooltip-color);
-  --tooltip-radius-static-role: var(--tooltip-radius);
-  --tooltip-shadow-static-role: var(--tooltip-shadow);
-  --tooltip-padding-block-static-role: var(--tooltip-padding-block);
-  --tooltip-padding-inline-static-role: var(--tooltip-padding-inline);
-  --tooltip-font-size-static-role: var(--tooltip-font-size);
+  --tooltip-background-standard: var(--tooltip-background);
+  --tooltip-border-standard: var(--tooltip-border);
+  --tooltip-color-standard: var(--tooltip-color);
+  --tooltip-radius-standard: var(--tooltip-radius);
+  --tooltip-shadow-standard: var(--tooltip-shadow);
+  --tooltip-padding-block-standard: var(--tooltip-padding-block);
+  --tooltip-padding-inline-standard: var(--tooltip-padding-inline);
+  --tooltip-font-size-standard: var(--tooltip-font-size);
   /* --- system --- */
   --border-width-source-role: var(--border-width-source);
   --color-accent-source-role: var(--color-accent-source);
@@ -738,6 +888,7 @@
   --color-destructive-source-role: var(--color-destructive-source);
   --color-destructive-foreground-source-role: var(--color-destructive-foreground-source);
   --color-info-source-role: var(--color-info-source);
+  --color-interaction-source-role: var(--color-interaction-source);
   --color-muted-source-role: var(--color-muted-source);
   --color-muted-foreground-source-role: var(--color-muted-foreground-source);
   --color-on-accent-source-role: var(--color-on-accent-source);
@@ -767,6 +918,14 @@
   --line-body-source-role: var(--line-body-source);
   --line-heading-source-role: var(--line-heading-source);
   --measure-body-source-role: var(--measure-body-source);
+  --mix-active-source-role: var(--mix-active-source);
+  --mix-checked-source-role: var(--mix-checked-source);
+  --mix-current-source-role: var(--mix-current-source);
+  --mix-highlighted-source-role: var(--mix-highlighted-source);
+  --mix-hover-source-role: var(--mix-hover-source);
+  --mix-open-source-role: var(--mix-open-source);
+  --mix-pressed-source-role: var(--mix-pressed-source);
+  --mix-selected-source-role: var(--mix-selected-source);
   --motion-ambient-source-role: var(--motion-ambient-source);
   --motion-indeterminate-source-role: var(--motion-indeterminate-source);
   --motion-interaction-source-role: var(--motion-interaction-source);
@@ -804,222 +963,447 @@
   --stack-gap-role: var(--stack-gap);
 }
 
-/* Level 5 - State — generated by scripts/emit-tokens.mjs. Do not edit. */
+/* Level 5 - State — generated by scripts/emit-tokens.ts. Do not edit. */
 :root {
   /* --- accordion --- */
-  --accordion-border-static: var(--accordion-border-static-role);
-  --accordion-trigger-color-static: var(--accordion-trigger-color-static-role);
-  --accordion-content-color-static: var(--accordion-content-color-static-role);
-  --accordion-trigger-padding-block-static: var(--accordion-trigger-padding-block-static-role);
-  --accordion-transition-static: var(--accordion-transition-static-role);
+  --accordion-border-standard-static: var(--accordion-border-standard);
+  --accordion-trigger-color-standard-static: var(--accordion-trigger-color-standard);
+  --accordion-content-color-standard-static: var(--accordion-content-color-standard);
+  --accordion-trigger-padding-block-standard-static: var(--accordion-trigger-padding-block-standard);
+  --accordion-transition-standard-static: var(--accordion-transition-standard);
   /* --- alert --- */
-  --alert-icon-info-static: var(--alert-icon-info-static-role);
-  --alert-icon-warning-static: var(--alert-icon-warning-static-role);
-  --alert-icon-positive-static: var(--alert-icon-positive-static-role);
-  --alert-icon-destructive-static: var(--alert-icon-destructive-static-role);
-  --alert-background-info-static: var(--alert-background-info-static-role);
-  --alert-background-warning-static: var(--alert-background-warning-static-role);
-  --alert-background-positive-static: var(--alert-background-positive-static-role);
-  --alert-background-destructive-static: var(--alert-background-destructive-static-role);
-  --alert-border-info-static: var(--alert-border-info-static-role);
-  --alert-border-warning-static: var(--alert-border-warning-static-role);
-  --alert-border-positive-static: var(--alert-border-positive-static-role);
-  --alert-border-destructive-static: var(--alert-border-destructive-static-role);
+  --alert-icon-informational-static: var(--alert-icon-informational);
+  --alert-icon-positive-static: var(--alert-icon-positive);
+  --alert-icon-warn-static: var(--alert-icon-warn);
+  --alert-icon-danger-static: var(--alert-icon-danger);
+  --alert-background-informational-static: var(--alert-background-informational);
+  --alert-background-positive-static: var(--alert-background-positive);
+  --alert-background-warn-static: var(--alert-background-warn);
+  --alert-background-danger-static: var(--alert-background-danger);
+  --alert-border-informational-static: var(--alert-border-informational);
+  --alert-border-positive-static: var(--alert-border-positive);
+  --alert-border-warn-static: var(--alert-border-warn);
+  --alert-border-danger-static: var(--alert-border-danger);
   /* --- avatar --- */
-  --avatar-size-static: var(--avatar-size-static-role);
-  --avatar-size-sm-static: var(--avatar-size-sm-static-role);
-  --avatar-size-lg-static: var(--avatar-size-lg-static-role);
-  --avatar-fallback-background-static: var(--avatar-fallback-background-static-role);
-  --avatar-fallback-color-static: var(--avatar-fallback-color-static-role);
+  --avatar-size-standard-static: var(--avatar-size-standard);
+  --avatar-size-sm-standard-static: var(--avatar-size-sm-standard);
+  --avatar-size-lg-standard-static: var(--avatar-size-lg-standard);
+  --avatar-fallback-background-standard-static: var(--avatar-fallback-background-standard);
+  --avatar-fallback-color-standard-static: var(--avatar-fallback-color-standard);
   /* --- badge --- */
-  --badge-background-static: var(--badge-background-static-role);
-  --badge-border-static: var(--badge-border-static-role);
-  --badge-color-static: var(--badge-color-static-role);
-  --badge-radius-static: var(--badge-radius-static-role);
-  --badge-padding-block-static: var(--badge-padding-block-static-role);
-  --badge-padding-inline-static: var(--badge-padding-inline-static-role);
-  --badge-font-size-static: var(--badge-font-size-static-role);
-  --badge-line-height-static: var(--badge-line-height-static-role);
-  --badge-font-weight-static: var(--badge-font-weight-static-role);
+  --badge-background-standard-static: var(--badge-background-standard);
+  --badge-background-secondary-static: var(--badge-background-secondary);
+  --badge-background-tertiary-static: var(--badge-background-tertiary);
+  --badge-background-positive-static: var(--badge-background-positive);
+  --badge-background-danger-static: var(--badge-background-danger);
+  --badge-border-standard-static: var(--badge-border-standard);
+  --badge-border-secondary-static: var(--badge-border-secondary);
+  --badge-border-tertiary-static: var(--badge-border-tertiary);
+  --badge-border-positive-static: var(--badge-border-positive);
+  --badge-border-danger-static: var(--badge-border-danger);
+  --badge-color-standard-static: var(--badge-color-standard);
+  --badge-color-secondary-static: var(--badge-color-secondary);
+  --badge-color-tertiary-static: var(--badge-color-tertiary);
+  --badge-color-positive-static: var(--badge-color-positive);
+  --badge-color-danger-static: var(--badge-color-danger);
+  --badge-radius-standard-static: var(--badge-radius-standard);
+  --badge-radius-secondary-static: var(--badge-radius-secondary);
+  --badge-radius-tertiary-static: var(--badge-radius-tertiary);
+  --badge-radius-positive-static: var(--badge-radius-positive);
+  --badge-radius-danger-static: var(--badge-radius-danger);
+  --badge-padding-block-standard-static: var(--badge-padding-block-standard);
+  --badge-padding-block-secondary-static: var(--badge-padding-block-secondary);
+  --badge-padding-block-tertiary-static: var(--badge-padding-block-tertiary);
+  --badge-padding-block-positive-static: var(--badge-padding-block-positive);
+  --badge-padding-block-danger-static: var(--badge-padding-block-danger);
+  --badge-padding-inline-standard-static: var(--badge-padding-inline-standard);
+  --badge-padding-inline-secondary-static: var(--badge-padding-inline-secondary);
+  --badge-padding-inline-tertiary-static: var(--badge-padding-inline-tertiary);
+  --badge-padding-inline-positive-static: var(--badge-padding-inline-positive);
+  --badge-padding-inline-danger-static: var(--badge-padding-inline-danger);
+  --badge-font-size-standard-static: var(--badge-font-size-standard);
+  --badge-font-size-secondary-static: var(--badge-font-size-secondary);
+  --badge-font-size-tertiary-static: var(--badge-font-size-tertiary);
+  --badge-font-size-positive-static: var(--badge-font-size-positive);
+  --badge-font-size-danger-static: var(--badge-font-size-danger);
+  --badge-line-height-standard-static: var(--badge-line-height-standard);
+  --badge-line-height-secondary-static: var(--badge-line-height-secondary);
+  --badge-line-height-tertiary-static: var(--badge-line-height-tertiary);
+  --badge-line-height-positive-static: var(--badge-line-height-positive);
+  --badge-line-height-danger-static: var(--badge-line-height-danger);
+  --badge-font-weight-standard-static: var(--badge-font-weight-standard);
+  --badge-font-weight-secondary-static: var(--badge-font-weight-secondary);
+  --badge-font-weight-tertiary-static: var(--badge-font-weight-tertiary);
+  --badge-font-weight-positive-static: var(--badge-font-weight-positive);
+  --badge-font-weight-danger-static: var(--badge-font-weight-danger);
   /* --- button --- */
-  --button-background-static: var(--button-background-static-role);
-  --button-background-hover: var(--button-background-hover-role);
-  --button-border-static: var(--button-border-static-role);
-  --button-color-static: var(--button-color-static-role);
-  --button-color-hover: var(--button-color-hover-role);
-  --button-radius-static: var(--button-radius-static-role);
-  --button-padding-block-static: var(--button-padding-block-static-role);
-  --button-padding-inline-static: var(--button-padding-inline-static-role);
-  --button-font-size-static: var(--button-font-size-static-role);
-  --button-gap-static: var(--button-gap-static-role);
-  --button-height-static: var(--button-height-static-role);
-  --button-height-sm-static: var(--button-height-sm-static-role);
-  --button-height-lg-static: var(--button-height-lg-static-role);
-  --button-height-icon-static: var(--button-height-icon-static-role);
+  --button-background-standard-static: var(--button-background-standard);
+  --button-background-standard-hover: color-mix(in oklab, var(--button-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-background-primary-static: var(--button-background-primary);
+  --button-background-primary-hover: color-mix(in oklab, var(--button-background-primary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-background-secondary-static: var(--button-background-secondary);
+  --button-background-secondary-hover: color-mix(in oklab, var(--button-background-secondary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-background-danger-static: var(--button-background-danger);
+  --button-background-danger-hover: color-mix(in oklab, var(--button-background-danger), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-background-tertiary-static: var(--button-background-tertiary);
+  --button-background-tertiary-hover: color-mix(in oklab, var(--button-background-tertiary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-border-standard-static: var(--button-border-standard);
+  --button-border-standard-hover: color-mix(in oklab, var(--button-border-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-border-primary-static: var(--button-border-primary);
+  --button-border-primary-hover: color-mix(in oklab, var(--button-border-primary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-border-secondary-static: var(--button-border-secondary);
+  --button-border-secondary-hover: color-mix(in oklab, var(--button-border-secondary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-border-danger-static: var(--button-border-danger);
+  --button-border-danger-hover: color-mix(in oklab, var(--button-border-danger), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-border-tertiary-static: var(--button-border-tertiary);
+  --button-border-tertiary-hover: color-mix(in oklab, var(--button-border-tertiary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-color-standard-static: var(--button-color-standard);
+  --button-color-standard-hover: color-mix(in oklab, var(--button-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-color-primary-static: var(--button-color-primary);
+  --button-color-primary-hover: color-mix(in oklab, var(--button-color-primary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-color-secondary-static: var(--button-color-secondary);
+  --button-color-secondary-hover: color-mix(in oklab, var(--button-color-secondary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-color-danger-static: var(--button-color-danger);
+  --button-color-danger-hover: color-mix(in oklab, var(--button-color-danger), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-color-tertiary-static: var(--button-color-tertiary);
+  --button-color-tertiary-hover: color-mix(in oklab, var(--button-color-tertiary), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --button-radius-standard-static: var(--button-radius-standard);
+  --button-radius-standard-hover: var(--button-radius-standard);
+  --button-radius-primary-static: var(--button-radius-primary);
+  --button-radius-primary-hover: var(--button-radius-primary);
+  --button-radius-secondary-static: var(--button-radius-secondary);
+  --button-radius-secondary-hover: var(--button-radius-secondary);
+  --button-radius-danger-static: var(--button-radius-danger);
+  --button-radius-danger-hover: var(--button-radius-danger);
+  --button-radius-tertiary-static: var(--button-radius-tertiary);
+  --button-radius-tertiary-hover: var(--button-radius-tertiary);
+  --button-padding-block-standard-static: var(--button-padding-block-standard);
+  --button-padding-block-standard-hover: var(--button-padding-block-standard);
+  --button-padding-block-primary-static: var(--button-padding-block-primary);
+  --button-padding-block-primary-hover: var(--button-padding-block-primary);
+  --button-padding-block-secondary-static: var(--button-padding-block-secondary);
+  --button-padding-block-secondary-hover: var(--button-padding-block-secondary);
+  --button-padding-block-danger-static: var(--button-padding-block-danger);
+  --button-padding-block-danger-hover: var(--button-padding-block-danger);
+  --button-padding-block-tertiary-static: var(--button-padding-block-tertiary);
+  --button-padding-block-tertiary-hover: var(--button-padding-block-tertiary);
+  --button-padding-inline-standard-static: var(--button-padding-inline-standard);
+  --button-padding-inline-standard-hover: var(--button-padding-inline-standard);
+  --button-padding-inline-primary-static: var(--button-padding-inline-primary);
+  --button-padding-inline-primary-hover: var(--button-padding-inline-primary);
+  --button-padding-inline-secondary-static: var(--button-padding-inline-secondary);
+  --button-padding-inline-secondary-hover: var(--button-padding-inline-secondary);
+  --button-padding-inline-danger-static: var(--button-padding-inline-danger);
+  --button-padding-inline-danger-hover: var(--button-padding-inline-danger);
+  --button-padding-inline-tertiary-static: var(--button-padding-inline-tertiary);
+  --button-padding-inline-tertiary-hover: var(--button-padding-inline-tertiary);
+  --button-font-size-standard-static: var(--button-font-size-standard);
+  --button-font-size-standard-hover: var(--button-font-size-standard);
+  --button-font-size-primary-static: var(--button-font-size-primary);
+  --button-font-size-primary-hover: var(--button-font-size-primary);
+  --button-font-size-secondary-static: var(--button-font-size-secondary);
+  --button-font-size-secondary-hover: var(--button-font-size-secondary);
+  --button-font-size-danger-static: var(--button-font-size-danger);
+  --button-font-size-danger-hover: var(--button-font-size-danger);
+  --button-font-size-tertiary-static: var(--button-font-size-tertiary);
+  --button-font-size-tertiary-hover: var(--button-font-size-tertiary);
+  --button-gap-standard-static: var(--button-gap-standard);
+  --button-gap-standard-hover: var(--button-gap-standard);
+  --button-gap-primary-static: var(--button-gap-primary);
+  --button-gap-primary-hover: var(--button-gap-primary);
+  --button-gap-secondary-static: var(--button-gap-secondary);
+  --button-gap-secondary-hover: var(--button-gap-secondary);
+  --button-gap-danger-static: var(--button-gap-danger);
+  --button-gap-danger-hover: var(--button-gap-danger);
+  --button-gap-tertiary-static: var(--button-gap-tertiary);
+  --button-gap-tertiary-hover: var(--button-gap-tertiary);
+  --button-height-standard-static: var(--button-height-standard);
+  --button-height-standard-hover: var(--button-height-standard);
+  --button-height-primary-static: var(--button-height-primary);
+  --button-height-primary-hover: var(--button-height-primary);
+  --button-height-secondary-static: var(--button-height-secondary);
+  --button-height-secondary-hover: var(--button-height-secondary);
+  --button-height-danger-static: var(--button-height-danger);
+  --button-height-danger-hover: var(--button-height-danger);
+  --button-height-tertiary-static: var(--button-height-tertiary);
+  --button-height-tertiary-hover: var(--button-height-tertiary);
+  --button-height-sm-standard-static: var(--button-height-sm-standard);
+  --button-height-sm-standard-hover: var(--button-height-sm-standard);
+  --button-height-sm-primary-static: var(--button-height-sm-primary);
+  --button-height-sm-primary-hover: var(--button-height-sm-primary);
+  --button-height-sm-secondary-static: var(--button-height-sm-secondary);
+  --button-height-sm-secondary-hover: var(--button-height-sm-secondary);
+  --button-height-sm-danger-static: var(--button-height-sm-danger);
+  --button-height-sm-danger-hover: var(--button-height-sm-danger);
+  --button-height-sm-tertiary-static: var(--button-height-sm-tertiary);
+  --button-height-sm-tertiary-hover: var(--button-height-sm-tertiary);
+  --button-height-lg-standard-static: var(--button-height-lg-standard);
+  --button-height-lg-standard-hover: var(--button-height-lg-standard);
+  --button-height-lg-primary-static: var(--button-height-lg-primary);
+  --button-height-lg-primary-hover: var(--button-height-lg-primary);
+  --button-height-lg-secondary-static: var(--button-height-lg-secondary);
+  --button-height-lg-secondary-hover: var(--button-height-lg-secondary);
+  --button-height-lg-danger-static: var(--button-height-lg-danger);
+  --button-height-lg-danger-hover: var(--button-height-lg-danger);
+  --button-height-lg-tertiary-static: var(--button-height-lg-tertiary);
+  --button-height-lg-tertiary-hover: var(--button-height-lg-tertiary);
+  --button-height-icon-standard-static: var(--button-height-icon-standard);
+  --button-height-icon-standard-hover: var(--button-height-icon-standard);
+  --button-height-icon-primary-static: var(--button-height-icon-primary);
+  --button-height-icon-primary-hover: var(--button-height-icon-primary);
+  --button-height-icon-secondary-static: var(--button-height-icon-secondary);
+  --button-height-icon-secondary-hover: var(--button-height-icon-secondary);
+  --button-height-icon-danger-static: var(--button-height-icon-danger);
+  --button-height-icon-danger-hover: var(--button-height-icon-danger);
+  --button-height-icon-tertiary-static: var(--button-height-icon-tertiary);
+  --button-height-icon-tertiary-hover: var(--button-height-icon-tertiary);
   /* --- card --- */
-  --card-background-static: var(--card-background-static-role);
-  --card-border-static: var(--card-border-static-role);
-  --card-color-static: var(--card-color-static-role);
-  --card-description-color-static: var(--card-description-color-static-role);
-  --card-radius-static: var(--card-radius-static-role);
-  --card-padding-static: var(--card-padding-static-role);
-  --card-shadow-static: var(--card-shadow-static-role);
-  --card-title-size-static: var(--card-title-size-static-role);
+  --card-background-standard-static: var(--card-background-standard);
+  --card-figure-background-standard-static: var(--card-figure-background-standard);
+  --card-border-standard-static: var(--card-border-standard);
+  --card-color-standard-static: var(--card-color-standard);
+  --card-description-color-standard-static: var(--card-description-color-standard);
+  --card-radius-standard-static: var(--card-radius-standard);
+  --card-padding-standard-static: var(--card-padding-standard);
+  --card-shadow-standard-static: var(--card-shadow-standard);
+  --card-title-size-standard-static: var(--card-title-size-standard);
   /* --- checkbox --- */
-  --checkbox-background-static: var(--checkbox-background-static-role);
-  --checkbox-background-checked: var(--checkbox-background-checked-role);
-  --checkbox-border-static: var(--checkbox-border-static-role);
-  --checkbox-border-checked: var(--checkbox-border-checked-role);
-  --checkbox-color-static: var(--checkbox-color-static-role);
-  --checkbox-size-static: var(--checkbox-size-static-role);
-  --checkbox-radius-static: var(--checkbox-radius-static-role);
+  --checkbox-background-standard-static: var(--checkbox-background-standard);
+  --checkbox-background-standard-checked: var(--checkbox-background-standard-checked-role);
+  --checkbox-border-standard-static: var(--checkbox-border-standard);
+  --checkbox-border-standard-checked: var(--checkbox-border-standard-checked-role);
+  --checkbox-color-standard-static: var(--checkbox-color-standard);
+  --checkbox-color-standard-checked: color-mix(in oklab, var(--checkbox-color-standard), var(--color-interaction-source-role) var(--mix-checked-source-role));
+  --checkbox-size-standard-static: var(--checkbox-size-standard);
+  --checkbox-size-standard-checked: var(--checkbox-size-standard);
+  --checkbox-radius-standard-static: var(--checkbox-radius-standard);
+  --checkbox-radius-standard-checked: var(--checkbox-radius-standard);
   /* --- dialog --- */
-  --dialog-background-static: var(--dialog-background-static-role);
-  --dialog-border-static: var(--dialog-border-static-role);
-  --dialog-color-static: var(--dialog-color-static-role);
-  --dialog-overlay-static: var(--dialog-overlay-static-role);
-  --dialog-radius-static: var(--dialog-radius-static-role);
-  --dialog-shadow-static: var(--dialog-shadow-static-role);
-  --dialog-padding-static: var(--dialog-padding-static-role);
-  --dialog-gap-static: var(--dialog-gap-static-role);
-  --dialog-max-width-static: var(--dialog-max-width-static-role);
-  --dialog-max-height-static: var(--dialog-max-height-static-role);
-  --dialog-z-static: var(--dialog-z-static-role);
+  --dialog-background-standard-static: var(--dialog-background-standard);
+  --dialog-border-standard-static: var(--dialog-border-standard);
+  --dialog-color-standard-static: var(--dialog-color-standard);
+  --dialog-overlay-standard-static: var(--dialog-overlay-standard);
+  --dialog-radius-standard-static: var(--dialog-radius-standard);
+  --dialog-shadow-standard-static: var(--dialog-shadow-standard);
+  --dialog-padding-standard-static: var(--dialog-padding-standard);
+  --dialog-gap-standard-static: var(--dialog-gap-standard);
+  --dialog-max-width-standard-static: var(--dialog-max-width-standard);
+  --dialog-max-height-standard-static: var(--dialog-max-height-standard);
+  --dialog-z-standard-static: var(--dialog-z-standard);
   /* --- field --- */
-  --field-gap-static: var(--field-gap-static-role);
-  --field-description-color-static: var(--field-description-color-static-role);
+  --field-gap-standard-static: var(--field-gap-standard);
+  --field-description-color-standard-static: var(--field-description-color-standard);
   /* --- form --- */
-  --form-gap-static: var(--form-gap-static-role);
-  --form-columns-min-static: var(--form-columns-min-static-role);
+  --form-gap-standard-static: var(--form-gap-standard);
+  --form-columns-min-standard-static: var(--form-columns-min-standard);
   /* --- input --- */
-  --input-background-static: var(--input-background-static-role);
-  --input-border-static: var(--input-border-static-role);
-  --input-border-focus: var(--input-border-focus-role);
-  --input-border-invalid: var(--input-border-invalid-role);
-  --input-color-static: var(--input-color-static-role);
-  --input-placeholder-color-static: var(--input-placeholder-color-static-role);
-  --input-radius-static: var(--input-radius-static-role);
-  --input-padding-block-static: var(--input-padding-block-static-role);
-  --input-padding-inline-static: var(--input-padding-inline-static-role);
-  --input-height-static: var(--input-height-static-role);
-  --input-font-size-static: var(--input-font-size-static-role);
-  --input-ring-static: var(--input-ring-static-role);
-  --input-ring-focus: var(--input-ring-focus-role);
-  --input-ring-invalid: var(--input-ring-invalid-role);
+  --input-background-standard-static: var(--input-background-standard);
+  --input-background-standard-focus: var(--color-ring-source-role);
+  --input-background-standard-invalid: color-mix(in oklab, var(--input-background-standard), var(--color-destructive-source-role) 85%);
+  --input-border-standard-static: var(--input-border-standard);
+  --input-border-standard-focus: var(--color-ring-source-role);
+  --input-border-standard-invalid: color-mix(in oklab, var(--input-border-standard), var(--color-destructive-source-role) 85%);
+  --input-color-standard-static: var(--input-color-standard);
+  --input-color-standard-focus: var(--color-ring-source-role);
+  --input-color-standard-invalid: color-mix(in oklab, var(--input-color-standard), var(--color-destructive-source-role) 85%);
+  --input-placeholder-color-standard-static: var(--input-placeholder-color-standard);
+  --input-placeholder-color-standard-focus: var(--color-ring-source-role);
+  --input-placeholder-color-standard-invalid: color-mix(in oklab, var(--input-placeholder-color-standard), var(--color-destructive-source-role) 85%);
+  --input-radius-standard-static: var(--input-radius-standard);
+  --input-radius-standard-focus: var(--input-radius-standard);
+  --input-radius-standard-invalid: var(--input-radius-standard);
+  --input-padding-block-standard-static: var(--input-padding-block-standard);
+  --input-padding-block-standard-focus: var(--input-padding-block-standard);
+  --input-padding-block-standard-invalid: var(--input-padding-block-standard);
+  --input-padding-inline-standard-static: var(--input-padding-inline-standard);
+  --input-padding-inline-standard-focus: var(--input-padding-inline-standard);
+  --input-padding-inline-standard-invalid: var(--input-padding-inline-standard);
+  --input-height-standard-static: var(--input-height-standard);
+  --input-height-standard-focus: var(--input-height-standard);
+  --input-height-standard-invalid: var(--input-height-standard);
+  --input-font-size-standard-static: var(--input-font-size-standard);
+  --input-font-size-standard-focus: var(--input-font-size-standard);
+  --input-font-size-standard-invalid: var(--input-font-size-standard);
+  --input-ring-standard-static: var(--input-ring-standard);
+  --input-ring-standard-focus: var(--color-ring-source-role);
+  --input-ring-standard-invalid: color-mix(in oklab, var(--input-ring-standard), var(--color-destructive-source-role) 85%);
   /* --- menu --- */
-  --menu-background-static: var(--menu-background-static-role);
-  --menu-border-static: var(--menu-border-static-role);
-  --menu-color-static: var(--menu-color-static-role);
-  --menu-radius-static: var(--menu-radius-static-role);
-  --menu-shadow-static: var(--menu-shadow-static-role);
-  --menu-padding-static: var(--menu-padding-static-role);
-  --menu-item-radius-static: var(--menu-item-radius-static-role);
-  --menu-item-padding-block-static: var(--menu-item-padding-block-static-role);
-  --menu-item-padding-inline-static: var(--menu-item-padding-inline-static-role);
-  --menu-item-font-size-static: var(--menu-item-font-size-static-role);
-  --menu-item-gap-static: var(--menu-item-gap-static-role);
-  --menu-item-indicator-size-static: var(--menu-item-indicator-size-static-role);
-  --menu-item-background-static: var(--menu-item-background-static-role);
-  --menu-item-background-highlighted: var(--menu-item-background-highlighted-role);
-  --menu-item-color-static: var(--menu-item-color-static-role);
-  --menu-item-color-highlighted: var(--menu-item-color-highlighted-role);
+  --menu-background-standard-static: var(--menu-background-standard);
+  --menu-background-standard-highlighted: color-mix(in oklab, var(--menu-background-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --menu-border-standard-static: var(--menu-border-standard);
+  --menu-border-standard-highlighted: color-mix(in oklab, var(--menu-border-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --menu-color-standard-static: var(--menu-color-standard);
+  --menu-color-standard-highlighted: color-mix(in oklab, var(--menu-color-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --menu-radius-standard-static: var(--menu-radius-standard);
+  --menu-radius-standard-highlighted: var(--menu-radius-standard);
+  --menu-shadow-standard-static: var(--menu-shadow-standard);
+  --menu-shadow-standard-highlighted: var(--menu-shadow-standard);
+  --menu-padding-standard-static: var(--menu-padding-standard);
+  --menu-padding-standard-highlighted: var(--menu-padding-standard);
+  --menu-item-radius-standard-static: var(--menu-item-radius-standard);
+  --menu-item-radius-standard-highlighted: var(--menu-item-radius-standard);
+  --menu-item-padding-block-standard-static: var(--menu-item-padding-block-standard);
+  --menu-item-padding-block-standard-highlighted: var(--menu-item-padding-block-standard);
+  --menu-item-padding-inline-standard-static: var(--menu-item-padding-inline-standard);
+  --menu-item-padding-inline-standard-highlighted: var(--menu-item-padding-inline-standard);
+  --menu-item-font-size-standard-static: var(--menu-item-font-size-standard);
+  --menu-item-font-size-standard-highlighted: var(--menu-item-font-size-standard);
+  --menu-item-gap-standard-static: var(--menu-item-gap-standard);
+  --menu-item-gap-standard-highlighted: var(--menu-item-gap-standard);
+  --menu-item-indicator-size-standard-static: var(--menu-item-indicator-size-standard);
+  --menu-item-indicator-size-standard-highlighted: var(--menu-item-indicator-size-standard);
+  --menu-item-background-standard-static: var(--menu-item-background-standard);
+  --menu-item-background-standard-highlighted: color-mix(in oklab, var(--menu-item-background-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --menu-item-color-standard-static: var(--menu-item-color-standard);
+  --menu-item-color-standard-highlighted: color-mix(in oklab, var(--menu-item-color-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
   /* --- nav --- */
-  --nav-trigger-color-static: var(--nav-trigger-color-static-role);
-  --nav-trigger-color-active: var(--nav-trigger-color-active-role);
-  --nav-content-background-static: var(--nav-content-background-static-role);
-  --nav-content-border-static: var(--nav-content-border-static-role);
-  --nav-content-radius-static: var(--nav-content-radius-static-role);
-  --nav-content-shadow-static: var(--nav-content-shadow-static-role);
-  --nav-content-padding-static: var(--nav-content-padding-static-role);
-  --nav-link-color-static: var(--nav-link-color-static-role);
-  --nav-link-description-color-static: var(--nav-link-description-color-static-role);
+  --nav-trigger-color-standard-static: var(--nav-trigger-color-standard);
+  --nav-trigger-color-standard-active: var(--nav-trigger-color-standard-active-role);
+  --nav-content-background-standard-static: var(--nav-content-background-standard);
+  --nav-content-background-standard-active: color-mix(in oklab, var(--nav-content-background-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
+  --nav-content-border-standard-static: var(--nav-content-border-standard);
+  --nav-content-border-standard-active: color-mix(in oklab, var(--nav-content-border-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
+  --nav-content-radius-standard-static: var(--nav-content-radius-standard);
+  --nav-content-radius-standard-active: var(--nav-content-radius-standard);
+  --nav-content-shadow-standard-static: var(--nav-content-shadow-standard);
+  --nav-content-shadow-standard-active: var(--nav-content-shadow-standard);
+  --nav-content-padding-standard-static: var(--nav-content-padding-standard);
+  --nav-content-padding-standard-active: var(--nav-content-padding-standard);
+  --nav-link-color-standard-static: var(--nav-link-color-standard);
+  --nav-link-color-standard-active: color-mix(in oklab, var(--nav-link-color-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
+  --nav-link-description-color-standard-static: var(--nav-link-description-color-standard);
+  --nav-link-description-color-standard-active: color-mix(in oklab, var(--nav-link-description-color-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
   /* --- pagination --- */
-  --pagination-background-static: var(--pagination-background-static-role);
-  --pagination-background-hover: var(--pagination-background-hover-role);
-  --pagination-background-selected: var(--pagination-background-selected-role);
-  --pagination-color-static: var(--pagination-color-static-role);
-  --pagination-color-hover: var(--pagination-color-hover-role);
-  --pagination-color-selected: var(--pagination-color-selected-role);
-  --pagination-gap-static: var(--pagination-gap-static-role);
+  --pagination-background-standard-static: var(--pagination-background-standard);
+  --pagination-background-standard-hover: color-mix(in oklab, var(--pagination-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --pagination-background-standard-selected: var(--pagination-background-standard-selected-role);
+  --pagination-color-standard-static: var(--pagination-color-standard);
+  --pagination-color-standard-hover: color-mix(in oklab, var(--pagination-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --pagination-color-standard-selected: var(--pagination-color-standard-selected-role);
+  --pagination-gap-standard-static: var(--pagination-gap-standard);
+  --pagination-gap-standard-hover: var(--pagination-gap-standard);
+  --pagination-gap-standard-selected: var(--pagination-gap-standard);
   /* --- popover --- */
-  --popover-background-static: var(--popover-background-static-role);
-  --popover-border-static: var(--popover-border-static-role);
-  --popover-color-static: var(--popover-color-static-role);
-  --popover-radius-static: var(--popover-radius-static-role);
-  --popover-shadow-static: var(--popover-shadow-static-role);
-  --popover-padding-static: var(--popover-padding-static-role);
-  --popover-min-width-static: var(--popover-min-width-static-role);
-  --popover-z-static: var(--popover-z-static-role);
+  --popover-background-standard-static: var(--popover-background-standard);
+  --popover-border-standard-static: var(--popover-border-standard);
+  --popover-color-standard-static: var(--popover-color-standard);
+  --popover-radius-standard-static: var(--popover-radius-standard);
+  --popover-shadow-standard-static: var(--popover-shadow-standard);
+  --popover-padding-standard-static: var(--popover-padding-standard);
+  --popover-min-width-standard-static: var(--popover-min-width-standard);
+  --popover-z-standard-static: var(--popover-z-standard);
   /* --- progress --- */
-  --progress-track-static: var(--progress-track-static-role);
-  --progress-indicator-static: var(--progress-indicator-static-role);
-  --progress-height-static: var(--progress-height-static-role);
+  --progress-track-standard-static: var(--progress-track-standard);
+  --progress-indicator-standard-static: var(--progress-indicator-standard);
+  --progress-height-standard-static: var(--progress-height-standard);
   /* --- radio --- */
-  --radio-background-static: var(--radio-background-static-role);
-  --radio-background-checked: var(--radio-background-checked-role);
-  --radio-border-static: var(--radio-border-static-role);
-  --radio-border-checked: var(--radio-border-checked-role);
-  --radio-dot-static: var(--radio-dot-static-role);
-  --radio-size-static: var(--radio-size-static-role);
+  --radio-background-standard-static: var(--radio-background-standard);
+  --radio-background-standard-hover: color-mix(in oklab, var(--radio-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --radio-background-standard-checked: var(--radio-background-standard-checked-role);
+  --radio-border-standard-static: var(--radio-border-standard);
+  --radio-border-standard-hover: color-mix(in oklab, var(--radio-border-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --radio-border-standard-checked: var(--radio-border-standard-checked-role);
+  --radio-dot-standard-static: var(--radio-dot-standard);
+  --radio-dot-standard-hover: color-mix(in oklab, var(--radio-dot-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --radio-dot-standard-checked: color-mix(in oklab, var(--radio-dot-standard), var(--color-interaction-source-role) var(--mix-checked-source-role));
+  --radio-size-standard-static: var(--radio-size-standard);
+  --radio-size-standard-hover: var(--radio-size-standard);
+  --radio-size-standard-checked: var(--radio-size-standard);
   /* --- select --- */
-  --select-background-static: var(--select-background-static-role);
-  --select-border-static: var(--select-border-static-role);
-  --select-color-static: var(--select-color-static-role);
-  --select-item-background-static: var(--select-item-background-static-role);
-  --select-item-background-highlighted: var(--select-item-background-highlighted-role);
-  --select-item-color-static: var(--select-item-color-static-role);
-  --select-item-color-highlighted: var(--select-item-color-highlighted-role);
-  --select-item-radius-static: var(--select-item-radius-static-role);
-  --select-radius-static: var(--select-radius-static-role);
-  --select-height-static: var(--select-height-static-role);
+  --select-background-standard-static: var(--select-background-standard);
+  --select-background-standard-hover: color-mix(in oklab, var(--select-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --select-background-standard-highlighted: color-mix(in oklab, var(--select-background-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --select-border-standard-static: var(--select-border-standard);
+  --select-border-standard-hover: color-mix(in oklab, var(--select-border-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --select-border-standard-highlighted: color-mix(in oklab, var(--select-border-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --select-color-standard-static: var(--select-color-standard);
+  --select-color-standard-hover: color-mix(in oklab, var(--select-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --select-color-standard-highlighted: color-mix(in oklab, var(--select-color-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --select-item-background-standard-static: var(--select-item-background-standard);
+  --select-item-background-standard-hover: color-mix(in oklab, var(--select-item-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --select-item-background-standard-highlighted: color-mix(in oklab, var(--select-item-background-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --select-item-color-standard-static: var(--select-item-color-standard);
+  --select-item-color-standard-hover: color-mix(in oklab, var(--select-item-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --select-item-color-standard-highlighted: color-mix(in oklab, var(--select-item-color-standard), var(--color-interaction-source-role) var(--mix-highlighted-source-role));
+  --select-item-radius-standard-static: var(--select-item-radius-standard);
+  --select-item-radius-standard-hover: var(--select-item-radius-standard);
+  --select-item-radius-standard-highlighted: var(--select-item-radius-standard);
+  --select-radius-standard-static: var(--select-radius-standard);
+  --select-radius-standard-hover: var(--select-radius-standard);
+  --select-radius-standard-highlighted: var(--select-radius-standard);
+  --select-height-standard-static: var(--select-height-standard);
+  --select-height-standard-hover: var(--select-height-standard);
+  --select-height-standard-highlighted: var(--select-height-standard);
   /* --- separator --- */
-  --separator-color-static: var(--separator-color-static-role);
+  --separator-color-standard-static: var(--separator-color-standard);
   /* --- skeleton --- */
-  --skeleton-background-static: var(--skeleton-background-static-role);
+  --skeleton-background-standard-static: var(--skeleton-background-standard);
   /* --- slider --- */
-  --slider-track-static: var(--slider-track-static-role);
-  --slider-range-static: var(--slider-range-static-role);
-  --slider-thumb-static: var(--slider-thumb-static-role);
-  --slider-thumb-border-static: var(--slider-thumb-border-static-role);
-  --slider-thumb-size-static: var(--slider-thumb-size-static-role);
+  --slider-track-standard-static: var(--slider-track-standard);
+  --slider-range-standard-static: var(--slider-range-standard);
+  --slider-thumb-standard-static: var(--slider-thumb-standard);
+  --slider-thumb-border-standard-static: var(--slider-thumb-border-standard);
+  --slider-thumb-size-standard-static: var(--slider-thumb-size-standard);
   /* --- switch --- */
-  --switch-track-static: var(--switch-track-static-role);
-  --switch-track-hover: var(--switch-track-hover-role);
-  --switch-track-checked: var(--switch-track-checked-role);
-  --switch-thumb-static: var(--switch-thumb-static-role);
-  --switch-thumb-hover: var(--switch-thumb-hover-role);
-  --switch-thumb-checked: var(--switch-thumb-checked-role);
-  --switch-width-static: var(--switch-width-static-role);
-  --switch-height-static: var(--switch-height-static-role);
-  --switch-thumb-size-static: var(--switch-thumb-size-static-role);
+  --switch-track-standard-static: var(--switch-track-standard);
+  --switch-track-standard-hover: color-mix(in oklab, var(--switch-track-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --switch-track-standard-checked: var(--switch-track-standard-checked-role);
+  --switch-thumb-standard-static: var(--switch-thumb-standard);
+  --switch-thumb-standard-hover: color-mix(in oklab, var(--switch-thumb-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --switch-thumb-standard-checked: var(--switch-thumb-standard-checked-role);
+  --switch-width-standard-static: var(--switch-width-standard);
+  --switch-width-standard-hover: var(--switch-width-standard);
+  --switch-width-standard-checked: var(--switch-width-standard);
+  --switch-height-standard-static: var(--switch-height-standard);
+  --switch-height-standard-hover: var(--switch-height-standard);
+  --switch-height-standard-checked: var(--switch-height-standard);
+  --switch-thumb-size-standard-static: var(--switch-thumb-size-standard);
+  --switch-thumb-size-standard-hover: var(--switch-thumb-size-standard);
+  --switch-thumb-size-standard-checked: var(--switch-thumb-size-standard);
   /* --- table --- */
-  --table-head-color-static: var(--table-head-color-static-role);
-  --table-head-weight-static: var(--table-head-weight-static-role);
-  --table-cell-padding-block-static: var(--table-cell-padding-block-static-role);
-  --table-cell-padding-inline-static: var(--table-cell-padding-inline-static-role);
-  --table-row-border-static: var(--table-row-border-static-role);
-  --table-row-background-static: var(--table-row-background-static-role);
-  --table-row-background-hover: var(--table-row-background-hover-role);
+  --table-head-color-standard-static: var(--table-head-color-standard);
+  --table-head-color-standard-hover: color-mix(in oklab, var(--table-head-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --table-head-weight-standard-static: var(--table-head-weight-standard);
+  --table-head-weight-standard-hover: var(--table-head-weight-standard);
+  --table-cell-padding-block-standard-static: var(--table-cell-padding-block-standard);
+  --table-cell-padding-block-standard-hover: var(--table-cell-padding-block-standard);
+  --table-cell-padding-inline-standard-static: var(--table-cell-padding-inline-standard);
+  --table-cell-padding-inline-standard-hover: var(--table-cell-padding-inline-standard);
+  --table-row-border-standard-static: var(--table-row-border-standard);
+  --table-row-border-standard-hover: color-mix(in oklab, var(--table-row-border-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --table-row-background-standard-static: var(--table-row-background-standard);
+  --table-row-background-standard-hover: var(--table-row-background-standard-hover-role);
   /* --- tabs --- */
-  --tabs-list-background-static: var(--tabs-list-background-static-role);
-  --tabs-list-color-static: var(--tabs-list-color-static-role);
-  --tabs-trigger-background-static: var(--tabs-trigger-background-static-role);
-  --tabs-trigger-background-active: var(--tabs-trigger-background-active-role);
-  --tabs-trigger-color-static: var(--tabs-trigger-color-static-role);
-  --tabs-trigger-color-hover: var(--tabs-trigger-color-hover-role);
-  --tabs-trigger-color-active: var(--tabs-trigger-color-active-role);
-  --tabs-height-static: var(--tabs-height-static-role);
-  --tabs-trigger-padding-block-static: var(--tabs-trigger-padding-block-static-role);
-  --tabs-trigger-padding-inline-static: var(--tabs-trigger-padding-inline-static-role);
+  --tabs-list-background-standard-static: var(--tabs-list-background-standard);
+  --tabs-list-background-standard-hover: color-mix(in oklab, var(--tabs-list-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --tabs-list-background-standard-active: color-mix(in oklab, var(--tabs-list-background-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
+  --tabs-list-color-standard-static: var(--tabs-list-color-standard);
+  --tabs-list-color-standard-hover: color-mix(in oklab, var(--tabs-list-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --tabs-list-color-standard-active: color-mix(in oklab, var(--tabs-list-color-standard), var(--color-interaction-source-role) var(--mix-active-source-role));
+  --tabs-trigger-background-standard-static: var(--tabs-trigger-background-standard);
+  --tabs-trigger-background-standard-hover: color-mix(in oklab, var(--tabs-trigger-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --tabs-trigger-background-standard-active: var(--tabs-trigger-background-standard-active-role);
+  --tabs-trigger-color-standard-static: var(--tabs-trigger-color-standard);
+  --tabs-trigger-color-standard-hover: color-mix(in oklab, var(--tabs-trigger-color-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
+  --tabs-trigger-color-standard-active: var(--tabs-trigger-color-standard-active-role);
+  --tabs-height-standard-static: var(--tabs-height-standard);
+  --tabs-height-standard-hover: var(--tabs-height-standard);
+  --tabs-height-standard-active: var(--tabs-height-standard);
+  --tabs-trigger-padding-block-standard-static: var(--tabs-trigger-padding-block-standard);
+  --tabs-trigger-padding-block-standard-hover: var(--tabs-trigger-padding-block-standard);
+  --tabs-trigger-padding-block-standard-active: var(--tabs-trigger-padding-block-standard);
+  --tabs-trigger-padding-inline-standard-static: var(--tabs-trigger-padding-inline-standard);
+  --tabs-trigger-padding-inline-standard-hover: var(--tabs-trigger-padding-inline-standard);
+  --tabs-trigger-padding-inline-standard-active: var(--tabs-trigger-padding-inline-standard);
   /* --- tooltip --- */
-  --tooltip-background-static: var(--tooltip-background-static-role);
-  --tooltip-border-static: var(--tooltip-border-static-role);
-  --tooltip-color-static: var(--tooltip-color-static-role);
-  --tooltip-radius-static: var(--tooltip-radius-static-role);
-  --tooltip-shadow-static: var(--tooltip-shadow-static-role);
-  --tooltip-padding-block-static: var(--tooltip-padding-block-static-role);
-  --tooltip-padding-inline-static: var(--tooltip-padding-inline-static-role);
-  --tooltip-font-size-static: var(--tooltip-font-size-static-role);
+  --tooltip-background-standard-static: var(--tooltip-background-standard);
+  --tooltip-border-standard-static: var(--tooltip-border-standard);
+  --tooltip-color-standard-static: var(--tooltip-color-standard);
+  --tooltip-radius-standard-static: var(--tooltip-radius-standard);
+  --tooltip-shadow-standard-static: var(--tooltip-shadow-standard);
+  --tooltip-padding-block-standard-static: var(--tooltip-padding-block-standard);
+  --tooltip-padding-inline-standard-static: var(--tooltip-padding-inline-standard);
+  --tooltip-font-size-standard-static: var(--tooltip-font-size-standard);
   /* --- system --- */
   --border-width-static: var(--border-width-source-role);
   --color-accent-static: var(--color-accent-source-role);
@@ -1030,6 +1414,7 @@
   --color-destructive-static: var(--color-destructive-source-role);
   --color-destructive-foreground-static: var(--color-destructive-foreground-source-role);
   --color-info-static: var(--color-info-source-role);
+  --color-interaction-static: var(--color-interaction-source-role);
   --color-muted-static: var(--color-muted-source-role);
   --color-muted-foreground-static: var(--color-muted-foreground-source-role);
   --color-on-accent-static: var(--color-on-accent-source-role);
@@ -1059,6 +1444,14 @@
   --line-body-static: var(--line-body-source-role);
   --line-heading-static: var(--line-heading-source-role);
   --measure-body-static: var(--measure-body-source-role);
+  --mix-active-static: var(--mix-active-source-role);
+  --mix-checked-static: var(--mix-checked-source-role);
+  --mix-current-static: var(--mix-current-source-role);
+  --mix-highlighted-static: var(--mix-highlighted-source-role);
+  --mix-hover-static: var(--mix-hover-source-role);
+  --mix-open-static: var(--mix-open-source-role);
+  --mix-pressed-static: var(--mix-pressed-source-role);
+  --mix-selected-static: var(--mix-selected-source-role);
   --motion-ambient-static: var(--motion-ambient-source-role);
   --motion-indeterminate-static: var(--motion-indeterminate-source-role);
   --motion-interaction-static: var(--motion-interaction-source-role);
@@ -1138,15 +1531,15 @@ button, [role=button] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--button-gap-static);
+  gap: var(--button-gap-standard-static);
   white-space: nowrap;
-  border: var(--border-width-static) solid var(--button-border-static);
-  border-radius: var(--button-radius-static);
-  background: var(--button-background-static);
-  color: var(--button-color-static);
-  min-height: var(--button-height-static);
-  padding: var(--button-padding-block-static) var(--button-padding-inline-static);
-  font-size: var(--button-font-size-static);
+  border: var(--border-width-static) solid var(--button-border-standard-static);
+  border-radius: var(--button-radius-standard-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  min-height: var(--button-height-standard-static);
+  padding: var(--button-padding-block-standard-static) var(--button-padding-inline-standard-static);
+  font-size: var(--button-font-size-standard-static);
   font-weight: var(--weight-ui-static);
   line-height: 1;
   cursor: pointer;
@@ -1154,8 +1547,8 @@ button, [role=button] {
 }
 
 button:hover, [role=button]:hover {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 /* Disabled: scoped to interactive elements, not every aria-disabled element. */
@@ -1177,13 +1570,13 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color])
 select, textarea {
   display: flex;
   width: 100%;
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
-  color: var(--input-color-static);
-  min-height: var(--input-height-static);
-  padding: var(--input-padding-block-static) var(--input-padding-inline-static);
-  font-size: var(--input-font-size-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
+  color: var(--input-color-standard-static);
+  min-height: var(--input-height-standard-static);
+  padding: var(--input-padding-block-standard-static) var(--input-padding-inline-standard-static);
+  font-size: var(--input-font-size-standard-static);
   transition: border-color var(--motion-interaction-static) var(--ease-interaction-static), box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
@@ -1192,26 +1585,26 @@ textarea {
 }
 
 ::placeholder {
-  color: var(--input-placeholder-color-static);
+  color: var(--input-placeholder-color-standard-static);
   opacity: 1;
 }
 
 /* Focus ring on fields: border + soft halo, no double outline. */
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: none;
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 /* Invalid */
 input[aria-invalid=true], select[aria-invalid=true], textarea[aria-invalid=true] {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 
 input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):user-invalid,
 select:user-invalid,
 textarea:user-invalid {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 
 input[aria-invalid=true]:focus-visible, select[aria-invalid=true]:focus-visible,
@@ -1219,18 +1612,18 @@ textarea[aria-invalid=true]:focus-visible,
 input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):user-invalid:focus-visible,
 select:user-invalid:focus-visible,
 textarea:user-invalid:focus-visible {
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-invalid);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-invalid);
 }
 
 /* Color swatch input: compact swatch, not a stretched field. */
 input[type=color] {
   appearance: none;
   inline-size: calc(var(--space-unit-static) * 10);
-  min-height: var(--input-height-static);
+  min-height: var(--input-height-standard-static);
   padding: calc(var(--space-unit-static) * 1);
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
   cursor: pointer;
 }
 
@@ -1240,14 +1633,14 @@ input[type=color]::-webkit-color-swatch-wrapper {
 
 input[type=color]::-webkit-color-swatch {
   border: none;
-  border-radius: calc(var(--input-radius-static) - 2px);
+  border-radius: calc(var(--input-radius-standard-static) - 2px);
 }
 
 /* Native select keeps its OS-provided chevron. */
 /* Native checkboxes/radios tinted with the accent. */
 input[type=checkbox], input[type=radio] {
-  inline-size: var(--checkbox-size-static);
-  block-size: var(--checkbox-size-static);
+  inline-size: var(--checkbox-size-standard-static);
+  block-size: var(--checkbox-size-standard-static);
   accent-color: var(--color-accent-static);
 }
 
@@ -1346,9 +1739,9 @@ ul, ol {
 }
 
 .grid[data-bleed] {
-  /* Full-bleed: cancel the parent's inline padding and span the viewport */
-  margin-inline: calc(50% - 50vw);
-  inline-size: 100vw;
+  /* Full-bleed: cancel the page shell's inline padding. Avoid 100vw here —
+     viewport units include the scrollbar and cause horizontal overflow. */
+  margin-inline: calc(var(--space-unit-static) * -4);
   padding-inline: calc(var(--space-unit-static) * 4);
 }
 
@@ -1443,7 +1836,7 @@ ul, ol {
 
 [data-columns] {
   display: grid;
-  gap: var(--form-gap-static);
+  gap: var(--form-gap-standard-static);
 }
 
 @media (max-width: 48rem) { /* raw value required: custom properties are not allowed in media feature values */
@@ -1524,6 +1917,74 @@ section + section {
   margin-block-start: calc(var(--space-unit-static) * 8);
 }
 
+/* --- Editorial page patterns --- */
+.page-flow {
+  display: grid;
+  gap: clamp(var(--space-unit-static) * 10, 6vw, var(--space-unit-static) * 18);
+}
+
+.page-flow > * {
+  margin-block: 0;
+}
+
+main > header + section {
+  margin-block-start: calc(var(--space-unit-static) * 10);
+}
+
+.page-hero {
+  display: grid;
+  gap: calc(var(--space-unit-static) * 5);
+  max-inline-size: 48rem;
+  padding-block-start: calc(var(--space-unit-static) * 4);
+}
+
+.page-hero > :is(h1, p) {
+  margin-block: 0;
+}
+
+.page-hero h1 {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  line-height: 1.05;
+  max-inline-size: 16ch;
+}
+
+.page-eyebrow {
+  font-size: calc(var(--text-size-body-static) * 0.8125);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground-static);
+}
+
+.page-lede {
+  max-inline-size: var(--measure-body-static);
+  font-size: calc(var(--text-size-body-static) * 1.125);
+  line-height: var(--line-body-static);
+  color: var(--color-muted-foreground-static);
+}
+
+.page-section {
+  display: grid;
+  gap: calc(var(--space-unit-static) * 6);
+  scroll-margin-block-start: calc(var(--space-unit-static) * 20);
+}
+
+.page-section > :is(h2, p) {
+  margin-block: 0;
+}
+
+.page-note {
+  border-block-start: var(--border-width-static) solid var(--color-border-static);
+  padding-block-start: calc(var(--space-unit-static) * 4);
+}
+
+.page-note > :is(h3, p) {
+  margin-block: 0;
+}
+
+.page-note > p + p {
+  margin-block-start: calc(var(--space-unit-static) * 2);
+}
+
 /* Audio - native <audio> styled through wacss tokens.
    Chrome renders the media-controls shadow DOM from color-scheme. The
    most legible pairing in both themes is a dark pill on any backdrop:
@@ -1582,70 +2043,86 @@ audio::-webkit-media-controls-time-remaining-display {
   border-radius: var(--radius-control-static);
 }
 
-/* Button - variants resolve to layer-5 tokens; no per-variant global tokens. */
+/* Button - variants bind role tokens; the anatomy reads current-* aliases. */
 button[data-variant],
 a[data-variant] {
-  --button-variant-background: var(--button-background-static);
-  --button-variant-color: var(--button-color-static);
-  --button-variant-border: var(--button-border-static);
-  background: var(--button-variant-background);
-  color: var(--button-variant-color);
-  border-color: var(--button-variant-border);
-  border-radius: var(--button-radius-static);
+  --button-current-background: var(--button-background-standard-static);
+  --button-current-color: var(--button-color-standard-static);
+  --button-current-border: var(--button-border-standard-static);
+  background: var(--button-current-background);
+  color: var(--button-current-color);
+  border-color: var(--button-current-border);
+  border-radius: var(--button-radius-standard-static);
+}
+button[data-variant]:hover,
+a[data-variant]:hover {
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 button[data-variant][data-variant=primary],
 a[data-variant][data-variant=primary] {
-  --button-variant-background: var(--color-pop-static);
-  --button-variant-color: var(--color-on-accent-static);
-  --button-variant-border: var(--color-clear-static);
+  --button-current-background: var(--button-background-primary-static);
+  --button-current-color: var(--button-color-primary-static);
+  --button-current-border: var(--button-border-primary-static);
+}
+button[data-variant][data-variant=primary]:hover,
+a[data-variant][data-variant=primary]:hover {
+  background: var(--button-background-primary-hover);
+  color: var(--button-color-primary-hover);
 }
 button[data-variant][data-variant=secondary],
 a[data-variant][data-variant=secondary] {
-  --button-variant-background: var(--color-muted-static);
-  --button-variant-color: var(--color-text-static);
-  --button-variant-border: var(--color-clear-static);
+  --button-current-background: var(--button-background-secondary-static);
+  --button-current-color: var(--button-color-secondary-static);
+  --button-current-border: var(--button-border-secondary-static);
+}
+button[data-variant][data-variant=secondary]:hover,
+a[data-variant][data-variant=secondary]:hover {
+  background: var(--button-background-secondary-hover);
+  color: var(--button-color-secondary-hover);
 }
 button[data-variant][data-variant=destructive],
 a[data-variant][data-variant=destructive] {
-  --button-variant-background: var(--color-destructive-static);
-  --button-variant-color: var(--color-destructive-foreground-static);
-  --button-variant-border: var(--color-clear-static);
+  --button-current-background: var(--button-background-danger-static);
+  --button-current-color: var(--button-color-danger-static);
+  --button-current-border: var(--button-border-danger-static);
+}
+button[data-variant][data-variant=destructive]:hover,
+a[data-variant][data-variant=destructive]:hover {
+  background: var(--button-background-danger-hover);
+  color: var(--button-color-danger-hover);
 }
 button[data-variant][data-variant=link],
 a[data-variant][data-variant=link] {
-  --button-variant-background: var(--color-clear-static);
-  --button-variant-color: var(--color-text-static);
-  --button-variant-border: var(--color-clear-static);
+  --button-current-background: var(--button-background-tertiary-static);
+  --button-current-color: var(--button-color-tertiary-static);
+  --button-current-border: var(--button-border-tertiary-static);
   text-decoration-line: underline;
   text-underline-offset: 4px;
   height: auto;
   padding: 0;
 }
-button[data-variant]:hover,
-a[data-variant]:hover {
-  background: color-mix(in oklch, var(--button-variant-background), var(--color-text-static) 12%, var(--color-clear-static));
-  color: color-mix(in oklch, var(--button-variant-color), var(--color-text-static) 12%, var(--color-clear-static));
-}
 button[data-variant][data-variant=link]:hover,
 a[data-variant][data-variant=link]:hover {
+  background: var(--button-background-tertiary-hover);
   color: var(--color-accent-static);
 }
 button[data-variant][data-size=sm],
 a[data-variant][data-size=sm] {
-  min-height: var(--button-height-sm-static);
+  min-height: var(--button-height-sm-standard-static);
   padding: 0 0.75rem;
   font-size: calc(var(--text-size-body-static) * 0.75);
 }
 button[data-variant][data-size=lg],
 a[data-variant][data-size=lg] {
-  min-height: var(--button-height-lg-static);
+  min-height: var(--button-height-lg-standard-static);
   padding: 0.5rem 1.5rem;
 }
 button[data-variant][data-size=icon],
 a[data-variant][data-size=icon] {
-  inline-size: var(--button-height-icon-static);
-  block-size: var(--button-height-icon-static);
-  min-height: var(--button-height-icon-static);
+  inline-size: var(--button-height-icon-standard-static);
+  block-size: var(--button-height-icon-standard-static);
+  min-height: var(--button-height-icon-standard-static);
   padding: 0;
 }
 button[data-variant][data-loading],
@@ -1671,67 +2148,55 @@ a[data-variant] {
     transform: rotate(360deg);
   }
 }
-/* Badge - small inline pill; variants resolve to layer-5 tokens. */
+/* Badge - small inline pill; variants bind role tokens. */
 .badge {
-  --badge-variant-background: var(--badge-background-static);
-  --badge-variant-color: var(--badge-color-static);
-  --badge-variant-border: var(--badge-border-static);
+  --badge-current-background: var(--badge-background-standard-static);
+  --badge-current-color: var(--badge-color-standard-static);
+  --badge-current-border: var(--badge-border-standard-static);
   display: inline-flex;
   align-items: center;
-  background: var(--badge-variant-background);
-  color: var(--badge-variant-color);
-  border: var(--border-width-static) solid var(--badge-variant-border);
-  border-radius: var(--badge-radius-static);
-  padding: var(--badge-padding-block-static) var(--badge-padding-inline-static);
-  font-size: var(--badge-font-size-static);
-  font-weight: var(--badge-font-weight-static);
-  line-height: var(--badge-line-height-static);
+  background: var(--badge-current-background);
+  color: var(--badge-current-color);
+  border: var(--border-width-static) solid var(--badge-current-border);
+  border-radius: var(--badge-radius-standard-static);
+  padding: var(--badge-padding-block-standard-static) var(--badge-padding-inline-standard-static);
+  font-size: var(--badge-font-size-standard-static);
+  font-weight: var(--badge-font-weight-standard-static);
+  line-height: var(--badge-line-height-standard-static);
   width: fit-content;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static), color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 .badge[data-variant=secondary] {
-  --badge-variant-background: var(--color-muted-static);
-  --badge-variant-color: var(--color-text-static);
-  --badge-variant-border: var(--color-clear-static);
+  --badge-current-background: var(--badge-background-secondary-static);
+  --badge-current-color: var(--badge-color-secondary-static);
+  --badge-current-border: var(--badge-border-secondary-static);
 }
 
 .badge[data-variant=positive] {
-  --badge-variant-background: color-mix(
-    in oklch
-    , var(--color-positive-static) 15%
-    , var(--color-clear-static)
-  );
-  --badge-variant-color: var(--color-positive-static);
-  --badge-variant-border: var(--color-clear-static);
-}
-
-.badge[data-variant=negative] {
-  --badge-variant-background: color-mix(
-    in oklch
-    , var(--color-destructive-static) 15%
-    , var(--color-clear-static)
-  );
-  --badge-variant-color: var(--color-destructive-static);
-  --badge-variant-border: var(--color-clear-static);
+  --badge-current-background: var(--badge-background-positive-static);
+  --badge-current-color: var(--badge-color-positive-static);
+  --badge-current-border: var(--badge-border-positive-static);
 }
 
 .badge[data-variant=neutral] {
-  --badge-variant-background: var(--color-muted-static);
-  --badge-variant-color: var(--color-muted-foreground-static);
-  --badge-variant-border: var(--color-clear-static);
+  --badge-current-background: var(--badge-background-tertiary-static);
+  --badge-current-color: var(--badge-color-tertiary-static);
+  --badge-current-border: var(--badge-border-tertiary-static);
 }
 
-.badge[data-variant=outline] {
-  --badge-variant-background: var(--color-clear-static);
-  --badge-variant-color: var(--color-text-static);
-  --badge-variant-border: var(--color-border-static);
-}
-
+.badge[data-variant=negative],
 .badge[data-variant=destructive] {
-  --badge-variant-background: var(--color-destructive-static);
-  --badge-variant-color: var(--color-destructive-foreground-static);
-  --badge-variant-border: var(--color-clear-static);
+  --badge-current-background: var(--badge-background-danger-static);
+  --badge-current-color: var(--badge-color-danger-static);
+  --badge-current-border: var(--badge-border-danger-static);
+}
+
+/* Outline is a structural modifier, not a role: clear ink, visible edge. */
+.badge[data-variant=outline] {
+  --badge-current-background: var(--color-clear-static);
+  --badge-current-color: var(--color-text-static);
+  --badge-current-border: var(--color-border-static);
 }
 
 /* Card - token-driven surface; intrinsically sized per the README.
@@ -1742,11 +2207,11 @@ a[data-variant] {
   inline-size: 100%;
   min-inline-size: 0;
   overflow: hidden;
-  background: var(--card-background-static);
-  color: var(--card-color-static);
-  border: var(--border-width-static) solid var(--card-border-static);
-  border-radius: var(--card-radius-static);
-  box-shadow: var(--card-shadow-static);
+  background: var(--card-background-standard-static);
+  color: var(--card-color-standard-static);
+  border: var(--border-width-static) solid var(--card-border-standard-static);
+  border-radius: var(--card-radius-standard-static);
+  box-shadow: var(--card-shadow-standard-static);
 }
 
 /* Geometry: card is 3 units wide and 4 units high. Content comes first in
@@ -1762,8 +2227,8 @@ a[data-variant] {
   margin: 0;
   min-block-size: 0;
   overflow: hidden;
-  background: var(--color-surface-static);
-  padding: var(--card-padding-static);
+  background: var(--card-figure-background-standard-static);
+  padding: var(--card-padding-standard-static);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1819,9 +2284,9 @@ a[data-variant] {
 }
 
 .card > [data-slot=card-figure] figcaption {
-  padding: calc(var(--space-unit-static) * 2) var(--card-padding-static);
+  padding: calc(var(--space-unit-static) * 2) var(--card-padding-standard-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }
 
 .card > [data-slot=card-content] {
@@ -1829,7 +2294,7 @@ a[data-variant] {
   display: flex;
   flex-direction: column;
   gap: calc(var(--space-unit-static) * 3);
-  padding: var(--card-padding-static);
+  padding: var(--card-padding-standard-static);
   box-sizing: border-box;
   min-block-size: 0;
   overflow: hidden;
@@ -1846,7 +2311,7 @@ a[data-variant] {
 
 .card [data-slot=card-title] {
   margin: 0;
-  font-size: var(--card-title-size-static);
+  font-size: var(--card-title-size-standard-static);
   font-weight: var(--weight-heading-static);
   line-height: var(--line-heading-static);
   color: var(--color-text-static);
@@ -1862,7 +2327,7 @@ a[data-variant] {
 .card [data-slot=card-description] {
   margin: 0;
   font-size: calc(var(--text-size-body-static) * 0.875);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }
 
 .card [data-slot=card-footer] {
@@ -1871,7 +2336,7 @@ a[data-variant] {
   gap: calc(var(--space-unit-static) * 2);
   margin-block-start: auto;
   font-size: calc(var(--text-size-body-static) * 0.875);
-  color: var(--card-description-color-static);
+  color: var(--card-description-color-standard-static);
 }
 
 /* Table - native table semantics, shadcn-like rows. */
@@ -1891,16 +2356,16 @@ table caption {
 
 table th {
   text-align: start;
-  font-weight: var(--table-head-weight-static);
-  color: var(--table-head-color-static);
-  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
-  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
+  font-weight: var(--table-head-weight-standard-static);
+  color: var(--table-head-color-standard-static);
+  padding: var(--table-cell-padding-block-standard-static) var(--table-cell-padding-inline-standard-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-standard-static);
   vertical-align: bottom;
 }
 
 table td {
-  padding: var(--table-cell-padding-block-static) var(--table-cell-padding-inline-static);
-  border-block-end: var(--border-width-static) solid var(--table-row-border-static);
+  padding: var(--table-cell-padding-block-standard-static) var(--table-cell-padding-inline-standard-static);
+  border-block-end: var(--border-width-static) solid var(--table-row-border-standard-static);
   vertical-align: middle;
 }
 
@@ -1909,7 +2374,7 @@ table tbody tr {
 }
 
 table tbody tr:hover {
-  background: var(--table-row-background-hover);
+  background: var(--table-row-background-standard-hover);
 }
 
 table tbody tr:last-child td {
@@ -1920,7 +2385,7 @@ table tbody tr:last-child td {
    Base input/label styling lives in base/elements; this covers field anatomy. */
 [data-field] {
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
 }
 
 [data-field] p {
@@ -1929,7 +2394,7 @@ table tbody tr:last-child td {
 
 [data-field-description] {
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 
 [data-field-error] {
@@ -1958,7 +2423,7 @@ div:has(> input[type=color]) > input[type=text] {
 /* Form - declarative JSON Schema rendering. */
 form {
   display: grid;
-  gap: var(--form-gap-static);
+  gap: var(--form-gap-standard-static);
 }
 
 /* Fieldset groups */
@@ -1967,7 +2432,7 @@ form fieldset {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
   min-inline-size: 0;
 }
 
@@ -1982,7 +2447,7 @@ form legend + p,
 form fieldset > p {
   margin: 0;
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 
 /* An error paragraph trails the field content inside a fieldset. */
@@ -1999,7 +2464,7 @@ form div:has(> [aria-invalid=true]) > p {
 form fieldset > div,
 form > div > div {
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
 }
 
 /* Checkbox lists inside fieldsets */
@@ -2033,31 +2498,31 @@ form[data-disabled] {
   justify-content: space-between;
   gap: calc(var(--space-unit-static) * 2);
   width: 100%;
-  min-height: var(--select-height-static);
-  border: var(--border-width-static) solid var(--select-border-static);
-  border-radius: var(--select-radius-static);
-  background: var(--select-background-static);
-  color: var(--select-color-static);
-  padding: var(--input-padding-block-static) var(--input-padding-inline-static);
-  font-size: var(--input-font-size-static);
+  min-height: var(--select-height-standard-static);
+  border: var(--border-width-static) solid var(--select-border-standard-static);
+  border-radius: var(--select-radius-standard-static);
+  background: var(--select-background-standard-static);
+  color: var(--select-color-standard-static);
+  padding: var(--input-padding-block-standard-static) var(--input-padding-inline-standard-static);
+  font-size: var(--input-font-size-standard-static);
   font-weight: var(--weight-body-static);
   text-align: start;
   transition: border-color var(--motion-interaction-static) var(--ease-interaction-static), box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 [data-select-trigger]:hover {
-  background: var(--select-background-static);
-  border-color: color-mix(in oklch, var(--select-border-static), var(--color-text-static) 20%);
+  background: var(--select-background-standard-hover);
+  border-color: var(--select-border-standard-hover);
 }
 
 [data-select-trigger]:focus-visible {
   outline: none;
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 [data-select-trigger] [data-select-value][data-placeholder] {
-  color: var(--input-placeholder-color-static);
+  color: var(--input-placeholder-color-standard-static);
 }
 
 [data-select-icon] {
@@ -2071,15 +2536,15 @@ form[data-disabled] {
 }
 
 [data-select-content] {
-  z-index: var(--popover-z-static);
-  min-width: var(--popover-min-width-static);
+  z-index: var(--popover-z-standard-static);
+  min-width: var(--popover-min-width-standard-static);
   max-height: min(var(--overlay-content-max-static), 80vh);
   overflow: hidden auto;
-  border: var(--border-width-static) solid var(--popover-border-static);
-  background: var(--popover-background-static);
-  color: var(--popover-color-static);
-  border-radius: var(--popover-radius-static);
-  box-shadow: var(--popover-shadow-static);
+  border: var(--border-width-static) solid var(--popover-border-standard-static);
+  background: var(--popover-background-standard-static);
+  color: var(--popover-color-standard-static);
+  border-radius: var(--popover-radius-standard-static);
+  box-shadow: var(--popover-shadow-standard-static);
 }
 
 /* Opacity-only: bits-ui positions content with an inline transform. */
@@ -2092,26 +2557,26 @@ form[data-disabled] {
 }
 
 [data-select-viewport] {
-  padding: var(--popover-padding-static);
+  padding: var(--popover-padding-standard-static);
 }
 
 [data-select-item] {
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--menu-item-gap-static);
+  gap: var(--menu-item-gap-standard-static);
   width: 100%;
-  padding: var(--menu-item-padding-block-static) var(--menu-item-padding-inline-static) var(--menu-item-padding-block-static) calc(var(--space-unit-static) * 6);
-  border-radius: var(--select-item-radius-static);
-  font-size: var(--menu-item-font-size-static);
+  padding: var(--menu-item-padding-block-standard-static) var(--menu-item-padding-inline-standard-static) var(--menu-item-padding-block-standard-static) calc(var(--space-unit-static) * 6);
+  border-radius: var(--select-item-radius-standard-static);
+  font-size: var(--menu-item-font-size-standard-static);
   cursor: pointer;
   user-select: none;
   outline: none;
 }
 
 [data-select-item][data-highlighted] {
-  background: var(--select-item-background-highlighted);
-  color: var(--select-item-color-highlighted);
+  background: var(--select-item-background-standard-highlighted);
+  color: var(--select-item-color-standard-highlighted);
 }
 
 [data-select-item][data-disabled] {
@@ -2129,8 +2594,8 @@ form[data-disabled] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--menu-item-indicator-size-static);
-  block-size: var(--menu-item-indicator-size-static);
+  inline-size: var(--menu-item-indicator-size-standard-static);
+  block-size: var(--menu-item-indicator-size-standard-static);
   opacity: 0;
 }
 
@@ -2158,24 +2623,24 @@ form[data-disabled] {
   display: inline-flex;
   align-items: center;
   gap: calc(var(--space-unit-static) * 1);
-  min-height: var(--input-height-static);
-  padding-inline: var(--input-padding-inline-static);
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
-  font-size: var(--input-font-size-static);
-  color: var(--input-color-static);
+  min-height: var(--input-height-standard-static);
+  padding-inline: var(--input-padding-inline-standard-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
+  font-size: var(--input-font-size-standard-static);
+  color: var(--input-color-standard-static);
 }
 
 :focus-visible [data-date-field-input],
 [data-date-field-input]:focus-within {
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 [data-date-field-input][data-invalid],
 [data-date-field-input][aria-invalid=true] {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 
 /* Segments are contenteditable spinbuttons; month/year/day chunks */
@@ -2187,7 +2652,7 @@ form[data-disabled] {
 }
 
 [data-date-field-segment]:not([data-segment=literal]):hover {
-  background: var(--menu-item-background-highlighted);
+  background: var(--menu-item-background-standard-highlighted);
 }
 
 [data-date-field-segment]:focus-visible,
@@ -2197,7 +2662,7 @@ form[data-disabled] {
 }
 
 [data-date-field-segment][data-placeholder] {
-  color: var(--input-placeholder-color-static);
+  color: var(--input-placeholder-color-standard-static);
 }
 
 [data-date-field-segment][aria-disabled=true] {
@@ -2209,37 +2674,37 @@ form[data-disabled] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--input-height-static);
-  height: var(--input-height-static);
+  width: var(--input-height-standard-static);
+  height: var(--input-height-standard-static);
   padding: 0;
-  border-radius: var(--input-radius-static);
+  border-radius: var(--input-radius-standard-static);
   background: transparent;
   border-color: transparent;
   color: var(--color-muted-foreground-static);
 }
 
 [data-popover-trigger]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
   color: var(--color-text-static);
 }
 
 /* --- Calendar popover --- */
 [data-popover-content] {
-  z-index: var(--popover-z-static);
+  z-index: var(--popover-z-standard-static);
   max-height: var(--overlay-content-max-static);
   overflow: hidden auto;
-  border: var(--border-width-static) solid var(--popover-border-static);
-  border-radius: var(--popover-radius-static);
-  background: var(--popover-background-static);
-  color: var(--popover-color-static);
-  box-shadow: var(--popover-shadow-static);
+  border: var(--border-width-static) solid var(--popover-border-standard-static);
+  border-radius: var(--popover-radius-standard-static);
+  background: var(--popover-background-standard-static);
+  color: var(--popover-color-standard-static);
+  box-shadow: var(--popover-shadow-standard-static);
 }
 
 [data-calendar-root] {
   display: grid;
   gap: calc(var(--space-unit-static) * 3);
   padding: calc(var(--space-unit-static) * 3);
-  width: var(--form-columns-min-static);
+  width: var(--form-columns-min-standard-static);
 }
 
 [data-calendar-header] {
@@ -2270,7 +2735,7 @@ form[data-disabled] {
 
 [data-calendar-prev-button]:hover,
 [data-calendar-next-button]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
   color: var(--color-text-static);
 }
 
@@ -2315,7 +2780,7 @@ form[data-disabled] {
 }
 
 [data-calendar-day]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
 }
 
 [data-calendar-day][data-today] {
@@ -2347,11 +2812,11 @@ form[data-disabled] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--tabs-height-static);
+  height: var(--tabs-height-standard-static);
   padding: calc(var(--space-unit-static) * 1);
   border-radius: var(--radius-control-static);
-  background: var(--tabs-list-background-static);
-  color: var(--tabs-list-color-static);
+  background: var(--tabs-list-background-standard-static);
+  color: var(--tabs-list-color-standard-static);
 }
 
 [data-tabs-trigger], [role=tab] {
@@ -2359,25 +2824,25 @@ form[data-disabled] {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  padding: var(--tabs-trigger-padding-block-static) var(--tabs-trigger-padding-inline-static);
+  padding: var(--tabs-trigger-padding-block-standard-static) var(--tabs-trigger-padding-inline-standard-static);
   border-radius: calc(var(--radius-control-static) - 2px);
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-ui-static);
   border: var(--border-width-static) solid transparent;
-  background: var(--tabs-trigger-background-static);
-  color: var(--tabs-trigger-color-static);
+  background: var(--tabs-trigger-background-standard-static);
+  color: var(--tabs-trigger-color-standard-static);
   min-height: auto;
   transition: color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 [data-tabs-trigger]:hover, [role=tab]:hover {
-  background: var(--tabs-trigger-background-static);
-  color: var(--tabs-trigger-color-hover);
+  background: var(--tabs-trigger-background-standard-static);
+  color: var(--tabs-trigger-color-standard-hover);
 }
 
 [data-tabs-trigger][data-state=active], [role=tab][aria-selected=true] {
-  background: var(--tabs-trigger-background-active);
-  color: var(--tabs-trigger-color-active);
+  background: var(--tabs-trigger-background-standard-active);
+  color: var(--tabs-trigger-color-standard-active);
   box-shadow: var(--shadow-rest-static);
 }
 
@@ -2420,7 +2885,7 @@ form[data-disabled] {
 [data-accordion-root] details {
   interpolate-size: allow-keywords;
   overflow: clip;
-  border-block-end: var(--border-width-static) solid var(--accordion-border-static);
+  border-block-end: var(--border-width-static) solid var(--accordion-border-standard-static);
 }
 
 [data-accordion-root] details summary {
@@ -2428,10 +2893,10 @@ form[data-disabled] {
   cursor: pointer;
   position: relative;
   list-style: none;
-  padding: var(--accordion-trigger-padding-block-static) calc(var(--space-unit-static) * 8) var(--accordion-trigger-padding-block-static) 0;
+  padding: var(--accordion-trigger-padding-block-standard-static) calc(var(--space-unit-static) * 8) var(--accordion-trigger-padding-block-standard-static) 0;
   font-size: var(--text-size-body-static);
   font-weight: var(--weight-ui-static);
-  color: var(--accordion-trigger-color-static);
+  color: var(--accordion-trigger-color-standard-static);
   text-align: start;
   transition: color var(--motion-interaction-static) var(--ease-interaction-static);
 }
@@ -2461,7 +2926,7 @@ form[data-disabled] {
 [data-accordion-root] details::details-content {
   height: 0;
   overflow-y: clip;
-  transition: content-visibility var(--accordion-transition-static) allow-discrete, height var(--accordion-transition-static) var(--ease-interaction-static);
+  transition: content-visibility var(--accordion-transition-standard-static) allow-discrete, height var(--accordion-transition-standard-static) var(--ease-interaction-static);
 }
 
 [data-accordion-root] details[open]::details-content {
@@ -2470,7 +2935,7 @@ form[data-disabled] {
 
 [data-accordion-content] {
   font-size: var(--text-size-body-static);
-  color: var(--accordion-content-color-static);
+  color: var(--accordion-content-color-standard-static);
   padding-block-end: calc(var(--space-unit-static) * 4);
 }
 
@@ -2489,8 +2954,8 @@ label:has(input[type=checkbox]) {
 }
 
 input[type=checkbox] {
-  width: var(--checkbox-size-static);
-  height: var(--checkbox-size-static);
+  width: var(--checkbox-size-standard-static);
+  height: var(--checkbox-size-standard-static);
   accent-color: var(--color-accent-static);
 }
 
@@ -2521,12 +2986,12 @@ input[type=checkbox] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--checkbox-size-static);
-  block-size: var(--checkbox-size-static);
+  inline-size: var(--checkbox-size-standard-static);
+  block-size: var(--checkbox-size-standard-static);
   flex-shrink: 0;
-  border: var(--border-width-static) solid var(--checkbox-border-static);
-  border-radius: var(--checkbox-radius-static);
-  background: var(--checkbox-background-static);
+  border: var(--border-width-static) solid var(--checkbox-border-standard-static);
+  border-radius: var(--checkbox-radius-standard-static);
+  background: var(--checkbox-background-standard-static);
   color: transparent;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static), border-color var(--motion-interaction-static) var(--ease-interaction-static), color var(--motion-interaction-static) var(--ease-interaction-static);
 }
@@ -2543,14 +3008,15 @@ input[type=checkbox] {
 
 [data-checkbox-root] > span[data-state=checked],
 [data-checkbox-root] > span[data-state=indeterminate] {
-  background: var(--checkbox-background-checked);
-  border-color: var(--checkbox-border-checked);
-  color: var(--checkbox-color-static);
+  background: var(--checkbox-background-standard-checked);
+  border-color: var(--checkbox-border-standard-checked);
+  color: var(--checkbox-color-standard-static);
 }
 
+/* checked + hover: compound states are out of the matrix; mixed explicitly here. */
 [data-checkbox-root]:hover > span[data-state=checked],
 [data-checkbox-root]:hover > span[data-state=indeterminate] {
-  background: color-mix(in oklch, var(--checkbox-background-checked), var(--color-base-light-inverse-static) 10%);
+  background: color-mix(in oklab, var(--checkbox-background-standard-checked), var(--color-interaction-static) 10%);
 }
 
 /* Radio group (bits-ui) - root is a group; items are buttons acting as radios. */
@@ -2564,20 +3030,20 @@ input[type=checkbox] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--radio-size-static);
-  block-size: var(--radio-size-static);
+  inline-size: var(--radio-size-standard-static);
+  block-size: var(--radio-size-standard-static);
   flex-shrink: 0;
   padding: 0;
   min-height: 0;
-  border: var(--border-width-static) solid var(--radio-border-static);
+  border: var(--border-width-static) solid var(--radio-border-standard-static);
   border-radius: 50%;
-  background: var(--radio-background-static);
+  background: var(--radio-background-standard-static);
   transition: background var(--motion-interaction-static) var(--ease-interaction-static), border-color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 [data-radio-group-item]:hover {
-  background: var(--radio-background-static);
-  border-color: color-mix(in oklch, var(--radio-border-static), var(--color-text-static) 30%);
+  background: var(--radio-background-standard-hover);
+  border-color: var(--radio-border-standard-hover);
 }
 
 [data-radio-group-item]:focus-visible {
@@ -2586,16 +3052,16 @@ input[type=checkbox] {
 }
 
 [data-radio-group-item][data-state=checked] {
-  background: var(--radio-background-checked);
-  border-color: var(--radio-background-checked);
+  background: var(--radio-background-standard-checked);
+  border-color: var(--radio-background-standard-checked);
 }
 
 [data-radio-group-item][data-state=checked]::after {
   content: "";
-  inline-size: calc(var(--radio-size-static) / 2.5);
-  block-size: calc(var(--radio-size-static) / 2.5);
+  inline-size: calc(var(--radio-size-standard-static) / 2.5);
+  block-size: calc(var(--radio-size-standard-static) / 2.5);
   border-radius: 50%;
-  background: var(--radio-dot-static);
+  background: var(--radio-dot-standard-static);
 }
 
 [data-radio-group-item][data-disabled] {
@@ -2605,8 +3071,8 @@ input[type=checkbox] {
 
 /* Native radio inputs */
 input[type=radio] {
-  width: var(--radio-size-static);
-  height: var(--radio-size-static);
+  width: var(--radio-size-standard-static);
+  height: var(--radio-size-standard-static);
   accent-color: var(--color-accent-static);
 }
 
@@ -2617,30 +3083,30 @@ button[data-switch-root],
 button[role=switch] {
   position: relative;
   display: block;
-  width: var(--switch-width-static);
-  height: var(--switch-height-static);
-  min-height: var(--switch-height-static);
+  width: var(--switch-width-standard-static);
+  height: var(--switch-height-standard-static);
+  min-height: var(--switch-height-standard-static);
   padding: 0;
   border-radius: var(--radius-full-static);
-  background: var(--switch-track-static);
+  background: var(--switch-track-standard-static);
   border: var(--border-width-static) solid transparent;
   transition: background var(--motion-interaction-static) var(--ease-interaction-static);
 }
 
 button[data-switch-root]:hover,
 button[role=switch]:hover {
-  background: var(--switch-track-hover);
+  background: var(--switch-track-standard-hover);
 }
 
 button[data-switch-root][data-state=checked],
 button[role=switch][data-state=checked] {
-  background: var(--switch-track-checked);
+  background: var(--switch-track-standard-checked);
 }
 
 button[data-switch-root]:focus-visible,
 button[role=switch]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 button[data-switch-root][data-disabled],
@@ -2660,10 +3126,10 @@ button[role=switch] > span,
   inset-inline-start: calc(var(--space-unit-static) * 0.5);
   translate: 0 -50%;
   display: block;
-  width: var(--switch-thumb-size-static);
-  height: var(--switch-thumb-size-static);
+  width: var(--switch-thumb-size-standard-static);
+  height: var(--switch-thumb-size-standard-static);
   border-radius: 50%;
-  background: var(--switch-thumb-static);
+  background: var(--switch-thumb-standard-static);
   box-shadow: var(--shadow-rest-static);
   transition: translate var(--motion-interaction-static) var(--ease-interaction-static), background var(--motion-interaction-static) var(--ease-interaction-static);
 }
@@ -2672,29 +3138,29 @@ button[data-switch-root][data-state=checked] > *,
 button[role=switch][data-state=checked] > span,
 [data-switch-root][data-state=checked] [data-switch-thumb],
 [role=switch][data-state=checked] [data-switch-thumb] {
-  background: var(--switch-thumb-checked);
-  translate: calc(var(--switch-width-static) - var(--switch-thumb-size-static) - var(--space-unit-static) * 1 - 2 * var(--border-width-static)) -50%;
+  background: var(--switch-thumb-standard-checked);
+  translate: calc(var(--switch-width-standard-static) - var(--switch-thumb-size-standard-static) - var(--space-unit-static) * 1 - 2 * var(--border-width-static)) -50%;
 }
 
 /* Toggle (bits-ui) - default (secondary) button with a pressed state. */
 [data-toggle-root] {
-  background: var(--button-background-static);
-  color: var(--button-color-static);
-  border-color: var(--button-border-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  border-color: var(--button-border-standard-static);
 }
 
 [data-toggle-root]:hover {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 [data-toggle-root][data-state=on] {
-  background: var(--button-background-static);
-  color: var(--button-color-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
 }
 
 [data-toggle-root][data-state=on]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
 }
 
 /* Buttons show state: an "on" icon carries the semantic positive colour. */
@@ -2704,23 +3170,23 @@ button[role=switch][data-state=checked] > span,
 }
 
 [data-toggle-root][aria-pressed=true] {
-  background: var(--button-background-static);
-  color: var(--button-color-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
 }
 
 /* Progress */
 [role=progressbar], [data-progress-root] {
   position: relative;
-  height: var(--progress-height-static);
+  height: var(--progress-height-standard-static);
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-full-static);
-  background: var(--progress-track-static);
+  background: var(--progress-track-standard-static);
 }
 
 [role=progressbar] > div, [data-progress-indicator] {
   height: 100%;
-  background: var(--progress-indicator-static);
+  background: var(--progress-indicator-standard-static);
   border-radius: inherit;
   transition: width var(--motion-surface-static) var(--ease-interaction-static), transform var(--motion-surface-static) var(--ease-interaction-static);
 }
@@ -2751,28 +3217,28 @@ button[role=switch][data-state=checked] > span,
 
 [data-slider-track] {
   position: relative;
-  height: var(--progress-height-static);
+  height: var(--progress-height-standard-static);
   width: 100%;
   flex-grow: 1;
   overflow: hidden;
   border-radius: var(--radius-full-static);
-  background: var(--slider-track-static);
+  background: var(--slider-track-standard-static);
 }
 
 [data-slider-range] {
   position: absolute;
   height: 100%;
-  background: var(--slider-range-static);
+  background: var(--slider-range-standard-static);
   border-radius: inherit;
 }
 
 [data-slider-thumb] {
   display: block;
-  width: var(--slider-thumb-size-static);
-  height: var(--slider-thumb-size-static);
+  width: var(--slider-thumb-size-standard-static);
+  height: var(--slider-thumb-size-standard-static);
   border-radius: 50%;
-  border: 2px solid var(--slider-thumb-border-static);
-  background: var(--slider-thumb-static);
+  border: 2px solid var(--slider-thumb-border-standard-static);
+  background: var(--slider-thumb-standard-static);
   box-shadow: var(--shadow-rest-static);
   transition: box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
 }
@@ -2790,7 +3256,7 @@ button[role=switch][data-state=checked] > span,
 /* Separator */
 [role=separator], [data-separator-root], hr {
   flex-shrink: 0;
-  background: var(--separator-color-static);
+  background: var(--separator-color-standard-static);
   border: none;
 }
 
@@ -2818,12 +3284,12 @@ hr {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--avatar-size-static);
-  block-size: var(--avatar-size-static);
+  inline-size: var(--avatar-size-standard-static);
+  block-size: var(--avatar-size-standard-static);
   flex-shrink: 0;
   overflow: hidden;
   border-radius: var(--radius-full-static);
-  background: var(--avatar-fallback-background-static);
+  background: var(--avatar-fallback-background-standard-static);
 }
 
 [data-avatar] > img {
@@ -2841,23 +3307,23 @@ hr {
   block-size: 100%;
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-ui-static);
-  color: var(--avatar-fallback-color-static);
+  color: var(--avatar-fallback-color-standard-static);
   user-select: none;
 }
 
 [data-avatar][data-size=sm] {
-  inline-size: var(--avatar-size-sm-static);
-  block-size: var(--avatar-size-sm-static);
+  inline-size: var(--avatar-size-sm-standard-static);
+  block-size: var(--avatar-size-sm-standard-static);
 }
 
 [data-avatar][data-size=lg] {
-  inline-size: var(--avatar-size-lg-static);
-  block-size: var(--avatar-size-lg-static);
+  inline-size: var(--avatar-size-lg-standard-static);
+  block-size: var(--avatar-size-lg-standard-static);
 }
 
 [data-avatar][data-size=md] {
-  inline-size: var(--avatar-size-static);
-  block-size: var(--avatar-size-static);
+  inline-size: var(--avatar-size-standard-static);
+  block-size: var(--avatar-size-standard-static);
 }
 
 /* Floating surfaces: Popover / Dropdown / Context / Navigation content.
@@ -2866,15 +3332,15 @@ hr {
 [data-dropdown-menu-content],
 [data-context-menu-content],
 [data-menu-content] {
-  z-index: var(--popover-z-static);
+  z-index: var(--popover-z-standard-static);
   min-width: 8rem;
   overflow: hidden;
-  border-radius: var(--popover-radius-static);
-  border: var(--border-width-static) solid var(--popover-border-static);
-  background: var(--popover-background-static);
-  color: var(--popover-color-static);
-  padding: var(--popover-padding-static);
-  box-shadow: var(--popover-shadow-static);
+  border-radius: var(--popover-radius-standard-static);
+  border: var(--border-width-static) solid var(--popover-border-standard-static);
+  background: var(--popover-background-standard-static);
+  color: var(--popover-color-standard-static);
+  padding: var(--popover-padding-standard-static);
+  box-shadow: var(--popover-shadow-standard-static);
 }
 
 /* Opacity-only: bits-ui positions content with an inline transform. */
@@ -2901,18 +3367,18 @@ hr {
   cursor: default;
   user-select: none;
   align-items: center;
-  gap: var(--menu-item-gap-static);
-  border-radius: var(--menu-item-radius-static);
-  padding: var(--menu-item-padding-block-static) var(--menu-item-padding-inline-static);
-  font-size: var(--menu-item-font-size-static);
+  gap: var(--menu-item-gap-standard-static);
+  border-radius: var(--menu-item-radius-standard-static);
+  padding: var(--menu-item-padding-block-standard-static) var(--menu-item-padding-inline-standard-static);
+  font-size: var(--menu-item-font-size-standard-static);
   outline: none;
 }
 
 [data-dropdown-menu-item][data-highlighted],
 [data-context-menu-item][data-highlighted],
 [data-menu-item][data-highlighted] {
-  background: var(--menu-item-background-highlighted);
-  color: var(--menu-item-color-highlighted);
+  background: var(--menu-item-background-standard-highlighted);
+  color: var(--menu-item-color-standard-highlighted);
 }
 
 [data-dropdown-menu-item][data-disabled],
@@ -2928,14 +3394,14 @@ hr {
 [data-menu-separator] {
   height: var(--border-width-static);
   background: var(--color-border-static);
-  margin: calc(var(--space-unit-static) * 1) calc(-1 * var(--popover-padding-static));
+  margin: calc(var(--space-unit-static) * 1) calc(-1 * var(--popover-padding-standard-static));
 }
 
 /* Group labels */
 [data-dropdown-menu-group-heading],
 [data-context-menu-group-heading],
 [data-menu-group-heading] {
-  padding: calc(var(--space-unit-static) * 1.5) var(--menu-item-padding-inline-static);
+  padding: calc(var(--space-unit-static) * 1.5) var(--menu-item-padding-inline-standard-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
   font-weight: var(--weight-ui-static);
   color: var(--color-muted-foreground-static);
@@ -2953,8 +3419,8 @@ hr {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--menu-item-indicator-size-static);
-  block-size: var(--menu-item-indicator-size-static);
+  inline-size: var(--menu-item-indicator-size-standard-static);
+  block-size: var(--menu-item-indicator-size-standard-static);
 }
 
 /* Popover-specific: roomy body */
@@ -2979,20 +3445,20 @@ hr {
 /* Dropdown menu - shares the menu surface styles in _popover.scss.
    This file holds dropdown-specific parts. */
 [data-dropdown-menu-trigger] {
-  background: var(--button-background-static);
-  color: var(--button-color-static);
-  border-color: var(--button-border-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
+  border-color: var(--button-border-standard-static);
   box-shadow: var(--shadow-rest-static);
 }
 
 [data-dropdown-menu-trigger]:hover {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 [data-dropdown-menu-trigger][data-state=open] {
-  background: var(--button-background-hover);
-  color: var(--button-color-hover);
+  background: var(--button-background-standard-hover);
+  color: var(--button-color-standard-hover);
 }
 
 /* Submenu triggers carry a chevron */
@@ -3038,16 +3504,16 @@ hr {
 
 /* Tooltip (bits-ui) - inverted surface. */
 [data-tooltip-content] {
-  z-index: calc(var(--popover-z-static) + 10);
+  z-index: calc(var(--popover-z-standard-static) + 10);
   width: fit-content;
   max-width: 18rem;
-  border-radius: var(--tooltip-radius-static);
-  border: var(--border-width-static) solid var(--tooltip-border-static);
-  background: var(--tooltip-background-static);
-  color: var(--tooltip-color-static);
-  padding: var(--tooltip-padding-block-static) var(--tooltip-padding-inline-static);
-  font-size: var(--tooltip-font-size-static);
-  box-shadow: var(--tooltip-shadow-static);
+  border-radius: var(--tooltip-radius-standard-static);
+  border: var(--border-width-static) solid var(--tooltip-border-standard-static);
+  background: var(--tooltip-background-standard-static);
+  color: var(--tooltip-color-standard-static);
+  padding: var(--tooltip-padding-block-standard-static) var(--tooltip-padding-inline-standard-static);
+  font-size: var(--tooltip-font-size-standard-static);
+  box-shadow: var(--tooltip-shadow-standard-static);
 }
 
 /* Opacity-only: bits-ui positions content with an inline transform. */
@@ -3061,35 +3527,35 @@ hr {
 }
 
 [data-tooltip-content] > svg {
-  fill: var(--tooltip-background-static);
+  fill: var(--tooltip-background-standard-static);
 }
 
 /* Dialog (bits-ui) - overlay, sheet and anatomy; consumes dialog tokens. */
 [data-dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--dialog-z-static);
-  background: var(--dialog-overlay-static);
+  z-index: var(--dialog-z-standard-static);
+  background: var(--dialog-overlay-standard-static);
 }
 
 [data-dialog-content] {
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: var(--dialog-z-static);
+  z-index: var(--dialog-z-standard-static);
   display: grid;
-  gap: var(--dialog-gap-static);
+  gap: var(--dialog-gap-standard-static);
   width: 100%;
-  max-width: var(--dialog-max-width-static);
-  max-height: var(--dialog-max-height-static);
+  max-width: var(--dialog-max-width-standard-static);
+  max-height: var(--dialog-max-height-standard-static);
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: var(--border-width-static) solid var(--dialog-border-static);
-  background: var(--dialog-background-static);
-  color: var(--dialog-color-static);
-  padding: var(--dialog-padding-static);
-  border-radius: var(--dialog-radius-static);
-  box-shadow: var(--dialog-shadow-static);
+  border: var(--border-width-static) solid var(--dialog-border-standard-static);
+  background: var(--dialog-background-standard-static);
+  color: var(--dialog-color-standard-static);
+  padding: var(--dialog-padding-standard-static);
+  border-radius: var(--dialog-radius-standard-static);
+  box-shadow: var(--dialog-shadow-standard-static);
 }
 
 /* bits-ui transition hooks: fade + settle */
@@ -3117,7 +3583,7 @@ hr {
 
 [data-dialog-description] {
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 
 [data-dialog-header] {
@@ -3156,7 +3622,7 @@ hr {
 
 [data-dialog-close]:hover {
   opacity: 1;
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
 }
 
 @keyframes wacss-fade-in {
@@ -3193,28 +3659,28 @@ hr {
 [data-alert-dialog-overlay] {
   position: fixed;
   inset: 0;
-  z-index: var(--dialog-z-static);
-  background: var(--dialog-overlay-static);
+  z-index: var(--dialog-z-standard-static);
+  background: var(--dialog-overlay-standard-static);
 }
 
 [data-alert-dialog-content] {
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: var(--dialog-z-static);
+  z-index: var(--dialog-z-standard-static);
   display: grid;
-  gap: var(--dialog-gap-static);
+  gap: var(--dialog-gap-standard-static);
   width: 100%;
-  max-width: var(--dialog-max-width-static);
-  max-height: var(--dialog-max-height-static);
+  max-width: var(--dialog-max-width-standard-static);
+  max-height: var(--dialog-max-height-standard-static);
   overflow-y: auto;
   transform: translate(-50%, -50%);
-  border: var(--border-width-static) solid var(--dialog-border-static);
-  background: var(--dialog-background-static);
-  color: var(--dialog-color-static);
-  padding: var(--dialog-padding-static);
-  border-radius: var(--dialog-radius-static);
-  box-shadow: var(--dialog-shadow-static);
+  border: var(--border-width-static) solid var(--dialog-border-standard-static);
+  background: var(--dialog-background-standard-static);
+  color: var(--dialog-color-standard-static);
+  padding: var(--dialog-padding-standard-static);
+  border-radius: var(--dialog-radius-standard-static);
+  box-shadow: var(--dialog-shadow-standard-static);
 }
 
 [data-alert-dialog-overlay][data-state=open] {
@@ -3237,12 +3703,12 @@ hr {
 
 [data-alert-dialog-description] {
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  color: var(--field-description-color-standard-static);
 }
 
 [data-alert-dialog-action][data-variant=destructive],
 [data-alert-dialog-cancel] {
-  min-height: var(--button-height-static);
+  min-height: var(--button-height-standard-static);
 }
 
 /* Navigation menu (bits-ui) - inline triggers with a floating viewport. */
@@ -3258,7 +3724,7 @@ hr {
 
 [data-navigation-menu-trigger] {
   background: transparent;
-  color: var(--nav-trigger-color-static);
+  color: var(--nav-trigger-color-standard-static);
   border-color: transparent;
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-ui-static);
@@ -3266,13 +3732,13 @@ hr {
 }
 
 [data-navigation-menu-trigger]:hover {
-  background: var(--button-background-hover);
-  color: var(--nav-trigger-color-active);
+  background: var(--button-background-standard-hover);
+  color: var(--nav-trigger-color-standard-active);
 }
 
 [data-navigation-menu-trigger][data-state=open],
 [data-navigation-menu-trigger][data-active] {
-  color: var(--nav-trigger-color-active);
+  color: var(--nav-trigger-color-standard-active);
 }
 
 [data-navigation-menu-link] {
@@ -3280,7 +3746,7 @@ hr {
   gap: calc(var(--space-unit-static) * 1);
   padding: calc(var(--space-unit-static) * 2);
   border-radius: calc(var(--radius-increment-static) * 2);
-  color: var(--nav-link-color-static);
+  color: var(--nav-link-color-standard-static);
   text-decoration: none;
   font-size: var(--text-size-ui-static);
   line-height: var(--line-body-static);
@@ -3289,22 +3755,22 @@ hr {
 
 [data-navigation-menu-link]:hover,
 [data-navigation-menu-link][data-active] {
-  background: var(--menu-item-background-highlighted);
+  background: var(--menu-item-background-standard-highlighted);
 }
 
 [data-navigation-menu-link] > span:last-child:not(:only-child) {
-  color: var(--nav-link-description-color-static);
+  color: var(--nav-link-description-color-standard-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
 }
 
 [data-navigation-menu-content] {
   position: absolute;
-  z-index: var(--popover-z-static);
-  border-radius: var(--nav-content-radius-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
-  background: var(--nav-content-background-static);
-  padding: var(--nav-content-padding-static);
-  box-shadow: var(--nav-content-shadow-static);
+  z-index: var(--popover-z-standard-static);
+  border-radius: var(--nav-content-radius-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
+  background: var(--nav-content-background-standard-static);
+  padding: var(--nav-content-padding-standard-static);
+  box-shadow: var(--nav-content-shadow-standard-static);
 }
 
 [data-navigation-menu-content] ul {
@@ -3318,12 +3784,12 @@ hr {
 
 [data-navigation-menu-viewport] {
   position: absolute;
-  z-index: calc(var(--popover-z-static) - 1);
+  z-index: calc(var(--popover-z-standard-static) - 1);
   overflow: hidden;
-  border-radius: var(--nav-content-radius-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
-  background: var(--nav-content-background-static);
-  box-shadow: var(--nav-content-shadow-static);
+  border-radius: var(--nav-content-radius-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
+  background: var(--nav-content-background-standard-static);
+  box-shadow: var(--nav-content-shadow-standard-static);
 }
 
 [data-navigation-menu-indicator] {
@@ -3337,8 +3803,8 @@ hr {
 [data-navigation-menu-indicator] > div {
   inline-size: calc(var(--space-unit-static) * 3);
   block-size: calc(var(--space-unit-static) * 1.5);
-  background: var(--nav-content-background-static);
-  border: var(--border-width-static) solid var(--nav-content-border-static);
+  background: var(--nav-content-background-standard-static);
+  border: var(--border-width-static) solid var(--nav-content-border-standard-static);
   border-block-end: none;
   border-start-start-radius: calc(var(--radius-increment-static) * 1);
   border-start-end-radius: calc(var(--radius-increment-static) * 1);
@@ -3423,11 +3889,11 @@ hr {
   --wx-table-drag-over-background: var(--color-muted-static);
   --wx-table-drag-zone-shadow: var(--shadow-overlay-static);
   /* popup / dropdown */
-  --wx-popup-z-index: var(--popover-z-static);
-  --wx-popup-background: var(--popover-background-static);
-  --wx-popup-shadow: var(--popover-shadow-static);
+  --wx-popup-z-index: var(--popover-z-standard-static);
+  --wx-popup-background: var(--popover-background-standard-static);
+  --wx-popup-shadow: var(--popover-shadow-standard-static);
   --wx-popup-border: var(--border-width-static) solid var(--color-border-static);
-  --wx-popup-border-radius: var(--popover-radius-static);
+  --wx-popup-border-radius: var(--popover-radius-standard-static);
   /* checkbox (multi-select) */
   --wx-checkbox-border-width: calc(var(--border-width-static) * 2);
   --wx-checkbox-border-color: var(--color-muted-foreground-static);
@@ -3443,10 +3909,10 @@ hr {
   --wx-input-font-color: var(--color-text-static);
   --wx-input-background: var(--color-base-static);
   --wx-input-placeholder-color: var(--color-muted-foreground-static);
-  --wx-input-border: var(--input-border-static);
-  --wx-input-border-focus: var(--input-border-focus);
-  --wx-input-border-radius: var(--input-radius-static);
-  --wx-input-height: var(--input-height-static);
+  --wx-input-border: var(--input-border-standard-static);
+  --wx-input-border-focus: var(--input-border-standard-focus);
+  --wx-input-border-radius: var(--input-radius-standard-static);
+  --wx-input-height: var(--input-height-standard-static);
 }
 
 [data-datatable-root] *,
@@ -3627,7 +4093,7 @@ hr {
   padding: calc(var(--space-unit-static) * 1.5) calc(var(--space-unit-static) * 2.5);
   padding-inline-end: calc(var(--space-unit-static) * 5);
   background: var(--color-base-static);
-  border: var(--border-width-static) solid var(--input-border-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
   border-radius: var(--radius-control-static);
   font-size: var(--text-size-ui-static);
   color: var(--color-text-static);
@@ -3635,8 +4101,8 @@ hr {
 
 [data-node-link-diagram-root] [data-filter] select:focus-visible {
   outline: none;
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 [data-node-link-diagram-root] [data-search] {
@@ -3656,7 +4122,7 @@ hr {
   inline-size: 16rem;
   padding: calc(var(--space-unit-static) * 2) calc(var(--space-unit-static) * 3);
   background: var(--color-base-static);
-  border: var(--border-width-static) solid var(--input-border-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
   border-radius: var(--radius-control-static);
   font-size: var(--text-size-ui-static);
   color: var(--color-text-static);
@@ -3664,8 +4130,8 @@ hr {
 
 [data-node-link-diagram-root] [data-search] input:focus-visible {
   outline: none;
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 
 [data-node-link-diagram-root] [data-actions] {
@@ -3766,7 +4232,7 @@ hr {
   font-size: var(--text-size-ui-static);
   color: var(--color-muted-foreground-static);
   pointer-events: none;
-  z-index: var(--popover-z-static);
+  z-index: var(--popover-z-standard-static);
 }
 
 /* --- Detail panel --- */
@@ -3782,7 +4248,7 @@ hr {
   border: var(--border-width-static) solid var(--color-border-static);
   border-radius: var(--radius-surface-static);
   box-shadow: var(--shadow-overlay-static);
-  z-index: var(--popover-z-static);
+  z-index: var(--popover-z-standard-static);
 }
 
 [data-node-link-diagram-root] [data-detail-head] {
@@ -3826,15 +4292,15 @@ hr {
   font-family: var(--font-code-static);
   font-size: calc(var(--text-size-body-static) * 0.75);
   padding: 2px calc(var(--space-unit-static) * 1.5);
-  background: var(--button-background-static);
-  color: var(--button-color-static);
+  background: var(--button-background-standard-static);
+  color: var(--button-color-standard-static);
   border: none;
   border-radius: calc(var(--radius-increment-static) * 2);
   cursor: pointer;
 }
 
 [data-node-link-diagram-root] [data-ref]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
 }
 
 /* Breadcrumb - an aria-labelled navigation trail. */
@@ -3889,7 +4355,7 @@ hr {
    this file covers the field anatomy. */
 [data-textarea-root] {
   display: grid;
-  gap: var(--field-gap-static);
+  gap: var(--field-gap-standard-static);
 }
 
 [data-textarea-root] p {
@@ -3902,21 +4368,27 @@ hr {
   resize: vertical;
 }
 
-/* Alert - a block-level callout for messages that deserve attention. */
+/* Alert - a block-level callout for messages that deserve attention.
+   Each data-variant binds one role's L5 tokens; the anatomy reads the
+   component-local current-* aliases. */
 [data-alert-root] {
+  --alert-current-icon: var(--alert-icon-informational-static);
+  --alert-current-background: var(--alert-background-informational-static);
+  --alert-current-border: var(--alert-border-informational-static);
   display: grid;
   grid-template-columns: auto 1fr;
   gap: calc(var(--space-unit-static) * 3);
   align-items: start;
   padding: calc(var(--space-unit-static) * 3) calc(var(--space-unit-static) * 4);
-  border: var(--border-width-static) solid var(--color-border-static);
+  background: var(--alert-current-background);
+  border: var(--border-width-static) solid var(--alert-current-border);
   border-radius: var(--radius-surface-static);
 }
 
 [data-alert-icon] {
   display: inline-flex;
   padding-block-start: 2px;
-  color: var(--alert-icon);
+  color: var(--alert-current-icon);
 }
 
 [data-alert-icon] svg {
@@ -3942,33 +4414,29 @@ hr {
 [data-alert-description] {
   margin: 0;
   font-size: var(--text-size-ui-static);
-  color: var(--field-description-color-static);
+  /* Body copy, not helper text: full-strength ink keeps 4.5:1 on every
+     status surface in both themes (muted ink dipped to 3.7:1 in dark). */
+  color: var(--color-text-static);
   line-height: var(--line-body-static);
 }
 
-/* Variants: tint background + icon from the semantic hue */
-[data-alert-root][data-variant=warning] {
-  --alert-icon: var(--alert-icon-warning-static);
-  background: var(--alert-background-warning-static);
-  border-color: var(--alert-border-warning-static);
-}
-
-[data-alert-root][data-variant=info] {
-  --alert-icon: var(--alert-icon-info-static);
-  background: var(--alert-background-info-static);
-  border-color: var(--alert-border-info-static);
-}
-
+/* Roles: info is informational, then positive / warn / danger. */
 [data-alert-root][data-variant=positive] {
-  --alert-icon: var(--alert-icon-positive-static);
-  background: var(--alert-background-positive-static);
-  border-color: var(--alert-border-positive-static);
+  --alert-current-icon: var(--alert-icon-positive-static);
+  --alert-current-background: var(--alert-background-positive-static);
+  --alert-current-border: var(--alert-border-positive-static);
+}
+
+[data-alert-root][data-variant=warning] {
+  --alert-current-icon: var(--alert-icon-warn-static);
+  --alert-current-background: var(--alert-background-warn-static);
+  --alert-current-border: var(--alert-border-warn-static);
 }
 
 [data-alert-root][data-variant=destructive] {
-  --alert-icon: var(--alert-icon-destructive-static);
-  background: var(--alert-background-destructive-static);
-  border-color: var(--alert-border-destructive-static);
+  --alert-current-icon: var(--alert-icon-danger-static);
+  --alert-current-background: var(--alert-background-danger-static);
+  --alert-current-border: var(--alert-border-danger-static);
 }
 
 /* Skeleton - a quiet placeholder that pulses while content loads. */
@@ -3981,7 +4449,7 @@ hr {
 [data-skeleton-circle],
 [data-skeleton-bar] {
   display: block;
-  background: var(--skeleton-background-static);
+  background: var(--skeleton-background-standard-static);
   animation: wacss-skeleton-pulse calc(var(--motion-ambient-static) * 4) var(--ease-ambient-static) infinite;
 }
 
@@ -4014,13 +4482,13 @@ hr {
 [data-pagination-root] {
   display: inline-flex;
   align-items: center;
-  gap: var(--pagination-gap-static);
+  gap: var(--pagination-gap-standard-static);
 }
 
 [data-pagination-root] > div {
   display: flex;
   align-items: center;
-  gap: var(--pagination-gap-static);
+  gap: var(--pagination-gap-standard-static);
   padding: 0;
 }
 
@@ -4034,10 +4502,10 @@ hr {
   block-size: calc(var(--space-unit-static) * 8);
   min-height: calc(var(--space-unit-static) * 8);
   padding: 0;
-  background: var(--pagination-background-static);
+  background: var(--pagination-background-standard-static);
   border: var(--border-width-static) solid transparent;
   border-radius: var(--radius-control-static);
-  color: var(--pagination-color-static);
+  color: var(--pagination-color-standard-static);
   font-size: var(--text-size-ui-static);
   font-weight: var(--weight-body-static);
   line-height: 1;
@@ -4048,13 +4516,13 @@ hr {
 [data-pagination-prev]:hover,
 [data-pagination-next]:hover,
 [data-pagination-page]:hover {
-  background: var(--pagination-background-hover);
-  color: var(--pagination-color-hover);
+  background: var(--pagination-background-standard-hover);
+  color: var(--pagination-color-standard-hover);
 }
 
 [data-pagination-page][data-selected] {
-  background: var(--pagination-background-selected);
-  color: var(--pagination-color-selected);
+  background: var(--pagination-background-standard-selected);
+  color: var(--pagination-color-standard-selected);
   font-weight: var(--weight-ui-static);
 }
 

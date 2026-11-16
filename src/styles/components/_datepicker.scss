@@ -7,22 +7,22 @@
   display: inline-flex;
   align-items: center;
   gap: calc(var(--space-unit-static) * 1.0);
-  min-height: var(--input-height-static);
-  padding-inline: var(--input-padding-inline-static);
-  border: var(--border-width-static) solid var(--input-border-static);
-  border-radius: var(--input-radius-static);
-  background: var(--input-background-static);
-  font-size: var(--input-font-size-static);
-  color: var(--input-color-static);
+  min-height: var(--input-height-standard-static);
+  padding-inline: var(--input-padding-inline-standard-static);
+  border: var(--border-width-static) solid var(--input-border-standard-static);
+  border-radius: var(--input-radius-standard-static);
+  background: var(--input-background-standard-static);
+  font-size: var(--input-font-size-standard-static);
+  color: var(--input-color-standard-static);
 }
 :focus-visible [data-date-field-input]
 , [data-date-field-input]:focus-within {
-  border-color: var(--input-border-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-focus);
+  border-color: var(--input-border-standard-focus);
+  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
 }
 [data-date-field-input][data-invalid]
 , [data-date-field-input][aria-invalid="true"] {
-  border-color: var(--input-border-invalid);
+  border-color: var(--input-border-standard-invalid);
 }
 
 /* Segments are contenteditable spinbuttons; month/year/day chunks */
@@ -33,7 +33,7 @@
   outline: none;
 }
 [data-date-field-segment]:not([data-segment="literal"]):hover {
-  background: var(--menu-item-background-highlighted);
+  background: var(--menu-item-background-standard-highlighted);
 }
 [data-date-field-segment]:focus-visible
 , [data-date-field-segment][data-focused] {
@@ -41,7 +41,7 @@
   color: var(--color-on-accent-static);
 }
 [data-date-field-segment][data-placeholder] {
-  color: var(--input-placeholder-color-static);
+  color: var(--input-placeholder-color-standard-static);
 }
 [data-date-field-segment][aria-disabled="true"] {
   opacity: var(--opacity-inert-static);
@@ -52,37 +52,37 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--input-height-static);
-  height: var(--input-height-static);
+  width: var(--input-height-standard-static);
+  height: var(--input-height-standard-static);
   padding: 0;
-  border-radius: var(--input-radius-static);
+  border-radius: var(--input-radius-standard-static);
   background: transparent;
   border-color: transparent;
   color: var(--color-muted-foreground-static);
 }
 [data-popover-trigger]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
   color: var(--color-text-static);
 }
 
 /* --- Calendar popover --- */
 
 [data-popover-content] {
-  z-index: var(--popover-z-static);
+  z-index: var(--popover-z-standard-static);
   max-height: var(--overlay-content-max-static);
   overflow: hidden auto;
-  border: var(--border-width-static) solid var(--popover-border-static);
-  border-radius: var(--popover-radius-static);
-  background: var(--popover-background-static);
-  color: var(--popover-color-static);
-  box-shadow: var(--popover-shadow-static);
+  border: var(--border-width-static) solid var(--popover-border-standard-static);
+  border-radius: var(--popover-radius-standard-static);
+  background: var(--popover-background-standard-static);
+  color: var(--popover-color-standard-static);
+  box-shadow: var(--popover-shadow-standard-static);
 }
 
 [data-calendar-root] {
   display: grid;
   gap: calc(var(--space-unit-static) * 3.0);
   padding: calc(var(--space-unit-static) * 3.0);
-  width: var(--form-columns-min-static);
+  width: var(--form-columns-min-standard-static);
 }
 [data-calendar-header] {
   display: flex;
@@ -109,7 +109,7 @@
 }
 [data-calendar-prev-button]:hover
 , [data-calendar-next-button]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
   color: var(--color-text-static);
 }
 
@@ -150,7 +150,7 @@
     , color var(--motion-interaction-static) var(--ease-interaction-static);
 }
 [data-calendar-day]:hover {
-  background: var(--button-background-hover);
+  background: var(--button-background-standard-hover);
 }
 [data-calendar-day][data-today] {
   box-shadow: inset 0 0 0 1px var(--color-accent-static);
