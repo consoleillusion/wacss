@@ -1,13 +1,18 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "label"
+, element: "label"
 , cssProperties:
-    [ 
+    [ "color"
+    , "font-size"
+    , "font-weight"
+    , "line-height"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+} as const satisfies Meta;
 
 export const component =
 { title: "Label"

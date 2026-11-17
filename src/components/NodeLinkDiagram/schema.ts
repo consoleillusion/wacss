@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -6,6 +7,7 @@ export const meta =
     [ "border"
     , "border-radius"
     , "background"
+    , "min-block-size"
     , "toolbar-gap"
     , "toolbar-padding"
     , "toolbar-border-block-end"
@@ -84,15 +86,60 @@ export const meta =
     , "ref-padding"
     , "ref-border-radius"
     , "edge-stroke"
+    , "xy-background-pattern-color"
+    , "xy-edge-stroke"
+    , "xy-edge-stroke-selected"
+    , "xy-minimap-background-color"
+    , "xy-controls-color"
+    , "xy-controls-button-background-color"
+    , "xy-controls-button-background-color-hover"
+    , "xy-controls-button-border-color"
+    , "xy-handle-background-color"
+    , "xy-handle-border-color"
+    , "xy-node-color"
+    , "xy-node-background-color"
+    , "xy-node-border"
+    , "xy-node-border-radius"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { display: "grid"
+        , "grid-template-rows": "auto 1fr"
+        , position: "relative"
+        , overflow: "hidden"
+        }
+    }
+  /* xyflow's custom properties have no type information in their names. */
+, types:
+    { "xy-background-pattern-color": "fill"
+    , "xy-edge-stroke": "edge"
+    , "xy-edge-stroke-selected": "edge"
+    , "xy-minimap-background-color": "fill"
+    , "xy-controls-color": "ink"
+    , "xy-controls-button-background-color": "fill"
+    , "xy-controls-button-background-color-hover": "fill"
+    , "xy-controls-button-border-color": "edge"
+    , "xy-handle-background-color": "fill"
+    , "xy-handle-border-color": "edge"
+    , "xy-node-color": "ink"
+    , "xy-node-background-color": "fill"
+    , "xy-node-border": "other"
+    , "xy-node-border-radius": "other"
+    , "edge-stroke": "ink"
+    , "token-node-border": "other"
+    , "token-node-layer-3-border-color": "edge"
+    , "layout-status-border": "other"
+    , "detail-border": "other"
+    , "ref-padding": "other"
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "NodeLinkDiagram"
 , description:
-    "A pan-and-zoomable node-link diagram of the token hierarchy: primitive → semantic → component → role → state."
+    "A pan-and-zoomable node-link diagram of the token hierarchy: primitive → semantic → component → state."
 , type: "object"
 , properties:
     { ...commonAttributes

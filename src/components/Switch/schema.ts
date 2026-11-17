@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -18,10 +19,29 @@ export const meta =
     , "transition-2"
     , "translate-space"
     , "translate-border-width"
+    , "outline-color"
+    , "outline-offset"
     ]
-, roles: ["standard"]
-, states: ["static", "hover", "checked"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "focus", "checked", "disabled"]
+  // The track and thumb are not named `background`/`color`, so the default
+  // selection channel would be empty. Assign explicit, disjoint channels.
+, channels:
+  { checked: ["track", "thumb"]
+  , focus: ["outline-color"]
+  , hover: ["box-shadow"]
+  , disabled: ["opacity"]
+  }
+, structure:
+  { static:
+    { position: "relative"
+    , display: "block"
+    , padding: "0"
+    , "outline-style": "solid"
+    }
+  , disabled: { cursor: "not-allowed" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Switch"

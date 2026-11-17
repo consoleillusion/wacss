@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -19,11 +20,23 @@ export const meta =
     , "hover-color"
     , "span-border-width"
     , "span-transition"
-    , "span-background-lightness"
+    , "span-interaction"
+    , "box-shadow"
+    , "outline-color"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static", "checked"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "focus", "checked", "unchecked", "disabled"]
+, structure:
+  { static:
+    { display: "inline-flex"
+    , "align-items": "center"
+    , "outline-style": "solid"
+    , cursor: "pointer"
+    }
+  , disabled: { cursor: "not-allowed", "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Checkbox"

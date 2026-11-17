@@ -1,26 +1,46 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "input"
+, element: "input"
 , cssProperties:
     [ "background"
     , "border-color"
+    , "border-width"
     , "color"
-    , "placeholder-color"
     , "border-radius"
     , "padding-block"
     , "padding-inline"
     , "height"
     , "font-size"
-    , "ring"
+    , "gap"
     , "field-description-font-size"
     , "field-error-font-size"
     , "field-error-color"
-    , "gap"
+    , "outline-color"
+    , "outline-width"
+    , "outline-offset"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static", "focus", "invalid"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "focus", "invalid", "disabled"]
+, structure:
+  { static:
+    { display: "flex"
+    , width: "100%"
+    , "border-style": "solid"
+    , "outline-style": "solid"
+    }
+  , disabled: { cursor: "not-allowed", "pointer-events": "none" }
+  }
+, pseudoElements:
+  { "::placeholder": ["color"]
+  }
+, pseudoStructure:
+  { "::placeholder": { static: { opacity: "1" } }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Input"

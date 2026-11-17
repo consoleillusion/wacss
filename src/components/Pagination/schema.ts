@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -6,25 +7,18 @@ export const meta =
     [ "background"
     , "color"
     , "gap"
-    , "prev-inline-size"
-    , "prev-block-size"
-    , "prev-min-height"
-    , "prev-border"
-    , "prev-border-radius"
-    , "prev-font-size"
-    , "prev-font-weight"
-    , "prev-transition"
-    , "page-font-weight"
-    , "prev-opacity"
-    , "ellipsis-inline-size"
-    , "ellipsis-block-size"
-    , "ellipsis-color"
-    , "svg-inline-size"
-    , "svg-block-size"
+    , "font-size"
+    , "font-weight"
     ]
-, roles: ["standard"]
-, states: ["static", "hover", "selected"]
-} as const;
+, variants: ["secondary"]
+, states: ["static"]
+, structure:
+  { static:
+    { display: "inline-flex"
+    , "align-items": "center"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Pagination"

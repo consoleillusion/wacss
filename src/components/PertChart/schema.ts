@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -13,6 +14,7 @@ export const meta =
     , "xy-node-background-color"
     , "xy-node-border"
     , "xy-node-border-radius"
+    , "xy-attribution-background-color"
     , "xy-minimap-background-color"
     , "xy-controls-color"
     , "xy-controls-button-background-color"
@@ -21,6 +23,7 @@ export const meta =
     , "background"
     , "border"
     , "border-radius"
+    , "min-block-size"
     , "pert-node-gap"
     , "pert-node-padding"
     , "pert-node-border"
@@ -54,9 +57,44 @@ export const meta =
     , "edge-stroke"
     , "critical-edge-stroke"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { display: "block"
+        , "inline-size": "100%"
+        , "block-size": "100%"
+        , overflow: "hidden"
+        }
+    }
+  /* xyflow's custom properties cannot be typed from their names. */
+, types:
+    { "xy-background-pattern-color": "fill"
+    , "xy-edge-stroke": "edge"
+    , "xy-edge-stroke-selected": "edge"
+    , "xy-edge-box-shadow-selected": "other"
+    , "xy-handle-background-color": "fill"
+    , "xy-handle-border-color": "edge"
+    , "xy-node-color": "ink"
+    , "xy-node-background-color": "fill"
+    , "xy-node-border": "other"
+    , "xy-node-border-radius": "other"
+    , "xy-attribution-background-color": "fill"
+    , "xy-minimap-background-color": "fill"
+    , "xy-controls-color": "ink"
+    , "xy-controls-button-background-color": "fill"
+    , "xy-controls-button-background-color-hover": "fill"
+    , "xy-controls-button-border-color": "edge"
+    , "border": "other"
+    , "pert-node-border": "other"
+    , "pert-node-transition": "other"
+    , "pert-node-box-shadow": "other"
+    , "svelte-flow-controls-box-shadow": "other"
+    , "svelte-flow-controls-border": "other"
+    , "edge-stroke": "edge"
+    , "critical-edge-stroke": "edge"
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "PertChart"

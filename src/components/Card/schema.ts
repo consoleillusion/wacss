@@ -1,33 +1,37 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "card"
 , cssProperties:
     [ "background"
-    , "figure-background"
-    , "border-color"
     , "color"
-    , "description-color"
+    , "border-color"
+    , "border-width"
     , "border-radius"
     , "padding"
     , "box-shadow"
-    , "title-font-size"
-    , "border-width"
-    , "textarea-gap"
-    , "label-font-size"
-    , "label-color"
-    , "figcaption-padding-space"
-    , "figcaption-font-size"
     , "gap"
-    , "slot-card-header-gap"
+    , "font-size"
     , "font-weight"
     , "line-height"
-    , "font-size"
-    , "slot-card-footer-gap"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary", "primary"]
+, states: ["static", "hover"]
+// Hover lifts the surface instead of tinting its fill.
+, channels: { hover: ["box-shadow"] }
+, structure:
+  { static:
+    { display: "grid"
+    , "grid-template-rows": "auto"
+    , "inline-size": "100%"
+    , "min-inline-size": "0"
+    , overflow: "hidden"
+    , "border-style": "solid"
+    , "box-sizing": "border-box"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Card"

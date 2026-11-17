@@ -1,11 +1,19 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "video"
+, element: "video"
 , cssProperties: []
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { display: "block"
+        , "max-width": "100%"
+        }
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "Video"

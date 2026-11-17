@@ -1,27 +1,45 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "accordion"
+, element: "details"
 , cssProperties:
     [ "border-color"
-    , "trigger-color"
-    , "content-color"
-    , "trigger-padding-block"
-    , "transition"
-    , "details-border-block-end-border-width"
-    , "summary-padding-space"
-    , "summary-font-size"
-    , "summary-font-weight"
-    , "summary-transition"
-    , "summary-color"
-    , "svg-transition"
-    , "details-transition-ease"
-    , "content-font-size"
-    , "content-padding-block-end"
+    , "border-block-end-width"
+    , "color"
+    , "padding-block"
+    , "transition-duration"
     ]
-, roles: ["standard"]
-, states: ["static"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "open"]
+, structure:
+  { static:
+    { "interpolate-size": "allow-keywords"
+    , overflow: "clip"
+    , "inline-size": "100%"
+    , "border-block-end-style": "solid"
+    , cursor: "pointer"
+    , position: "relative"
+    , "list-style": "none"
+    , "text-align": "start"
+    }
+  }
+, pseudoElements:
+  { "::details-content": ["transition-duration"]
+  }
+, pseudoStructure:
+  { "::details-content":
+    { static:
+      { height: "0"
+      , "overflow-y": "clip"
+      , "transition-property": "content-visibility, height"
+      , "transition-behavior": "allow-discrete"
+      }
+    , open: { height: "auto" }
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Accordion"

@@ -1,11 +1,17 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "color-input"
-, cssProperties: []
-, roles: ["standard"]
+, cssProperties: ["gap"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+    { static:
+        { display: "grid"
+        }
+    }
+} as const satisfies Meta;
 
 export const component =
 { title: "Color"

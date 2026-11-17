@@ -1,34 +1,30 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "tabs"
 , cssProperties:
-    [ "list-background"
-    , "list-color"
-    , "trigger-background"
-    , "trigger-color"
-    , "height"
-    , "trigger-padding-block"
-    , "trigger-padding-inline"
-    , "list-padding"
-    , "list-border-radius"
-    , "trigger-border-radius"
-    , "trigger-font-size"
-    , "trigger-font-weight"
-    , "trigger-border"
-    , "trigger-transition"
-    , "trigger-box-shadow"
-    , "trigger-opacity"
-    , "content-margin-block-start"
-    , "content-font-size"
-    , "content-color"
+    [ "background"
+    , "color"
     , "gap"
-    , "trigger-active-background"
-    , "trigger-active-color"
+    , "padding"
+    , "border-radius"
+    , "height"
+    , "font-size"
+    , "font-weight"
+    , "box-shadow"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static", "hover", "active"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "disabled"]
+, structure:
+  { static:
+    { display: "inline-flex"
+    , "align-items": "center"
+    , "justify-content": "center"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Tabs"

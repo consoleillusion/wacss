@@ -1,29 +1,28 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "alert"
 , cssProperties:
-    [ "icon"
-    , "background"
+    [ "background"
+    , "color"
     , "border-color"
-    , "gap"
-    , "padding"
     , "border-width"
     , "border-radius"
-    , "svg-inline-size"
-    , "svg-block-size"
-    , "body-gap"
-    , "title-font-size"
-    , "title-font-weight"
-    , "title-line-height"
-    , "title-color"
-    , "description-font-size"
-    , "description-color"
-    , "description-line-height"
+    , "padding"
+    , "gap"
     ]
-, roles: ["standard", "informational", "positive", "warn", "danger"]
+, variants: ["secondary", "informational", "positive", "warning", "danger"]
 , states: ["static"]
-} as const;
+, structure:
+  { static:
+    { display: "grid"
+    , "grid-template-columns": "auto 1fr"
+    , "align-items": "start"
+    , "border-style": "solid"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Alert"

@@ -1,16 +1,24 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
 { name: "separator"
+, element: "hr"
 , cssProperties:
-    [ "color"
+    [ "background"
     , "height"
-    , "width"
-    , "hr-margin"
+    , "margin"
     ]
-, roles: ["standard"]
+, variants: ["secondary"]
 , states: ["static"]
-} as const;
+, structure:
+  { static:
+    { border: "none"
+    , "flex-shrink": "0"
+    , "inline-size": "100%"
+    }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Separator"

@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -13,10 +14,20 @@ export const meta =
     , "group-item-outline"
     , "group-item-opacity"
     , "input-accent-color"
+    , "box-shadow"
+    , "outline-color"
+    , "opacity"
     ]
-, roles: ["standard"]
-, states: ["static", "hover", "checked"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "focus", "checked", "disabled"]
+, structure:
+  { static:
+    { display: "grid"
+    , "outline-style": "solid"
+    }
+  , disabled: { "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "RadioGroup"

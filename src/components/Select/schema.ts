@@ -1,3 +1,4 @@
+import type { Meta } from "../../tokens/types";
 import { commonAttributes } from "../component";
 
 export const meta =
@@ -27,10 +28,27 @@ export const meta =
     , "item-indicator-inset-inline-start"
     , "scroll-up-button-height"
     , "scroll-up-button-color"
+    , "opacity"
+    , "outline-color"
+    , "outline-offset"
+    , "box-shadow"
     ]
-, roles: ["standard"]
-, states: ["static", "hover", "highlighted"]
-} as const;
+, variants: ["secondary"]
+, states: ["static", "hover", "focus", "open", "highlighted", "disabled"]
+, structure:
+  { static:
+    { display: "inline-flex"
+    , "align-items": "center"
+    , "justify-content": "space-between"
+    , "text-align": "start"
+    , width: "100%"
+    , "border-style": "solid"
+    , "outline-style": "solid"
+    , cursor: "pointer"
+    }
+  , disabled: { cursor: "not-allowed", "pointer-events": "none" }
+  }
+} as const satisfies Meta;
 
 export const component =
 { title: "Select"
