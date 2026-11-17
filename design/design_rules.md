@@ -18,12 +18,12 @@
 - Accessibility is part of the system, not an enhancement. Meet global standards by default (WCAG 2.2, WAI-ARIA; see Part 7).
 ## Styling
  
-- **One global stylesheet.** SCSS in `src/styles/**` builds to `dist/wacss.css`. No Tailwind. No scoped `<style>` blocks in Astro where possible, and none in Svelte elsewhere.
-- **Tokens, not overrides.** Customise through variables rather than increasingly specific selectors.
-- **Compact SCSS.** Generate scales and families (spacing, radius, themes) with loops, maps, and mixins.
+- **One global stylesheet.** Generated tokens, generated component CSS and hand-authored helpers in `src/styles/wacss.css` build to `dist/wacss.css`. No Tailwind, no component stylesheets and no scoped `<style>` blocks.
+- **Tokens, not overrides.** Customise through L2 variables rather than increasingly specific selectors.
+- **Foundations, not ramps.** L1 defines bases and steps; everything else is derived with CSS functions.
 - **Intrinsic web design and modern CSS.** Components size to their content and layouts reflow without special logic.
 - **Layouts.** Learn from Heydon Pickering's simple layout rules.
-- **Match shadcn-svelte** in default look and behaviour, using wacss's own SCSS and tokens.
+- **Match shadcn-svelte** in default look and behaviour, using wacss's own generated CSS and tokens.
 ## Colour
  
 - Desaturated, earthy, muted palettes with a neutral foundation and limited accents that carry meaning.
