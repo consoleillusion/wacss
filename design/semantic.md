@@ -20,8 +20,7 @@ Palettes are desaturated and earthy, with a neutral foundation and a limited set
   color-scheme: dark;
 
   // Colour. Prima: --color-accent.
-  --color-palette: var(--color-sumi);
-  --color-accent: var(--color-palette);
+  --color-accent: var(--color-sumi);
   --color-base: oklch(from var(--color-accent) var(--lightness-dark) 0.01 h);
   --color-surface: color-mix(in oklch, var(--color-base), var(--color-text) 4%);
   --color-text: oklch(from var(--color-base) calc(1 - l) 0.01 h);

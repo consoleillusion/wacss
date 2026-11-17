@@ -70,12 +70,16 @@ Primitives quantise the design space. They are the only tokens chosen by judgeme
   --color-matcha: oklch(62% 0.075 140deg);
   --color-sakura: oklch(62% 0.085 5deg);
   --color-aizome: oklch(60% 0.075 250deg);
-  --color-red:    oklch(57.7% 0.245 27deg);
-  --color-green:  oklch(62.7% 0.17 149deg);
-  --color-amber:  oklch(76.9% 0.155 70deg);
-  --color-blue:   oklch(60% 0.12 245deg);
+
+  --color-shu:     oklch(57.7% 0.245 27deg); // red
+  --color-ogon:    oklch(76.9% 0.155 70deg); // orange
+  --color-moegi:   oklch(62.7% 0.17 149deg); // green
+  --color-ruri:    oklch(60% 0.12 245deg); // ruri
+
   --color-white:  oklch(99% 0 0deg);
   --color-black:  oklch(2% 0 0deg);
+
+
 }
 ```
 
