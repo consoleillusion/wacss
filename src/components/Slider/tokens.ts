@@ -7,9 +7,12 @@ export const tokens: Overrides =
 , "thumb": "var(--color-base)"
 , "thumb-border-color": "var(--color-accent)"
 , "thumb-size": "calc(var(--space) * 4.0)"
-, "track-border-radius": "var(--border-radius-full)"
+, "track-border-radius": "var(--radius-full)"
 , "thumb-box-shadow": "var(--box-shadow-rest)"
 , "thumb-transition": "box-shadow var(--duration) var(--ease)"
 , "thumb-focus-visible-box-shadow": "0 0 0 2px var(--color-base), 0 0 0 4px var(--color-ring)"
-, "opacity": "var(--opacity-disabled)"
+, "outline-offset": "2px"
+
+  // The disabled opacity used to live at L3; it is now the state bridge.
+, "opacity-disabled": "var(--opacity-disabled)"
 };

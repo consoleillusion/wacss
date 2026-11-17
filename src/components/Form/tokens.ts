@@ -8,7 +8,10 @@ export const tokens: Overrides =
 , "legend-font-weight": "var(--font-weight-ui)"
 , "legend-margin-block-end": "calc(var(--space) * 1)"
 , "p-font-size": "var(--font-size-ui)"
-, "p-color": "var(--color-destructive)"
+, "p-color": "var(--tone-danger)"
 , "div-gap": "calc(var(--space) * 2)"
-, "opacity": "var(--opacity-disabled)"
+
+  // The disabled opacity used to live at L3; it is now the `opacity-disabled`
+  // bridge consumed by the disabled state's calc() recipe.
+, "opacity-disabled": "var(--opacity-disabled)"
 };

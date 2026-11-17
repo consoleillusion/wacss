@@ -9,10 +9,10 @@ export const tokens: Overrides =
 , "group-gap": "calc(var(--space) * 2)"
 , "group-item-border-width": "var(--border-width)"
 , "group-item-transition": "background var(--duration) var(--ease), border-color var(--duration) var(--ease)"
-, "group-item-outline": "calc(var(--border-width) * 2) solid var(--color-ring)"
+, "group-item-outline": "calc(var(--border-width) * 2) solid var(--ring)"
 , "group-item-opacity": "var(--opacity-disabled)"
 , "input-accent-color": "var(--color-accent)"
 
-  // L5: the dot keeps its colour when checked.
-, "dot-standard-checked": "var(--radio-dot-standard)"
+  // L5: the dot keeps its colour when checked (the default variant is `secondary`).
+, "dot.secondary.checked": "var(--radio-dot-secondary)"
 };

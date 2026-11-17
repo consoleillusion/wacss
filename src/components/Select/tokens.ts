@@ -24,5 +24,6 @@ export const tokens: Overrides =
 , "item-font-weight": "var(--font-weight-ui)"
 , "item-indicator-inset-inline-start": "calc(var(--space) * 2)"
 , "scroll-up-button-height": "calc(var(--space) * 6)"
-, "scroll-up-button-color": "var(--color-muted-foreground)"
+, "scroll-up-button-color": "var(--color-text-muted)"
+, "outline-offset": "2px"
 };
