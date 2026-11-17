@@ -1,17 +1,19 @@
-# 4. L2 — Semantic
+# L2 — Semantic
 
 L2 is the design language: what things mean, and the default for every property a component can use. It is the level consumers edit to retheme. It must stay readable.
 
 Every L2 token is an expression over L1 (or other L2) plus literals.
 
-## 4.1 Groups
+Palettes are desaturated and earthy, with a neutral foundation and a limited set of accents that carry meaning. Do not declare colour ramps; derive variations with `color-mix()`, `calc()`, `pow()` or other CSS functions.
+
+## Groups
 
 1. **Meanings:** colours, type, space, depth, motion.
 2. **Property defaults:** one token per CSS property a component may declare. An L3 token with no override takes its value from here.
 3. **Variant tones:** the colours each variant is made of.
 4. **Interaction parameters:** what states are made of.
 
-## 4.2 Meanings
+## Meanings
 
 ```scss
 :root {
@@ -67,7 +69,7 @@ Every L2 token is an expression over L1 (or other L2) plus literals.
 }
 ```
 
-## 4.3 Property defaults
+## Property defaults
 
 One per CSS property a component may list in `cssProperties`. The generator finds the default for a component property by its name: `padding-inline` → `--padding-inline`.
 
@@ -88,7 +90,7 @@ Properties that recipes build on (`transform`, `box-shadow`, `filter`) default t
   --padding-inline: calc(var(--space) * 4);
   --gap: calc(var(--space) * 2);
   --min-block-size: calc(var(--space) * 9);
-  // --font-family is already defined in 4.2 and doubles as the default
+  // --font-family is already defined under Meanings and doubles as the default
   --font-size: var(--font-size-body);
   --font-weight: var(--font-weight-body);
   --line-height: var(--line-height-body);
@@ -103,7 +105,7 @@ Properties that recipes build on (`transform`, `box-shadow`, `filter`) default t
 
 Where a meaning and a property default would share a name (`--font-family`), there is only one token.
 
-## 4.4 Variant tones
+## Variant tones
 
 Each variant has a **tone** (fill) and an **ink** (text on that fill). Variants with meaning also have a **surface** (tinted well) and **surface ink**.
 
@@ -133,7 +135,7 @@ Each variant has a **tone** (fill) and an **ink** (text on that fill). Variants 
 
 Status surfaces mix in `oklab`, not `oklch`, because a polar mix rotates green and red towards the base hue.
 
-## 4.5 Interaction parameters
+## Interaction parameters
 
 ```scss
 :root {
@@ -153,7 +155,9 @@ Status surfaces mix in `oklab`, not `oklch`, because a polar mix rotates green a
 }
 ```
 
-## 4.6 Themes
+## Themes
+
+`[data-palette=""]` is used as the attribute selector, but `--color-accent` is actually what it changes. This is because palette changes more than one color, accent is only one color.
 
 Dark is the default. The light theme overrides only what changes:
 
@@ -170,7 +174,7 @@ Dark is the default. The light theme overrides only what changes:
 :root[data-theme="light"] { @include light; }
 ```
 
-## 4.7 Palettes
+## Palettes
 
 A palette replaces the prima. Everything else follows.
 

@@ -1,6 +1,6 @@
-# 12. Components, API and demo site
+# Components, API and demo site
 
-## 12.1 Data-driven components
+## Data-driven components
 
 Components render completely from props. Usage is one line:
 
@@ -16,19 +16,18 @@ Typical props: `items`, `tabs`, `jsonschema`, `media`, `component`, `data`.
 - **Registries over trees:** named components and media resolve from library-controlled registries and typed schemas. No ad-hoc embedded component trees.
 - **Predictable state:** value components are controlled or bindable, and may persist via a storage key and default value.
 - **Native first:** use native elements and browser behaviour (e.g. `<details>`/`<summary>` for accordions). Bits UI supplies accessible behaviour where native HTML can't. JavaScript is used only where CSS and HTML can't provide the required accessibility behaviour.
+- **Classless where possible:** style native elements, not utility or component classes. Use a class only when no semantic HTML element exists (for example a card), and then use a simple name such as `.card`.
+- **Buttons show state, not actions:** a light theme shows a sun icon; a dark theme shows a moon. A button that is *on* uses the semantic "on" colour and its label says it is on.
 - **Variants are classes:** a component's `variant` prop renders as a class on its root element (`secondary` renders none).
 
-## 12.2 Component list
+## Component list
 
 The component list, and each component's element, variants, states, properties and structure, will be decided separately. Each component's schema is the reference for it.
 
 Notes carried over for when that happens:
 
 - **Accordion:** native `<details>`/`<summary>`, animated with `interpolate-size: allow-keywords` and `::details-content` (pseudo-element tokens for its transition). No JavaScript.
-- **Card:** a data-driven surface with a header, a figure (any WACSS component, recognised by its schema `title`) and body text. If the figure or body needs styling beyond its elements, it becomes a component in its own right. When the card links to a page:
-  - text stays selectable;
-  - the pointer cursor is reserved for the link;
-  - figure controls stay interactive and don't follow the link.
+- **Card:** see Card below.
 - **Grid** A light element only for page layout
 - **Theme toggle:** shows its current state (sun for light, moon for dark), persists the choice and prevents a flash on load.
 - **Media components** (image, video, audio) need schemas and working links.
@@ -41,35 +40,85 @@ Notes carried over for when that happens:
 - **Forms** are declarative and generated from JSON Schema.
 - Component List: `["Accordion", "Alert", "AspectRatio", "Audio", "Avatar", "Button", "Card", "Checkbox", "ColorInput", "ColorPicker", "DataTable", "DatePicker", "Field", "Form", "Image", "Input", "Label", "Meter", "Nav", "NavigationMenu", "NodeLinkDiagram", "Pagination", "PertChart", "Popover", "Progress", "RadioGroup", "Select", "Slider", "Switch", "Table", "Tabs", "Textarea", "Toggle", "Tooltip", "Video", "Webpage", "Grid"]`
 
+### Card
 
+A data-driven surface for presenting content. Placing a component in a card needs no per-instance logic.
 
-## 12.3 Demo site
+| Prop | Content |
+| --- | --- |
+| Header | The card's title. |
+| Text | Body text below the figure. For showcase cards it comes from the figure component's schema (`schema.description`) and appears nowhere else in the card or page. |
+| Figure | Data matching any WACSS component schema, recognised by its `title` property. Video, Image and Audio are the common cases. The figure renders that component inside the card. |
 
-### Routes: HTML as Data
+The figure has a portrait aspect ratio and a fixed height. It is full width, has no padding, and is vertically and horizontally centred. The figure takes 3/7 of the card height and the body takes 4/7, so the schema's grid rows are `3fr 4fr`. The card is 3 units wide and 4 units high (`aspect-ratio: 3 / 4`). If the figure or body needs styling beyond its elements, it becomes a component in its own right.
 
-It should be possible to represent the demo site, and any site, in JSON. A site object will need to have a pages property
+When the card links to a component page:
 
-```typescript
-{ title: "DemoSite"
-, description: "The data for this demo site"
-, pages:
-    { "/": 
-        { title: "home"
-        , children:
-            [ <This is an array of the components on the page in order, including any writing like article, copywriting, etc>
-            ]
-        }
-    , "/components"
-    , "/philosophy"
-    , "/tokens"
-    , <...fill this in with all the pages of this documentation...>
-    }
+- Text stays selectable and shows the text cursor. The pointer cursor is reserved for following the link.
+- Figure controls still work; for example, pausing a video does not follow the link.
+
+On the home page:
+
+- Cards sit in a full-width `.grid`, intrinsically sized so the layout reflows on resize or drawer toggle without special logic.
+- Each card has a header, a figure containing one component, and that component's schema description below.
+
+## Card (`docs/component/card.md`)
+ 
+A data-driven surface for presenting content. Placing a component in a card needs no per-instance logic.
+ 
+**Props**
+ 
+| Prop | Content |
+|---|---|
+| Header | The card's title. |
+| Text | Body text below the figure. For showcase cards it comes from the component's schema (`schema.description`) and appears nowhere else in the card or page. |
+| Figure | Data matching any wacss component schema, recognised by its `title` property. Video, Image, and Audio are the common cases. The figure renders that component inside the card. |
+ 
+**Geometry**
+ 
+| Property | Value |
+|---|---|
+| Card size | 3 units wide, 4 units high (`aspect-ratio: 3 / 4`) |
+| Figure height | 3/7 of the card height, fixed |
+| Body height | 4/7 of the card height |
+| Figure width | Full card width, no padding |
+| Figure aspect | Portrait; content centred vertically and horizontally |
+ 
+**Behaviour when linked to a component page**
+ 
+- Text stays selectable and shows the text cursor. The pointer cursor is reserved for following the link.
+- Figure controls still work (for example, pausing a video does not follow the link).
+**Home-page layout**
+ 
+- Cards sit in a full-width `.grid`, intrinsically sized so it reflows on resize or drawer toggle without special logic.
+- Each card has a header, a figure containing one component, and its schema description below.
+**Reference SCSS** (see editorial note 1 about the row split)
+ 
+```scss
+.card {
+  width: 30rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
 }
+ 
+.card__figure {
+  min-height: 0;
+  margin: 0;
+}
+ 
+.card__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+ 
+.card__content {
+  min-height: 0;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+.card__figure  { order: 1; }
+.card__content { order: 2; }
 ```
- ### Built-in affordances for the Demo site
-
-- A consistent navbar.
-- A light/dark toggle in the top-right corner.
-- Persisted theme and palette preference.
-- Flash prevention when restoring the theme (inline bootstrap script setting `data-theme`/`data-palette` before first paint).
-

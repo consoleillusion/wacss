@@ -1,20 +1,20 @@
-# 14. Philosophy and aesthetic direction
+# Philosophy and aesthetic direction
 
 *Wa* (和) means harmony, balance and belonging. In WACSS it means harmony between users, developers and web standards: native browser behaviour, accessibility by default and a small public API.
 
 The visual direction draws on Japanese wabi-sabi and Western editorial minimalism.
 
-## 14.1 Visual defaults
+## Visual defaults
 
 - Spacious, clean and modern; generous whitespace.
-- Low-saturation, muted colour on neutral foundations, with restrained accents.
+- Desaturated, earthy, muted palettes on neutral foundations, with a limited set of accents that carry meaning.
 - Strong contrast reserved for meaningful activity and interaction.
 - Soft borders and shadows.
-- Purposeful, understated motion.
+- Motion communicates state or interaction. It is smooth, measured, quiet and never distracting.
 - Clear typography with few sizes and weights.
 - Default component behaviour and proportions follow shadcn-svelte, built on WACSS tokens.
 
-## 14.2 Principles
+## Principles
 
 | Principle | | Meaning | In WACSS |
 | --- | --- | --- | --- |
@@ -29,11 +29,11 @@ The visual direction draws on Japanese wabi-sabi and Western editorial minimalis
 | Shibui | 渋い | Restrained depth | Beauty that reveals itself over time |
 | Seijaku | 静寂 | Energised calm | Nothing moves without purpose |
 
-## 14.3 Hidden details
+## Hidden details
 
 Yūgen, Shibui and Datsuzoku inform small discoveries that reward attention, such as a palette swatch revealing its name on hover. They are found, not announced, and never compete with content.
 
-## 14.4 Palettes
+## Palettes
 
 | Palette | | Character |
 | --- | --- | --- |

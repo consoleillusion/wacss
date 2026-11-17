@@ -1,6 +1,6 @@
-# 1. Architecture
+# Architecture
 
-## 1.1 What exists
+## What exists
 
 The stylesheet has five kinds of CSS and nothing else:
 
@@ -12,19 +12,19 @@ The stylesheet has five kinds of CSS and nothing else:
 | Component CSS | Generated | each component's `schema.ts` | JavaScript generator |
 | Helpers | Library, by hand | `src/helpers/*.css` | CSS |
 
-Helpers are layout primitives (see [10-layout.md](10-layout.md)), a minimal reset and `@keyframes`. They are not component styles.
+Helpers are layout primitives (see [layout](layout.md)), a minimal reset and `@keyframes`. They are not component styles.
 
-SCSS is used only for L1 and L2, where loops keep the palette declarations compact. Nothing else is SCSS.
+One global stylesheet is the output: generated tokens, generated component CSS and hand-authored helpers build to `dist/wacss.css`. SCSS is used only for L1 and L2, where loops keep the palette declarations compact. Nothing else is SCSS.
 
-There are no component stylesheets, scoped `<style>` blocks, BEM classes or per-page styles.
+There is no Tailwind, no component stylesheets, no scoped `<style>` blocks, no BEM classes and no per-page styles.
 
-## 1.2 Inputs
+## Inputs
 
 - **L1 and L2:** two hand-authored files.
-- **One schema per component:** `src/components/<Name>/schema.ts`, exporting `meta` (styling metadata) and `component` (the public JSON Schema of its props). See [07-component-schema.md](07-component-schema.md).
-- **Optional overrides per component:** `src/components/<Name>/tokens.ts`. See [08-generation.md](08-generation.md#86-overrides).
+- **One schema per component:** `src/components/<Name>/schema.ts`, exporting `meta` (styling metadata) and `component` (the public JSON Schema of its props). See [component-schema](component-schema.md).
+- **Optional overrides per component:** `src/components/<Name>/tokens.ts`. See [generation](generation.md#overrides).
 
-## 1.3 Pipeline
+## Pipeline
 
 1. Compile L1 and L2 from SCSS.
 2. Load and validate every component schema.
@@ -39,7 +39,7 @@ There are no component stylesheets, scoped `<style>` blocks, BEM classes or per-
 
 A failed validation fails the build. Generated files are never edited by hand.
 
-## 1.4 Outputs
+## Outputs
 
 | File | Contents |
 | --- | --- |
@@ -48,7 +48,7 @@ A failed validation fails the build. Generated files are never edited by hand.
 | `dist/tokens.json` | Every token with its level, value and references (feeds the token graph) |
 | `dist/tokens.css` | css file with all tokens defined in :root |
 
-## 1.5 Themes
+## Themes
 
 Themes are root-only. `data-theme` and `data-palette` on `<html>` switch L2 values. Everything above L2 follows, because every generated token resolves on `:root`.
 
