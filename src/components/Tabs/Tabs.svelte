@@ -36,8 +36,9 @@
   {activationMode}
   {loop}
   {disabled}
-  class={className || undefined}
+  class={["tabs", className].filter(Boolean).join(" ")}
   data-tabs
+  data-disabled={disabled || undefined}
 >
   <BitsTabs.List class={listClass || undefined} data-tabs-list>
     {#each tabs as tab (tab.value)}

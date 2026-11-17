@@ -3,7 +3,7 @@
  *
  * The source of truth for the active accent is the document root:
  *  - preset themes are applied as `data-palette="<name>"` attributes, or
- *  - custom accents are applied as inline `--color-theme` / `--color-accent`.
+ *  - custom accents are applied as an inline `--color-palette`.
  *
  * Cross-component sync uses a window event so accent-aware islands can observe
  * changes made by other islands without sharing module state.
@@ -12,7 +12,7 @@
 export const ACCENT_STORAGE_KEY = "wacss:accent";
 export const ACCENT_COLOR_STORAGE_KEY = "wacss:accent-color";
 export const ACCENT_CHANGE_EVENT = "wacss:accent-change";
-export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome", "kurenai"];
+export const ACCENT_THEME_NAMES = ["sakura", "matcha", "sumi", "aizome"];
 
 export type AccentSource =
   | { source: "preset"; theme: string }
@@ -23,7 +23,7 @@ export function readAccentState(): AccentSource {
   const el = document.documentElement;
   const attr = el.getAttribute("data-palette");
   if (attr && ACCENT_THEME_NAMES.includes(attr)) return { source: "preset", theme: attr };
-  const inline = (el.style.getPropertyValue("--color-accent") || el.style.getPropertyValue("--color-theme") || "").trim();
+  const inline = el.style.getPropertyValue("--color-palette").trim();
   if (inline) return { source: "custom", color: inline };
   try {
     const stored = localStorage.getItem(ACCENT_STORAGE_KEY);
@@ -45,8 +45,7 @@ export function applyAccentToRoot(theme?: string, color?: string): void {
   }
   root.removeAttribute("data-palette");
   const value = color ?? "";
-  root.style.setProperty("--color-theme", value);
-  root.style.setProperty("--color-accent", value);
+  root.style.setProperty("--color-palette", value);
 }
 
 export function emitAccentChange(state: AccentSource): void {
@@ -68,7 +67,7 @@ export function hueToAccent(hue: number, isDark: boolean): string {
 /** Hex (#rrggbb) -> hue degrees (0-359). Returns null for non-hex values. */
 export function hexToHue(hex: string): number | null {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
-  if (!m) return null;
+  if (!m?.[1]) return null;
   const n = parseInt(m[1], 16);
   const r = ((n >> 16) & 255) / 255;
   const g = ((n >> 8) & 255) / 255;
@@ -88,7 +87,7 @@ export function hexToHue(hex: string): number | null {
 /** oklch(L% C H) -> "#rrggbb". Returns null for unparseable values. */
 export function oklchToHex(color: string): string | null {
   const m = /^oklch\(\s*([\d.]+)%?\s+([\d.]+)\s+([\d.]+)/i.exec(color.trim());
-  if (!m) return null;
+  if (!m?.[1] || !m[2] || !m[3]) return null;
   const L = parseFloat(m[1]) / 100;
   const C = parseFloat(m[2]);
   const H = (parseFloat(m[3]) * Math.PI) / 180;

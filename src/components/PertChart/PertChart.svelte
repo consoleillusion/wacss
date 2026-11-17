@@ -129,8 +129,8 @@
           , type: "smoothstep" as const
           , animated: false
           , style: critical.has(dep) && critical.has(t.id)
-            ? "stroke: var(--pert-chart-critical-edge-stroke-standard-static); stroke-width: 2.5;"
-            : "stroke: var(--pert-chart-edge-stroke-standard-static); stroke-width: 1.5;"
+            ? "stroke: var(--graph-layer-4); stroke-width: 2.5;"
+            : "stroke: var(--color-border); stroke-width: 1.5;"
         , }))
     , );
   });
@@ -168,7 +168,7 @@
 </script>
 
 {#if tasks.length}
-  <div data-pert-chart-root class={className || undefined} {...restProps} bind:this={root}>
+  <div class={`pert-chart${className ? ` ${className}` : ""}`} {...restProps} bind:this={root}>
     <SvelteFlow
       nodes={computed}
       edges={edges}
@@ -186,7 +186,7 @@
     </SvelteFlow>
   </div>
 {:else}
-  <div data-pert-chart-root class={className || undefined} {...restProps}>
+  <div class={`pert-chart${className ? ` ${className}` : ""}`} {...restProps}>
     <p>No tasks provided.</p>
   </div>
 {/if}

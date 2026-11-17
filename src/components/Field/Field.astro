@@ -3,8 +3,9 @@ const { id, label, help, error, required = false, class: className, ...attrs } =
 const helpId = help ? `${id}-help` : undefined;
 const errorId = error ? `${id}-error` : undefined;
 const describedBy = [helpId, errorId].filter(Boolean).join(" ") || undefined;
+const classes = ["field", className].filter(Boolean).join(" ");
 ---
-<div class={className} {...attrs}>
+<div class={classes} {...attrs}>
   {label && <label for={id}>{label}{required ? " *" : ""}</label>}
   <slot />
   {help && <p id={helpId}>{help}</p>}

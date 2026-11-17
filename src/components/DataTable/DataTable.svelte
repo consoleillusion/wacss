@@ -14,6 +14,6 @@
   } = $props();
 </script>
 
-<div data-datatable-root class={className || undefined}>
+<div class={["datatable", className].filter(Boolean).join(" ")}>
   <Grid {data} {columns} {...restProps} />
 </div>

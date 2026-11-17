@@ -5,3 +5,8 @@ declare module "*?url" {
   const url: string;
   export default url;
 }
+
+declare module "*.astro" {
+  const component: unknown;
+  export default component;
+}

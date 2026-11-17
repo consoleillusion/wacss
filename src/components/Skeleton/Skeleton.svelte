@@ -14,9 +14,10 @@
   } = $props();
 
   const count = Math.max(1, Math.floor(lines));
+  const classes = $derived(["skeleton", className].filter(Boolean).join(" "));
 </script>
 
-<div data-skeleton-root class={className || undefined} aria-hidden="true" {...restProps}>
+<div data-skeleton-root class={classes} aria-hidden="true" {...restProps}>
   {#if circle}
     <span data-skeleton-circle></span>
   {:else}

@@ -3,7 +3,7 @@
   let { children, ...rest } = $props();
 </script>
 
-<RadioGroup.Root {...rest}>
+<RadioGroup.Root {...rest} class="radio">
   {#if children}
     {@render children()}
   {/if}

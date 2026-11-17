@@ -17,6 +17,28 @@
 
   let { layers = [] as TokenLayer[] }: { layers?: TokenLayer[] } = $props();
 
+  /* Generated CSS targets the root only. The widget's own DOM parts take their
+     L5 tokens inline, so no descendant selectors are needed. */
+  const t = (property: string) => `var(--node-link-diagram-${property}-secondary-static)`;
+  const styles = {
+    toolbar: `display: flex; align-items: center; flex-wrap: wrap; gap: ${t("toolbar-gap")}; padding: ${t("toolbar-padding")}; border-block-end: ${t("toolbar-border-block-end")}; background: ${t("toolbar-background")};`,
+    filter: `display: flex; align-items: center; gap: ${t("filter-gap")}; font-size: ${t("filter-font-size")}; color: ${t("filter-color")};`,
+    select: `padding: ${t("select-padding")}; padding-inline-end: ${t("select-padding-inline-end")}; background: ${t("select-background")}; border: ${t("select-border-width")} solid var(--color-border); border-radius: ${t("select-border-radius")}; font-size: ${t("select-font-size")}; color: ${t("select-color")};`,
+    search: "position: relative;",
+    hidden: "position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);",
+    input: `inline-size: 16rem; padding: ${t("input-padding")}; background: ${t("input-background")}; border: ${t("input-border-width")} solid var(--color-border); border-radius: ${t("input-border-radius")}; font-size: ${t("input-font-size")}; color: ${t("input-color")};`,
+    actions: `display: flex; align-items: center; gap: ${t("actions-gap")}; margin-inline-start: auto;`,
+    count: `font-size: ${t("count-font-size")}; color: ${t("count-color")}; font-variant-numeric: tabular-nums;`,
+    status: `position: absolute; inset-block-start: ${t("layout-status-inset-block-start")}; inset-inline-start: 50%; transform: translateX(-50%); padding: ${t("layout-status-padding")}; background: ${t("layout-status-background")}; border: ${t("layout-status-border")}; border-radius: ${t("layout-status-border-radius")}; box-shadow: ${t("layout-status-box-shadow")}; font-size: ${t("layout-status-font-size")}; color: ${t("layout-status-color")}; pointer-events: none; z-index: var(--layer-overlay);`,
+    detail: `position: absolute; inset-inline-end: ${t("detail-inset-inline-end")}; inset-block-end: ${t("detail-inset-block-end")}; inline-size: 24rem; display: grid; gap: ${t("detail-gap")}; padding: ${t("detail-padding")}; background: ${t("detail-background")}; border: ${t("detail-border")}; border-radius: ${t("detail-border-radius")}; box-shadow: ${t("detail-box-shadow")}; z-index: var(--layer-overlay);`,
+    detailHead: `display: flex; align-items: center; justify-content: space-between; gap: ${t("detail-head-gap")};`,
+    detailName: `font-family: ${t("detail-name-font-family")}; font-size: ${t("detail-name-font-size")}; overflow-wrap: anywhere;`,
+    detailMeta: `margin: 0; font-size: ${t("detail-meta-font-size")}; color: ${t("detail-meta-color")};`,
+    detailValue: `font-family: ${t("detail-value-font-family")}; font-size: ${t("detail-value-font-size")}; color: ${t("detail-value-color")}; overflow-wrap: anywhere;`,
+    detailRefs: `list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: ${t("detail-refs-gap")};`,
+    ref: `display: inline-flex; align-items: center; font-family: ${t("ref-font-family")}; font-size: ${t("ref-font-size")}; padding: ${t("ref-padding")}; background: ${t("token-node-background")}; color: ${t("token-node-color")}; border: none; border-radius: ${t("ref-border-radius")}; cursor: pointer;`
+  };
+
   const NODE_WIDTH = 252;
   const NODE_HEIGHT = 36;
 
@@ -51,7 +73,7 @@
           , source: ref
           , target: token.name
           , type: "smoothstep"
-          , style: "stroke: var(--node-link-diagram-edge-stroke-standard-static); stroke-width: 1.1px; stroke-opacity: 0.6;"
+          , style: `stroke: ${t("edge-stroke")}; stroke-width: 1.1px; stroke-opacity: 0.6;`
         , });
       }
     }
@@ -220,20 +242,21 @@
   }
 </script>
 
-<div data-node-link-diagram-root>
-  <div data-toolbar>
-    <label data-filter>
+<div class="node-link-diagram">
+  <div data-toolbar style={styles.toolbar}>
+    <label data-filter style={styles.filter}>
       <span>Component</span>
-      <select bind:value={component} onchange={() => (selectedId = null)}>
+      <select style={styles.select} bind:value={component} onchange={() => (selectedId = null)}>
         <option value="all">All tokens · {allTokens.length}</option>
         {#each componentFamilies as family (family)}
           <option value={family}>{family} · {familySizes.get(family)}</option>
         {/each}
       </select>
     </label>
-    <label data-search>
-      <span class="visually-hidden">Search tokens</span>
+    <label data-search style={styles.search}>
+      <span class="visually-hidden" style={styles.hidden}>Search tokens</span>
       <input
+        style={styles.input}
         type="search"
         bind:value={query}
         placeholder="Search {scopedTokens.length} tokens…"
@@ -241,17 +264,15 @@
         autocomplete="off"
       />
     </label>
-    <div data-actions>
+    <div data-actions style={styles.actions}>
       {#each layers as layer (layer.layer)}
         <button
           type="button"
-          data-variant={activeLayers.has(layerKey(layer.layer)) ? "primary" : "secondary"}
-          data-size="sm"
-          data-active={activeLayers.has(layerKey(layer.layer)) ? "" : undefined}
+          class={activeLayers.has(layerKey(layer.layer)) ? "primary" : undefined}
           onclick={() => toggleLayer(layerKey(layer.layer))}
         >{layer.layer.split("·")[0].trim()}</button>
       {/each}
-      <span data-count>{visibleIds.size} / {scopedTokens.length} tokens</span>
+      <span data-count style={styles.count}>{visibleIds.size} / {scopedTokens.length} tokens</span>
     </div>
   </div>
 
@@ -277,26 +298,26 @@
   </SvelteFlow>
 
   {#if layingOut}
-    <div data-layout-status>Laying out {scopedTokens.length} tokens…</div>
+    <div data-layout-status style={styles.status}>Laying out {scopedTokens.length} tokens…</div>
   {/if}
 
   {#if selectedNode}
-    <aside data-detail>
-      <div data-detail-head>
-        <code data-detail-name>{selectedNode.name}</code>
-        <button type="button" data-variant="secondary" data-size="icon" onclick={() => (selectedId = null)} aria-label="Close">
+    <aside data-detail style={styles.detail}>
+      <div data-detail-head style={styles.detailHead}>
+        <code data-detail-name style={styles.detailName}>{selectedNode.name}</code>
+        <button type="button" onclick={() => (selectedId = null)} aria-label="Close">
           <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="m4 4 8 8" /><path d="M12 4 4 12" />
           </svg>
         </button>
       </div>
-      <p data-detail-meta>{selectedNode.layer} · {selectedNode.family}</p>
-      <code data-detail-value>{selectedNode.value}</code>
+      <p data-detail-meta style={styles.detailMeta}>{selectedNode.layer} · {selectedNode.family}</p>
+      <code data-detail-value style={styles.detailValue}>{selectedNode.value}</code>
       {#if selectedRefs.length}
-        <ul data-detail-refs>
+        <ul data-detail-refs style={styles.detailRefs}>
           {#each selectedRefs as ref (ref)}
             <li>
-              <button type="button" data-ref onclick={() => (selectedId = ref)}>{ref}</button>
+              <button type="button" data-ref style={styles.ref} onclick={() => (selectedId = ref)}>{ref}</button>
             </li>
           {/each}
         </ul>

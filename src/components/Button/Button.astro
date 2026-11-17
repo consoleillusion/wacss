@@ -4,14 +4,21 @@ const {
   , variant = "default"
   , size = "default"
   , disabled = false
+  , class: className = ""
   , ...attrs
 } = Astro.props;
-const dataVariant = variant === "default" ? "secondary" : variant;
+const VARIANT_CLASS = {
+  default: "", secondary: "", primary: "primary"
+  , destructive: "danger", link: "tertiary", outline: "tertiary"
+  , info: "informational", warning: "warning"
+} as Record<string, string>;
+const variantClass = VARIANT_CLASS[variant] ?? "";
+const classNames = [variantClass, className].filter(Boolean).join(" ") || undefined;
 ---
 <button
   type={type}
   disabled={disabled}
-  data-variant={dataVariant}
+  class={classNames}
   data-size={size}
   {...attrs}
 ><slot /></button>

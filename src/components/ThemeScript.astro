@@ -3,12 +3,12 @@
    Applies the persisted choice before first paint, and re-applies it across
    Astro view transitions: ClientRouter replaces the <html> element's
    attributes on soft navigations (swapRootAttributes), which would otherwise
-   drop data-theme / data-palette / inline --color-theme variables. */
+   drop data-theme / data-palette / inline --color-palette variables. */
 ---
 
 <script is:inline>
   (() => {
-    const themes = ["sakura", "matcha", "sumi", "aizome", "kurenai"];
+    const themes = ["sakura", "matcha", "sumi", "aizome"];
 
     const apply = (root) => {
       try {
@@ -17,16 +17,14 @@
         else root.removeAttribute("data-theme");
 
         for (const t of themes) root.removeAttribute("data-palette");
-        root.style.removeProperty("--color-theme");
-        root.style.removeProperty("--color-accent");
+        root.style.removeProperty("--color-palette");
 
         const accent = localStorage.getItem("wacss:accent");
         if (accent && themes.includes(accent)) root.setAttribute("data-palette", accent);
         else if (accent === "custom") {
           const c = localStorage.getItem("wacss:accent-color");
           if (c) {
-            root.style.setProperty("--color-theme", c);
-            root.style.setProperty("--color-accent", c);
+            root.style.setProperty("--color-palette", c);
           }
         }
       } catch {}

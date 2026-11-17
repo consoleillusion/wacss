@@ -14,7 +14,15 @@
     , ...restProps
   }: ButtonProps & { label?: string; size?: string } = $props();
 
-  const dataVariant = $derived(variant === "default" ? "secondary" : variant);
+  // Public variant names map to spec variant classes on the root element.
+  // The default variant has no class.
+  const VARIANT_CLASS: Record<string, string> =
+  { default: "", secondary: "", primary: "primary"
+  , destructive: "danger", link: "tertiary", outline: "tertiary"
+  , info: "informational", warning: "warning"
+  };
+  const variantClass = $derived(VARIANT_CLASS[variant] ?? "");
+  const classNames = $derived([variantClass, className].filter(Boolean).join(" ") || undefined);
   const dataSize = $derived(size === "default" ? "md" : size);
 </script>
 
@@ -22,9 +30,8 @@
   <a
     {...restProps}
     {href}
-    class={className || undefined}
+    class={classNames}
     role="button"
-    data-variant={dataVariant}
     data-size={dataSize}
     data-loading={loading || undefined}
     aria-disabled={disabled || loading ? "true" : undefined}
@@ -41,8 +48,7 @@
     {...restProps}
     {type}
     disabled={disabled || loading}
-    class={className || undefined}
-    data-variant={dataVariant}
+    class={classNames}
     data-size={dataSize}
     data-loading={loading || undefined}
     aria-busy={loading || undefined}

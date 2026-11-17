@@ -21,7 +21,7 @@ const compData = component ? data : content?.data ?? {};
 const textContent = typeof content === "string" ? content : content?.text;
 const hasContent = Boolean(media || Comp || textContent || Astro.slots.has("default"));
 ---
-<Tag wacss="card" class={className || undefined} {...rest}>
+<Tag wacss="card" class={["card", className].filter(Boolean).join(" ")} {...rest}>
   {(title || description) && (
     <header wacss="card-header">
       {title && <h3 wacss="card-title">{title}</h3>}

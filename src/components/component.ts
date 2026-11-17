@@ -2,10 +2,10 @@
  * Meta-schema for component schema modules.
  *
  * Every `src/components/<Name>/schema.ts` exports a named `meta` object and a
- * component definition. `meta` declares which CSS properties, roles and states
- * exist — never any CSS values; it drives token generation (see
- * src/tokens/generate.ts). The component definition is the component's public
- * JSON Schema.
+ * component definition. `meta` declares which CSS properties, variants and
+ * states exist, plus structural literals — it drives token generation and the
+ * generated component CSS (see src/tokens/generate.ts and src/tokens/css.ts).
+ * The component definition is the component's public JSON Schema.
  *
  * Example:
  *
@@ -29,7 +29,7 @@ export const commonAttributes =
 , tabindex: { type: ["number", "string"], description: "Tab order." }
 };
 
-import { ROLES, STATES } from "../tokens/generate";
+import { VARIANTS, STATES } from "../tokens/generate";
 
 export const componentSchema =
 { $schema: "https://json-schema.org/draft/2020-12/schema"
@@ -42,22 +42,35 @@ export const componentSchema =
 , properties:
     { meta:
         { title: "ComponentMeta"
-        , description: "Drives L3–L5 token generation. Declares structure only — never CSS values."
+        , description: "Drives L3–L5 token generation and component CSS. Declares properties, variants, states and structural literals."
         , type: "object"
-        , required: ["name", "cssProperties", "roles", "states"]
+        , required: ["name", "cssProperties", "variants", "states"]
         , additionalProperties: false
         , properties:
             { name: { type: "string", pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", description: "L3 prefix: --<name>-<property>." }
+            , element: { type: "string", pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", description: "Native element wrapped, if any." }
             , cssProperties:
                 { type: "array"
                 , uniqueItems: true
-                , description: "L3 tokens: --<name>-<property>."
+                , description: "Themable properties; each gets an L3/L4/L5 token matrix."
                 , items: { type: "string", pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" }
                 }
-            , roles: { type: "array", minItems: 1, uniqueItems: true, description: "L4 tokens.", items: { enum: ROLES } }
+            , variants:
+                { type: "array", minItems: 1, uniqueItems: true, contains: { const: "secondary" }
+                , description: "L4 variants. Always includes `secondary`.", items: { enum: VARIANTS }
+                }
             , states:
                 { type: "array", minItems: 1, uniqueItems: true, contains: { const: "static" }
-                , description: "L5 tokens. Always includes `static`.", items: { enum: STATES }
+                , description: "L5 states. Always includes `static`.", items: { enum: STATES }
+                }
+            , structure: { type: "object", description: "Structural literals by state; no var().", additionalProperties: { type: "object" } }
+            , pseudoElements: { type: "object", description: "Themable properties of pseudo-elements.", additionalProperties: { type: "array", items: { type: "string" } } }
+            , pseudoStructure: { type: "object", description: "Structural literals of pseudo-elements by state.", additionalProperties: { type: "object" } }
+            , channels: { type: "object", description: "Explicit state → cssProperties channel assignment.", additionalProperties: { type: "array", items: { type: "string" } } }
+            , types:
+                { type: "object"
+                , description: "Property response types for third-party properties."
+                , additionalProperties: { enum: ["fill", "ink", "edge", "other"] }
                 }
             }
         }

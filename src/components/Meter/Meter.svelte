@@ -1,10 +1,19 @@
 <script>
-  import { Meter } from "bits-ui";
-  let { children, ...rest } = $props();
+  let {
+    children
+    , value
+    , min = 0
+    , max = 100
+    , low
+    , high
+    , optimum
+    , class: className = ""
+    , ...rest
+  } = $props();
 </script>
 
-<Meter.Root {...rest}>
+<meter class={className || undefined} {value} {min} {max} {low} {high} {optimum} {...rest}>
   {#if children}
     {@render children()}
   {/if}
-</Meter.Root>
+</meter>

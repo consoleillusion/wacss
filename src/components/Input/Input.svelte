@@ -35,7 +35,7 @@
   , });
 </script>
 
-<div class={className || undefined}>
+<div class={["field", className].filter(Boolean).join(" ")}>
   {#if label}
     <label for={inputId}>
       {label}

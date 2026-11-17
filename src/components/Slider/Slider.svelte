@@ -29,7 +29,7 @@
   {max}
   {step}
   {disabled}
-  class={className || undefined}
+  class={["slider", className].filter(Boolean).join(" ")}
   data-slider-root
   onValueChange={(v) => { value = v; onValueChange?.(v); }}
   {...restProps}
