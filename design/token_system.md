@@ -1,164 +1,117 @@
 # Token system
 
-*How styles are built and themed.*
+Tokens follow a five-level hierarchy, from primitive values to fully resolved component states. You define a small number of L1 and L2 tokens by hand. Everything above them is generated from component metadata by `scripts/emit-tokens.ts`.
 
-> **Status:** this document is the original design sketch, not the reference for the current implementation. The current model is documented in `README.md` § 3 and in the generated `src/styles/tokens`: layers are still L1→L2→L3→L4→L5 with strict adjacency, but L4 is named `--<component>-<property>-<role>` and the `…-role` suffix appears only in the explicit-state helper; L3 carries the base values and optional `-value` overrides; `meta = { name, cssProperties, roles, states }` in each `schema.ts` drives the generator; every state matrix comes from `cssProperties × roles × states`. Where this file and the README disagree, the README wins.
+| Level | Name pattern | Source | Derives from |
+| --- | --- | --- | --- |
+| L1 Primitive | `--<name>` | `src/tokens/primitives.ts` (hand-written) | nothing: literals only |
+| L2 Semantic | `--<property>` | `src/tokens/semantic.ts` (hand-written) | L1 (and other L2) |
+| L3 Component-property | `--<component>-<property>` | generated | L2 |
+| L4 Role | `--<component>-<property>-<role>` | generated | L3 of the same component |
+| L5 State | `--<component>-<property>-<role>-<state>` | generated | L4 of the same component |
 
-## The five-layer hierarchy
+Generated output: `src/styles/tokens/_l1-primitives.scss` … `_l5-state.scss`. Do not edit them; run `bun run emit:tokens`.
 
-Styling is a strict five-layer chain. Only layer 1 holds raw values, and each layer derives from **the layer immediately below it** — no layer skips a level.
+The generator rejects any token that references a level other than the one directly below it.
 
-| # | Layer | Source | Name pattern | Holds | Examples |
-|---|---|---|---|---|---|
-| 1 | **Primitive** | `_primitives.scss` (hand-written) | `--<domain>-<name>` | Raw literals only: hues, type scale, space, radius, shadow, motion | `--color-dark-aizome`, `--space-step`, `--radius`, `--motion-fast` |
-| 2 | **Semantic** | `_semantic.scss` (hand-written) | `--<domain>-<meaning>` | Meanings built from layer 1 | `--color-base`, `--color-surface`, `--color-accent`, `--color-text`, `--color-border`, `--font-body` |
-| 3 | **Component** | `_component.scss` (hand-written primas) + `_component-source.scss` (generated aliases) | `--<component>-<property>` | Component anatomy built from layer 2 | `--button-background`, `--button-radius`, `--card-radius`, `--dialog-padding` |
-| 4 | **Role** | `_role.scss` (generated) | `--<component>-<property>-<role>` | One role per emitted layer-3 token, derived from L3 | `--chevron-background-standard`, `--alert-icon-danger` |
-| 5 | **State** | `_state.scss` (generated) | `--<component>-<property>-<role>-<state>` | Final per-state values, derived from L4 roles | `--button-background-primary-hover`, `--input-border-standard-focus` |
+## L1: primitives
 
-**Layer-3 hybrid file**
+Foundations, not ramps: a base plus a step (addition) or ratio (multiplication). For example, `--space-base`/`--space-step`, `--border-radius-base`/`--border-radius-step`, `--font-size-base`/`--font-size-ratio`, `--duration-base`/`--duration-ratio`, `--mix-base`/`--mix-step`. Palette hues are single colours; light-theme variants are derived in L2.
 
-- `_component.scss` is hand-written: the base value of every declared property (`--<component>-<property>`), plus an explicit state value (`--<component>-<property>-<state>-value`) wherever the state cannot be derived from the base by a shared recipe.
-- `_component-source.scss` is generated: one `--<semantic>-source` alias per semantic token the system needs at L3–L5, so recipes and L4 roles can reach semantic values without skipping a level.
+## L2: semantic / default
 
-**State recipes**
+There are three groups:
 
-Deterministic derivations shared by every component. Ink properties (`background`, `border`, `color`, `ring`, `overlay`, `track`, `thumb`, `indicator`, `fill`, `stroke`) mix their role colour toward the theme interaction pole; other properties alias their role token unchanged. A box-shadow is not a colour and is never mixed.
+1. **Design meanings:** `--color-accent` (the colour prima), `--color-surface`, `--color-text`, `--space`, `--font-size-ui`, `--box-shadow-overlay` and so on.
+2. **Property defaults:** one `--<css-property>` per property a component can declare (`--background`, `--color`, `--border-color`, `--border-radius`, `--padding-block`, `--gap`, …). An L3 token with no override is `var(--<property>)`. The longest matching tail wins, so `trigger-padding-block` inherits `--padding-block`.
+3. **Role tones and state parameters:**
+   - `--tone-<role>`, `--tone-<role>-ink`, `--tone-<role>-surface`, `--tone-<role>-surface-ink`
+   - `--state-<state>` (and `--state-<state>-ink` for selection states)
+   - `--lightness`, the theme's interaction pole: white in the dark theme, black in the light theme
 
-| state | recipe |
-|---|---|
-| `hover`, `open` | mix the role colour toward `--color-interaction` by `calc(var(--interaction-base))` — 10% |
-| `highlighted` | base − step — 6% |
-| `selected`, `checked`, `current` | base + ½ step — 12% |
-| `active`, `pressed` | base + 2 steps — 18% |
-| `focus` | `--color-ring` |
-| `invalid` | mix toward `--color-destructive` 85% |
-| `disabled`, `loading` | role token unchanged (opacity is applied at the element) |
+Themes and palettes only change L2: `[data-theme="light"]`, `prefers-color-scheme`, `[data-palette="<name>"]`, or an inline `--color-accent` on the root.
 
-The interaction pole `--color-interaction` is white on dark themes and black on light ones, and the mix amounts derive from `--interaction-base` (10%) and `--interaction-step` (4%) via the L2 `--mix-*` scale. Recipes are emitted by `scripts/emit-tokens.ts` in L5, in oklab, not hand-written; overriding the pole or the mix scale at runtime retunes every interactive state.
+## Component metadata
 
-A state that needs a value the recipe cannot produce must be declared explicitly in `_component.scss` as `--<component>-<property>-<role>-<state>-value`.
-
-**Emitted tokens**
-
-For a property `background` on family `button` with no explicit state value, the generator emits:
-
-```scss
-/* L4 - role */
---button-background-standard: var(--button-background);
---button-background-primary: var(--button-background-primary-value);
-
-/* L5 - state */
---button-background-standard-static: var(--button-background-standard);
---button-background-standard-hover: color-mix(in oklab, var(--button-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
-```
-
-Rendered styles consume the L5 tokens directly:
-
-```css
-button       { background: var(--button-background-standard-static); }
-button:hover { background: var(--button-background-standard-hover); }
-```
-
-## Rules
-
-1. **Strict adjacency.** Layer 1 holds literals only; layer 2 may reference `{L1, L2}`; layer 3 `{L2, L3}`; layer 4 `{L3, L4}`; layer 5 `{L4, L5}`. A reference that skips a level (`L5 → L3`, `L3 → L1`, …) or points upward is a build error.
-2. **Rendered styles consume layer-5 tokens only.** Static (no-condition) styles use the `-static` twin; interactive states use the layer-5 token carrying the state name.
-3. **The state set is closed:** `static`, `hover`, `focus`, `active`, `disabled`, `selected`, `checked`, `invalid`, `open`, `highlighted`, `pressed`, `current`, `loading`. Every layer-5 token name ends in one of these words.
-4. **States are declared per property.** A component schema lists only the properties it receives (`background`, `padding-inline`, …) and the states each of those properties changes in. `static` is implicit. A property that never changes has no state tokens beyond `-static`.
-5. **The schemas contain no CSS.** `src/components/<Name>/schema.ts` exports a named `meta` object — `{ name, cssProperties, roles, states }` — and a named `component` object (the component's public JSON Schema). The generator (`bun run emit:tokens`) emits layers 3–5 from those declarations and validates that both agree exactly: every declared property has an L3 token, every L3 family token is declared, and every declared state has an explicit L3 `-value` token or a shared recipe.
-6. **Variants are presentation, not tokens.** Variants (Button `primary`/`secondary`/`destructive`/`link`, Badge variants, Alert variants) resolve to layer-5 tokens inside the component's CSS via local custom properties (`--button-variant-background`, …). They do not generate per-variant global tokens.
-7. **Prima tokens.** Many token families derive from a single higher-level token — the *prima* — for the domain. `--color-accent` is the colour prima; `--space-step` is the spacing prima.
-8. **Paste-at-any-level theming.** Replacing the tokens at any one layer restyles the whole interface coherently.
-9. **Themes are attribute-only.** Light and dark values follow `prefers-color-scheme` by default. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to override (persisted by the UI toggle). Palettes use `data-palette="<name>"`. There are no `.theme-*` classes.
-10. `bun run verify:tokens` enforces the rules mechanically:
-    - strict layer adjacency;
-    - every layer-5 name ends in the state set;
-    - rendered styles reference layer-5 tokens only;
-    - no raw literals outside layer 1;
-    - generated files are in sync with the schemas.
-
-## Reference implementation (colour and button)
-
-```scss
-/* L1 — primitive: raw literals only */
---color-dark-sumi: oklch(60% 0.01 260deg);
---color-dark-aizome: oklch(60% 0.075 250deg);
---space-step: 0.25rem;
-
-/* L2 — semantic: meanings from L1 */
---color-accent: var(--color-dark-sumi); // prima
---color-base-light: oklch(from var(--color-accent) 18% 0.01 h);
---color-base-light-inverse: oklch(from var(--color-base-light) clamp(0, calc(1 - l), 1) 0.01 h);
---color-base: color-mix(in oklch, var(--color-base-light), var(--color-accent) 2%);
---color-pop: oklch(from var(--color-accent) l calc(c + 0.01) calc(h + 15));
-
-/* L3 — component: anatomy from L2 */
---button-background: color-mix(in oklch, var(--color-text) 8%, var(--color-clear));
---button-color: var(--color-text);
---button-border: var(--color-clear);
---button-radius: var(--radius-control);
-
-/* L4 — role: generated from L3 */
---button-background-standard: var(--button-background);
---button-background-primary: var(--button-background-primary-value);
-
-/* L5 — state: generated from L4 */
---button-background-standard-static: var(--button-background-standard);
---button-background-standard-hover: color-mix(in oklab, var(--button-background-standard), var(--color-interaction-source-role) var(--mix-hover-source-role));
---button-background-primary-hover: color-mix(in oklab, var(--button-background-primary), var(--color-interaction-source-role) var(--mix-hover-source-role));
-```
-
-```css
-button       { background: var(--button-background-standard-static); color: var(--button-color-standard-static); }
-button:hover { background: var(--button-background-standard-hover); }
-```
-
-## Variants live in component CSS
-
-```css
-button[data-variant] {
-  --button-variant-background: var(--button-background-static);
-  background: var(--button-variant-background);
-}
-button[data-variant="primary"] {
-  --button-variant-background: var(--color-pop-static);
-}
-```
-
-Component variants reuse layer-5 tokens; no per-variant global tokens are generated.
-
-## Component schema format
+Each component's `schema.ts` exports `meta`. The schema describes data and configuration, not styling.
 
 ```ts
 export const meta =
 { name: "button"
-, cssProperties: ["background", "border", "color", "radius"]
-, roles: ["standard", "primary", "danger"]
+, cssProperties: ["background", "color", "border-color", "border-radius", …]
+, roles: ["standard", "primary", "secondary", "danger", "tertiary"]
 , states: ["static", "hover"]
 } as const;
-
-export const component = { /* data and config used at runtime */ };
 ```
 
-`cssProperties` is the flat list of L3 token stems the component receives; `roles` chooses from the closed role set; `states` is the full list of states the component can be in (always including `static`). The file contains no CSS and no token names; the generator resolves the whole matrix.
+Roles: `standard primary secondary tertiary positive warn danger informational`.
+States: `static focus hover active checked unchecked disabled`, plus `selected invalid open highlighted pressed current loading`.
 
-## Anti-pattern: bulky scales
+Styled things that are not components (page elements, layout primitives) use the same shape in `src/tokens/specs/<name>.ts`.
 
-**Do not** construct scales like this. Declare one prima value and derive the rest hierarchically.
+`generateTokenHierarchy(meta)` builds the L3 → L4 → L5 name tree. `toCSSVariables(tree)` flattens it to L5 names. Both are in `src/tokens/generate.ts`; run `bun scripts/emit-tokens.ts --show` to print them.
 
-```scss
-  --radius-1: 0.125rem;
-  --radius-2: 0.25rem;
-  --radius-3: 0.375rem;
-  --radius-4: 0.5rem;
-  --radius-5: 0.625rem;
-  --radius-6: 0.75rem;
-  --radius-7: 0.875rem;
-  --radius-8: 1rem;
-  --radius-9: 1.125rem;
-  --radius-10: 1.25rem;
-  --radius-11: 1.375rem;
-  --radius-12: 1.5rem;
-  --radius-pill: 9999px;
+## Value generation
+
+Roles and states need inputs from L2. Each component carries those inputs down as its own tokens, so adjacency is never broken and any one component can be retuned on its own:
+
+```css
+/* L3 */ --button-tone-primary: var(--tone-primary);
+/* L3 */ --button-state-hover: var(--state-hover);
+/* L3 */ --button-lightness: var(--lightness);
+/* L4 */ --button-state-hover-primary: var(--button-state-hover);
 ```
+
+Recipes depend on the **property type**, which comes from the property name:
+
+| Type | Property name ends in |
+| --- | --- |
+| fill | `background`, `track`, `range`, `indicator`, `thumb`, `dot`, `fill`, `overlay`, `accent-color` |
+| ink | `color`, `icon`, `ink` |
+| edge | `border-color`, `outline-color`, `ring`, `stroke`, `text-decoration-color`, `caret-color` |
+| opacity | `opacity` |
+| other | anything else (lengths, shorthands, durations…) |
+
+### L4 role recipes
+
+| Role | fill | ink | edge | other |
+| --- | --- | --- | --- | --- |
+| standard | L3 | L3 | L3 | L3 |
+| secondary | tone | tone-ink | L3 | L3 |
+| primary, tertiary, positive, warn, danger, informational | tone | tone-ink | tone | L3 |
+
+### L5 state recipes
+
+| State | fill, ink, edge | opacity | other |
+| --- | --- | --- | --- |
+| static, unchecked | L4 | L4 | L4 |
+| hover, open, highlighted, active, pressed | `color-mix(in oklab, L4, lightness <state amount>)` | L4 | L4 |
+| checked, selected, current | fill/edge → state colour; ink → state ink | L4 | L4 |
+| focus, invalid | edge → state colour; others L4 | L4 | L4 |
+| disabled, loading | `color-mix(in oklab, L4 <amount × 100%>, transparent)` | `L4 × amount` | L4 |
+
+Mix amounts come from L1 `--mix-base`/`--mix-step` through L2 `--state-*`. The light theme mixes with black and the dark theme mixes with white, via `--lightness`.
+
+## Overrides
+
+Generate by default and override when necessary. A component's `tokens.ts` replaces any generated value, with keys relative to the component:
+
+```ts
+export const tokens: Overrides =
+{ "background": "color-mix(in oklch, var(--color-text) 8%, var(--color-clear))"     // L3, refs L2
+, "background-danger": "var(--alert-tone-danger-surface)"                          // L4, refs L3
+, "thumb-standard-checked": "var(--switch-state-checked-ink-standard)"            // L5, refs L4
+};
+```
+
+An override still has to reference the level directly below it. Keys that match no generated token fail the build.
+
+## Consuming tokens
+
+Rendered CSS (`src/styles/components`, `src/styles/base`) reads L5 tokens only. It may combine them with literals and `calc()`, but it never reads L1–L4.
+
+## Rules
+
+1. Define foundations, not ramps.
+2. Derive, don't duplicate: every higher-level token references its parent.
+3. Generate by default, override when necessary.

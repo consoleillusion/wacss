@@ -1,9 +1,9 @@
 /* Radio group (bits-ui) - root is a group; items are buttons acting as radios. */
-
 [data-radio-group-root] {
   display: grid;
-  gap: calc(var(--space-unit-static) * 2.0);
+  gap: var(--radio-group-gap-standard-static);
 }
+
 [data-radio-group-item] {
   position: relative;
   display: inline-flex;
@@ -14,39 +14,43 @@
   flex-shrink: 0;
   padding: 0;
   min-height: 0;
-  border: var(--border-width-static) solid var(--radio-border-standard-static);
+  border: var(--radio-group-item-border-width-standard-static) solid var(--radio-border-color-standard-static);
   border-radius: 50%;
   background: var(--radio-background-standard-static);
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
-    , border-color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--radio-group-item-transition-standard-static);
 }
+
 [data-radio-group-item]:hover {
   background: var(--radio-background-standard-hover);
-  border-color: var(--radio-border-standard-hover);
+  border-color: var(--radio-border-color-standard-hover);
 }
+
 [data-radio-group-item]:focus-visible {
-  outline: var(--focus-ring-width-static) solid var(--focus-ring-static);
+  outline: var(--radio-group-item-outline-standard-static);
   outline-offset: 2px;
 }
-[data-radio-group-item][data-state="checked"] {
+
+[data-radio-group-item][data-state=checked] {
   background: var(--radio-background-standard-checked);
   border-color: var(--radio-background-standard-checked);
 }
-[data-radio-group-item][data-state="checked"]::after {
+
+[data-radio-group-item][data-state=checked]::after {
   content: "";
   inline-size: calc(var(--radio-size-standard-static) / 2.5);
   block-size: calc(var(--radio-size-standard-static) / 2.5);
   border-radius: 50%;
   background: var(--radio-dot-standard-static);
 }
+
 [data-radio-group-item][data-disabled] {
-  opacity: var(--opacity-inert-static);
+  opacity: var(--radio-group-item-opacity-standard-static);
   pointer-events: none;
 }
 
 /* Native radio inputs */
-input[type="radio"] {
+input[type=radio] {
   width: var(--radio-size-standard-static);
   height: var(--radio-size-standard-static);
-  accent-color: var(--color-accent-static);
+  accent-color: var(--radio-input-accent-color-standard-static);
 }

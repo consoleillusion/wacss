@@ -1,10 +1,11 @@
 /**
  * Meta-schema for component schema modules.
  *
- * Every `src/components/<Name>/schema.ts` exports a named `style` object and a
- * component definition. `style` declares which CSS properties and states
- * exist — never any CSS values. The component definition is the component's
- * public JSON Schema.
+ * Every `src/components/<Name>/schema.ts` exports a named `meta` object and a
+ * component definition. `meta` declares which CSS properties, roles and states
+ * exist — never any CSS values; it drives token generation (see
+ * src/tokens/generate.ts). The component definition is the component's public
+ * JSON Schema.
  *
  * Example:
  *
@@ -28,68 +29,35 @@ export const commonAttributes =
 , tabindex: { type: ["number", "string"], description: "Tab order." }
 };
 
-const states =
-[ "static"
-, "hover"
-, "focus"
-, "active"
-, "disabled"
-, "selected"
-, "checked"
-, "invalid"
-, "open"
-, "highlighted"
-, "pressed"
-, "current"
-, "loading"
-];
+import { ROLES, STATES } from "../tokens/generate";
 
 export const componentSchema =
 { $schema: "https://json-schema.org/draft/2020-12/schema"
 , $id: "https://wacss.dev/schema/component.json"
 , title: "WacssComponentSchemaModule"
-, description: "The shape of a src/components/<Name>/schema.ts module: a named `style` export and a component definition."
+, description: "The shape of a src/components/<Name>/schema.ts module: a named `meta` export and a component definition."
 , type: "object"
-, required: ["style", "component"]
+, required: ["meta", "component"]
 , additionalProperties: false
 , properties:
-    { style:
-        { title: "ComponentStyle"
-        , description: "The CSS properties and states for one component. Declares structure only — never CSS values."
+    { meta:
+        { title: "ComponentMeta"
+        , description: "Drives L3–L5 token generation. Declares structure only — never CSS values."
         , type: "object"
-        , required: ["properties", "states"]
+        , required: ["name", "cssProperties", "roles", "states"]
         , additionalProperties: false
         , properties:
-            { properties:
+            { name: { type: "string", pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", description: "L3 prefix: --<name>-<property>." }
+            , cssProperties:
                 { type: "array"
-                , description:
-                    "Every CSS property the component receives. Layer-3 tokens are --<family>-<property>."
-                , items:
-                    { type: "object"
-                    , required: ["property"]
-                    , additionalProperties: false
-                    , properties:
-                        { property:
-                            { type: "string"
-                            , pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
-                            , description: "Property stem, e.g. `background`, `padding-inline`."
-                            }
-                        , states:
-                            { type: "array"
-                            , uniqueItems: true
-                            , description:
-                                "States in which this property changes. `static` is implicit and must not be listed."
-                            , items: { enum: states.filter((state) => state !== "static") }
-                            }
-                        }
-                    }
-                }
-            , states:
-                { type: "array"
-                , minItems: 1
                 , uniqueItems: true
-                , description: "States the component can be in. Always includes `static`."
-                , items: { enum: states }
+                , description: "L3 tokens: --<name>-<property>."
+                , items: { type: "string", pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" }
+                }
+            , roles: { type: "array", minItems: 1, uniqueItems: true, description: "L4 tokens.", items: { enum: ROLES } }
+            , states:
+                { type: "array", minItems: 1, uniqueItems: true, contains: { const: "static" }
+                , description: "L5 tokens. Always includes `static`.", items: { enum: STATES }
                 }
             }
         }

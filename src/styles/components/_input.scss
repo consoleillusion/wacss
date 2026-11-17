@@ -1,21 +1,38 @@
 /* Field primitives: label + control + description/error.
    Base input/label styling lives in base/elements; this covers field anatomy. */
+[data-field] {
+  display: grid;
+  gap: var(--field-gap-standard-static);
+}
 
-[data-field] { display: grid; gap: var(--field-gap-standard-static); }
-[data-field] p { margin: 0; }
+[data-field] p {
+  margin: 0;
+}
+
 [data-field-description] {
-  font-size: var(--text-size-ui-static);
+  font-size: var(--input-field-description-font-size-standard-static);
   color: var(--field-description-color-standard-static);
 }
-[data-field-error] { font-size: var(--text-size-ui-static); color: var(--color-destructive-static); }
+
+[data-field-error] {
+  font-size: var(--input-field-error-font-size-standard-static);
+  color: var(--input-field-error-color-standard-static);
+}
 
 /* Inputs that render inside a labelled field keep their intrinsic width choices. */
-[data-field] input:not([type="checkbox"]):not([type="radio"]):not([type="color"]) { width: 100%; }
+[data-field] input:not([type=checkbox]):not([type=radio]):not([type=color]) {
+  width: 100%;
+}
 
 /* A color swatch paired with a hex text input sits on one row. */
-div:has(> input[type="color"]) {
+div:has(> input[type=color]) {
   display: flex;
-  gap: calc(var(--space-unit-static) * 2.0);
+  gap: var(--input-gap-standard-static);
   align-items: center;
 }
-div:has(> input[type="color"]) > input[type="text"] { flex: 1 1 auto; min-inline-size: 0; width: auto; }
+
+div:has(> input[type=color]) > input[type=text] {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  width: auto;
+}

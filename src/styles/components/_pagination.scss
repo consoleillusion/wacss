@@ -1,6 +1,5 @@
 /* Pagination - the global button rule is overridden for page buttons: no shared button chrome,
    just roomy quiet targets with an accent for the current page. */
-
 [data-pagination-root] {
   display: inline-flex;
   align-items: center;
@@ -14,31 +13,30 @@
   padding: 0;
 }
 
-[data-pagination-prev]
-, [data-pagination-next]
-, [data-pagination-page] {
+[data-pagination-prev],
+[data-pagination-next],
+[data-pagination-page] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--space-unit-static) * 8.0);
-  block-size: calc(var(--space-unit-static) * 8.0);
-  min-height: calc(var(--space-unit-static) * 8.0);
+  inline-size: var(--pagination-prev-inline-size-standard-static);
+  block-size: var(--pagination-prev-block-size-standard-static);
+  min-height: var(--pagination-prev-min-height-standard-static);
   padding: 0;
   background: var(--pagination-background-standard-static);
-  border: var(--border-width-static) solid transparent;
-  border-radius: var(--radius-control-static);
+  border: var(--pagination-prev-border-standard-static);
+  border-radius: var(--pagination-prev-border-radius-standard-static);
   color: var(--pagination-color-standard-static);
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-body-static);
+  font-size: var(--pagination-prev-font-size-standard-static);
+  font-weight: var(--pagination-prev-font-weight-standard-static);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
-    , color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--pagination-prev-transition-standard-static);
 }
 
-[data-pagination-prev]:hover
-, [data-pagination-next]:hover
-, [data-pagination-page]:hover {
+[data-pagination-prev]:hover,
+[data-pagination-next]:hover,
+[data-pagination-page]:hover {
   background: var(--pagination-background-standard-hover);
   color: var(--pagination-color-standard-hover);
 }
@@ -46,12 +44,12 @@
 [data-pagination-page][data-selected] {
   background: var(--pagination-background-standard-selected);
   color: var(--pagination-color-standard-selected);
-  font-weight: var(--weight-ui-static);
+  font-weight: var(--pagination-page-font-weight-standard-static);
 }
 
-[data-pagination-prev]:disabled
-, [data-pagination-next]:disabled {
-  opacity: var(--opacity-inert-static);
+[data-pagination-prev]:disabled,
+[data-pagination-next]:disabled {
+  opacity: var(--pagination-prev-opacity-standard-static);
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -60,14 +58,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--space-unit-static) * 8.0);
-  block-size: calc(var(--space-unit-static) * 8.0);
-  color: var(--color-muted-foreground-static);
+  inline-size: var(--pagination-ellipsis-inline-size-standard-static);
+  block-size: var(--pagination-ellipsis-block-size-standard-static);
+  color: var(--pagination-ellipsis-color-standard-static);
   user-select: none;
 }
 
-[data-pagination-prev] svg
-, [data-pagination-next] svg {
-  inline-size: calc(var(--space-unit-static) * 4.0);
-  block-size: calc(var(--space-unit-static) * 4.0);
+[data-pagination-prev] svg,
+[data-pagination-next] svg {
+  inline-size: var(--pagination-svg-inline-size-standard-static);
+  block-size: var(--pagination-svg-block-size-standard-static);
 }

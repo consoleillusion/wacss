@@ -1,140 +1,189 @@
 /* Base element styling consumes L4/L5 tokens. */
-
 :focus-visible {
-  outline: var(--focus-ring-width-static) solid var(--focus-ring-static);
+  outline: var(--element-outline-standard-static);
   outline-offset: 2px;
 }
 
 /* --- Buttons --- */
-button, [role="button"] {
+button, [role=button] {
   appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--button-gap-standard-static);
   white-space: nowrap;
-  border: var(--border-width-static) solid var(--button-border-standard-static);
-  border-radius: var(--button-radius-standard-static);
+  border: var(--element-button-border-width-standard-static) solid var(--button-border-color-standard-static);
+  border-radius: var(--button-border-radius-standard-static);
   background: var(--button-background-standard-static);
   color: var(--button-color-standard-static);
   min-height: var(--button-height-standard-static);
   padding: var(--button-padding-block-standard-static) var(--button-padding-inline-standard-static);
   font-size: var(--button-font-size-standard-static);
-  font-weight: var(--weight-ui-static);
+  font-weight: var(--element-button-font-weight-standard-static);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
-    , color var(--motion-interaction-static) var(--ease-interaction-static)
-    , border-color var(--motion-interaction-static) var(--ease-interaction-static)
-    , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--element-button-transition-standard-static);
 }
-button:hover, [role="button"]:hover {
+
+button:hover, [role=button]:hover {
   background: var(--button-background-standard-hover);
   color: var(--button-color-standard-hover);
 }
 
 /* Disabled: scoped to interactive elements, not every aria-disabled element. */
-button:disabled, input:disabled, select:disabled, textarea:disabled
-, optgroup:disabled, fieldset:disabled
-, [role="button"][aria-disabled="true"], a[aria-disabled="true"]
-, [data-disabled] {
+button:disabled, input:disabled, select:disabled, textarea:disabled,
+optgroup:disabled, fieldset:disabled,
+[role=button][aria-disabled=true], a[aria-disabled=true],
+[data-disabled] {
   cursor: not-allowed;
-  opacity: var(--opacity-inert-static);
+  opacity: var(--element-button-opacity-standard-static);
   pointer-events: none;
 }
-fieldset:disabled > * { pointer-events: none; }
+
+fieldset:disabled > * {
+  pointer-events: none;
+}
 
 /* --- Text inputs --- */
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"])
-, select, textarea {
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),
+select, textarea {
   display: flex;
   width: 100%;
-  border: var(--border-width-static) solid var(--input-border-standard-static);
-  border-radius: var(--input-radius-standard-static);
+  border: var(--element-input-border-width-standard-static) solid var(--input-border-color-standard-static);
+  border-radius: var(--input-border-radius-standard-static);
   background: var(--input-background-standard-static);
   color: var(--input-color-standard-static);
   min-height: var(--input-height-standard-static);
   padding: var(--input-padding-block-standard-static) var(--input-padding-inline-standard-static);
   font-size: var(--input-font-size-standard-static);
-  transition: border-color var(--motion-interaction-static) var(--ease-interaction-static)
-    , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--element-input-transition-standard-static);
 }
-textarea { min-height: 5rem; }
 
-::placeholder { color: var(--input-placeholder-color-standard-static); opacity: 1; }
+textarea {
+  min-height: 5rem;
+}
+
+::placeholder {
+  color: var(--input-placeholder-color-standard-static);
+  opacity: 1;
+}
 
 /* Focus ring on fields: border + soft halo, no double outline. */
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: none;
-  border-color: var(--input-border-standard-focus);
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-focus);
+  border-color: var(--input-border-color-standard-focus);
+  box-shadow: 0 0 0 var(--element-input-box-shadow-focus-ring-span-standard-static) var(--input-ring-standard-focus);
 }
 
 /* Invalid */
-input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
-  border-color: var(--input-border-standard-invalid);
+input[aria-invalid=true], select[aria-invalid=true], textarea[aria-invalid=true] {
+  border-color: var(--input-border-color-standard-invalid);
 }
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid
-, select:user-invalid
-, textarea:user-invalid {
-  border-color: var(--input-border-standard-invalid);
+
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):user-invalid,
+select:user-invalid,
+textarea:user-invalid {
+  border-color: var(--input-border-color-standard-invalid);
 }
-input[aria-invalid="true"]:focus-visible, select[aria-invalid="true"]:focus-visible
-, textarea[aria-invalid="true"]:focus-visible
-, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):user-invalid:focus-visible
-, select:user-invalid:focus-visible
-, textarea:user-invalid:focus-visible {
-  box-shadow: 0 0 0 var(--focus-ring-span-static) var(--input-ring-standard-invalid);
+
+input[aria-invalid=true]:focus-visible, select[aria-invalid=true]:focus-visible,
+textarea[aria-invalid=true]:focus-visible,
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]):user-invalid:focus-visible,
+select:user-invalid:focus-visible,
+textarea:user-invalid:focus-visible {
+  box-shadow: 0 0 0 var(--element-input-box-shadow-focus-ring-span-standard-static) var(--input-ring-standard-invalid);
 }
 
 /* Color swatch input: compact swatch, not a stretched field. */
-input[type="color"] {
+input[type=color] {
   appearance: none;
-  inline-size: calc(var(--space-unit-static) * 10.0);
+  inline-size: var(--element-input-inline-size-standard-static);
   min-height: var(--input-height-standard-static);
-  padding: calc(var(--space-unit-static) * 1.0);
-  border: var(--border-width-static) solid var(--input-border-standard-static);
-  border-radius: var(--input-radius-standard-static);
+  padding: var(--element-input-padding-standard-static);
+  border: var(--element-input-border-width-standard-static) solid var(--input-border-color-standard-static);
+  border-radius: var(--input-border-radius-standard-static);
   background: var(--input-background-standard-static);
   cursor: pointer;
 }
-input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-input[type="color"]::-webkit-color-swatch { border: none; border-radius: calc(var(--input-radius-standard-static) - 2px); }
+
+input[type=color]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type=color]::-webkit-color-swatch {
+  border: none;
+  border-radius: calc(var(--input-border-radius-standard-static) - 2px);
+}
 
 /* Native select keeps its OS-provided chevron. */
-
 /* Native checkboxes/radios tinted with the accent. */
-input[type="checkbox"], input[type="radio"] {
+input[type=checkbox], input[type=radio] {
   inline-size: var(--checkbox-size-standard-static);
   block-size: var(--checkbox-size-standard-static);
-  accent-color: var(--color-accent-static);
+  accent-color: var(--element-input-accent-color-standard-static);
 }
 
 /* --- Labels --- */
 label {
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-ui-static);
+  font-size: var(--element-label-font-size-standard-static);
+  font-weight: var(--element-label-font-weight-standard-static);
   line-height: 1;
 }
-label > span[aria-hidden="true"]
-, legend > span[aria-hidden="true"] { color: var(--color-destructive-static); margin-inline-start: 2px; }
+
+label > span[aria-hidden=true],
+legend > span[aria-hidden=true] {
+  color: var(--element-span-color-standard-static);
+  margin-inline-start: 2px;
+}
 
 /* --- Headings: editorial rhythm --- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading-static);
-  font-weight: var(--weight-heading-static);
-  line-height: var(--line-heading-static);
+  font-family: var(--element-h1-font-family-standard-static);
+  font-weight: var(--element-h1-font-weight-standard-static);
+  line-height: var(--element-h1-line-height-standard-static);
   text-wrap: balance;
 }
-h1 { font-size: calc(var(--text-size-body-static) * 2.25); margin-block: calc(var(--space-unit-static) * 8.0) calc(var(--space-unit-static) * 4.0); }
-h2 { font-size: calc(var(--text-size-body-static) * 1.5); margin-block: calc(var(--space-unit-static) * 8.0) calc(var(--space-unit-static) * 3.0); }
-h3 { font-size: calc(var(--text-size-body-static) * 1.25); margin-block: calc(var(--space-unit-static) * 6.0) calc(var(--space-unit-static) * 2.0); }
-h4 { font-size: calc(var(--text-size-body-static) * 1.125); }
-h5 { font-size: var(--text-size-body-static); }
-h6 { font-size: calc(var(--text-size-body-static) * 0.875); }
-p { margin-block: calc(var(--space-unit-static) * 3.0); }
-p:first-child { margin-block-start: 0; }
-p:last-child { margin-block-end: 0; }
+
+h1 {
+  font-size: var(--element-h1-font-size-standard-static);
+  margin-block: var(--element-h1-margin-block-standard-static);
+}
+
+h2 {
+  font-size: var(--element-h2-font-size-standard-static);
+  margin-block: var(--element-h2-margin-block-standard-static);
+}
+
+h3 {
+  font-size: var(--element-h3-font-size-standard-static);
+  margin-block: var(--element-h3-margin-block-standard-static);
+}
+
+h4 {
+  font-size: var(--element-h4-font-size-standard-static);
+}
+
+h5 {
+  font-size: var(--element-h5-font-size-standard-static);
+}
+
+h6 {
+  font-size: var(--element-h6-font-size-standard-static);
+}
+
+p {
+  margin-block: var(--element-p-margin-block-standard-static);
+}
+
+p:first-child {
+  margin-block-start: 0;
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
 
 /* --- Lists --- */
-ul, ol { padding-inline-start: calc(var(--space-unit-static) * 6.0); }
+ul, ol {
+  padding-inline-start: var(--element-ul-padding-inline-start-standard-static);
+}

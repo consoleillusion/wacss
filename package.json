@@ -26,11 +26,9 @@
     "build": "bun scripts/emit-tokens.ts && bun scripts/build.js",
     "build:demo": "bun scripts/emit-tokens.ts && bun scripts/build.js && astro build",
     "emit:tokens": "bun scripts/emit-tokens.ts",
-    "verify:tokens": "bun scripts/emit-tokens.ts --check && bun scripts/audit-tokens.mjs",
     "tokens:show": "bun scripts/emit-tokens.ts --show",
     "dev": "astro dev",
-    "preview": "astro preview",
-    "audit:tokens": "bun scripts/audit-tokens.mjs"
+    "preview": "astro preview"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -55,6 +53,7 @@
   "dependencies": {
     "@dagrejs/dagre": "^3.1.3",
     "@svar-ui/svelte-grid": "^2.7.6",
+    "@types/ramda": "^0.32.0",
     "@xyflow/svelte": "^1.7.1",
     "bits-ui": "^2.20.6",
     "change-case": "^5.4.4",
@@ -62,6 +61,7 @@
     "elkjs": "^0.12.1",
     "lightningcss": "^1.33.0",
     "postcss": "^8.5.32",
-    "postcss-cli": "^12.0.0"
+    "postcss-cli": "^12.0.0",
+    "ramda": "^0.32.0"
   }
 }

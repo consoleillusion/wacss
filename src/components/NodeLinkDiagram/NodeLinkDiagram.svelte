@@ -51,7 +51,7 @@
           , source: ref
           , target: token.name
           , type: "smoothstep"
-          , style: "stroke: var(--color-muted-foreground-static); stroke-width: 1.1px; stroke-opacity: 0.6;"
+          , style: "stroke: var(--node-link-diagram-edge-stroke-standard-static); stroke-width: 1.1px; stroke-opacity: 0.6;"
         , });
       }
     }

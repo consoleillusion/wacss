@@ -1,19 +1,18 @@
 /* Alert - a block-level callout for messages that deserve attention.
    Each data-variant binds one role's L5 tokens; the anatomy reads the
    component-local current-* aliases. */
-
 [data-alert-root] {
   --alert-current-icon: var(--alert-icon-informational-static);
   --alert-current-background: var(--alert-background-informational-static);
-  --alert-current-border: var(--alert-border-informational-static);
+  --alert-current-border: var(--alert-border-color-informational-static);
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: calc(var(--space-unit-static) * 3.0);
+  gap: var(--alert-gap-standard-static);
   align-items: start;
-  padding: calc(var(--space-unit-static) * 3.0) calc(var(--space-unit-static) * 4.0);
+  padding: var(--alert-padding-standard-static);
   background: var(--alert-current-background);
-  border: var(--border-width-static) solid var(--alert-current-border);
-  border-radius: var(--radius-surface-static);
+  border: var(--alert-border-width-standard-static) solid var(--alert-current-border);
+  border-radius: var(--alert-border-radius-standard-static);
 }
 
 [data-alert-icon] {
@@ -21,48 +20,51 @@
   padding-block-start: 2px;
   color: var(--alert-current-icon);
 }
+
 [data-alert-icon] svg {
-  inline-size: calc(var(--space-unit-static) * 5.0);
-  block-size: calc(var(--space-unit-static) * 5.0);
+  inline-size: var(--alert-svg-inline-size-standard-static);
+  block-size: var(--alert-svg-block-size-standard-static);
   stroke-width: 1.75;
 }
 
 [data-alert-body] {
   display: grid;
-  gap: calc(var(--space-unit-static) * 1.0);
+  gap: var(--alert-body-gap-standard-static);
   min-inline-size: 0;
 }
 
 [data-alert-title] {
   margin: 0;
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-ui-static);
-  line-height: var(--line-heading-static);
-  color: var(--color-text-static);
+  font-size: var(--alert-title-font-size-standard-static);
+  font-weight: var(--alert-title-font-weight-standard-static);
+  line-height: var(--alert-title-line-height-standard-static);
+  color: var(--alert-title-color-standard-static);
 }
 
 [data-alert-description] {
   margin: 0;
-  font-size: var(--text-size-ui-static);
+  font-size: var(--alert-description-font-size-standard-static);
   /* Body copy, not helper text: full-strength ink keeps 4.5:1 on every
      status surface in both themes (muted ink dipped to 3.7:1 in dark). */
-  color: var(--color-text-static);
-  line-height: var(--line-body-static);
+  color: var(--alert-description-color-standard-static);
+  line-height: var(--alert-description-line-height-standard-static);
 }
 
 /* Roles: info is informational, then positive / warn / danger. */
-[data-alert-root][data-variant="positive"] {
+[data-alert-root][data-variant=positive] {
   --alert-current-icon: var(--alert-icon-positive-static);
   --alert-current-background: var(--alert-background-positive-static);
-  --alert-current-border: var(--alert-border-positive-static);
+  --alert-current-border: var(--alert-border-color-positive-static);
 }
-[data-alert-root][data-variant="warning"] {
+
+[data-alert-root][data-variant=warning] {
   --alert-current-icon: var(--alert-icon-warn-static);
   --alert-current-background: var(--alert-background-warn-static);
-  --alert-current-border: var(--alert-border-warn-static);
+  --alert-current-border: var(--alert-border-color-warn-static);
 }
-[data-alert-root][data-variant="destructive"] {
+
+[data-alert-root][data-variant=destructive] {
   --alert-current-icon: var(--alert-icon-danger-static);
   --alert-current-background: var(--alert-background-danger-static);
-  --alert-current-border: var(--alert-border-danger-static);
+  --alert-current-border: var(--alert-border-color-danger-static);
 }

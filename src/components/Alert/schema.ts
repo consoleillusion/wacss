@@ -2,8 +2,26 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "alert"
-, cssProperties: ["icon", "background", "border"]
-, roles: ["informational", "positive", "warn", "danger"]
+, cssProperties:
+    [ "icon"
+    , "background"
+    , "border-color"
+    , "gap"
+    , "padding"
+    , "border-width"
+    , "border-radius"
+    , "svg-inline-size"
+    , "svg-block-size"
+    , "body-gap"
+    , "title-font-size"
+    , "title-font-weight"
+    , "title-line-height"
+    , "title-color"
+    , "description-font-size"
+    , "description-color"
+    , "description-line-height"
+    ]
+, roles: ["standard", "informational", "positive", "warn", "danger"]
 , states: ["static"]
 } as const;
 

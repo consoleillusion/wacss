@@ -2,7 +2,32 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "select"
-, cssProperties: ["background", "border", "color", "item-background", "item-color", "item-radius", "radius", "height"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "item-background"
+    , "item-color"
+    , "item-border-radius"
+    , "border-radius"
+    , "height"
+    , "trigger-gap"
+    , "trigger-border-width"
+    , "trigger-font-weight"
+    , "trigger-transition"
+    , "trigger-box-shadow-focus-ring-span"
+    , "icon-transition"
+    , "content-max-height"
+    , "content-border-width"
+    , "content-animation"
+    , "content-closed-animation"
+    , "item-padding-space"
+    , "item-opacity"
+    , "item-font-weight"
+    , "item-indicator-inset-inline-start"
+    , "scroll-up-button-height"
+    , "scroll-up-button-color"
+    ]
 , roles: ["standard"]
 , states: ["static", "hover", "highlighted"]
 } as const;

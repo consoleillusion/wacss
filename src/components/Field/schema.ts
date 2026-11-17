@@ -2,7 +2,10 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "field"
-, cssProperties: ["gap", "description-color"]
+, cssProperties:
+    [ "gap"
+    , "description-color"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

@@ -2,7 +2,16 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "avatar"
-, cssProperties: ["size", "size-sm", "size-lg", "fallback-background", "fallback-color"]
+, cssProperties:
+    [ "size"
+    , "size-sm"
+    , "size-lg"
+    , "fallback-background"
+    , "fallback-color"
+    , "border-radius"
+    , "image-font-size"
+    , "image-font-weight"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

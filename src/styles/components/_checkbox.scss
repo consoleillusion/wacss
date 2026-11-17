@@ -1,36 +1,40 @@
 /* Checkbox - bits-ui button root with a data-state span indicator. */
-
 /* Native checkbox inputs (fallback) tinted with the accent. */
-label:has(input[type="checkbox"]) {
+label:has(input[type=checkbox]) {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--space-unit-static) * 2.0);
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-body-static);
+  gap: var(--checkbox-label-gap-standard-static);
+  font-size: var(--checkbox-label-font-size-standard-static);
+  font-weight: var(--checkbox-label-font-weight-standard-static);
 }
-input[type="checkbox"] {
+
+input[type=checkbox] {
   width: var(--checkbox-size-standard-static);
   height: var(--checkbox-size-standard-static);
-  accent-color: var(--color-accent-static);
+  accent-color: var(--checkbox-input-accent-color-standard-static);
 }
 
 /* bits-ui checkbox: a <button> acting as the box. */
 [data-checkbox-root] {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--space-unit-static) * 2.0);
+  gap: var(--checkbox-gap-standard-static);
   background: transparent;
   border: 0;
   border-radius: 0;
   min-height: auto;
   padding: 0;
-  color: var(--color-text-static);
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-body-static);
+  color: var(--checkbox-color-2-standard-static);
+  font-size: var(--checkbox-font-size-standard-static);
+  font-weight: var(--checkbox-font-weight-standard-static);
   cursor: pointer;
   width: fit-content;
 }
-[data-checkbox-root]:hover { background: transparent; color: var(--color-text-static); }
+
+[data-checkbox-root]:hover {
+  background: transparent;
+  color: var(--checkbox-hover-color-standard-static);
+}
 
 /* The indicator span carries data-state. */
 [data-checkbox-root] > span[data-state] {
@@ -40,14 +44,13 @@ input[type="checkbox"] {
   inline-size: var(--checkbox-size-standard-static);
   block-size: var(--checkbox-size-standard-static);
   flex-shrink: 0;
-  border: var(--border-width-static) solid var(--checkbox-border-standard-static);
-  border-radius: var(--checkbox-radius-standard-static);
+  border: var(--checkbox-span-border-width-standard-static) solid var(--checkbox-border-color-standard-static);
+  border-radius: var(--checkbox-border-radius-standard-static);
   background: var(--checkbox-background-standard-static);
   color: transparent;
-  transition: background var(--motion-interaction-static) var(--ease-interaction-static)
-    , border-color var(--motion-interaction-static) var(--ease-interaction-static)
-    , color var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--checkbox-span-transition-standard-static);
 }
+
 [data-checkbox-root] > span[data-state] > svg {
   inline-size: 0.75rem;
   block-size: 0.75rem;
@@ -57,14 +60,16 @@ input[type="checkbox"] {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-[data-checkbox-root] > span[data-state="checked"]
-, [data-checkbox-root] > span[data-state="indeterminate"] {
+
+[data-checkbox-root] > span[data-state=checked],
+[data-checkbox-root] > span[data-state=indeterminate] {
   background: var(--checkbox-background-standard-checked);
-  border-color: var(--checkbox-border-standard-checked);
+  border-color: var(--checkbox-border-color-standard-checked);
   color: var(--checkbox-color-standard-static);
 }
+
 /* checked + hover: compound states are out of the matrix; mixed explicitly here. */
-[data-checkbox-root]:hover > span[data-state="checked"]
-, [data-checkbox-root]:hover > span[data-state="indeterminate"] {
-  background: color-mix(in oklab, var(--checkbox-background-standard-checked), var(--color-interaction-static) 10%);
+[data-checkbox-root]:hover > span[data-state=checked],
+[data-checkbox-root]:hover > span[data-state=indeterminate] {
+  background: color-mix(in oklab, var(--checkbox-background-standard-checked), var(--checkbox-span-background-lightness-standard-static) 10%);
 }

@@ -2,7 +2,26 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "pagination"
-, cssProperties: ["background", "color", "gap"]
+, cssProperties:
+    [ "background"
+    , "color"
+    , "gap"
+    , "prev-inline-size"
+    , "prev-block-size"
+    , "prev-min-height"
+    , "prev-border"
+    , "prev-border-radius"
+    , "prev-font-size"
+    , "prev-font-weight"
+    , "prev-transition"
+    , "page-font-weight"
+    , "prev-opacity"
+    , "ellipsis-inline-size"
+    , "ellipsis-block-size"
+    , "ellipsis-color"
+    , "svg-inline-size"
+    , "svg-block-size"
+    ]
 , roles: ["standard"]
 , states: ["static", "hover", "selected"]
 } as const;

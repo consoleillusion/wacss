@@ -1,9 +1,17 @@
 /* Context menu - shares menu surface styles in _popover.scss. */
+[data-context-menu-trigger] {
+  display: contents;
+}
 
-[data-context-menu-trigger] { display: contents; }
-[data-context-menu-content] { min-width: 10rem; }
+[data-context-menu-content] {
+  min-width: 10rem;
+}
+
 [data-context-menu-sub-trigger] > svg {
   margin-inline-start: auto;
-  transition: transform var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--context-menu-svg-transition-standard-static);
 }
-[data-context-menu-sub-trigger][data-state="open"] > svg { transform: rotate(90deg); }
+
+[data-context-menu-sub-trigger][data-state=open] > svg {
+  transform: rotate(90deg);
+}

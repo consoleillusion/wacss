@@ -2,7 +2,22 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "button"
-, cssProperties: ["background", "border", "color", "radius", "padding-block", "padding-inline", "font-size", "gap", "height", "height-sm", "height-lg", "height-icon"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "border-radius"
+    , "padding-block"
+    , "padding-inline"
+    , "font-size"
+    , "gap"
+    , "height"
+    , "height-sm"
+    , "height-lg"
+    , "height-icon"
+    , "variant-color"
+    , "variant-font-size"
+    ]
 , roles: ["standard", "primary", "secondary", "danger", "tertiary"]
 , states: ["static", "hover"]
 } as const;

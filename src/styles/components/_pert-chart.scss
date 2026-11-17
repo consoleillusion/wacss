@@ -1,36 +1,34 @@
 /* PertChart - xyflow graph Themed through wacss tokens; layout lives in @xyflow/svelte. */
-
 [data-pert-chart-root] {
   display: block;
   inline-size: 100%;
   block-size: 100%;
   min-block-size: 16rem;
-
   /* xyflow variables re-pointed at wacss tokens */
-  --xy-background-pattern-color: color-mix(in oklch, var(--color-text-static) 16%, transparent);
-  --xy-edge-stroke: var(--color-border-static);
-  --xy-edge-stroke-selected: var(--color-accent-static);
-  --xy-edge-box-shadow-selected: 0 0 0 calc(var(--border-width-static) * 2) color-mix(in oklch, var(--color-accent-static) 50%, transparent);
-  --xy-handle-background-color: var(--color-base-static);
-  --xy-handle-border-color: var(--color-border-static);
-  --xy-node-color: var(--color-text-static);
-  --xy-node-background-color: var(--color-surface-static);
-  --xy-node-border: var(--border-width-static) solid var(--color-border-static);
-  --xy-node-border-radius: var(--radius-control-static);
+  --xy-background-pattern-color: var(--pert-chart-xy-background-pattern-color-standard-static);
+  --xy-edge-stroke: var(--pert-chart-xy-edge-stroke-standard-static);
+  --xy-edge-stroke-selected: var(--pert-chart-xy-edge-stroke-selected-standard-static);
+  --xy-edge-box-shadow-selected: var(--pert-chart-xy-edge-box-shadow-selected-standard-static);
+  --xy-handle-background-color: var(--pert-chart-xy-handle-background-color-standard-static);
+  --xy-handle-border-color: var(--pert-chart-xy-handle-border-color-standard-static);
+  --xy-node-color: var(--pert-chart-xy-node-color-standard-static);
+  --xy-node-background-color: var(--pert-chart-xy-node-background-color-standard-static);
+  --xy-node-border: var(--pert-chart-xy-node-border-standard-static);
+  --xy-node-border-radius: var(--pert-chart-xy-node-border-radius-standard-static);
   --xy-attribution-background-color: transparent;
-  --xy-minimap-background-color: var(--color-muted-static);
-  --xy-controls-color: var(--color-text-static);
-  --xy-controls-button-background-color: var(--color-surface-static);
-  --xy-controls-button-background-color-hover: var(--color-muted-static);
-  --xy-controls-button-border-color: var(--color-border-static);
-  background: var(--color-base-static);
-  border: var(--border-width-static) solid var(--color-border-static);
-  border-radius: var(--radius-surface-static);
+  --xy-minimap-background-color: var(--pert-chart-xy-minimap-background-color-standard-static);
+  --xy-controls-color: var(--pert-chart-xy-controls-color-standard-static);
+  --xy-controls-button-background-color: var(--pert-chart-xy-controls-button-background-color-standard-static);
+  --xy-controls-button-background-color-hover: var(--pert-chart-xy-controls-button-background-color-hover-standard-static);
+  --xy-controls-button-border-color: var(--pert-chart-xy-controls-button-border-color-standard-static);
+  background: var(--pert-chart-background-standard-static);
+  border: var(--pert-chart-border-standard-static);
+  border-radius: var(--pert-chart-border-radius-standard-static);
   overflow: hidden;
 }
 
-[data-pert-chart-root] .svelte-flow
-, [data-pert-chart-root] .svelte-flow__pane {
+[data-pert-chart-root] .svelte-flow,
+[data-pert-chart-root] .svelte-flow__pane {
   inline-size: 100%;
   block-size: 100%;
 }
@@ -38,51 +36,52 @@
 /* --- Node card --- */
 [data-pert-node] {
   display: grid;
-  gap: calc(var(--space-unit-static) * 1.0);
+  gap: var(--pert-chart-pert-node-gap-standard-static);
   inline-size: 100%;
   block-size: 100%;
-  padding: calc(var(--space-unit-static) * 2.0) calc(var(--space-unit-static) * 3.0);
-  border: var(--border-width-static) solid var(--color-border-static);
-  border-radius: var(--radius-control-static);
-  background: var(--color-surface-static);
-  color: var(--color-text-static);
+  padding: var(--pert-chart-pert-node-padding-standard-static);
+  border: var(--pert-chart-pert-node-border-standard-static);
+  border-radius: var(--pert-chart-pert-node-border-radius-standard-static);
+  background: var(--pert-chart-pert-node-background-standard-static);
+  color: var(--pert-chart-pert-node-color-standard-static);
   box-sizing: border-box;
-  transition: border-color var(--motion-interaction-static) var(--ease-interaction-static)
-    , box-shadow var(--motion-interaction-static) var(--ease-interaction-static);
+  transition: var(--pert-chart-pert-node-transition-standard-static);
 }
 
 [data-pert-node].critical {
-  border-color: var(--color-accent-static);
-  background: color-mix(in oklch, var(--color-accent-static) 14%, var(--color-surface-static));
-  box-shadow: 0 0 0 calc(var(--border-width-static) * 2) var(--color-accent-static);
+  border-color: var(--pert-chart-pert-node-border-color-standard-static);
+  background: var(--pert-chart-pert-node-background-2-standard-static);
+  box-shadow: var(--pert-chart-pert-node-box-shadow-standard-static);
 }
 
 .pert-node-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: calc(var(--space-unit-static) * 2.0);
+  gap: var(--pert-chart-pert-node-head-gap-standard-static);
 }
 
 .pert-node-id {
-  font-size: calc(var(--text-size-body-static) * 0.75);
-  font-weight: var(--weight-heading-static);
+  font-size: var(--pert-chart-pert-node-id-font-size-standard-static);
+  font-weight: var(--pert-chart-pert-node-id-font-weight-standard-static);
   letter-spacing: 0.08em;
-  color: var(--color-muted-foreground-static);
+  color: var(--pert-chart-pert-node-id-color-standard-static);
 }
 
-[data-pert-node].critical .pert-node-id { color: var(--color-accent-static); }
+[data-pert-node].critical .pert-node-id {
+  color: var(--pert-chart-pert-node-id-color-2-standard-static);
+}
 
 .pert-node-expected {
-  font-size: calc(var(--text-size-body-static) * 0.75);
+  font-size: var(--pert-chart-pert-node-expected-font-size-standard-static);
   font-variant-numeric: tabular-nums;
-  color: var(--color-muted-foreground-static);
+  color: var(--pert-chart-pert-node-expected-color-standard-static);
 }
 
 .pert-node-name {
-  font-size: var(--text-size-ui-static);
-  font-weight: var(--weight-ui-static);
-  line-height: var(--line-heading-static);
+  font-size: var(--pert-chart-pert-node-name-font-size-standard-static);
+  font-weight: var(--pert-chart-pert-node-name-font-weight-standard-static);
+  line-height: var(--pert-chart-pert-node-name-line-height-standard-static);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -90,28 +89,28 @@
 
 .pert-node-meta {
   display: flex;
-  gap: calc(var(--space-unit-static) * 2.0);
-  font-size: calc(var(--text-size-body-static) * 0.75);
+  gap: var(--pert-chart-pert-node-meta-gap-standard-static);
+  font-size: var(--pert-chart-pert-node-meta-font-size-standard-static);
   font-variant-numeric: tabular-nums;
-  color: var(--color-muted-foreground-static);
+  color: var(--pert-chart-pert-node-meta-color-standard-static);
 }
 
 /* --- Node handles --- */
 [data-pert-chart-root] .svelte-flow__handle {
-  inline-size: calc(var(--space-unit-static) * 2.0);
-  block-size: calc(var(--space-unit-static) * 2.0);
-  background: var(--color-border-static);
+  inline-size: var(--pert-chart-svelte-flow-handle-inline-size-standard-static);
+  block-size: var(--pert-chart-svelte-flow-handle-block-size-standard-static);
+  background: var(--pert-chart-svelte-flow-handle-background-standard-static);
   border: none;
 }
 
 [data-pert-chart-root] .svelte-flow__handle-connecting {
-  background: var(--color-accent-static);
+  background: var(--pert-chart-svelte-flow-handle-connecting-background-standard-static);
 }
 
 /* --- Controls: keep the chrome quiet and token-driven --- */
 [data-pert-chart-root] .svelte-flow__controls {
-  box-shadow: var(--shadow-surface-static);
-  border: var(--border-width-static) solid var(--color-border-static);
-  border-radius: var(--radius-control-static);
+  box-shadow: var(--pert-chart-svelte-flow-controls-box-shadow-standard-static);
+  border: var(--pert-chart-svelte-flow-controls-border-standard-static);
+  border-radius: var(--pert-chart-svelte-flow-controls-border-radius-standard-static);
   overflow: hidden;
 }

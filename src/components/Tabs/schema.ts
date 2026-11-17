@@ -2,7 +2,30 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "tabs"
-, cssProperties: ["list-background", "list-color", "trigger-background", "trigger-color", "height", "trigger-padding-block", "trigger-padding-inline"]
+, cssProperties:
+    [ "list-background"
+    , "list-color"
+    , "trigger-background"
+    , "trigger-color"
+    , "height"
+    , "trigger-padding-block"
+    , "trigger-padding-inline"
+    , "list-padding"
+    , "list-border-radius"
+    , "trigger-border-radius"
+    , "trigger-font-size"
+    , "trigger-font-weight"
+    , "trigger-border"
+    , "trigger-transition"
+    , "trigger-box-shadow"
+    , "trigger-opacity"
+    , "content-margin-block-start"
+    , "content-font-size"
+    , "content-color"
+    , "gap"
+    , "trigger-active-background"
+    , "trigger-active-color"
+    ]
 , roles: ["standard"]
 , states: ["static", "hover", "active"]
 } as const;

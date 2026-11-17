@@ -2,7 +2,16 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "skeleton"
-, cssProperties: ["background"]
+, cssProperties:
+    [ "background"
+    , "gap"
+    , "circle-animation"
+    , "circle-inline-size"
+    , "circle-block-size"
+    , "circle-border-radius"
+    , "bar-block-size"
+    , "bar-border-radius"
+    ]
 , roles: ["standard"]
 , states: ["static"]
 } as const;

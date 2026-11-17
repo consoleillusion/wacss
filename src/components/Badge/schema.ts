@@ -2,7 +2,22 @@ import { commonAttributes } from "../component";
 
 export const meta =
 { name: "badge"
-, cssProperties: ["background", "border", "color", "radius", "padding-block", "padding-inline", "font-size", "line-height", "font-weight"]
+, cssProperties:
+    [ "background"
+    , "border-color"
+    , "color"
+    , "border-radius"
+    , "padding-block"
+    , "padding-inline"
+    , "font-size"
+    , "line-height"
+    , "font-font-weight"
+    , "border-width"
+    , "transition"
+    , "badge-current-background"
+    , "badge-current-color"
+    , "badge-current-border"
+    ]
 , roles: ["standard", "secondary", "tertiary", "positive", "danger"]
 , states: ["static"]
 } as const;
