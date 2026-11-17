@@ -28,4 +28,3 @@ It should be possible to represent the demo site, and any site, in JSON. A site 
 - A light/dark toggle in the top-right corner.
 - Persisted theme and palette preference.
 - Flash prevention when restoring the theme (inline bootstrap script setting `data-theme`/`data-palette` before first paint).
-

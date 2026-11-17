@@ -12,5 +12,3 @@ Decisions this spec leaves open. Each needs an answer before the part it affects
 | 6 | Third-party property types (`meta.types`): acceptable, or should third-party widgets be themed some other way? | Schema | `meta.types` |
 | 7 | Keyframe animations live in helpers and are referenced by name. Is that acceptable, or should animations be expressible in the schema? | Helpers | Helpers |
  8 | Status ink contrast: computed with the same lightness switch as `--color-on-accent`. Should it be checked against WCAG in the build? | L2, build | Not checked in build |
-
-
