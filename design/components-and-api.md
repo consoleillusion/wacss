@@ -22,7 +22,7 @@ Typical props: `items`, `tabs`, `jsonschema`, `media`, `component`, `data`.
 
 ## Component list
 
-The component list, and each component's element, variants, states, properties and structure, will be decided separately. Each component's schema is the reference for it.
+The component list, and each component's element, variants, states, properties and structure, will be decided separately. Each component's schema is the reference for it. Start with just Accordion, Card, Button, Checkbox
 
 Notes carried over for when that happens:
 
@@ -38,7 +38,6 @@ Notes carried over for when that happens:
     - Allow you to copy paste the value of the tokens relevant to that component.
     - You should be able to copy the full set of tokens at any time, which will include whatever changes you have made by modifying the tokens.
 - **Forms** are declarative and generated from JSON Schema.
-- Component List: `["Accordion", "Alert", "AspectRatio", "Audio", "Avatar", "Button", "Card", "Checkbox", "ColorInput", "ColorPicker", "DataTable", "DatePicker", "Field", "Form", "Image", "Input", "Label", "Meter", "Nav", "NavigationMenu", "NodeLinkDiagram", "Pagination", "PertChart", "Popover", "Progress", "RadioGroup", "Select", "Slider", "Switch", "Table", "Tabs", "Textarea", "Toggle", "Tooltip", "Video", "Webpage", "Grid"]`
 
 ### Card
 
@@ -62,7 +61,7 @@ On the home page:
 - Cards sit in a full-width `.grid`, intrinsically sized so the layout reflows on resize or drawer toggle without special logic.
 - Each card has a header, a figure containing one component, and that component's schema description below.
 
-## Card (`docs/component/card.md`)
+## Card
  
 A data-driven surface for presenting content. Placing a component in a card needs no per-instance logic.
  
@@ -122,3 +121,8 @@ A data-driven surface for presenting content. Placing a component in a card need
 .card__figure  { order: 1; }
 .card__content { order: 2; }
 ```
+
+## Full component set (before v1)
+
+Start with Accordion, Card, Button and Checkbox; add the rest of the full set in batches before v1.
+- Component List: `["Accordion", "Alert", "AspectRatio", "Audio", "Avatar", "Button", "Card", "Checkbox", "ColorInput", "ColorPicker", "DataTable", "DatePicker", "Field", "Form", "Image", "Input", "Label", "Meter", "Nav", "NavigationMenu", "NodeLinkDiagram", "Pagination", "PertChart", "Popover", "Progress", "RadioGroup", "Select", "Slider", "Switch", "Table", "Tabs", "Textarea", "Toggle", "Tooltip", "Video", "Webpage", "Grid"]`
