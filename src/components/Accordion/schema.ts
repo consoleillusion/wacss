@@ -1,5 +1,4 @@
-import type { Meta } from "../../tokens/types";
-import { commonAttributes } from "../component";
+import { commonAttributes } from "../commonAttributes.ts";
 
 export const meta =
 { name: "accordion"
