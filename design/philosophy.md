@@ -29,6 +29,10 @@ The visual direction draws on Japanese wabi-sabi and Western editorial minimalis
 | Shibui | 渋い | Restrained depth | Beauty that reveals itself over time |
 | Seijaku | 静寂 | Energised calm | Nothing moves without purpose |
 
+## From principles to decisions
+
+The principles are decision criteria, not decoration. They favour derived, desaturated colour; motion that answers a state change; spacing that carries hierarchy; and arrangements that balance without mirroring. [Aesthetics in practice](aesthetics-in-practice.md) shows how each principle shapes colour, animation, spacing and arrangement, and where accessibility or evidence overrides taste.
+
 ## Hidden details
 
 Yūgen, Shibui and Datsuzoku inform small discoveries that reward attention, such as a palette swatch revealing its name on hover. They are found, not announced, and never compete with content.
