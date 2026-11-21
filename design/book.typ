@@ -31,6 +31,7 @@
   (
     "Architecture",
     (
+      "schema",
      "css-output", 
      "build-and-verification", 
      "demo-site",
@@ -38,6 +39,7 @@
       "semantic",
       "variants",
       "states",
+
       "layout",
       "components-and-api",
       "architecture",
@@ -203,7 +205,7 @@
 // Code blocks: restrained, no syntax colours.
 // ---------------------------------------------------------------------------
 
-#show raw: it => if it.lang != none { raw(it.text, lang: none, block: it.block) } else { it }
+//#show raw: it => if it.lang != none { raw(it.text, lang: none, block: it.block) } else { it }
 
 #show raw.where(block: true): it => block(
   width: 100%,
@@ -241,6 +243,7 @@
 #set enum(numbering: n => text(fill: c.faint)[#n.], indent: 3pt, body-indent: 7pt, spacing: 0.65em)
 
 // Roadmap task boxes.
+/*
 #show "☐": box(
   width: 0.72em,
   height: 0.72em,
@@ -248,6 +251,7 @@
   stroke: 0.7pt + c.faint,
   radius: 1.5pt,
 )
+*/
 
 #show quote.where(block: true): it => block(
   inset: (left: 10pt, y: 2pt),
