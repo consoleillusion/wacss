@@ -1,6 +1,6 @@
-= WACSS specification
+= wacss specification
 <introduction>
-WACSS is a data-driven component library with one global, token-driven
+wacss is a data-driven component library with one global, token-driven
 stylesheet. Pass data, get a complete, accessible UI.
 
 Developers hand-author a small set of foundational tokens (L1, L2) and

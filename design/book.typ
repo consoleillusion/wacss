@@ -1,4 +1,4 @@
-// WACSS specification: the book.
+// wacss specification: the book.
 //
 // This file is the only entrypoint and the only place with styling. The chapter
 // files (*.typ next to this one) hold content only.
@@ -13,15 +13,15 @@
 // Document data
 // ---------------------------------------------------------------------------
 
-#let title = "WACSS"
+#let title = "wacss"
 #let subtitle = "Specification"
-#let eyebrow = "Design system & component library"
+#let eyebrow = "Design System & Component Library"
 #let summary = [
   A data-driven component library with one global, token-driven stylesheet. \
   Pass data, get a complete, accessible UI.
 ]
 #let status = "Draft"
-#let running-title = "WACSS · Specification"
+#let running-title = "wacss · Specification"
 
 // The order and grouping follow design/index.md. Each part is a level-1
 // heading; each file's own headings nest beneath it.
@@ -94,13 +94,13 @@
 #let mono = ("JetBrains Mono", "DejaVu Sans Mono", "Consolas", "Menlo", "Liberation Mono")
 #let cjk = ("Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN")
 
-// Small, tracked, upper-case label used for eyebrows, table heads and footers.
+// Small, tracked label used for eyebrows, table heads and footers (title case, never upper-cased).
 #let label-text(body, size: 6.8pt, fill: c.faint) = text(
   size: size,
   weight: 500,
   tracking: 0.14em,
   fill: fill,
-  upper(body),
+  body,
 )
 
 // ---------------------------------------------------------------------------
@@ -224,7 +224,6 @@
 #show table: set block(above: 1.1em, below: 1.2em)
 #show table.cell.where(x: 0): set text(weight: 500)
 #show table.cell.where(y: 0): set text(size: 6.6pt, weight: 600, tracking: 0.12em, fill: c.faint)
-#show table.cell.where(y: 0): it => upper(it)
 
 // ---------------------------------------------------------------------------
 // Lists
