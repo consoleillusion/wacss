@@ -129,7 +129,9 @@
   },
 )
 
-#set heading(numbering: (..n) => if n.pos().len() <= 4 { numbering("1.1", ..n) })
+// Only parts (level 1) are numbered, in roman numerals. Every other heading is unnumbered.
+#set heading(numbering: none)
+#show heading.where(level: 1): set heading(numbering: "I")
 
 // ---------------------------------------------------------------------------
 // Headings
@@ -143,7 +145,7 @@
 #show heading.where(level: 1): it => {
   pagebreak(weak: true)
   v(30%)
-  label-text([Part #counter(heading).display("1")], size: 7.5pt, fill: c.faint)
+  label-text([Part #counter(heading).display("I")], size: 7.5pt, fill: c.faint)
   v(5mm)
   block(text(font: serif, size: 36pt, weight: "regular", fill: c.ink, it.body))
   v(7mm)
@@ -299,8 +301,7 @@
   link(
     it.element.location(),
     grid(
-      columns: (12mm, 1fr, auto),
-      text(size: 7.6pt, fill: c.faint, it.prefix()),
+      columns: (1fr, auto),
       text(size: 8.4pt, it.element.body),
       text(size: 8pt, fill: c.faint, it.page()),
     ),

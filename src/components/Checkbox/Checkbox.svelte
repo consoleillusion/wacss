@@ -34,7 +34,7 @@
 </script>
 
 <div data-field class={["field", className].filter(Boolean).join(" ")}>
-  <div style="display:flex;align-items:center;gap:0.5rem;">
+  <div data-field-control>
     <BitsCheckbox.Root
       {...restProps}
       class="checkbox"
