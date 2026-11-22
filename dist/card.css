@@ -1,0 +1,161 @@
+/* Generated from /workspace/wacss/src/components/Card/schema.dhall - do not edit directly. */
+
+/* L3 bridges */
+:root {
+  --card-interaction: var(--interaction);
+  --card-mix-hover: var(--mix-hover);
+  --card-tone-primary: var(--tone-primary);
+  --card-tone-primary-ink: var(--tone-primary-ink);
+}
+
+/* L4 bridges */
+:root {
+  --card-interaction-secondary: var(--card-interaction);
+  --card-interaction-primary: var(--card-interaction);
+  --card-mix-hover-secondary: var(--card-mix-hover);
+  --card-mix-hover-primary: var(--card-mix-hover);
+  --card-tone-primary-secondary: var(--card-tone-primary);
+  --card-tone-primary-primary: var(--card-tone-primary);
+  --card-tone-primary-ink-secondary: var(--card-tone-primary-ink);
+  --card-tone-primary-ink-primary: var(--card-tone-primary-ink);
+}
+
+/* L3 component tokens */
+:root {
+  --card-background: var(--background);
+  --card-color: var(--color);
+  --card-border-color: var(--border-color);
+  --card-border-width: var(--border-width);
+  --card-border-radius: var(--border-radius);
+  --card-padding: var(--padding);
+  --card-box-shadow: var(--box-shadow);
+  --card-gap: var(--gap);
+  --card-font-size: var(--font-size);
+  --card-font-weight: var(--font-weight);
+  --card-line-height: var(--line-height);
+}
+
+/* L4 variant tokens */
+:root {
+  --card-background-secondary: var(--card-background);
+  --card-background-primary: var(--card-tone-primary);
+  --card-color-secondary: var(--card-color);
+  --card-color-primary: var(--card-tone-primary-ink);
+  --card-border-color-secondary: var(--card-border-color);
+  --card-border-color-primary: var(--card-tone-primary);
+  --card-border-width-secondary: var(--card-border-width);
+  --card-border-width-primary: var(--card-border-width);
+  --card-border-radius-secondary: var(--card-border-radius);
+  --card-border-radius-primary: var(--card-border-radius);
+  --card-padding-secondary: var(--card-padding);
+  --card-padding-primary: var(--card-padding);
+  --card-box-shadow-secondary: var(--card-box-shadow);
+  --card-box-shadow-primary: var(--card-box-shadow);
+  --card-gap-secondary: var(--card-gap);
+  --card-gap-primary: var(--card-gap);
+  --card-font-size-secondary: var(--card-font-size);
+  --card-font-size-primary: var(--card-font-size);
+  --card-font-weight-secondary: var(--card-font-weight);
+  --card-font-weight-primary: var(--card-font-weight);
+  --card-line-height-secondary: var(--card-line-height);
+  --card-line-height-primary: var(--card-line-height);
+}
+
+/* L5 state tokens */
+:root {
+  --card-background-secondary-static: var(--card-background-secondary);
+  --card-background-secondary-hover: var(--card-background-secondary);
+  --card-background-primary-static: var(--card-background-primary);
+  --card-background-primary-hover: var(--card-background-primary);
+  --card-color-secondary-static: var(--card-color-secondary);
+  --card-color-secondary-hover: var(--card-color-secondary);
+  --card-color-primary-static: var(--card-color-primary);
+  --card-color-primary-hover: var(--card-color-primary);
+  --card-border-color-secondary-static: var(--card-border-color-secondary);
+  --card-border-color-secondary-hover: var(--card-border-color-secondary);
+  --card-border-color-primary-static: var(--card-border-color-primary);
+  --card-border-color-primary-hover: var(--card-border-color-primary);
+  --card-border-width-secondary-static: var(--card-border-width-secondary);
+  --card-border-width-secondary-hover: var(--card-border-width-secondary);
+  --card-border-width-primary-static: var(--card-border-width-primary);
+  --card-border-width-primary-hover: var(--card-border-width-primary);
+  --card-border-radius-secondary-static: var(--card-border-radius-secondary);
+  --card-border-radius-secondary-hover: var(--card-border-radius-secondary);
+  --card-border-radius-primary-static: var(--card-border-radius-primary);
+  --card-border-radius-primary-hover: var(--card-border-radius-primary);
+  --card-padding-secondary-static: var(--card-padding-secondary);
+  --card-padding-secondary-hover: var(--card-padding-secondary);
+  --card-padding-primary-static: var(--card-padding-primary);
+  --card-padding-primary-hover: var(--card-padding-primary);
+  --card-box-shadow-secondary-static: var(--card-box-shadow-secondary);
+  --card-box-shadow-secondary-hover: var(--card-box-shadow-secondary), 0 0 0 0.25em color-mix(in oklab, var(--card-interaction-secondary) var(--card-mix-hover-secondary), transparent);
+  --card-box-shadow-primary-static: var(--card-box-shadow-primary);
+  --card-box-shadow-primary-hover: var(--card-box-shadow-primary), 0 0 0 0.25em color-mix(in oklab, var(--card-interaction-primary) var(--card-mix-hover-primary), transparent);
+  --card-gap-secondary-static: var(--card-gap-secondary);
+  --card-gap-secondary-hover: var(--card-gap-secondary);
+  --card-gap-primary-static: var(--card-gap-primary);
+  --card-gap-primary-hover: var(--card-gap-primary);
+  --card-font-size-secondary-static: var(--card-font-size-secondary);
+  --card-font-size-secondary-hover: var(--card-font-size-secondary);
+  --card-font-size-primary-static: var(--card-font-size-primary);
+  --card-font-size-primary-hover: var(--card-font-size-primary);
+  --card-font-weight-secondary-static: var(--card-font-weight-secondary);
+  --card-font-weight-secondary-hover: var(--card-font-weight-secondary);
+  --card-font-weight-primary-static: var(--card-font-weight-primary);
+  --card-font-weight-primary-hover: var(--card-font-weight-primary);
+  --card-line-height-secondary-static: var(--card-line-height-secondary);
+  --card-line-height-secondary-hover: var(--card-line-height-secondary);
+  --card-line-height-primary-static: var(--card-line-height-primary);
+  --card-line-height-primary-hover: var(--card-line-height-primary);
+}
+
+@layer wacss.components {
+  .card {
+    aspect-ratio: 3 / 4;
+    border-style: solid;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 3fr 4fr;
+    inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    background: var(--card-background-secondary-static);
+    color: var(--card-color-secondary-static);
+    border-color: var(--card-border-color-secondary-static);
+    border-width: var(--card-border-width-secondary-static);
+    border-radius: var(--card-border-radius-secondary-static);
+    padding: var(--card-padding-secondary-static);
+    box-shadow: var(--card-box-shadow-secondary-static);
+    gap: var(--card-gap-secondary-static);
+    font-size: var(--card-font-size-secondary-static);
+    font-weight: var(--card-font-weight-secondary-static);
+    line-height: var(--card-line-height-secondary-static);
+  }
+  .card:where(:hover) {
+    box-shadow: var(--card-box-shadow-secondary-hover);
+  }
+  .card.primary {
+    aspect-ratio: 3 / 4;
+    border-style: solid;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 3fr 4fr;
+    inline-size: 100%;
+    min-inline-size: 0;
+    overflow: hidden;
+    background: var(--card-background-primary-static);
+    color: var(--card-color-primary-static);
+    border-color: var(--card-border-color-primary-static);
+    border-width: var(--card-border-width-primary-static);
+    border-radius: var(--card-border-radius-primary-static);
+    padding: var(--card-padding-primary-static);
+    box-shadow: var(--card-box-shadow-primary-static);
+    gap: var(--card-gap-primary-static);
+    font-size: var(--card-font-size-primary-static);
+    font-weight: var(--card-font-weight-primary-static);
+    line-height: var(--card-line-height-primary-static);
+  }
+  .card.primary:where(:hover) {
+    box-shadow: var(--card-box-shadow-primary-hover);
+  }
+}

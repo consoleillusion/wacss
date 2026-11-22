@@ -9,7 +9,8 @@
   "exports": {},
   "scripts": {
     "test": "bun test",
-    "build:book": "typst compile  --input theme=dark design/book.typ book.pdf"
+    "build:book": "typst compile  --input theme=dark design/book.typ book.pdf",
+    "generate:tokens": "bun scripts/generate-tokens.ts"
   },
   "devDependencies": {
     "@astrojs/svelte": "9.1.6",
