@@ -41,7 +41,6 @@
       "states",
 
       "layout",
-      "components-and-api",
       "architecture",
       "component-schema",
       "generation",
