@@ -55,21 +55,3 @@ Layout]. They lay out a page, not a component, and are not generated.
   [`--box-padding`],
 )
 
-Helper option custom properties are local to the element. They are not
-tokens and are not mangled. Their defaults reference L2 tokens.
-
-== Other helpers
-<layout:other-helpers>
-- #strong[Reset:] box sizing, margins, media defaults. Kept minimal.
-- #strong[Keyframes:] named `wacss-*` (e.g. `wacss-spin`,
-  `wacss-shimmer`). Keyframes are helper definitions; a component opts
-  in by listing `animation-name` and the other animation properties it
-  needs in `cssProperties`.
-- #strong[Reduced motion:] a single
-  `@media (prefers-reduced-motion: reduce)` rule that shortens
-  transitions and stops animations globally.
-
-== Naming
-<layout:naming>
-Helper class names must not collide with component names or variant
-names. The generator checks this.

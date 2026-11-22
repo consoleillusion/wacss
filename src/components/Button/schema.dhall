@@ -25,7 +25,6 @@ in
   , "transition-duration"
   ]
 , structuralProperties =
-  { static =
     { appearance = "none"
     , display = "inline-flex"
     , `align-items` = "center"
@@ -37,8 +36,6 @@ in
     , cursor = "pointer"
     , `transition-property` = "background, color, border-color, transform"
     }
-  , disabled.cursor = "not-allowed"
-  , loading.position = "relative"
   }
 , arguments =
   { variant = P.choice [ "secondary", "primary", "tertiary", "danger" ] "secondary"
