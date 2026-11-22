@@ -1,36 +1,31 @@
 ---
 const {
-  href
-  , type = "button"
-  , variant = "default"
-  , size = "default"
-  , disabled = false
-  , class: className = ""
-  , ...attrs
-} = Astro.props;
-const VARIANT_CLASS = {
-  default: "", secondary: "", primary: "primary"
-  , destructive: "danger", link: "tertiary", outline: "tertiary"
-  , info: "informational", warning: "warning"
-} as Record<string, string>;
-const variantClass = VARIANT_CLASS[variant] ?? "";
-const classNames = [variantClass, className].filter(Boolean).join(" ") || undefined;
+  href,
+  type = "button",
+  variant = "secondary",
+  disabled = false,
+  loading = false,
+  class: className = "",
+  ...attrs
+} = Astro.props as any;
+
+const classNames = [variant !== "secondary" ? variant : "", className].filter(Boolean).join(" ") || undefined;
 ---
 {href ? (
   <a
     {...attrs}
     href={href}
     class={classNames}
-    data-size={size}
-    aria-disabled={disabled ? "true" : undefined}
-    tabindex={disabled ? -1 : undefined}
+    aria-disabled={disabled || loading ? "true" : undefined}
+    aria-busy={loading || undefined}
+    tabindex={disabled || loading ? -1 : undefined}
   ><slot /></a>
 ) : (
   <button
     type={type}
-    disabled={disabled}
+    disabled={disabled || loading}
     class={classNames}
-    data-size={size}
+    aria-busy={loading || undefined}
     {...attrs}
   ><slot /></button>
 )}

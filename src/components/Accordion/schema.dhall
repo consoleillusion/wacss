@@ -5,7 +5,7 @@ in  { title = "Accordion"
     , description = "A data-driven accordion with single or multiple open items."
     , element = "details"
     , variants = [ "secondary" ]
-    , states = [ "static", "open" ]
+    , states = [ "closed", "open" ]
     , cssProperties =
       [ "border-color"
       , "border-block-end-width"

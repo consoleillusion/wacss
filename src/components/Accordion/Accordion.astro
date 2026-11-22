@@ -1,52 +1,40 @@
 ---
-import type { AccordionProps } from "./types";
-
-type Props = AccordionProps & { name?: string };
+type Item = { value: string; title: string; content?: string; disabled?: boolean };
 
 const {
-  items = []
-  , type = "single"
-  , value = ""
-  , name
-  , class: className = ""
-  , ...rest
-} = Astro.props as Props;
-
-const groupName = type === "single" ? (name ?? "") : undefined;
-const classes = [className].filter(Boolean).join(" ");
-
-const isOpen = (itemValue: string) => {
-  if (Array.isArray(value)) return value.includes(itemValue);
-  return value === itemValue;
+  items = [] as Item[],
+  type = "single",
+  value = "",
+  name,
+  class: className = "",
+  ...rest
+} = Astro.props as {
+  items?: Item[];
+  type?: "single" | "multiple";
+  value?: string | string[];
+  name?: string;
+  class?: string;
+  [k: string]: any;
 };
+
+const groupName = type === "single" ? name : undefined;
+const isOpen = (itemValue: string) => Array.isArray(value) ? value.includes(itemValue) : value === itemValue;
 ---
-<section {...rest} class={classes || undefined} data-accordion-root>
-  {items.map((item) => {
-    const open = isOpen(item.value);
-    return (
-      <details name={groupName} open={open || undefined}>
-        <summary>
-          <span>{item.title}</span>
-          <svg
-            viewBox="0 0 16 16"
-            width="16"
-            height="16"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="m4 6 4 4 4-4" />
-          </svg>
-        </summary>
-        <div>
-          {item.content && <p>{item.content}</p>}
-          <slot name={item.value} />
-        </div>
-      </details>
-    );
-  })}
+
+<div class={["accordion", className].filter(Boolean).join(" ")} data-accordion-root {...rest}>
+  {items.map((item) => (
+    <details name={groupName} open={isOpen(item.value) || undefined} disabled={item.disabled || undefined}>
+      <summary>
+        <span>{item.title}</span>
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m4 6 4 4 4-4" />
+        </svg>
+      </summary>
+      <div>
+        {item.content && <p>{item.content}</p>}
+        <slot name={item.value} />
+      </div>
+    </details>
+  ))}
   <slot />
-</section>
+</div>

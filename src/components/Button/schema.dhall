@@ -1,3 +1,5 @@
+let P = ../prelude.dhall
+in
 { title = "Button"
 , type = "object"
 , description = "A styled action element. Renders a button, or an anchor when href is set."
@@ -39,12 +41,11 @@
   , loading.position = "relative"
   }
 , arguments =
-  { variant = [ "secondary", "primary", "tertiary", "danger" ]
-            "secondary"
-      , type = P.choice [ "button", "submit", "reset" ] "button"
-      , label = P.string
-      , href = P.described "Renders an anchor instead of a button."
-      , loading = P.booleanWith False
-      , disabled = P.booleanWith False
-      }
+  { variant = P.choice [ "secondary", "primary", "tertiary", "danger" ] "secondary"
+  , type = P.choice [ "button", "submit", "reset" ] "button"
+  , label = P.string
+  , href = P.described "Renders an anchor instead of a button."
+  , loading = P.booleanWith False
+  , disabled = P.booleanWith False
+  }
 }

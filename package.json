@@ -9,13 +9,13 @@
   "exports": {},
   "scripts": {
     "test": "bun test",
-     "build:book": "typst compile  --input theme=dark design/book.typ book.pdf"
+    "build:book": "typst compile  --input theme=dark design/book.typ book.pdf"
   },
   "devDependencies": {
-    "@astrojs/svelte": "^9.1.2",
+    "@astrojs/svelte": "9.1.6",
     "@types/bun": "latest",
     "@types/ramda": "^0.32.0",
-    "astro": "7.4.7",
+    "astro": "7.4.13",
     "cssnano": "^9.9.0",
     "json-schema-typed": "^8.0.2",
     "lightningcss": "^1.33.0",
@@ -44,6 +44,6 @@
     "change-case": "^5.4.4",
     "dhall-wasm": "github:consoleillusion/dhall-wasm",
     "elkjs": "^0.12.1",
-    "load-object": "^1.8.5"
+    "load-object": "github:consoleillusion/js-load-object"
   }
 }

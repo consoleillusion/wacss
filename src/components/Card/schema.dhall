@@ -7,17 +7,8 @@ in
     { variants = [ "secondary", "primary" ]
     , states = [ "static", "hover" ]
     , cssProperties =
-      [ "background"
-      , "color"
-      , "border-color"
-      , "border-width"
-      , "border-radius"
-      , "padding"
-      , "box-shadow"
-      , "gap"
-      , "font-size"
-      , "font-weight"
-      , "line-height"
+      [ "background", "color", "border-color", "border-width", "border-radius"
+      , "padding" , "box-shadow", "gap", "font-size", "font-weight", "line-height"
       ]
     , structure.static
       =
@@ -38,8 +29,7 @@ in
           , text = P.described "Body text shown below the figure."
           , figure =
             { type = "object"
-            , description =
-                "Data matching any wacss component schema, recognised by its title (or a component name). Rendered inside the card as its figure."
+            , description = "Data matching any wacss component schema, recognised by its title (or a component name). Rendered inside the card as its figure."
             , additionalProperties = True
             }
           , component =
