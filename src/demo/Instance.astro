@@ -1,0 +1,24 @@
+---
+// One instance of any wacss component, rendered from its title and data. Components are found
+// by title; those that respond to input in the browser, Accordion, Globe and StreetMap, are
+// hydrated. A TableCell is only meaningful in a table, so it is shown in one.
+import Accordion from "../components/Accordion/Accordion.svelte";
+import Globe from "../components/Globe/Globe.svelte";
+import StreetMap from "../components/StreetMap/StreetMap.svelte";
+import Table from "../components/Table/Table.astro";
+import LineChart from "../components/LineChart/LineChart.svelte";
+import BarChart from "../components/BarChart/BarChart.svelte";
+import PieChart from "../components/PieChart/PieChart.svelte";
+
+const modules = import.meta.glob<{ default: any }>(["../components/*/*.svelte", "../components/*/*.astro"], { eager: true });
+const { title, data = {} } = Astro.props as { title: string; data?: Record<string, unknown> };
+const Component = (modules[`../components/${title}/${title}.svelte`] ?? modules[`../components/${title}/${title}.astro`])?.default;
+---
+{title === "Accordion" ? <Accordion client:load {...data} />
+  : title === "Globe" ? <Globe client:load {...data} />
+  : title === "StreetMap" ? <StreetMap client:load {...data} />
+  : title === "TableCell" ? <Table {...data} />
+  : title === "LineChart" ? <LineChart client:load {...data} />
+  : title === "BarChart" ? <BarChart client:load {...data} />
+  : title === "PieChart" ? <PieChart client:load {...data} />
+  : Component && <Component {...data} />}

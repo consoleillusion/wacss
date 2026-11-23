@@ -1,0 +1,73 @@
+---
+// /component: every component in a grid of cards. Each card shows the component's default
+// variant in its figure, its title and description, and a button to its own page. Above the
+// grid, a row of Badges filters the cards by the categories their schemas give.
+import data from "../../dist/tokens.json";
+import Card from "../components/Card/Card.astro";
+import Badge from "../components/Badge/Badge.astro";
+import Instance from "./Instance.astro";
+import { samples } from "./samples";
+import { componentPath } from "../site";
+
+const { titles } = Astro.props as { titles: string[] };
+const components = data.components as Record<string, any>;
+const categories = [...new Set(titles.flatMap((t) => components[t].categories as string[]))].sort();
+---
+<div class="stack">
+  <div class="cluster" role="group" aria-label="Filter by category" data-demo-filter>
+    <Badge label="All" value="all" pressed={true} />
+    {categories.map((c) => <Badge label={c} value={c} pressed={false} />)}
+  </div>
+  <div class="grid demo-grid">
+    {titles.map((title) => (
+      <Card
+        header={title}
+        text={components[title].description}
+        footer={{ component: "Button", data: { label: `View ${title}`, href: componentPath(title) } }}
+        data-categories={components[title].categories.join(" ")}
+      >
+        <Instance slot="figure" title={title} data={samples[title]} />
+      </Card>
+    ))}
+  </div>
+</div>
+
+<script>
+  // The filter. "All" shows every card. Pressing a category unselects "All" and shows the cards
+  // in any selected category. Selecting "All" remembers the categories that were selected, and
+  // unselecting it brings them back. When no category is left selected, "All" is selected again.
+  const bar = document.querySelector<HTMLElement>("[data-demo-filter]")!;
+  const all = bar.querySelector<HTMLButtonElement>('button[value="all"]')!;
+  const categories = [...bar.querySelectorAll<HTMLButtonElement>('button:not([value="all"])')];
+  let remembered: string[] = [];
+
+  const isOn = (b: HTMLButtonElement) => b.getAttribute("aria-pressed") === "true";
+  const setOn = (b: HTMLButtonElement, on: boolean) => b.setAttribute("aria-pressed", String(on));
+
+  const apply = () => {
+    // Purpose: show the cards the selected badges allow, and hide the rest
+    const chosen = isOn(all) ? null : categories.filter(isOn).map((b) => b.value);
+    for (const card of document.querySelectorAll<HTMLElement>("[data-categories]"))
+      card.hidden = chosen !== null && !card.dataset.categories!.split(" ").some((c) => chosen.includes(c));
+  };
+
+  all.addEventListener("click", () => {
+    if (isOn(all)) {
+      if (remembered.length === 0) return;
+      setOn(all, false);
+      for (const b of categories) setOn(b, remembered.includes(b.value));
+    } else {
+      remembered = categories.filter(isOn).map((b) => b.value);
+      setOn(all, true);
+      for (const b of categories) setOn(b, false);
+    }
+    apply();
+  });
+
+  for (const b of categories)
+    b.addEventListener("click", () => {
+      setOn(b, !isOn(b));
+      setOn(all, !categories.some(isOn));
+      apply();
+    });
+</script>

@@ -1,0 +1,130 @@
+{
+  "kinari": {
+    "light": {
+      "palette-base": "#fbfaf9",
+      "palette-surface": "#fefdfc",
+      "palette-accent": "#805c16",
+      "palette-pop": "#5b3b00",
+      "color-text": "#1e1d1b",
+      "color-text-muted": "#5c5b5a",
+      "color-border": "#d1d0d0",
+      "color-on-accent": "#fbfaf9",
+      "background-positive": "#476a35",
+      "background-warning": "#a3501d",
+      "background-danger": "#8e2b3a",
+      "background-informational": "#3a5c78",
+      "color-danger": "#fbfaf9"
+    },
+    "dark": {
+      "palette-base": "#141412",
+      "palette-surface": "#191816",
+      "palette-accent": "#c7aa6e",
+      "palette-pop": "#e7d6af",
+      "color-text": "#e0deda",
+      "color-text-muted": "#979693",
+      "color-border": "#2f2f2e",
+      "color-on-accent": "#141412",
+      "background-positive": "#a9c79a",
+      "background-warning": "#eba27a",
+      "background-danger": "#e996a3",
+      "background-informational": "#9bbedb",
+      "color-danger": "#141412"
+    }
+  },
+  "matcha": {
+    "light": {
+      "palette-base": "#fafaf9",
+      "palette-surface": "#fdfefc",
+      "palette-accent": "#546d2e",
+      "palette-pop": "#304b17",
+      "color-text": "#1c1d1c",
+      "color-text-muted": "#5b5b5a",
+      "color-border": "#d0d0d0",
+      "color-on-accent": "#fafaf9",
+      "background-positive": "#2d6a5c",
+      "background-warning": "#7a611a",
+      "background-danger": "#8e2b3a",
+      "background-informational": "#3a5d7a",
+      "color-danger": "#fafaf9"
+    },
+    "dark": {
+      "palette-base": "#131413",
+      "palette-surface": "#181917",
+      "palette-accent": "#a1b87d",
+      "palette-pop": "#d1deb6",
+      "color-text": "#dddfda",
+      "color-text-muted": "#959793",
+      "color-border": "#2f2f2f",
+      "color-on-accent": "#131413",
+      "background-positive": "#8fcbb9",
+      "background-warning": "#d6c57c",
+      "background-danger": "#e996a3",
+      "background-informational": "#9cbede",
+      "color-danger": "#131413"
+    }
+  },
+  "aizome": {
+    "light": {
+      "palette-base": "#f9fafb",
+      "palette-surface": "#fcfdff",
+      "palette-accent": "#396598",
+      "palette-pop": "#2a416f",
+      "color-text": "#1c1d1e",
+      "color-text-muted": "#5a5b5d",
+      "color-border": "#d0d0d1",
+      "color-on-accent": "#f9fafb",
+      "background-positive": "#3c6640",
+      "background-warning": "#745520",
+      "background-danger": "#8a4033",
+      "background-informational": "#2d6a5f",
+      "color-danger": "#f9fafb"
+    },
+    "dark": {
+      "palette-base": "#131415",
+      "palette-surface": "#17181a",
+      "palette-accent": "#86b2e3",
+      "palette-pop": "#c0dafc",
+      "color-text": "#dbdee2",
+      "color-text-muted": "#949699",
+      "color-border": "#2f2f30",
+      "color-on-accent": "#131415",
+      "background-positive": "#9ec9a0",
+      "background-warning": "#d6b47f",
+      "background-danger": "#e8a291",
+      "background-informational": "#8dcbc0",
+      "color-danger": "#131415"
+    }
+  },
+  "shu": {
+    "light": {
+      "palette-base": "#fbfafa",
+      "palette-surface": "#fffdfd",
+      "palette-accent": "#924b4a",
+      "palette-pop": "#682d2f",
+      "color-text": "#1e1c1c",
+      "color-text-muted": "#5d5b5a",
+      "color-border": "#d1d0d0",
+      "color-on-accent": "#fbfafa",
+      "background-positive": "#3f6a48",
+      "background-warning": "#85601a",
+      "background-danger": "#7a2c6a",
+      "background-informational": "#3a5878",
+      "color-danger": "#fbfafa"
+    },
+    "dark": {
+      "palette-base": "#151313",
+      "palette-surface": "#1a1817",
+      "palette-accent": "#df9996",
+      "palette-pop": "#facac9",
+      "color-text": "#e2dcdc",
+      "color-text-muted": "#999595",
+      "color-border": "#302f2f",
+      "color-on-accent": "#151313",
+      "background-positive": "#9ec8a5",
+      "background-warning": "#d9bb7e",
+      "background-danger": "#dba2d2",
+      "background-informational": "#9bbedb",
+      "color-danger": "#151313"
+    }
+  }
+}

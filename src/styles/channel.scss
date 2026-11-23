@@ -1,18 +1,29 @@
 // L2 — Channels. Hand-authored, composed from L1 and L2.
 //
 // A channel is what a state changes. Every token here is named
-//   --<state>-<property>            the value the state applies
-//   --<state>-<property>-toward     (colour properties) the colour to mix toward
-//   --<state>-<property>-amount     (colour properties) how much of it to mix
+//   --<state>-<slot>            the value the state applies
+//   --<state>-<slot>-toward     (colour properties) the colour to mix toward
+//   --<state>-<slot>-amount     (colour properties) how much of it to mix
+// where <slot> is a property ("background"), or a pseudo-element and a property
+// ("after-transform"), exactly as it appears in component token names.
 //
 // The set of tokens in this file is the channel map: a state changes exactly the
 // properties named here, and only on components that list that property.
-// Two states that a component lists must not share a property.
 :root {
-  // hover: tint the fill, lift the surface.
+  // hover: tint the fill, and draw a ring that moves out from the edge as it fades in. The
+  // ring is a box-shadow, so the outline stays free for the focus ring.
   --hover-background-toward: var(--interaction);
   --hover-background-amount: var(--mix-hover);
-  --hover-box-shadow: var(--shadow-overlay);
+  --hover-box-shadow:
+    0 0 0 var(--ring-gap) var(--palette-base),
+    0 0 0 calc(var(--ring-gap) + var(--outline-width)) var(--ring);
+
+  // hover: draw the underline in the accent.
+  --hover-text-decoration-color-toward: var(--palette-accent);
+  --hover-text-decoration-color-amount: 100%;
+
+  // hover: set running what was paused, such as a Globe's turn.
+  --hover-animation-play-state: running;
 
   // focus: draw the ring.
   --focus-outline-color: var(--ring);
@@ -20,12 +31,23 @@
   // active: press in.
   --active-transform: scale(var(--scale-active));
 
+  // current: the page you are on reads heavier.
+  --current-font-weight: var(--font-weight-heading);
+
+  // pressed: a selected toggle takes the accent.
+  --pressed-background-toward: var(--palette-accent);
+  --pressed-background-amount: 100%;
+  --pressed-border-color-toward: var(--palette-accent);
+  --pressed-border-color-amount: 100%;
+  --pressed-color-toward: var(--color-on-accent);
+  --pressed-color-amount: 100%;
+
   // disabled: fade.
   --disabled-opacity: var(--opacity-disabled);
 
   // loading: desaturate.
   --loading-filter: saturate(50%);
 
-  // open: turn (the accordion chevron).
-  --open-transform: rotate(0.5turn);
+  // open: turn the disclosure chevron.
+  --open-after-transform: rotate(0.5turn);
 }

@@ -3,19 +3,30 @@
 export type Child = { component: string; data?: Record<string, unknown> };
 export type Page = { title: string; description: string; children: Child[] };
 
-export const site: { title: string; description: string; pages: Record<string, Page> } =
+/** The components the site shows, by title. */
+const components = ["Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput"];
+
+/** A component's path: /component/ and its name in kebab case. */
+export const componentPath = (title: string) =>
+  // Purpose: the URL of a component's own page
+  `/component/${title.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase()}`;
+
+export const site: { title: string; description: string; nav: string[]; pages: Record<string, Page> } =
 { title: "wacss"
 , description: "A data-driven component library with one global, token-driven stylesheet."
+, nav: [ "/component", "/design" ]
 , pages:
-  { "/components":
-    { title: "Components"
-    , description: "Every component, in every variant, with every state."
-    , children:
-      [ { component: "Showcase", data: { title: "Accordion" } }
-      , { component: "Showcase", data: { title: "Button" } }
-      , { component: "Showcase", data: { title: "Card" } }
-      ]
+  { "/component":
+    { title: "Component"
+    , description: "Every component, in its default variant. Open one to see all its variants, states and arguments."
+    , children: [ { component: "ComponentGrid", data: { titles: components } } ]
     }
+  , ...Object.fromEntries(components.map((title) => [componentPath(title),
+    { title
+    , description: ""
+    , children:
+      [ { component: "ComponentPage", data: { title } } ]
+    }]))
   , "/design":
     { title: "Design"
     , description: "The token hierarchy of a component. Edit any token and see the component change."

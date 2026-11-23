@@ -1,0 +1,107 @@
+---
+// A component's own page: the same information, in the same order, as the component's chapter in
+// the specification (design/components/component.typ), read from the same schema, with the
+// component itself, live, in every variant. No card frames it.
+import data from "../../dist/tokens.json";
+import Table from "../components/Table/Table.astro";
+import Link from "../components/Link/Link.astro";
+import Select from "../components/Select/Select.svelte";
+import Sample from "./Sample.astro";
+import CodeBlock from "../components/CodeBlock/CodeBlock.astro";
+import { componentPath } from "../site";
+
+const { title } = Astro.props as { title: string };
+const vocabulary = data.vocabulary as { variants: string[]; roles: Record<string, string> };
+const s = (data.components as Record<string, any>)[title];
+const list = (key: string): any[] => s[key] ?? [];
+const words = (items: string[]) =>
+  // Purpose: join items as a sentence does: a, b and c
+  items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+
+const isChild = (a: any) =>
+  // Purpose: whether an argument takes another component as data, { component, data }
+  a && typeof a === "object" && "component" in (a.properties ?? {});
+const typeCell = (a: any, required: boolean) => {
+  // Purpose: an argument's type, its choices or its shape, then its default and whether it is required
+  let t = a.enum ? a.enum.join(" · ") : isChild(a) && a.type === "object" ? "{ component, data }"
+    : Array.isArray(a.type) ? a.type.join(" or ") : a.type ?? "any";
+  if (a.default !== undefined) t += `; ${a.default}`;
+  return required ? `${t}; required` : t;
+};
+const meaning = (a: any) =>
+  // Purpose: an argument's description, noting where it takes another component as data
+  `${a.description ?? ""}${isChild(a) || isChild(a.items) ? " Another component, given as data." : ""}`;
+
+const required = new Set<string>(s.required ?? []);
+const argumentRows = Object.entries(s.arguments as Record<string, any>).flatMap(([key, a]) => [
+  { argument: key, type: typeCell(a, required.has(key)), meaning: meaning(a) },
+  ...Object.entries((a.items?.properties ?? {}) as Record<string, any>)
+    .filter(([, p]) => p.description)
+    .map(([k, p]) => ({ argument: `${key}[].${k}`, type: typeCell(p, (a.items.required ?? []).includes(k)), meaning: meaning(p) })),
+]);
+const variants = s.variants as string[]; // ordered as in the vocabulary; s.roles maps each to its colour role
+const states = (s.states as string[]).filter((x) => x !== "static");
+const pseudo = Object.entries((s.pseudoElements ?? {}) as Record<string, any>).filter(([, p]) => p.themeableProperties.length);
+---
+<article class="stack" id={s.name}>
+  <p>{s.description}</p>
+  {list("details").map((p) => <p>{p}</p>)}
+  <p>
+    {s.element
+      ? `It is an element component: its rules select ${words(s.element)}, so every such element on a wacss page is styled as ${title}, whatever rendered it.`
+      : `It is a class component: its rules select .${s.name}, the class it sets on its root.`}
+  </p>
+  <p>Categories: {words(s.categories)}.</p>
+
+  <h2>Variants and states</h2>
+  <div class="cluster demo-row" data-demo-component={title}>
+    <Select label="State" options={s.states} data-demo-states disabled={s.states.length < 2} />
+    {variants.map((v) => <Sample title={title} variant={v} framed={false} />)}
+  </div>
+  <Table
+    columns={[{ key: "variant", label: "Variant" }, { key: "role", label: "Colour role" }, { key: "look", label: "Look" }]}
+    rows={variants.map((v) => ({ variant: v, role: s.roles[v], look: vocabulary.roles[s.roles[v]] }))}
+  />
+  {states.length
+    ? <Table columns={[{ key: "state", label: "State" }, { key: "effect", label: "Effect" }]} rows={states.map((x) => ({ state: x, effect: s.stateEffects?.[x] ?? "" }))} />
+    : <p>It has no state other than static.</p>}
+  {list("stateNotes").map((p) => <p>{p}</p>)}
+
+  <h2>Arguments</h2>
+  <Table
+    columns={[{ key: "argument", label: "Argument" }, { key: "type", label: "Type and default" }, { key: "meaning", label: "Meaning" }]}
+    rows={argumentRows}
+  />
+  {list("argumentNotes").map((p) => <p>{p}</p>)}
+
+  {list("sections").map((section) => (
+    <>
+      <h2>{section.heading}</h2>
+      {section.text.map((p: string) => <p>{p}</p>)}
+      {section.columns.length > 0 && (
+        <Table
+          columns={section.columns.map((label: string, i: number) => ({ key: String(i), label }))}
+          rows={section.rows.map((r: string[]) => Object.fromEntries(r.map((c, i) => [String(i), c])))}
+        />
+      )}
+      {section.notes.map((p: string) => <p>{p}</p>)}
+    </>
+  ))}
+
+  <h2>Themable properties</h2>
+  <p>{s.themeableProperties.join(", ")}.</p>
+  {pseudo.map(([name, p]) => (
+    <p>On {name}{p.on ? `, drawn when the element matches ${p.on}` : ""}: {p.themeableProperties.join(", ")}.</p>
+  ))}
+  <p>See every one of its tokens on the <Link href="/design" label="Design" /> page.</p>
+
+  <h2>Example</h2>
+  {list("usage").map((u) => <CodeBlock code={u} lang="astro" />)}
+
+  {list("planned").map((p) => <p><em>Planned:</em> {p}</p>)}
+  {list("related").length > 0 && (
+    <p>See also {list("related").map((r, i, all) => (
+      <>{i > 0 && (i === all.length - 1 ? " and " : ", ")}<Link href={componentPath(r)} label={r} /></>
+    ))}.</p>
+  )}
+</article>

@@ -12,8 +12,11 @@
     "build": "bun run generate:tokens && astro build",
     "dev": "bun run generate:tokens && astro dev",
     "preview": "astro preview",
-    "build:book": "typst compile --root . --input theme=dark design/book.typ design/wacss-spec.pdf && typst compile --root . --input theme=light design/book.typ design/wacss-spec-light.pdf",
-    "theme-swatches": "bun scripts/theme-swatches.ts"
+    "build:book": "typst compile --root . --input mode=dark design/book.typ design/wacss-spec.pdf && typst compile --root . --input mode=light design/book.typ design/wacss-spec-light.pdf",
+    "palette-swatches": "bun scripts/palette-swatches.ts",
+    "export:tokens": "bun scripts/export-tokens.ts",
+    "build:dhall-plugin": "cargo build --release --target wasm32-unknown-unknown --manifest-path design/dhall-plugin/Cargo.toml && cp design/dhall-plugin/target/wasm32-unknown-unknown/release/typst_dhall.wasm design/dhall.wasm",
+    "globe-relief": "bun scripts/globe-relief.ts"
   },
   "devDependencies": {
     "@astrojs/svelte": "9.1.6",
@@ -27,7 +30,8 @@
     "postcss-cli": "^12.0.0",
     "ramda": "^0.32.0",
     "sass": "^1.108.2",
-    "svelte": "^5.57.3"
+    "svelte": "^5.57.3",
+    "sharp": "^0.34.0"
   },
   "peerDependencies": {
     "astro": "",
@@ -46,6 +50,11 @@
     "bits-ui": "^2.20.6",
     "change-case": "^5.4.4",
     "dhall-wasm": "github:consoleillusion/dhall-wasm",
-    "load-object": "github:consoleillusion/js-load-object"
+    "load-object": "github:consoleillusion/js-load-object",
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
+    "leaflet": "^1.9.4",
+    "layerchart": "^2.11.0"
   }
 }

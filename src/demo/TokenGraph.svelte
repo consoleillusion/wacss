@@ -1,14 +1,16 @@
 <script lang="ts">
-  // The token hierarchy of one component (with its parts), L1 to L4, one column per level.
-  // Selecting a token highlights its chain; editing it sets the token on <html> so every
+  // The token hierarchy of one component, laid out by inheritance: every token sits below the
+  // tokens it references, so each line runs downward from a token to the tokens built on it.
+  // Selecting a token highlights the tokens it affects in the accent, the tokens it is affected by
+  // in the pop, and the tokens related to it indirectly in the muted text colour; editing it sets the token on <html> so every
   // demo on the page changes live.
   import { SvelteFlow, Background, Controls, type Node, type Edge } from "@xyflow/svelte";
   import "@xyflow/svelte/dist/style.css";
   import TokenNode from "./TokenNode.svelte";
-  import LevelNode from "./LevelNode.svelte";
+  import Select from "../components/Select/Select.svelte";
 
   type Token = { name: string; level: number; value: string; group: string; refs: string[] };
-  type Data = { tokens: Token[]; components: Record<string, { name: string; parts: string[] }> };
+  type Data = { tokens: Token[]; components: Record<string, { name: string }> };
   let { data, titles, initial = "Button" }: { data: Data; titles: string[]; initial?: string } = $props();
 
   const byName = new Map(data.tokens.map((t) => [t.name, t]));
@@ -18,7 +20,6 @@
   let selected = $state(initial);
   let picked = $state<string | undefined>(undefined);
   let edits = $state<Record<string, string>>({});
-  let mode = $state<"dark" | "light">("dark");
 
   const walk = (start: string[], next: (n: string) => string[]) => {
     // Purpose: every token reachable from the start tokens by following next()
@@ -35,14 +36,32 @@
 
   const scope = $derived.by(() => {
     // Purpose: the component's own L3/L4 tokens and everything they reference, down to L1
-    const groups = [selected, ...data.components[selected]!.parts].map((t) => data.components[t]!.name);
-    const own = data.tokens.filter((t) => t.level >= 3 && groups.includes(t.group)).map((t) => t.name);
+    const name = data.components[selected]!.name;
+    const own = data.tokens.filter((t) => t.level >= 3 && t.group === name).map((t) => t.name);
     return walk(own, (n) => byName.get(n)!.refs);
   });
 
-  const chain = $derived(picked
-    ? new Set([...walk([picked], (n) => byName.get(n)!.refs), ...walk([picked], (n) => dependents.get(n) ?? [])])
-    : undefined);
+  // The picked token's relations: the tokens it affects (its dependents, recursively) and the
+  // tokens it is affected by (its references, recursively). Neither set contains the token itself.
+  const affects = $derived(picked ? walk(dependents.get(picked) ?? [], (n) => dependents.get(n) ?? []) : new Set<string>());
+  const affectedBy = $derived(picked ? walk(byName.get(picked)!.refs, (n) => byName.get(n)!.refs) : new Set<string>());
+  // Indirect relations: the other tokens its dependents depend on (ancestors of its descendants),
+  // and the other tokens that depend on what it depends on (descendants of its ancestors).
+  const indirect = $derived.by(() => {
+    if (!picked) return new Set<string>();
+    const up = walk([...affects].flatMap((n) => byName.get(n)!.refs), (n) => byName.get(n)!.refs);
+    const down = walk([...affectedBy].flatMap((n) => dependents.get(n) ?? []), (n) => dependents.get(n) ?? []);
+    return new Set([...up, ...down].filter((n) => n !== picked && !affects.has(n) && !affectedBy.has(n)));
+  });
+  const relation = (name: string) =>
+    // Purpose: how a token relates to the picked one: "picked", "affects", "affected-by", "indirect",
+    // "unrelated", or none when nothing is picked
+    !picked ? undefined
+    : name === picked ? "picked"
+    : affects.has(name) ? "affects"
+    : affectedBy.has(name) ? "affected-by"
+    : indirect.has(name) ? "indirect"
+    : "unrelated";
 
   const valueOf = (name: string) =>
     // Purpose: a token's current value, edited or generated
@@ -50,32 +69,79 @@
 
   let nodes = $state.raw<Node[]>([]);
   let edges = $state.raw<Edge[]>([]);
-  const ROWS = 18, WIDTH = 420, HEIGHT = 56;
-  const LEVELS = ["L1 primitive", "L2 semantic and channel", "L3 component × variant", "L4 state"];
-  $effect(() => {
-    const columns: Record<number, Token[]> = {};
-    for (const n of scope) { const t = byName.get(n)!; (columns[t.level] ??= []).push(t); }
-    // Each level wraps into sub-columns of ROWS tokens; levels sit side by side, L1 on the left.
-    let x = 0;
-    const placed: Node[] = [];
-    for (const level of [1, 2, 3, 4]) {
-      const ts = (columns[level] ?? []).sort((a, b) => a.group.localeCompare(b.group) || a.name.localeCompare(b.name));
-      placed.push({ id: `level-${level}`, type: "level", position: { x, y: -HEIGHT * 1.5 }, data: { label: LEVELS[level - 1] }, selectable: false });
-      ts.forEach((t, i) => placed.push({
-        id: t.name,
-        type: "token",
-        position: { x: x + Math.floor(i / ROWS) * WIDTH, y: (i % ROWS) * HEIGHT },
-        data: { name: t.name, value: valueOf(t.name), edited: t.name in edits, dim: !!chain && !chain.has(t.name), picked: t.name === picked },
-      }));
-      x += Math.max(1, Math.ceil(ts.length / ROWS)) * WIDTH + WIDTH / 2;
+  const WIDTH = 340, HEIGHT = 46, GAP = 14, PER_ROW = 8, LAYER_GAP = 90;
+
+  const layers = $derived.by(() => {
+    // Purpose: group the tokens into layers, each token one layer below the deepest token it references,
+    // and order each layer by the mean position of the tokens it references, to keep lines short
+    const depth = new Map<string, number>();
+    const depthOf = (n: string): number => {
+      // Purpose: the token's layer: 0 for a token that references nothing in view
+      if (!depth.has(n)) {
+        const refs = byName.get(n)!.refs.filter((r) => scope.has(r));
+        depth.set(n, refs.length ? 1 + Math.max(...refs.map(depthOf)) : 0);
+      }
+      return depth.get(n)!;
+    };
+    const result: string[][] = [];
+    for (const n of [...scope].sort()) (result[depthOf(n)] ??= []).push(n);
+    const index = new Map<string, number>();
+    for (const layer of result) {
+      const weight = (n: string) => {
+        // Purpose: the mean position of the referenced tokens in earlier layers
+        const ps = byName.get(n)!.refs.map((r) => index.get(r)).filter((p): p is number => p !== undefined);
+        return ps.length ? ps.reduce((a, b) => a + b, 0) / ps.length : 0;
+      };
+      layer.sort((a, b) => weight(a) - weight(b) || a.localeCompare(b));
+      layer.forEach((n, i) => index.set(n, i / Math.max(1, layer.length - 1)));
     }
+    return result;
+  });
+
+  const positions = $derived.by(() => {
+    // Purpose: place each layer below the previous one, wrapping long layers into centred rows
+    const at = new Map<string, { x: number; y: number }>();
+    let y = 0;
+    for (const layer of layers) {
+      for (let row = 0; row * PER_ROW < layer.length; row++) {
+        const items = layer.slice(row * PER_ROW, (row + 1) * PER_ROW);
+        const offset = ((PER_ROW - items.length) * (WIDTH + GAP)) / 2;
+        items.forEach((n, i) => at.set(n, { x: offset + i * (WIDTH + GAP), y }));
+        y += HEIGHT + GAP;
+      }
+      y += LAYER_GAP;
+    }
+    return at;
+  });
+
+  $effect(() => {
+    const placed: Node[] = [...scope].map((n) => {
+      const t = byName.get(n)!;
+      const { x, y } = positions.get(n)!;
+      return {
+        id: n,
+        type: "token",
+        position: { x, y },
+        data: { name: n, level: t.level, value: valueOf(n), edited: n in edits, relation: relation(n) },
+      };
+    });
     nodes = placed;
+    // One edge per reference, from the referenced token to the token that refers to it. While a token
+    // is picked, edges on its downstream path take the accent and edges on its upstream path the pop.
+    const edgeClass = (from: string, to: string) => {
+      // Purpose: the highlight class of one edge, given the picked token's relations
+      const [a, b] = [relation(from), relation(to)];
+      if (!picked) return "";
+      if ((a === "picked" || a === "affects") && b === "affects") return "affects";
+      if (a === "affected-by" && (b === "picked" || b === "affected-by")) return "affected-by";
+      if (a !== "unrelated" && b !== "unrelated") return "indirect";
+      return "unrelated";
+    };
     edges = [...scope].flatMap((n) => byName.get(n)!.refs.filter((r) => scope.has(r)).map((r) => ({
       id: `${r}->${n}`,
       source: r,
       target: n,
-      animated: !!chain && chain.has(r) && chain.has(n),
-      hidden: !!chain && !(chain.has(r) && chain.has(n)),
+      class: edgeClass(r, n),
     })));
   });
 
@@ -83,18 +149,6 @@
     // Show only the selected component's demo.
     for (const el of document.querySelectorAll<HTMLElement>("[data-design-demo]")) el.hidden = el.dataset.designDemo !== selected;
     picked = undefined;
-  });
-
-  $effect(() => {
-    // Follow the page theme.
-    const read = () => {
-      // Purpose: the colour scheme the page currently renders in
-      mode = getComputedStyle(document.documentElement).colorScheme.includes("light") ? "light" : "dark";
-    };
-    read();
-    const observer = new MutationObserver(read);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => observer.disconnect();
   });
 
   const edit = (name: string, value: string) => {
@@ -121,11 +175,7 @@
 
 <div class="stack demo-design">
   <div class="cluster">
-    <label>Component
-      <select bind:value={selected}>
-        {#each titles as t}<option value={t}>{t}</option>{/each}
-      </select>
-    </label>
+    <Select label="Component" options={titles} bind:value={selected} />
     <button type="button" onclick={() => copy(scope, "component")}>Copy {selected} tokens</button>
     <button type="button" onclick={() => copy(byName.keys(), "all")}>Copy all tokens</button>
     <button type="button" class="tertiary" onclick={reset} disabled={!Object.keys(edits).length}>Reset edits</button>
@@ -133,7 +183,7 @@
   </div>
 
   <div class="demo-graph">
-    <SvelteFlow bind:nodes bind:edges nodeTypes={{ token: TokenNode, level: LevelNode }} colorMode={mode} fitView minZoom={0.05}
+    <SvelteFlow bind:nodes bind:edges nodeTypes={{ token: TokenNode }} fitView minZoom={0.05}
       nodesDraggable={false} onnodeclick={({ node }) => node.type === "token" && (picked = picked === node.id ? undefined : node.id)}
       onpaneclick={() => (picked = undefined)}>
       <Background />

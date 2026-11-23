@@ -1,0 +1,105 @@
+---
+// Form: a form generated from a JSON Schema. Each property of the schema becomes one field,
+// rendered with the input component that fits its type, in the schema's order; a submit Button
+// follows. Arranged by the .stack layout helper.
+//
+//   enum                                  → Select
+//   boolean                               → Checkbox
+//   number, integer                       → NumberInput (minimum, maximum; integers step by 1)
+//   string, format date | time | date-time → DateInput
+//   string, format color                  → ColorInput
+//   string, format textarea, or maxLength above 200 → TextArea
+//   string, format email | uri | password → TextInput of type email, url or password
+//   any other string                      → TextInput (minLength, maxLength, pattern)
+//
+// Properties of type object or array have no field.
+import Select from "../Select/Select.svelte";
+import Checkbox from "../Checkbox/Checkbox.svelte";
+import NumberInput from "../NumberInput/NumberInput.svelte";
+import DateInput from "../DateInput/DateInput.svelte";
+import ColorInput from "../ColorInput/ColorInput.svelte";
+import TextArea from "../TextArea/TextArea.svelte";
+import TextInput from "../TextInput/TextInput.svelte";
+import Button from "../Button/Button.svelte";
+
+type Property = {
+  type?: string | string[];
+  title?: string;
+  description?: string;
+  enum?: unknown[];
+  format?: string;
+  default?: unknown;
+  minimum?: number;
+  maximum?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  writeOnly?: boolean;
+};
+
+const {
+  schema,
+  values = {},
+  action,
+  method = "post",
+  enctype,
+  name,
+  target,
+  autocomplete,
+  novalidate = false,
+  submitLabel = "Submit",
+  class: className,
+  ...rest
+} = Astro.props as {
+  schema: { properties?: Record<string, Property>; required?: string[] };
+  values?: Record<string, unknown>;
+  [key: string]: any;
+};
+
+const required = new Set(schema.required ?? []);
+const typeOf = (p: Property) =>
+  // Purpose: a property's main JSON type, ignoring "null" in a list of types
+  (Array.isArray(p.type) ? p.type.find((t) => t !== "null") : p.type) ?? (p.enum ? "string" : undefined);
+
+const field = (key: string, p: Property) => {
+  // Purpose: the component and data that render one property as a field, or undefined if none fits
+  const common = {
+    name: key,
+    id: `field-${key}`,
+    label: p.title ?? key,
+    help: p.description,
+    required: required.has(key),
+    value: values[key] ?? p.default,
+  };
+  const type = typeOf(p);
+  if (p.enum) return { Component: Select, data: { ...common, class: "stack", options: (required.has(key) ? [] : [""]).concat(p.enum.map(String)) } };
+  if (type === "boolean") return { Component: Checkbox, data: { ...common, value: "true", checked: Boolean(common.value) } };
+  if (type === "number" || type === "integer")
+    return { Component: NumberInput, data: { ...common, min: p.minimum, max: p.maximum, step: type === "integer" ? 1 : "any" } };
+  if (type !== "string") return undefined;
+  if (p.format === "date" || p.format === "time" || p.format === "date-time")
+    return { Component: DateInput, data: { ...common, type: p.format === "date-time" ? "datetime-local" : p.format } };
+  if (p.format === "color") return { Component: ColorInput, data: common };
+  if (p.format === "textarea" || (p.maxLength ?? 0) > 200) return { Component: TextArea, data: { ...common, maxlength: p.maxLength } };
+  const kind = p.format === "email" ? "email" : p.format === "uri" ? "url" : p.format === "password" || p.writeOnly ? "password" : "text";
+  return { Component: TextInput, data: { ...common, type: kind, minlength: p.minLength, maxlength: p.maxLength, pattern: p.pattern } };
+};
+
+const fields = Object.entries(schema.properties ?? {}).map(([key, p]) => field(key, p)).filter((f) => f !== undefined);
+---
+<form
+  class={["stack", className].filter(Boolean).join(" ")}
+  {action}
+  {method}
+  {enctype}
+  {name}
+  {target}
+  {autocomplete}
+  novalidate={novalidate || undefined}
+  {...rest}
+>
+  {fields.map(({ Component, data }) => <Component {...data} />)}
+  <div class="cluster">
+    <Button type="submit" variant="primary" label={submitLabel} />
+  </div>
+</form>

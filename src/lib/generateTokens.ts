@@ -9,6 +9,7 @@ type Declarations = Record<string, string>;
 /** The styling part of one target: the component itself or one of its pseudo-elements. */
 type Target =
 { pseudo: string                                  // "" or e.g. "::after"
+, on: string                                      // "" or a selector the element must match to draw the pseudo-element
 , themeableProperties: string[]
 , structuralProperties: Record<string, Declarations>
 };
@@ -19,12 +20,12 @@ export type Schema =
 , title: string
 , description: string
 , element?: string[]
-, variants: string[]
+, variants: string[]                              // in order, the default variant first
+, roles: Record<string, string>                   // each variant's colour role: accent, surface, pop, …
 , states: string[]
-, parts?: string[]
 , themeableProperties: string[]
 , structuralProperties?: Record<string, Declarations>
-, pseudoElements?: Record<string, Omit<Target, "pseudo">>
+, pseudoElements?: Record<string, { on?: string; themeableProperties?: string[]; structuralProperties?: Record<string, Declarations> }>
 , arguments: Record<string, unknown>
 };
 
@@ -46,11 +47,13 @@ export const STATE_SELECTORS: Record<string, string> =
 , focus: ":focus-visible"
 , active: ":active"
 , open: '[aria-expanded="true"], [data-state="open"]'
+, current: '[aria-current="page"], [aria-current="true"]'
+, pressed: '[aria-pressed="true"]'
 , disabled: ':disabled, [aria-disabled="true"], [data-disabled]'
 , loading: '[aria-busy="true"]'
 };
 
-/** Rule order. Channels are disjoint, so order only matters for structural literals. */
+/** Rule order: when two states set the same property, the later one wins. */
 const STATE_ORDER = ["static", ...Object.keys(STATE_SELECTORS)];
 
 const TYPES: Record<string, "fill" | "ink" | "edge"> =
@@ -67,9 +70,9 @@ const DEFAULT_VARIANT = "secondary";
 
 const targetsOf = (meta: Schema): Target[] =>
   // Purpose: list the component and each of its pseudo-elements as styling targets
-  [ { pseudo: "", themeableProperties: meta.themeableProperties, structuralProperties: meta.structuralProperties ?? {} }
+  [ { pseudo: "", on: "", themeableProperties: meta.themeableProperties, structuralProperties: meta.structuralProperties ?? {} }
   , ...R.toPairs(meta.pseudoElements ?? {}).map(([pseudo, t]) =>
-      ({ pseudo, themeableProperties: t.themeableProperties ?? [], structuralProperties: t.structuralProperties ?? {} }))
+      ({ pseudo, on: t.on ?? "", themeableProperties: t.themeableProperties ?? [], structuralProperties: t.structuralProperties ?? {} }))
   ];
 
 const keyOf = (target: Target, property: string) =>
@@ -77,7 +80,7 @@ const keyOf = (target: Target, property: string) =>
   target.pseudo ? `${target.pseudo.replace(/^:+/, "")}-${property}` : property;
 
 const channelOf = (channels: Declarations, state: string): string[] =>
-  // Purpose: the properties a state changes, read from the channel token names
+  // Purpose: the property slots a state changes ("background", "after-transform"), read from the channel token names
   R.uniq(
     Object.keys(channels)
       .filter((n) => n.startsWith(`--${state}-`))
@@ -85,7 +88,7 @@ const channelOf = (channels: Declarations, state: string): string[] =>
   );
 
 export const generateTokenHierarchy = (meta: Schema, channels: Declarations) =>
-  // Purpose: build the L3 → L4 name tree: component-variant → property → the states that change it
+  // Purpose: build the L3 → L4 name tree: component-variant → property → every state
   R.fromPairs(
     meta.variants.map((v) => [
       `${meta.name}-${v}`,
@@ -93,7 +96,7 @@ export const generateTokenHierarchy = (meta: Schema, channels: Declarations) =>
         R.chain(
           (t) => t.themeableProperties.map((p) => [
             keyOf(t, p),
-            meta.states.filter((s) => s !== "static" && channelOf(channels, s).includes(p)),
+            meta.states,
           ]),
           targetsOf(meta),
         ),
@@ -123,18 +126,21 @@ export const refsOf = (value: string): string[] =>
   // Purpose: every custom property a value references through var()
   R.uniq([...value.matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]!));
 
-const variantValue = (c: string, v: string, key: string, property: string) => {
-  // Purpose: the L3 recipe: the default variant takes L2, other variants take a tone or the default variant
+const isColour = (property: string) =>
+  // Purpose: whether a property takes its value from the variant's colour role
+  property in TYPES;
+
+const variantValue = (c: string, v: string, role: string, key: string, property: string) => {
+  // Purpose: the L3 recipe: a colour takes the variant's role token; anything else takes the L2
+  // default on the default variant, and the default variant's value on the others
+  if (isColour(property)) return `var(--${property}-${role})`;
   if (v === DEFAULT_VARIANT) return `var(--${property})`;
-  const type = TYPES[property];
-  if (type === "fill" || type === "edge") return `var(--tone-${v})`;
-  if (type === "ink") return `var(--tone-${v}-ink)`;
   return `var(--${c}-${DEFAULT_VARIANT}-${key})`;
 };
 
-const stateValue = (l3: string, state: string, property: string, channels: Declarations) => {
+const stateValue = (l3: string, state: string, key: string, property: string, channels: Declarations) => {
   // Purpose: the L4 recipe: apply the state's channel token to the L3 value
-  const c = `--${state}-${property}`;
+  const c = `--${state}-${key}`;
   if (channels[`${c}-toward`]) return `color-mix(in oklab, var(${l3}), var(${c}-toward) var(${c}-amount))`;
   if (property === "transform" || property === "filter") return `var(${l3}) var(${c})`;
   if (property === "opacity") return `calc(var(${l3}) * var(${c}))`;
@@ -142,29 +148,24 @@ const stateValue = (l3: string, state: string, property: string, channels: Decla
 };
 
 // ---------------------------------------------------------------------------
-// Checks: only what keeps the hierarchy sound
+// Checks: only conditions without which the generated CSS would be broken
 // ---------------------------------------------------------------------------
 
-const check = (meta: Schema, l2: Declarations, channels: Declarations) => {
-  // Purpose: fail on a missing L2 default, an unknown or empty state, or overlapping channels
+const check = (meta: Schema, l2: Declarations) => {
+  // Purpose: fail when a generated token or rule would have nothing to refer to
   const fail = (msg: string) => {
     // Purpose: stop the build with a message naming the component
     throw new Error(`${meta.title}: ${msg}`);
   };
   if (!meta.variants.includes(DEFAULT_VARIANT)) fail(`variants must include ${DEFAULT_VARIANT}`);
-  if (!meta.states.includes("static")) fail("states must include static");
-  const targets = targetsOf(meta);
-  for (const t of targets)
+  for (const t of targetsOf(meta))
     for (const p of t.themeableProperties)
-      if (!l2[`--${p}`]) fail(`no L2 default --${p}`);
-  const used = meta.states.filter((s) => s !== "static").map((s) => {
-    if (!STATE_SELECTORS[s]) fail(`unknown state ${s}`);
-    const props = R.chain((t) => R.intersection(channelOf(channels, s), t.themeableProperties).map((p) => keyOf(t, p)), targets);
-    if (!props.length) fail(`state ${s} changes nothing: list one of ${channelOf(channels, s).join(", ")}`);
-    return props;
-  });
-  const flat = R.flatten(used);
-  if (R.uniq(flat).length !== flat.length) fail(`states share a channel property: ${flat.join(", ")}`);
+      if (isColour(p)) {
+        for (const v of meta.variants)
+          if (!l2[`--${p}-${meta.roles[v]}`]) fail(`no L2 token --${p}-${meta.roles[v]} for variant ${v}`);
+      } else if (!l2[`--${p}`]) fail(`no L2 default --${p}`);
+  for (const s of meta.states)
+    if (s !== "static" && !STATE_SELECTORS[s]) fail(`unknown state ${s}`);
 };
 
 // ---------------------------------------------------------------------------
@@ -177,7 +178,7 @@ const rule = (selector: string, decls: Declarations) =>
 
 export const generateComponent = (meta: Schema, l2: Declarations, channels: Declarations) => {
   // Purpose: produce one component's L3 and L4 tokens and the CSS that consumes them
-  check(meta, l2, channels);
+  check(meta, l2);
   const c = meta.name;
   const base = meta.element ? `:where(${meta.element.join(", ")})` : `.${c}`;
   const variantSelector = (v: string) =>
@@ -198,12 +199,31 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
       const l3 = (p: string) =>
         // Purpose: the L3 name of a property for this variant and target
         `--${c}-${v}-${keyOf(t, p)}`;
-      for (const p of t.themeableProperties) add(3, l3(p), variantValue(c, v, keyOf(t, p), p));
-      css += rule(`${sel}${t.pseudo}`, { ...structural("static"), ...R.fromPairs(t.themeableProperties.map((p) => [p, `var(${l3(p)})`])) });
+      for (const p of t.themeableProperties) add(3, l3(p), variantValue(c, v, meta.roles[v]!, keyOf(t, p), p));
+      // Static is a state like any other: every property has a static token, equal to its L3 value,
+      // and the base rule reads it, so the CSS only ever reads state tokens.
+      for (const p of t.themeableProperties) add(4, `${l3(p)}-static`, `var(${l3(p)})`);
+      const on = t.on ? `:where(${t.on})` : "";
+      css += rule(`${sel}${on}${t.pseudo}`, { ...structural("static"), ...R.fromPairs(t.themeableProperties.map((p) => [p, `var(${l3(p)}-static)`])) });
       for (const s of STATE_ORDER.filter((s) => s !== "static" && meta.states.includes(s))) {
-        const changed = R.intersection(channelOf(channels, s), t.themeableProperties);
-        for (const p of changed) add(4, `${l3(p)}-${s}`, stateValue(l3(p), s, p, channels));
-        css += rule(`${sel}:where(${STATE_SELECTORS[s]})${t.pseudo}`,
+        // Every property has a token in every state (the full matrix): a property the state's channel
+        // changes takes the channel recipe; any other keeps its static value. The state's rule
+        // declares only what the state changes, so states that are true together do not undo each other.
+        // A colour property also changes in a state when the variant's role gives its own colour
+        // for that state, an L2 token --<property>-<role>-<state>; that colour is used as it is.
+        const roleState = (p: string) => (isColour(p) && l2[`--${p}-${meta.roles[v]}-${s}`] ? `--${p}-${meta.roles[v]}-${s}` : "");
+        // The component's own value for a property in a state, from its schema's stateValues,
+        // comes first: "unchanged" keeps the static value; anything else is used as it is.
+        const own = (p: string): string | undefined => (meta as any).stateValues?.[s]?.[keyOf(t, p)];
+        const changed = t.themeableProperties.filter((p) =>
+          own(p) !== undefined ? own(p) !== "unchanged" : roleState(p) || channelOf(channels, s).includes(keyOf(t, p)));
+        for (const p of t.themeableProperties)
+          add(4, `${l3(p)}-${s}`,
+            !changed.includes(p) ? `var(${l3(p)})`
+            : own(p) !== undefined ? own(p)!
+            : roleState(p) ? `var(${roleState(p)})`
+            : stateValue(l3(p), s, keyOf(t, p), p, channels)!);
+        css += rule(`${sel}:where(${STATE_SELECTORS[s]})${on}${t.pseudo}`,
           { ...structural(s), ...R.fromPairs(changed.map((p) => [p, `var(${l3(p)}-${s})`])) });
       }
     }

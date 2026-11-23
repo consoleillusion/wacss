@@ -1,48 +1,41 @@
 ---
-// Card: structure only. The figure row renders the component its data names (by title);
-// the body row holds the header, text and footer. Card imports no component except Button.
-import Button from "../Button/Button.svelte";
-
+// Card: structure only. Its figure and footer are other components, given as data
+// ({ component, data }) and loaded by title; the card imports none of them.
 const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro", "!./Card.astro"]);
 
-function loaderFor(name: unknown) {
-  // Purpose: find the module of the component a figure names, or undefined
+type Child = { component?: string; data?: Record<string, unknown> };
+
+async function load(child: Child | undefined) {
+  // Purpose: the component a child names, with its data, or undefined
+  const name = child?.component;
   if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
-  return modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`];
+  const loader = modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`];
+  return loader ? { Component: (await loader()).default, data: child?.data ?? {} } : undefined;
 }
 
 const {
-  variant = "secondary",
   as: Tag = "article",
   header,
   text,
   figure,
   footer,
-  href,
-  ctaLabel = "Open component",
   class: className = "",
   ...rest
 } = Astro.props as Record<string, any>;
 
-const { title: figureName, ...figureProps } = figure ?? {};
-const loader = loaderFor(figureName);
-const Figure = loader ? (await loader()).default : undefined;
-const classes = ["card", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+const figureChild = await load(figure);
+const footerChild = await load(footer);
+const classes = ["card", className].filter(Boolean).join(" ");
 ---
 <Tag class={classes} {...rest}>
-  <figure class="card-figure">
-    {Figure && <Figure {...figureProps} />}
+  <figure class="frame">
+    {figureChild && <figureChild.Component {...figureChild.data} />}
     <slot name="figure" />
   </figure>
-  <div class="card-body">
+  <div class="stack box">
     {header && <h3>{header}</h3>}
     {text && <p>{text}</p>}
     <slot />
-    {(footer || href) && (
-      <footer>
-        {footer}
-        {href && <Button href={href} label={ctaLabel} />}
-      </footer>
-    )}
+    {footerChild && <footer class="push"><footerChild.Component {...footerChild.data} /></footer>}
   </div>
 </Tag>

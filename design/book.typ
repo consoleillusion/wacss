@@ -3,11 +3,10 @@
 // This file is the only entrypoint and the only place with styling. The chapter
 // files (*.typ next to this one) hold content only.
 //
-//   typst compile book.typ                       -> light theme (default)
-//   typst compile --input theme=dark book.typ    -> dark theme
+//   typst compile book.typ                       -> light mode (default)
+//   typst compile --input mode=dark book.typ     -> dark mode
 //
-// Themes are the dictionaries in `themes`. Add a theme by adding an entry with
-// the same keys.
+// The modes are the dictionaries in `modes`.
 
 // ---------------------------------------------------------------------------
 // Document data
@@ -21,65 +20,58 @@
   Pass data, get a complete, accessible UI.
 ]
 #let status = "Draft"
-#let running-title = "wacss · Specification"
 
-// Each part is a level-1 heading; each file's own headings nest beneath it.
+// Each component's chapter is laid out by components/component.typ from its schema.dhall.
+// Typst cannot list a folder, so the components are named here, in the order of their chapters.
+#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput")
+
+// Each part is a level-1 heading; each file's own headings nest beneath it. An entry
+// "schema:<Title>" is a component chapter, laid out from that component's schema.
 #let parts = (
-  ("Introduction", ("intro-what", "intro-philosophy", "intro-usability", "intro-demo", "intro-glossary")),
-  ("Architecture", ("arch-overview", "arch-tokens", "arch-foundations", "arch-channels", "arch-variants", "arch-states", "arch-schema", "arch-generation", "arch-stylesheet", "arch-helpers", "arch-customising", "arch-build")),
-  ("Aesthetics", ("aes-intent", "themes", "aes-animation", "aes-form")),
-  ("Components", ("components/using", "components/Accordion", "components/Button", "components/Card")),
+  ("Introduction", ("introduction/what", "introduction/philosophy", "introduction/usability", "introduction/demo", "demo/component", "demo/component-single", "demo/design", "introduction/glossary")),
+  ("Architecture", ("architecture/overview", "architecture/tokens", "architecture/foundations", "architecture/channels", "architecture/variants", "architecture/states", "architecture/schema", "architecture/generation", "architecture/stylesheet", "architecture/helpers", "architecture/customising", "architecture/build")),
+  ("Aesthetics", ("aesthetics/intent", "aesthetics/palettes", "aesthetics/animation", "aesthetics/form")),
+  ("Components", ("components/using",) + components.map(c => "schema:" + c)),
 )
 
 // ---------------------------------------------------------------------------
-// Themes
+// Modes
 // ---------------------------------------------------------------------------
 
 // The book is typeset in its own palette, Sage: four colours per edition and a
 // derived text colour. Every other shade is mixed from them, as the token
 // hierarchy does.
 #let sage = (
-  light: ("color-base": "#f7f8f7", "color-surface": "#ebecea", "color-accent": "#4a6a5c",
+  light: ("palette-base": "#f7f8f7", "palette-surface": "#ebecea", "palette-accent": "#4a6a5c",
           "color-text": "#1c1d1c", "color-text-muted": "#5a5b5a"),
-  dark: ("color-base": "#1b1c1c", "color-surface": "#252626", "color-accent": "#8fb4a1",
+  dark: ("palette-base": "#1b1c1c", "palette-surface": "#252626", "palette-accent": "#8fb4a1",
          "color-text": "#dcdfdf", "color-text-muted": "#989a9a"),
 )
 #let mix(a, b, amount) = color.mix((rgb(a), amount), (rgb(b), 100% - amount), space: oklab)
 #let derive(t) = (
-  page: rgb(t.at("color-base")),
-  wash: rgb(t.at("color-surface")),
+  page: rgb(t.at("palette-base")),
+  wash: rgb(t.at("palette-surface")),
   ink: rgb(t.at("color-text")),
   muted: rgb(t.at("color-text-muted")),
-  faint: mix(t.at("color-text"), t.at("color-base"), 45%),
-  rule: mix(t.at("color-accent"), t.at("color-base"), 22%),
-  kanji: mix(t.at("color-accent"), t.at("color-base"), 10%),
-  accent: rgb(t.at("color-accent")),
+  faint: mix(t.at("color-text"), t.at("palette-base"), 45%),
+  rule: mix(t.at("palette-accent"), t.at("palette-base"), 22%),
+  kanji: mix(t.at("palette-accent"), t.at("palette-base"), 10%),
+  accent: rgb(t.at("palette-accent")),
 )
-#let themes = (light: derive(sage.light), dark: derive(sage.dark))
+#let modes = (light: derive(sage.light), dark: derive(sage.dark))
 
-#let theme-name = sys.inputs.at("theme", default: "light")
-#let c = themes.at(theme-name)
+#let mode-name = sys.inputs.at("mode", default: "light")
+#let c = modes.at(mode-name)
 
 // ---------------------------------------------------------------------------
 // Typography
 // ---------------------------------------------------------------------------
 
-#let sans = ("Helvetica Neue", "Arial", "Liberation Sans")
-#let serif = (
-  "Noto Serif CJK JP",
-  "Liberation Serif",
-)
-#let mono = ("JetBrains Mono", "DejaVu Sans Mono", "Liberation Mono")
-#let cjk = ("Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN")
-
-// Small, tracked label used for eyebrows, table heads and footers (title case, never upper-cased).
-#let label-text(body, size: 6.8pt, fill: c.faint) = text(
-  size: size,
-  weight: 500,
-  tracking: 0.14em,
-  fill: fill,
-  body,
-)
+#import "components/component.typ": component-chapter
+#import "style.typ": sans, serif, mono, cjk, running-title, page-footer
+#import "style.typ" as style
+// The shared label, in the book's faint colour unless another is given.
+#let label-text(body, size: 6.8pt, fill: c.faint) = style.label-text(body, size: size, fill: fill)
 
 // ---------------------------------------------------------------------------
 // Base
@@ -92,13 +84,7 @@
   paper: "a4",
   margin: (x: 22mm, top: 26mm, bottom: 28mm),
   fill: c.page,
-  footer: context {
-    grid(
-      columns: (1fr, auto),
-      label-text(running-title, size: 6.8pt, fill: c.ink),
-      label-text(str(counter(page).get().first()), size: 6.8pt, fill: c.muted),
-    )
-  },
+  footer: page-footer(c.ink, c.muted),
 )
 
 // Only parts (level 1) are numbered, in roman numerals. Every other heading is unnumbered.
@@ -226,14 +212,21 @@
 #page(margin: (x: 22mm, top: 34mm, bottom: 28mm))[
   #text(font: cjk, size: 175pt, weight: "extralight", fill: c.kanji)[和]
   #v(1fr)
-  #label-text(eyebrow, size: 7.2pt)
-  #v(6mm)
-  #text(font: serif, size: 46pt, tracking: 0.03em, fill: c.ink)[#title]
-  #v(1mm)
-  #text(font: serif, size: 19pt, fill: c.muted)[#subtitle]
-  #v(9mm)
-  #line(length: 26pt, stroke: 1.2pt + c.accent)
-  #v(7mm)
+  // The eyebrow, title and subtitle are one group: each line is measured by its letters
+  // (cap height to baseline, or x-height for the lowercase title), so the gaps between them
+  // are exactly the spacing given here and nothing from the font's line box.
+  #block({
+    set text(top-edge: "cap-height", bottom-edge: "baseline")
+    stack(
+      spacing: 0pt,
+      label-text(eyebrow, size: 7.2pt),
+      v(7mm),
+      text(font: serif, size: 46pt, tracking: 0.03em, fill: c.accent, top-edge: "x-height", title),
+      v(5mm),
+      text(font: serif, size: 19pt, fill: c.muted, subtitle),
+    )
+  })
+  #v(10mm)
   #block(width: 62%, text(size: 10pt, fill: c.muted, summary))
   #v(16mm)
   #line(length: 100%, stroke: 0.5pt + c.rule)
@@ -297,7 +290,7 @@
   for f in files {
     [
       #set heading(offset: 1)
-      #include (f + ".typ")
+      #if f.starts-with("schema:") { component-chapter(f.slice(7)) } else { include (f + ".typ") }
     ]
   }
 }

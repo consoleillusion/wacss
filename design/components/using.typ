@@ -1,9 +1,9 @@
 = Using components
 <using>
 A component is used by passing it data. Every argument it accepts is
-listed in its schema, which is also the reference for this part: the
-tables below are the schemas' `arguments` and the tokens generated from
-their properties.
+listed in its schema. The chapters that follow are laid out from the
+schemas as this book compiles, so they always match the components' API
+(#link(<schema:chapters>)[component chapters]).
 
 == Passing data
 <using:data>
@@ -19,12 +19,17 @@ import Card from "wacss/components/Card/Card.astro";
 ---
 <Button variant="primary" label="Save" />
 <Accordion client:load items={[{ value: "a", title: "Shipping", content: "Two to four days." }]} />
-<Card header="Button" text="An action." figure={{ title: "Button", label: "Try me" }} />
+<Card header="Button" text="An action." figure={{ component: "Button", data: { label: "Try me" } }} />
 ```
 
 Every component also accepts `id` and `class`. A `class` is added to the
 component's root and is meant for layout helpers; it does not restyle the
 component.
+
+A component that shows another component takes it as data,
+`{ component, data }`: the other component's title and the arguments it
+receives (#link(<schema:children>)[children]). Card's `figure` and
+`footer` and an accordion item's `content` work this way.
 
 == Variants and states
 <using:variants>
@@ -45,6 +50,6 @@ site's design page shows every one of them in context.
 
 == More to come
 <using:more>
-Accordion, Button and Card are the first three components. Each further
-component follows the same schema, generation and documentation, and adds
-a chapter here.
+Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Form, Globe, LineChart, Link, NavBar, NumberInput, PieChart, Select, StreetMap, Table, TableCell, TextArea and TextInput are the first components. Each further
+component follows the same schema and generation; listing it in
+`design/book.typ` adds its chapter here.

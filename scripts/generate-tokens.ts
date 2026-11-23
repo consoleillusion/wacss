@@ -24,6 +24,11 @@ const rootDeclarations = (css: string): Record<string, string> => {
   return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1]!, m[2]!.replace(/\s+/g, " ").trim()]));
 };
 
+/** The shared vocabulary: variants in order, colour roles and their looks, categories. */
+type Vocabulary = { variants: string[]; roles: Record<string, string>; categories: string[] };
+const vocabulary = (await load("vocabulary.dhall", { base: COMPONENTS, formats: ["dhall"] })) as Vocabulary;
+const VARIANTS = vocabulary.variants;
+
 const loadSchemas = async (): Promise<Schema[]> => {
   // Purpose: load every component folder's schema.dhall, in name order
   const folders = (await readdir(COMPONENTS, { withFileTypes: true }))
@@ -31,9 +36,18 @@ const loadSchemas = async (): Promise<Schema[]> => {
     .map((e) => e.name)
     .sort();
   return Promise.all(folders.map(async (folder) => {
-    const raw = (await load(`${folder}/schema.dhall`, { base: COMPONENTS, formats: ["dhall"] })) as Omit<Schema, "name">;
+    const raw = (await load(`${folder}/schema.dhall`, { base: COMPONENTS, formats: ["dhall"] })) as any;
     if (raw.title !== folder) throw new Error(`${folder}/schema.dhall: title "${raw.title}" must match the folder`);
-    return { name: kebabCase(raw.title), ...raw };
+    // `variants` maps each variant to its colour role; they are ordered as in the vocabulary.
+    const roles = raw.variants as Record<string, string>;
+    const variants = VARIANTS.filter((v) => v in roles);
+    const unknown = Object.keys(roles).filter((v) => !VARIANTS.includes(v));
+    if (unknown.length) throw new Error(`${folder}/schema.dhall: unknown variant ${unknown.join(", ")}`);
+    const badRole = Object.values(roles).filter((r) => !(r in vocabulary.roles));
+    if (badRole.length) throw new Error(`${folder}/schema.dhall: unknown colour role ${badRole.join(", ")}`);
+    const badCategory = ((raw.categories ?? []) as string[]).filter((c) => !vocabulary.categories.includes(c));
+    if (badCategory.length) throw new Error(`${folder}/schema.dhall: unknown category ${badCategory.join(", ")}`);
+    return { name: kebabCase(raw.title), ...raw, variants, roles };
   }));
 };
 
@@ -66,14 +80,14 @@ const main = async () => {
     ].join("\n");
 
   const components = Object.fromEntries(generated.map(({ schema: s, tokens: t }) => [s.title,
-    { name: s.name, description: s.description, element: s.element, variants: s.variants, states: s.states, parts: s.parts ?? []
-    , channels: Object.fromEntries(s.states.filter((st) => st !== "static").map((st) => [st, t.filter((x) => x.level === 4 && x.name.endsWith(`-${st}`)).map((x) => x.name)]))
-    , arguments: s.arguments }]));
+    { ...(s as any), name: s.name, element: s.element, variants: s.variants, roles: s.roles, states: s.states
+    , channels: Object.fromEntries(s.states.filter((st) => st !== "static").map((st) => [st, t.filter((x) => x.level === 4 && x.name.endsWith(`-${st}`) && x.value !== `var(${x.name.slice(0, -(st.length + 1))})`).map((x) => x.name)]))
+    , arguments: s.arguments, required: (s as any).required ?? [] }]));
 
   await mkdir(DIST, { recursive: true });
   await writeFile(`${DIST}tokens.css`, HEADER + tokensCss);
   await writeFile(`${DIST}wacss.css`, HEADER + stylesheet);
-  await writeFile(`${DIST}tokens.json`, JSON.stringify({ tokens, components }, null, 2));
+  await writeFile(`${DIST}tokens.json`, JSON.stringify({ vocabulary, tokens, components }, null, 2));
   const count = (level: number) => tokens.filter((t) => t.level === level).length;
   console.log(`wacss: ${schemas.length} components; tokens L1 ${count(1)}, L2 ${count(2)}, L3 ${count(3)}, L4 ${count(4)}`);
 };

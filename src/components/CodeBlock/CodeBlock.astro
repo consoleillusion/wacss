@@ -1,0 +1,36 @@
+---
+// CodeBlock: code highlighted on the server by Shiki, with a button that copies it. Shiki's
+// css-variables theme colours each token with an L2 syntax token (--syntax-*), set from the
+// palette in semantic.scss. The copy button is a tertiary Button; its script is below.
+import { codeToHtml, createCssVariablesTheme } from "shiki";
+import Button from "../Button/Button.svelte";
+
+const theme = createCssVariablesTheme({ name: "wacss", variablePrefix: "--syntax-", fontStyle: true });
+const { code, lang = "astro", label, copy = true, class: className = "", ...rest } = Astro.props as Record<string, any>;
+const highlighted = await codeToHtml(String(code), { lang, theme });
+// Shiki's own <pre> carries inline colours and a tabindex; keep its code and use a plain <pre>.
+const inner = highlighted.replace(/^<pre[^>]*>/, "").replace(/<\/pre>\s*$/, "");
+const classes = ["code-block", className].filter(Boolean).join(" ");
+---
+<div class={classes} data-code-block {...rest}>
+  <div class="spread">
+    <small>{label ?? lang}</small>
+    {copy && <Button variant="tertiary" label="Copy" data-copy />}
+  </div>
+  <pre set:html={inner} />
+</div>
+
+<script>
+  // Copies the code of the block whose button was pressed, and says so for a moment.
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-code-block] [data-copy]"))
+    button.addEventListener("click", async () => {
+      const code = button.closest("[data-code-block]")!.querySelector("pre")!.textContent ?? "";
+      try {
+        await navigator.clipboard.writeText(code);
+        button.textContent = "Copied";
+      } catch {
+        button.textContent = "Not copied";
+      }
+      setTimeout(() => (button.textContent = "Copy"), 1500);
+    });
+</script>

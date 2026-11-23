@@ -1,0 +1,17 @@
+---
+// Badge: a short label, or, given pressed, a toggle button carrying aria-pressed.
+const {
+  label,
+  value,
+  pressed,
+  disabled = false,
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+const classes = ["badge", className].filter(Boolean).join(" ");
+---
+{pressed === undefined ? (
+  <span class={classes} {...rest}>{label}</span>
+) : (
+  <button type="button" class={classes} value={value} aria-pressed={pressed ? "true" : "false"} disabled={disabled} {...rest}>{label}</button>
+)}

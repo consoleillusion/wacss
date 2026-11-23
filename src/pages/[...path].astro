@@ -1,8 +1,9 @@
 ---
 // Every page of the demo site, rendered from src/site.ts.
 import Layout from "../demo/Layout.astro";
-import Showcase from "../demo/Showcase.astro";
 import Design from "../demo/Design.astro";
+import ComponentGrid from "../demo/ComponentGrid.astro";
+import ComponentPage from "../demo/ComponentPage.astro";
 import { site, type Page } from "../site";
 
 export function getStaticPaths() {
@@ -10,11 +11,11 @@ export function getStaticPaths() {
   return Object.entries(site.pages).map(([path, page]) => ({ params: { path: path.slice(1) }, props: { path, page } }));
 }
 
-const registry: Record<string, any> = { Showcase, Design };
+const registry: Record<string, any> = { ComponentPage, Design, ComponentGrid };
 const { path, page } = Astro.props as { path: string; page: Page };
 ---
 <Layout title={page.title} path={path}>
-  <p>{page.description}</p>
+  {page.description && <p>{page.description}</p>}
   {page.children.map((child) => {
     const Child = registry[child.component];
     return <Child {...child.data} />;

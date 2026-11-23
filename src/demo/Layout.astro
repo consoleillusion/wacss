@@ -1,9 +1,10 @@
 ---
-// The demo page shell: theme bootstrap, stylesheet, navbar with theme and palette controls.
+// The demo page shell: mode and palette bootstrap, stylesheet, navbar with palette and mode controls.
 import "../../dist/wacss.css";
 import "./demo.scss";
 import data from "../../dist/tokens.json";
 import { site } from "../site";
+import NavBar from "../components/NavBar/NavBar.astro";
 
 const { title, path } = Astro.props as { title: string; path: string };
 const channels = Object.fromEntries(Object.entries(data.components).map(([k, v]: [string, any]) => [k, { name: v.name, element: v.element, variants: v.variants, channels: v.channels }]));
@@ -15,85 +16,107 @@ const channels = Object.fromEntries(Object.entries(data.components).map(([k, v]:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} · {site.title}</title>
     <link rel="icon" href="/favicon.svg" />
-    <!-- Flash prevention: restore theme and palette before the first paint. -->
+    <!-- Flash prevention: restore palette and mode before the first paint. -->
     <script is:inline>
       try {
-        const t = localStorage.getItem("wacss:theme"), p = localStorage.getItem("wacss:palette");
-        if (t) document.documentElement.dataset.theme = t;
+        const t = localStorage.getItem("wacss:mode"), p = localStorage.getItem("wacss:palette");
+        if (t) document.documentElement.dataset.mode = t;
         if (p) document.documentElement.dataset.palette = p;
       } catch {}
     </script>
   </head>
   <body>
-    <header class="demo-nav">
-      <nav class="center cluster">
-        <strong>{site.title}</strong>
-        {Object.entries(site.pages).map(([href, page]) => (
-          <a href={href} aria-current={href === path ? "page" : undefined}>{page.title}</a>
-        ))}
-        <span class="demo-spacer"></span>
-        <label>Theme
-          <select id="palette">
-            {["kinari", "matcha", "ai", "shu"].map((p) => <option value={p}>{p}</option>)}
-          </select>
-        </label>
-        <button id="theme" class="tertiary" type="button" aria-live="polite"></button>
-      </nav>
-    </header>
+    <NavBar
+      title={site.title}
+      href="/component"
+      current={path}
+      links={site.nav.map((href) => ({ href, label: site.pages[href]!.title }))}
+      end={[
+        { component: "Select", data: { label: "Palette", id: "palette", options: ["kinari", "matcha", "aizome", "shu"] } },
+        { component: "Button", data: { id: "mode", variant: "tertiary", "aria-live": "polite" } },
+      ]}
+    />
     <main class="center stack demo-main">
       <h1>{title}</h1>
       <slot />
     </main>
     <script type="application/json" id="wacss-channels" set:html={JSON.stringify(channels)}></script>
     <script>
-      // Theme toggle: shows the current state (sun = light on, moon = dark on) and persists it.
+      // Mode toggle: shows the current state (sun = light on, moon = dark on) and persists it.
       const root = document.documentElement;
-      const button = document.getElementById("theme")!;
+      const button = document.getElementById("mode")!;
       const palette = document.getElementById("palette") as HTMLSelectElement;
       const isLight = () =>
-        // Purpose: the theme currently in effect, explicit or from the system
-        root.dataset.theme ? root.dataset.theme === "light" : matchMedia("(prefers-color-scheme: light)").matches;
+        // Purpose: the mode currently in effect, explicit or from the system
+        root.dataset.mode ? root.dataset.mode === "light" : matchMedia("(prefers-color-scheme: light)").matches;
+      const remember = (key: string, value: string) => {
+        // Purpose: store a choice for the next visit, where the browser allows storage
+        try { localStorage.setItem(key, value); } catch {}
+      };
       const show = () => {
         // Purpose: render the toggle's state as an icon and a label
-        button.textContent = isLight() ? "☀ Light theme on" : "☾ Dark theme on";
+        button.textContent = isLight() ? "☀ Light mode on" : "☾ Dark mode on";
       };
       button.addEventListener("click", () => {
-        root.dataset.theme = isLight() ? "dark" : "light";
-        localStorage.setItem("wacss:theme", root.dataset.theme);
+        root.dataset.mode = isLight() ? "dark" : "light";
+        remember("wacss:mode", root.dataset.mode);
         show();
       });
       palette.value = root.dataset.palette ?? "kinari";
       palette.addEventListener("change", () => {
         root.dataset.palette = palette.value;
-        localStorage.setItem("wacss:palette", palette.value);
+        remember("wacss:palette", palette.value);
       });
       show();
 
-      // Forced states: point each channel property of a marked sample at its state token.
+      // State selector on a component's page: applies the chosen state to the variants beside it.
+      // Hover, focus and active cannot be set on an element, so the element's channel properties
+      // are pointed at that state's tokens; the other states are applied as the real attributes.
       type Info = { name: string; element?: string[]; variants: string[]; channels: Record<string, string[]> };
-      const infos: Info[] = Object.values(JSON.parse(document.getElementById("wacss-channels")!.textContent!));
-      const force = (box: HTMLElement) => {
-        // Purpose: apply a sample's forced state to every component element inside it
-        const state = box.dataset.demoState!;
-        const parts = (box.dataset.demoParts ?? "").split(" ");
-        for (const info of infos.filter((i) => parts.includes(i.name))) {
-          const selector = info.element ? info.element.join(", ") : `.${info.name}`;
-          for (const el of box.querySelectorAll<HTMLElement>(selector)) {
+      const infos: Record<string, Info> = JSON.parse(document.getElementById("wacss-channels")!.textContent!);
+      const ATTRIBUTES: Record<string, [string, string]> =
+        { disabled: ["aria-disabled", "true"], loading: ["aria-busy", "true"], open: ["aria-expanded", "true"], pressed: ["aria-pressed", "true"] };
+      const applied = new Map<HTMLElement, { properties: string[]; attributes: [string, string | null][] }>();
+      const clear = (el: HTMLElement) => {
+        // Purpose: undo whatever the selector applied to an element
+        const was = applied.get(el);
+        if (!was) return;
+        for (const p of was.properties) el.style.removeProperty(p);
+        for (const [name, value] of was.attributes) value === null ? el.removeAttribute(name) : el.setAttribute(name, value);
+        if (el instanceof HTMLButtonElement) el.disabled = false;
+        applied.delete(el);
+      };
+      const apply = (row: HTMLElement, state: string) => {
+        // Purpose: show every variant in a row in one state
+        const info = infos[row.dataset.demoComponent!]!;
+        const selector = info.element ? info.element.join(", ") : `.${info.name}`;
+        // Only the live instances beside the selector, never the selector itself.
+        const instances = [...row.querySelectorAll<HTMLElement>("[data-demo-instance]")];
+        const targets = instances.flatMap((i) => [...(i.matches(selector) ? [i] : []), ...i.querySelectorAll<HTMLElement>(selector)]);
+        for (const el of targets) {
+          clear(el);
+          if (state === "static") continue;
+          const record = { properties: [] as string[], attributes: [] as [string, string | null][] };
+          const attribute = ATTRIBUTES[state];
+          if (attribute) {
+            record.attributes.push([attribute[0], el.getAttribute(attribute[0])]);
+            el.setAttribute(attribute[0], attribute[1]);
+          } else {
             const variant = info.variants.find((v) => el.classList.contains(v)) ?? "secondary";
             for (const token of info.channels[state] ?? []) {
               const prefix = `--${info.name}-${variant}-`;
               if (!token.startsWith(prefix)) continue;
               const property = token.slice(prefix.length, -(state.length + 1));
-              if (!property.startsWith("after-")) el.style.setProperty(property, `var(${token})`);
+              if (property.startsWith("after-")) continue;
+              el.style.setProperty(property, `var(${token})`);
+              record.properties.push(property);
             }
           }
+          applied.set(el, record);
         }
       };
-      const scan = () =>
-        // Purpose: force every marked sample currently in the page
-        document.querySelectorAll<HTMLElement>("[data-demo-state]").forEach(force);
-      new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
-      scan();
+      for (const select of document.querySelectorAll<HTMLSelectElement>("select[data-demo-states]"))
+        select.addEventListener("change", () => apply(select.closest<HTMLElement>("[data-demo-component]")!, select.value));
     </script>
   </body>
 </html>

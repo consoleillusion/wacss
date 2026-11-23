@@ -7,14 +7,26 @@
   html { font-family: var(--font-family); line-height: var(--line-height-body); }
   body {
     min-block-size: 100vh;
-    background: var(--color-base);
+    background: var(--palette-base);
     color: var(--color-text);
     font-size: var(--font-size-body);
   }
   h1, h2, h3, h4 { font-weight: var(--font-weight-heading); line-height: var(--line-height-heading); }
   img, picture, video, svg { display: block; max-inline-size: 100%; }
   button, input, select, textarea { font: inherit; }
+  // A button that no component styles (such as a chart's legend) is plain: no fill, frame or
+  // padding of the browser's own, and the colour of the text around it.
+  button { background: none; border: 0; padding: 0; color: inherit; }
   a { color: inherit; }
+  th { text-align: start; vertical-align: bottom; }
+  td { vertical-align: top; }
+  fieldset { margin: 0; padding: 0; border: 0; min-inline-size: 0; }
+  code, pre { font-family: var(--font-family-code); }
+  pre { margin: 0; overflow-x: auto; }
+  // Selected text, everywhere, takes the pop.
+  ::selection { background: var(--selection); color: var(--selection-ink); }
+  // Hidden content stays hidden, whatever display a component gives it.
+  [hidden] { display: none !important; }
 
   // Reduced motion: one global rule shortens transitions and stops animations.
   @media (prefers-reduced-motion: reduce) {
@@ -34,6 +46,15 @@
     gap: calc(var(--space-page) * var(--stack-space, 4));
   }
 
+  // Two groups at either end of a row, wrapping when space runs out.
+  .spread {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: calc(var(--space-page) * var(--spread-space, 3));
+  }
+
   // Wrapping horizontal group.
   .cluster {
     display: flex;
@@ -41,6 +62,23 @@
     gap: calc(var(--space-page) * var(--cluster-space, 3));
     justify-content: var(--cluster-justify, flex-start);
     align-items: var(--cluster-align, center);
+  }
+
+  // Padding on every side.
+  .box {
+    padding: var(--box-padding, var(--padding));
+  }
+
+  // In a stack, pushes an element, and those after it, to the far end.
+  .push {
+    margin-block-start: auto;
+  }
+
+  // A cell that centres its content and clips what overflows.
+  .frame {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
   }
 
   // Centred column with a max measure.

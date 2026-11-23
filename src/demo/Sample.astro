@@ -1,24 +1,24 @@
 ---
-// One instance of a component in a given variant and state.
-// Forced states (hover, focus, active) are marked with data-demo-state and applied by Layout's script.
-import Accordion from "../components/Accordion/Accordion.svelte";
-import Button from "../components/Button/Button.svelte";
+// One instance of a component in a given variant. Framed (the default), it is shown in the
+// figure of a card whose header names the variant, placed through the card's figure slot so a
+// reactive component (Accordion) is still hydrated. Unframed, it is shown on its own under a
+// small label naming the variant.
 import Card from "../components/Card/Card.astro";
-import { FORCED, samples } from "./samples";
-import tokens from "../../dist/tokens.json";
+import Instance from "./Instance.astro";
+import { samples } from "./samples";
 
-const { title, variant = "secondary", state = "static" } = Astro.props as { title: string; variant?: string; state?: string };
-const data: Record<string, any> = { ...samples[title], variant };
-if (state === "disabled") { data.disabled = true; if (data.items) data.items = data.items.map((i: any) => ({ ...i, disabled: true })); }
-if (state === "loading") data.loading = true;
-if (state === "open") data.value = data.items?.[0]?.value;
-const forced = FORCED.includes(state) ? state : undefined;
-const components = tokens.components as Record<string, any>;
-const names = [title, ...components[title].parts].map((t: string) => components[t].name).join(" ");
+const { title, variant = "secondary", framed = true } = Astro.props as { title: string; variant?: string; framed?: boolean };
+const data: Record<string, any> = { ...samples[title], ...(variant === "secondary" ? {} : { variant }) };
 ---
-<div class="demo-sample" data-demo-state={forced} data-demo-parts={forced && names}>
-  <small>{variant}{state !== "static" && ` · ${state}`}</small>
-  {title === "Button" && <Button {...data} />}
-  {title === "Accordion" && <Accordion client:load {...data} />}
-  {title === "Card" && <Card {...data} />}
-</div>
+{framed ? (
+  <div class="demo-sample">
+    <Card header={variant}>
+      <Instance slot="figure" title={title} data={data} />
+    </Card>
+  </div>
+) : (
+  <div class="demo-sample demo-bare" data-demo-instance>
+    <small>{variant}</small>
+    <Instance title={title} data={data} />
+  </div>
+)}
