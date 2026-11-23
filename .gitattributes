@@ -1,1 +1,2 @@
 *.typ linguist-detectable
+*.astro linguist-language=Astro
