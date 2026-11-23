@@ -5,7 +5,7 @@ board. Each one narrows a concrete choice: which colour gets the accent,
 whether something should move, how much space a group needs, and where a
 block sits on the page. They are tendencies, not laws. When a principle
 conflicts with accessibility, clarity or observed user behaviour, the
-latter wins (#link(<ux-and-accessibility>)[ux-and-accessibility]).
+latter wins.
 
 == Principle → decision map
 <aesthetics-in-practice:principle--decision-map>
@@ -135,7 +135,7 @@ interaction parameters (#link(<semantic>)[semantic]).
 - #strong[Shizen — spacing that scales with content.] Component padding
   and gaps are in `em`, so a component inherits the size of its context;
   page spacing is in `rem`, so it stays stable. Fluid page helpers avoid
-  breakpoint-specific gap values (#link(<tokens>)[tokens],
+  breakpoint-specific gap values.
   #link(<layout>)[layout]).
 - #strong[Seijaku — room to read.] Comfortable line height, a bounded
   measure and breathing room around text and controls. Whitespace gives
@@ -193,7 +193,7 @@ interaction parameters (#link(<semantic>)[semantic]).
   targets to protect whitespace.],
   [Shizen vs. structure],
   [Let content size itself; use structural literals where a fixed layout
-  is required for the component to work (#link(<tokens>)[tokens]).],
+  is required for the component to work.],
   [Shibui vs. novelty],
   [Add depth that rewards use, not effects that demand attention.],
 )

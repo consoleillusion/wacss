@@ -1,124 +1,13 @@
 = Component schema
 <component-schema>
-Every component lives in `src/components/<Name>/` and exports two things
-from `schema.ts`:
+Every component lives in `src/components/<Name>/` and may have the following files:
+- schema.dhall
+- <Component>.astro
+- <Component>.svelte
 
-- `meta`: styling metadata. The #strong[only] input to token and CSS
-  generation.
-- `component`: the public JSON Schema of the component\'s props (data
-  and configuration). It is not used for styling.
+The Astro file is meant to provide the structure and any non reactive components, while the svelte has the reactive part. If a component contains multiple reactive parts they should come from other components. There should not be two separate svelte files in one folder. 
 
-== `meta`
-<component-schema:meta>
-```ts
-import type { Meta } from "../../tokens/types";
-
-export const meta =
-{ name: "button"
-, element: "button"
-, cssProperties:
-  [ "background", "color", "border-color", "border-width", "border-radius"
-  , "padding-block", "padding-inline", "gap", "font-size", "font-weight"
-  , "outline-color", "outline-width", "outline-offset"
-  , "transform", "opacity", "transition-duration"
-  ]
-, variants: ["secondary", "primary", "tertiary", "danger"]
-, states: ["static", "hover", "focus", "active", "disabled"]
-, structure:
-  { static:
-    { display: "inline-flex", "align-items": "center", "justify-content": "center"
-    , "white-space": "nowrap", cursor: "pointer", "border-style": "solid"
-    , "outline-style": "solid", "transition-property": "background, color, border-color, transform"
-    }
-  , disabled: { cursor: "not-allowed" }
-  }
-} as const satisfies Meta;
-```
-
-#table(
-  columns: 3,
-  [Field], [Required], [Meaning],
-  [`name`],
-  [yes],
-  [Token prefix and, for class components, the class name. Lowercase
-  kebab-case.],
-  [`element`],
-  [no],
-  [The native element this component wraps (`button`, `input`, `table`,
-  `details`…). If set, it is an #strong[element component] selected by
-  element name. If absent, it is a #strong[class component] selected by
-  `.<name>`.],
-  [`cssProperties`],
-  [yes],
-  [Themable CSS properties. Each gets L3, L4 and L5 tokens.],
-  [`variants`],
-  [yes],
-  [Variant names from #link(<variants>)[variants]. Must include
-  `secondary`.],
-  [`states`],
-  [yes],
-  [State names from #link(<states>)[states]. Must include `static`.],
-  [`structure`],
-  [no],
-  [Structural literals, keyed by state. See Structure.],
-  [`pseudoElements`],
-  [no],
-  [Themable properties of pseudo-elements. See Pseudo-elements.],
-  [`channels`],
-  [no],
-  [Explicit state → properties assignment, replacing the defaults in
-  #link(<states:co-occurring-states-and-channels>)[states].],
-)
-
-The token matrix is exactly `cssProperties × variants × states`, plus
-the same for each pseudo-element.
-
-== `structure`
-<component-schema:structure>
-Non-themable declarations (see
-#link(<tokens:structural-values>)[tokens]), keyed by state:
-
-```ts
-structure:
-{ static: { display: "grid", overflow: "hidden" }
-, open: { "content-visibility": "visible" }
-}
-```
-
-- Values are literals. No `var()`.
-- A property may not appear in both `structure` and `cssProperties`.
-- Structural declarations are the same for every variant. A value that
-  differs by variant is themable by definition.
-- Animation is not special: a component lists the animation properties
-  it wants (`animation-name`, `animation-duration`, …) in
-  `cssProperties` like any other property, with L2 defaults or
-  overrides. Keyframes are named helpers (`wacss-*`).
-
-== Third-party custom properties
-<component-schema:third-party-custom-properties>
-A component that wraps a third-party widget (SVAR grid, xyflow) themes
-it through the widget\'s own custom properties. They are listed in
-`cssProperties` like any CSS property:
-
-```ts
-cssProperties: ["background", "--wx-background", "--wx-color-primary", "--xy-edge-stroke"]
-```
-
-The token drops the leading dashes
-(`--datatable-wx-background-secondary-static`). The generated CSS sets
-the widget\'s property:
-`.datatable { --wx-background: var(--datatable-wx-background-secondary-static); }`.
-Their type (fill, ink, edge, other) is given in `meta.types`, because it
-can\'t be inferred from the name.
-
-== `pseudoElements`
-<component-schema:pseudoelements>
-```ts
-pseudoElements:
-{ "::placeholder": ["color"]
-, "::details-content": ["transition-duration"]
-}
-```
+`bitsui` library is used to make the mvp, in such a way that the wacss component only needs to receive data in its parameter to construct a component.
 
 Each listed property gets the full matrix under a name that includes the
 pseudo-element: `--input-placeholder-color-secondary-static`. The CSS
@@ -155,3 +44,59 @@ Before generation, each schema is checked:
   `cssProperties`.
 - Channels are valid and disjoint for co-occurring states, and every
   state has one.
+
+
+== Components
+
+The components should be made primaly of bitsui components, but wrapped so that they can simply take a data object and create the component.
+
+```ocaml
+let P = ../prelude.dhall
+in
+{ title = "Button"
+, type = "object"
+, description = "A styled action element. Renders a button, or an anchor when href is set."
+, element = "button"
+, variants = [ "secondary", "primary", "tertiary", "danger" ]
+, states = [ "static", "hover", "focus", "active", "disabled", "loading" ]
+, themeableProperties =
+  [ "background"
+  , "color"
+  , "border-color"
+  , "border-width"
+  , "border-radius"
+  , "padding-block"
+  , "padding-inline"
+  , "gap"
+  , "font-size"
+  , "font-weight"
+  , "outline-color"
+  , "outline-width"
+  , "outline-offset"
+  , "transform"
+  , "opacity"
+  , "transition-duration"
+  ]
+, structuralProperties =
+    { appearance = "none"
+    , display = "inline-flex"
+    , `align-items` = "center"
+    , `justify-content` = "center"
+    , `white-space` = "nowrap"
+    , `border-style` = "solid"
+    , `outline-style` = "solid"
+    , `line-height` = "1"
+    , cursor = "pointer"
+    , `transition-property` = "background, color, border-color, transform"
+    }
+  }
+, arguments =
+  { variant = P.choice [ "secondary", "primary", "tertiary", "danger" ] "secondary"
+  , type = P.choice [ "button", "submit", "reset" ] "button"
+  , label = P.string
+  , href = P.described "Renders an anchor instead of a button."
+  , loading = P.booleanWith False
+  , disabled = P.booleanWith False
+  }
+}
+```

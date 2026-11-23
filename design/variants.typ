@@ -140,6 +140,3 @@ export const tokens =
   [Structure (separator, skeleton, layout)],
   [secondary],
 )
-
-Final variant lists are decided per component (see
-#link(<components-and-api>)[components-and-api]).

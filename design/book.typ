@@ -27,22 +27,21 @@
 // heading; each file's own headings nest beneath it.
 // index.md also lists `components`, which has no file yet, so it is not included.
 #let parts = (
-  ("Introduction", ("introduction", "roadmap")),
+  ("Introduction", ("introduction",)),
   (
     "Architecture",
     (
       "schema",
      "css-output", 
      "build-and-verification", 
+     "component-schema",
      "demo-site",
       "primitives",
       "semantic",
       "variants",
       "states",
-
       "layout",
       "architecture",
-      "component-schema",
       "generation",
       "tokens",
     ),
@@ -88,17 +87,12 @@
 // Typography
 // ---------------------------------------------------------------------------
 
-#let sans = ("Inter", "Source Sans 3", "Helvetica Neue", "Arial", "Liberation Sans")
+#let sans = ("Helvetica Neue", "Arial", "Liberation Sans")
 #let serif = (
-  "Source Serif 4",
-  "Source Serif Pro",
-  "Lora",
-  "Charter",
-  "Georgia",
   "Noto Serif CJK JP",
   "Liberation Serif",
 )
-#let mono = ("JetBrains Mono", "DejaVu Sans Mono", "Consolas", "Menlo", "Liberation Mono")
+#let mono = ("JetBrains Mono", "DejaVu Sans Mono", "Liberation Mono")
 #let cjk = ("Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN")
 
 // Small, tracked label used for eyebrows, table heads and footers (title case, never upper-cased).

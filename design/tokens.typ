@@ -1,5 +1,4 @@
 = Tokens
-<tokens>
 == The five levels
 <tokens:the-five-levels>
 #table(
@@ -32,6 +31,19 @@
   [Generated],
 )
 
+
+== Some Rules
++ #strong[Define foundations, not ramps.] L1 holds bases, steps and
+  ratios. Every scale is calculated.
++ #strong[Derive, don\'t duplicate.] Every themable token references the
+  level below it.
++ #strong[Generate by default, override when necessary.] Variants and
+  states work with no per-component values, but any generated token can
+  be overridden.
++ #strong[One selector per component.] Generated CSS applies only L5
+  tokens and schema-declared structural literals.
++ #strong[The schema is the contract.] A component\'s tokens and CSS
+  come only from its schema.
 - `<property>` is a CSS property name: `background`, `border-radius`,
   `padding-inline`. A third-party custom property may be the property
   (see #link(<component-schema>)[component-schema]).
