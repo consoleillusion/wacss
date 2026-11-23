@@ -1,0 +1,63 @@
+%YAML 1.2
+---
+# A minimal Dhall syntax for the book's code blocks.
+name: Dhall
+file_extensions: [dhall]
+scope: source.dhall
+contexts:
+  main:
+    - match: '\{-'
+      scope: punctuation.definition.comment.dhall
+      push: block_comment
+    - match: '--.*$'
+      scope: comment.line.double-dash.dhall
+    - match: '"'
+      scope: punctuation.definition.string.begin.dhall
+      push: string
+    - match: "''"
+      scope: punctuation.definition.string.begin.dhall
+      push: multiline_string
+    - match: '`[^`]*`'
+      scope: variable.other.quoted.dhall
+    - match: '\b(let|in|if|then|else|merge|toMap|with|assert|using|as|showConstructor)\b'
+      scope: keyword.control.dhall
+    - match: '\b(forall)\b|∀|λ'
+      scope: keyword.control.dhall
+    - match: '\b(True|False|None|Some)\b'
+      scope: constant.language.dhall
+    - match: '\b(Bool|Natural|Integer|Double|Text|List|Optional|Type|Kind|Sort|Date|Time|TimeZone)\b'
+      scope: support.type.dhall
+    - match: '\b[A-Z][A-Za-z0-9_/-]*\b'
+      scope: entity.name.type.dhall
+    - match: '[+-]?\b[0-9]+(\.[0-9]+)?\b'
+      scope: constant.numeric.dhall
+    - match: '\.\./[^\s]+|\./[^\s]+'
+      scope: string.unquoted.import.dhall
+    - match: '//\\\\|/\\|//|->|→|\\|:|=|\+\+|#|\?|\|'
+      scope: keyword.operator.dhall
+  block_comment:
+    - meta_scope: comment.block.dhall
+    - match: '\{-'
+      push: block_comment
+    - match: '-\}'
+      pop: true
+  string:
+    - meta_scope: string.quoted.double.dhall
+    - match: '\\.'
+      scope: constant.character.escape.dhall
+    - match: '\$\{'
+      push: interpolation
+    - match: '"'
+      pop: true
+  multiline_string:
+    - meta_scope: string.quoted.multiline.dhall
+    - match: "'''|''\\$\\{"
+      scope: constant.character.escape.dhall
+    - match: '\$\{'
+      push: interpolation
+    - match: "''"
+      pop: true
+  interpolation:
+    - match: '\}'
+      pop: true
+    - include: main

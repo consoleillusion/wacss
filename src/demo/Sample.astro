@@ -1,0 +1,24 @@
+---
+// One instance of a component in a given variant and state.
+// Forced states (hover, focus, active) are marked with data-demo-state and applied by Layout's script.
+import Accordion from "../components/Accordion/Accordion.svelte";
+import Button from "../components/Button/Button.svelte";
+import Card from "../components/Card/Card.astro";
+import { FORCED, samples } from "./samples";
+import tokens from "../../dist/tokens.json";
+
+const { title, variant = "secondary", state = "static" } = Astro.props as { title: string; variant?: string; state?: string };
+const data: Record<string, any> = { ...samples[title], variant };
+if (state === "disabled") { data.disabled = true; if (data.items) data.items = data.items.map((i: any) => ({ ...i, disabled: true })); }
+if (state === "loading") data.loading = true;
+if (state === "open") data.value = data.items?.[0]?.value;
+const forced = FORCED.includes(state) ? state : undefined;
+const components = tokens.components as Record<string, any>;
+const names = [title, ...components[title].parts].map((t: string) => components[t].name).join(" ");
+---
+<div class="demo-sample" data-demo-state={forced} data-demo-parts={forced && names}>
+  <small>{variant}{state !== "static" && ` · ${state}`}</small>
+  {title === "Button" && <Button {...data} />}
+  {title === "Accordion" && <Accordion client:load {...data} />}
+  {title === "Card" && <Card {...data} />}
+</div>

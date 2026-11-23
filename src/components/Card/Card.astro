@@ -1,96 +1,48 @@
 ---
-import Button from "../Button/Button.astro";
+// Card: structure only. The figure row renders the component its data names (by title);
+// the body row holds the header, text and footer. Card imports no component except Button.
+import Button from "../Button/Button.svelte";
 
-// Every component folder is listed here, but a component is only fetched when
-// a card is given its name. Card never imports them itself.
-const loaders = import.meta.glob("../*/*.astro") as Record<string, () => Promise<{ default: any }>>;
-
-// Figures given by media type render with the matching component.
-const MEDIA_COMPONENT: Record<string, string> = { image: "Image", video: "Video", audio: "Audio" };
-
-type Request = { name: string; props: Record<string, unknown> };
+const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro", "!./Card.astro"]);
 
 function loaderFor(name: unknown) {
-  // Purpose: Find the loader for a component name, or undefined when no such component exists.
+  // Purpose: find the module of the component a figure names, or undefined
   if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
-  const key = `../${name}/${name}.astro`;
-  return Object.hasOwn(loaders, key) ? loaders[key] : undefined;
-}
-
-function figureRequest(f: any): Request | undefined {
-  // Purpose: Turn figure data into the component name and props it asks for, or undefined.
-  if (!f || typeof f !== "object") return undefined;
-  const { type, component: named, schema, data: d, title: figureTitle, ...rest } = f;
-  const name =
-    typeof type === "string" && Object.hasOwn(MEDIA_COMPONENT, type) ? MEDIA_COMPONENT[type]
-    : typeof named === "string" ? named
-    : typeof schema?.title === "string" ? schema.title
-    : typeof figureTitle === "string" ? figureTitle
-    : undefined;
-  if (!name || !loaderFor(name)) return undefined;
-  return { name, props: d && typeof d === "object" ? d : rest };
-}
-
-async function resolve(request: Request | undefined) {
-  // Purpose: Fetch the component a request names and pair it with its props.
-  const loader = request && loaderFor(request.name);
-  if (!request || !loader) return undefined;
-  return { Comp: (await loader()).default, props: request.props };
+  return modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`];
 }
 
 const {
-  as: Tag = "article"
-  , title
-  , description
-  , footer
-  , figure
-  , media
-  , content
-  , component
-  , data = {}
-  , href
-  , ctaLabel = "Open component"
-  , class: className = ""
-  , ...rest
-} = Astro.props as any;
+  variant = "secondary",
+  as: Tag = "article",
+  header,
+  text,
+  figure,
+  footer,
+  href,
+  ctaLabel = "Open component",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
 
-const bodyRequest: Request | undefined = component
-  ? { name: component, props: data }
-  : content?.component
-    ? { name: content.component, props: content.data ?? {} }
-    : undefined;
-const body = await resolve(bodyRequest);
-const figureBody = await resolve(figureRequest(figure ?? media));
-const textContent = typeof content === "string" ? content : content?.text;
-const hasContent = Boolean(body || textContent || Astro.slots.has("default"));
+const { title: figureName, ...figureProps } = figure ?? {};
+const loader = loaderFor(figureName);
+const Figure = loader ? (await loader()).default : undefined;
+const classes = ["card", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
 ---
-<Tag wacss="card" class={["card", className].filter(Boolean).join(" ")} {...rest}>
-  {(title || description) && (
-    <header wacss="card-header">
-      {title && <h3 wacss="card-title">{title}</h3>}
-      {description && <p wacss="card-description">{description}</p>}
-    </header>
-  )}
-  {(hasContent || footer || href) && (
-    <div wacss="card-content">
-      {figureBody && (
-        <figure wacss="card-media">
-          <figureBody.Comp {...figureBody.props} />
-        </figure>
-      )}
-      {body && <body.Comp {...body.props} />}
-      {textContent && <p>{textContent}</p>}
-      <slot />
-      {(footer || href) && (
-        <footer wacss="card-footer">
-          {footer}
-          {href && (
-            <Button href={href} variant="secondary" data-slot="card-cta">
-              <span>{ctaLabel}</span>
-            </Button>
-          )}
-        </footer>
-      )}
-    </div>
-  )}
+<Tag class={classes} {...rest}>
+  <figure class="card-figure">
+    {Figure && <Figure {...figureProps} />}
+    <slot name="figure" />
+  </figure>
+  <div class="card-body">
+    {header && <h3>{header}</h3>}
+    {text && <p>{text}</p>}
+    <slot />
+    {(footer || href) && (
+      <footer>
+        {footer}
+        {href && <Button href={href} label={ctaLabel} />}
+      </footer>
+    )}
+  </div>
 </Tag>

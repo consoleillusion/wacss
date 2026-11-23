@@ -1,0 +1,33 @@
+// Demo-site chrome only. Not part of the library stylesheet.
+.demo-nav { border-block-end: var(--border-width) solid var(--color-border); padding-block: calc(var(--space-page) * 3); }
+.demo-nav a[aria-current="page"] { font-weight: var(--font-weight-heading); }
+.demo-spacer { flex: 1; }
+.demo-main { padding-block: calc(var(--space-page) * 8); }
+.demo-row { align-items: flex-start; }
+.demo-sample { display: grid; gap: calc(var(--space-page) * 2); justify-items: start; }
+.demo-sample > small { color: var(--color-text-muted); }
+.demo-sample:has(.card) { inline-size: 18rem; }
+.demo-sample:has(.accordion) { inline-size: min(32rem, 100%); }
+.demo-sample:has(.accordion) > [data-accordion-root] { inline-size: 100%; }
+
+.demo-graph { position: relative; block-size: 75vh; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-surface); overflow: hidden; }
+.demo-editor {
+  position: absolute; inset-block-start: 1rem; inset-inline-end: 1rem; z-index: 10;
+  inline-size: min(28rem, 90%); padding: 1rem; gap: 0.5rem;
+  background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-surface);
+  box-shadow: var(--shadow-overlay);
+}
+.demo-editor textarea { font-family: var(--font-family-code); inline-size: 100%; }
+.demo-editor small { overflow-wrap: anywhere; color: var(--color-text-muted); }
+
+.demo-token {
+  inline-size: 380px; padding: 0.4rem 0.6rem; display: grid; gap: 0.1rem; font-size: 0.75rem;
+  background: var(--color-surface); color: var(--color-text);
+  border: var(--border-width) solid var(--color-border); border-radius: var(--radius-control);
+}
+.demo-token code { font-family: var(--font-family-code); font-weight: var(--font-weight-ui); }
+.demo-token span { color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-family-code); }
+.demo-token.edited { border-color: var(--color-accent); }
+.demo-token.picked { outline: 2px solid var(--color-ring); }
+.demo-token.dim { opacity: 0.25; }
+.demo-level { font-size: 1.5rem; color: var(--color-text-muted); }

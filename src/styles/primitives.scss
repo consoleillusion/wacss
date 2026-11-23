@@ -1,0 +1,80 @@
+// L1 — Primitives. Hand-authored. Literals only.
+:root {
+  // Space: step × n, applied as em (components) or rem (page).
+  --space-base: 0;
+  --space-step: 0.25;
+
+  // Radius (em).
+  --border-radius-base: 0;
+  --border-radius-step: 0;
+  --border-radius-pill: 9999px;
+
+  // Border.
+  --border-width-base: 1px;
+
+  // Type.
+  --font-size-base: 1rem;
+  --font-size-ratio: 1.2;
+  --font-weight-base: 400;
+  --font-weight-step: 100;
+  --line-height-base: 1.5;
+  --line-height-step: 0.125;
+  --measure-base: 68ch;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, monospace;
+
+  // Motion.
+  --duration-base: 150ms;
+  --duration-ratio: 1.5;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  // Depth.
+  --shadow-offset-step: 1px;
+  --shadow-blur-step: 1px;
+  --shadow-alpha-base: 0.05;
+  --shadow-alpha-step: 0.05;
+  --z-index-base: 0;
+  --z-index-step: 10;
+
+  // Interaction amounts.
+  --mix-base: 8%;
+  --mix-step: 4%;
+  --scale-step: 0.02;
+  --opacity-base: 1;
+  --opacity-step: 0.25;
+  --tint-base: 10%;
+  --tint-step: 6%;
+
+  // Themes: Kinari, Matcha, Ai and Shu, each with a light and a dark mode.
+  // A mode is four colours — base (the background: mostly neutral, never pure
+  // white or black), surface (raised panels), accent (the theme's defining
+  // colour) and pop (an alternative accent for critical emphasis) — and four
+  // status colours chosen for that mode. Named --<theme>-<mode>-<role>.
+  --kinari-light-base: #f8f7f3; --kinari-light-surface: #ecebe5; --kinari-light-accent: #7a6544; --kinari-light-pop: #4f3f27;
+  --kinari-light-positive: #476a35; --kinari-light-warning: #a3501d; --kinari-light-danger: #8e2b3a; --kinari-light-informational: #3a5c78;
+  --kinari-dark-base: #1c1b1a; --kinari-dark-surface: #262524; --kinari-dark-accent: #d3c4a5; --kinari-dark-pop: #f0e7d3;
+  --kinari-dark-positive: #a9c79a; --kinari-dark-warning: #eba27a; --kinari-dark-danger: #e996a3; --kinari-dark-informational: #9bbedb;
+
+  --matcha-light-base: #f7f8f6; --matcha-light-surface: #ebece9; --matcha-light-accent: #4f6d1b; --matcha-light-pop: #35511b;
+  --matcha-light-positive: #2d6a5c; --matcha-light-warning: #7a611a; --matcha-light-danger: #8e2b3a; --matcha-light-informational: #3a5d7a;
+  --matcha-dark-base: #1b1c1b; --matcha-dark-surface: #252625; --matcha-dark-accent: #9fb878; --matcha-dark-pop: #c6d4a8;
+  --matcha-dark-positive: #8fcbb9; --matcha-dark-warning: #d6c57c; --matcha-dark-danger: #e996a3; --matcha-dark-informational: #9cbede;
+
+  --ai-light-base: #f6f7f8; --ai-light-surface: #eaebee; --ai-light-accent: #3f5a7a; --ai-light-pop: #22345a;
+  --ai-light-positive: #3c6640; --ai-light-warning: #745520; --ai-light-danger: #8a4033; --ai-light-informational: #2d6a5f;
+  --ai-dark-base: #1a1b1c; --ai-dark-surface: #242527; --ai-dark-accent: #93abc6; --ai-dark-pop: #c7d5e8;
+  --ai-dark-positive: #9ec9a0; --ai-dark-warning: #d6b47f; --ai-dark-danger: #e8a291; --ai-dark-informational: #8dcbc0;
+
+  --shu-light-base: #f8f7f6; --shu-light-surface: #ecebea; --shu-light-accent: #c23a22; --shu-light-pop: #7e1d12;
+  --shu-light-positive: #3f6a48; --shu-light-warning: #85601a; --shu-light-danger: #7a2c6a; --shu-light-informational: #3a5878;
+  --shu-dark-base: #1c1b1b; --shu-dark-surface: #262525; --shu-dark-accent: #ec5536; --shu-dark-pop: #f6b4a2;
+  --shu-dark-positive: #9ec8a5; --shu-dark-warning: #d9bb7e; --shu-dark-danger: #dba2d2; --shu-dark-informational: #9bbedb;
+
+  // Text is derived from the base at these lightnesses.
+  --lightness-text-light: 23%;
+  --lightness-text-dark: 90%;
+
+  --color-white: oklch(98% 0.004 80deg);
+  --color-black: oklch(16% 0.004 60deg);
+}

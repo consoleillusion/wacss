@@ -1,0 +1,21 @@
+---
+// /design: the token graph, and a demo of every variant of each component.
+// The graph shows one component's hierarchy and toggles which demo is visible.
+import data from "../../dist/tokens.json";
+import TokenGraph from "./TokenGraph.svelte";
+import Sample from "./Sample.astro";
+
+const { initial = "Button" } = Astro.props as { initial?: string };
+const components = data.components as Record<string, any>;
+const titles = ["Accordion", "Button", "Card"];
+---
+<div class="stack">
+  {titles.map((t) => (
+    <section data-design-demo={t} hidden={t !== initial}>
+      <div class="cluster demo-row">
+        {components[t].variants.map((v: string) => <Sample title={t} variant={v} />)}
+      </div>
+    </section>
+  ))}
+  <TokenGraph client:only="svelte" {data} {titles} {initial} />
+</div>

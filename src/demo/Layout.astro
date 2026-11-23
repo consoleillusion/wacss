@@ -1,0 +1,99 @@
+---
+// The demo page shell: theme bootstrap, stylesheet, navbar with theme and palette controls.
+import "../../dist/wacss.css";
+import "./demo.scss";
+import data from "../../dist/tokens.json";
+import { site } from "../site";
+
+const { title, path } = Astro.props as { title: string; path: string };
+const channels = Object.fromEntries(Object.entries(data.components).map(([k, v]: [string, any]) => [k, { name: v.name, element: v.element, variants: v.variants, channels: v.channels }]));
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {site.title}</title>
+    <link rel="icon" href="/favicon.svg" />
+    <!-- Flash prevention: restore theme and palette before the first paint. -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("wacss:theme"), p = localStorage.getItem("wacss:palette");
+        if (t) document.documentElement.dataset.theme = t;
+        if (p) document.documentElement.dataset.palette = p;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="demo-nav">
+      <nav class="center cluster">
+        <strong>{site.title}</strong>
+        {Object.entries(site.pages).map(([href, page]) => (
+          <a href={href} aria-current={href === path ? "page" : undefined}>{page.title}</a>
+        ))}
+        <span class="demo-spacer"></span>
+        <label>Theme
+          <select id="palette">
+            {["kinari", "matcha", "ai", "shu"].map((p) => <option value={p}>{p}</option>)}
+          </select>
+        </label>
+        <button id="theme" class="tertiary" type="button" aria-live="polite"></button>
+      </nav>
+    </header>
+    <main class="center stack demo-main">
+      <h1>{title}</h1>
+      <slot />
+    </main>
+    <script type="application/json" id="wacss-channels" set:html={JSON.stringify(channels)}></script>
+    <script>
+      // Theme toggle: shows the current state (sun = light on, moon = dark on) and persists it.
+      const root = document.documentElement;
+      const button = document.getElementById("theme")!;
+      const palette = document.getElementById("palette") as HTMLSelectElement;
+      const isLight = () =>
+        // Purpose: the theme currently in effect, explicit or from the system
+        root.dataset.theme ? root.dataset.theme === "light" : matchMedia("(prefers-color-scheme: light)").matches;
+      const show = () => {
+        // Purpose: render the toggle's state as an icon and a label
+        button.textContent = isLight() ? "☀ Light theme on" : "☾ Dark theme on";
+      };
+      button.addEventListener("click", () => {
+        root.dataset.theme = isLight() ? "dark" : "light";
+        localStorage.setItem("wacss:theme", root.dataset.theme);
+        show();
+      });
+      palette.value = root.dataset.palette ?? "kinari";
+      palette.addEventListener("change", () => {
+        root.dataset.palette = palette.value;
+        localStorage.setItem("wacss:palette", palette.value);
+      });
+      show();
+
+      // Forced states: point each channel property of a marked sample at its state token.
+      type Info = { name: string; element?: string[]; variants: string[]; channels: Record<string, string[]> };
+      const infos: Info[] = Object.values(JSON.parse(document.getElementById("wacss-channels")!.textContent!));
+      const force = (box: HTMLElement) => {
+        // Purpose: apply a sample's forced state to every component element inside it
+        const state = box.dataset.demoState!;
+        const parts = (box.dataset.demoParts ?? "").split(" ");
+        for (const info of infos.filter((i) => parts.includes(i.name))) {
+          const selector = info.element ? info.element.join(", ") : `.${info.name}`;
+          for (const el of box.querySelectorAll<HTMLElement>(selector)) {
+            const variant = info.variants.find((v) => el.classList.contains(v)) ?? "secondary";
+            for (const token of info.channels[state] ?? []) {
+              const prefix = `--${info.name}-${variant}-`;
+              if (!token.startsWith(prefix)) continue;
+              const property = token.slice(prefix.length, -(state.length + 1));
+              if (!property.startsWith("after-")) el.style.setProperty(property, `var(${token})`);
+            }
+          }
+        }
+      };
+      const scan = () =>
+        // Purpose: force every marked sample currently in the page
+        document.querySelectorAll<HTMLElement>("[data-demo-state]").forEach(force);
+      new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+      scan();
+    </script>
+  </body>
+</html>

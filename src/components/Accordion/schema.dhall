@@ -2,39 +2,14 @@ let P = ../prelude.dhall
 
 in  { title = "Accordion"
     , type = "object"
-    , description = "A data-driven accordion with single or multiple open items."
-    , element = "details"
+    , description = "Collapsible sections. Wraps the bits-ui Accordion; each item is one section."
     , variants = [ "secondary" ]
-    , states = [ "closed", "open" ]
-    , cssProperties =
-      [ "border-color"
-      , "border-block-end-width"
-      , "color"
-      , "padding-block"
-      , "transition-duration"
-      ]
-    , structure =
-      { static =
-        { `interpolate-size` = "allow-keywords"
-        , overflow = "clip"
-        , `inline-size` = "100%"
-        , `border-block-end-style` = "solid"
-        , cursor = "pointer"
-        , position = "relative"
-        , `list-style` = "none"
-        , `text-align` = "start"
-        }
-      }
-    , pseudoElements.`::details-content` = [ "transition-duration" ]
-    , pseudoStructure.`::details-content` =
-      { static =
-        { height = "0"
-        , `overflow-y` = "clip"
-        , `transition-property` = "content-visibility, height"
-        , `transition-behavior` = "allow-discrete"
-        }
-      , open.height = "auto"
-      }
+    , states = [ "static" ]
+    , parts = [ "AccordionTrigger", "AccordionContent" ]
+    , themeableProperties =
+      [ "color", "border-color", "border-block-end-width" ]
+    , structuralProperties.static =
+      { display = "block", `border-block-end-style` = "solid" }
     , arguments =
           P.commonAttributes
       //  { items =
@@ -51,15 +26,14 @@ in  { title = "Accordion"
               , required = [ "value", "title" ]
               }
             }
-          , cardinality = P.choice [ "single", "multiple" ] "single"
+          , type = P.choice [ "single", "multiple" ] "single"
           , value =
             { type = [ "string", "array" ]
             , description = "Open item value(s)."
             }
-          , disabled = P.boolean
+          , disabled = P.booleanWith False
           , loop = P.booleanWith True
-          , orientation = P.choice [ "horizontal", "vertical" ] "vertical"
-          , storageKey = P.stringWith "wacss:accordion"
-          , persist = P.booleanWith True
+          , orientation = P.choice [ "vertical", "horizontal" ] "vertical"
           }
+    , required = [ "items" ]
     }

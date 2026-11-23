@@ -1,0 +1,60 @@
+// Helpers. Hand-authored. Not components: a minimal reset and layout primitives.
+// Helpers reference only L2 tokens and their own option properties.
+
+@layer wacss.reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  body, h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+  html { font-family: var(--font-family); line-height: var(--line-height-body); }
+  body {
+    min-block-size: 100vh;
+    background: var(--color-base);
+    color: var(--color-text);
+    font-size: var(--font-size-body);
+  }
+  h1, h2, h3, h4 { font-weight: var(--font-weight-heading); line-height: var(--line-height-heading); }
+  img, picture, video, svg { display: block; max-inline-size: 100%; }
+  button, input, select, textarea { font: inherit; }
+  a { color: inherit; }
+
+  // Reduced motion: one global rule shortens transitions and stops animations.
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+@layer wacss.layout {
+  // Vertical flow with consistent spacing between children.
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space-page) * var(--stack-space, 4));
+  }
+
+  // Wrapping horizontal group.
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--space-page) * var(--cluster-space, 3));
+    justify-content: var(--cluster-justify, flex-start);
+    align-items: var(--cluster-align, center);
+  }
+
+  // Centred column with a max measure.
+  .center {
+    box-sizing: content-box;
+    max-inline-size: var(--center-measure, 72rem);
+    margin-inline: auto;
+    padding-inline: calc(var(--space-page) * var(--center-gutter, 6));
+  }
+
+  // Auto-fitting grid of equal cells.
+  .grid {
+    display: grid;
+    gap: calc(var(--space-page) * 6);
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 16rem), 100%), 1fr));
+  }
+}

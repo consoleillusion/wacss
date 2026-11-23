@@ -1,63 +1,55 @@
 <script lang="ts">
-  import type { AccordionProps } from "./types";
+  // Accordion: the bits-ui Accordion, driven by data. Each item is styled by .accordion,
+  // its trigger by .accordion-trigger and its body by .accordion-content.
+  // An item's body is its `content` text, or a snippet (an Astro named slot) named after its value;
+  // values must not be argument names.
+  import { Accordion } from "bits-ui";
+  import type { Snippet } from "svelte";
+
+  type Item = { value: string; title: string; content?: string; disabled?: boolean };
 
   let {
-    items = []
-    , type = "single"
-    , value = ""
-    , name
-    , disabled = false
-    , class: className = ""
-    , children
-    , ...restProps
-  }: AccordionProps & { name?: string } = $props();
+    items = [],
+    type = "single",
+    value,
+    disabled = false,
+    loop = true,
+    orientation = "vertical",
+    class: className = "",
+    id,
+    ...slots
+  }: {
+    items?: Item[];
+    type?: "single" | "multiple";
+    value?: string | string[];
+    disabled?: boolean;
+    loop?: boolean;
+    orientation?: "vertical" | "horizontal";
+    class?: string;
+    id?: string;
+    [slot: string]: unknown;
+  } = $props();
 
-  const groupName = type === "single" ? (name ?? "") : undefined;
-  const classes = ["", className].filter(Boolean).join(" ");
-
-  function isOpen(itemValue: string): boolean {
-    if (Array.isArray(value)) return value.includes(itemValue);
-    return value === itemValue;
-  }
+  const initial = (): any => {
+    // Purpose: normalise the open value(s) to the shape bits-ui expects for this type
+    if (type === "multiple") return Array.isArray(value) ? value : value ? [value] : [];
+    return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+  };
+  let open = $state(initial());
+  const body = (item: Item) =>
+    // Purpose: the snippet given for an item's body, if any
+    slots[item.value] as Snippet | undefined;
 </script>
 
-<div
-  {...restProps}
-  class={classes}
-  data-type={type}
-  data-accordion-root
->
-  {#each items as item, index (item.value)}
-    {@const open = isOpen(item.value)}
-    <details
-      name={groupName}
-      open={open || undefined}
-    >
-      <summary>
-        <span>{item.title}</span>
-        <svg
-          viewBox="0 0 16 16"
-          width="16"
-          height="16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="m4 6 4 4 4-4" />
-        </svg>
-      </summary>
-
-      <div>
-        {#if item.content}
-          <p>{item.content}</p>
-        {/if}
-        {#if children}
-          {@render children({ item, index })}
-        {/if}
-      </div>
-    </details>
+<Accordion.Root {id} type={type as any} bind:value={open} {disabled} {loop} {orientation} class={className || undefined}>
+  {#each items as item (item.value)}
+    <Accordion.Item value={item.value} disabled={item.disabled} class="accordion">
+      <Accordion.Header>
+        <Accordion.Trigger class="accordion-trigger">{item.title}</Accordion.Trigger>
+      </Accordion.Header>
+      <Accordion.Content class="accordion-content">
+        {#if body(item)}{@render body(item)!()}{:else if item.content}<p>{item.content}</p>{/if}
+      </Accordion.Content>
+    </Accordion.Item>
   {/each}
-</div>
+</Accordion.Root>

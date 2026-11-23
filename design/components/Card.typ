@@ -1,40 +1,60 @@
-=== Card
-<components-and-api:card>
-A data-driven surface for presenting content. Placing a component in a
-card needs no per-instance logic.
+= Card
+<card>
+A surface for one piece of content. Card is structure only, written in
+Astro. It is a class component, `.card`, in a portrait 3∶4 shape divided
+into two rows in the ratio 3∶4. The upper row is the figure, the part
+CardFigure (`.card-figure`). It spans the full width with no padding and
+renders any wacss component. The lower row is the body, the part CardBody
+(`.card-body`), with a header, text and a footer.
 
+== Arguments
+<card:arguments>
 #table(
-  columns: 2,
-  [Prop], [Content],
-  [Header],
-  [The card\'s title.],
-  [Text],
-  [Body text below the figure. For showcase cards it comes from the
-  figure component\'s schema (`schema.description`) and appears nowhere
-  else in the card or page.],
-  [Figure],
-  [Data matching any wacss component schema, recognised by its `title`
-  property. Video, Image and Audio are the common cases. The figure
-  renders that component inside the card.],
+  columns: 3,
+  [Argument], [Type and default], [Meaning],
+  [`variant`], [`secondary` · `primary`; `secondary`], [Secondary is a surface; primary is filled with the pop and carries text in the base colour.],
+  [`as`], [`article` · `section` · `div`; `article`], [The root element.],
+  [`header`], [string], [A heading at the top of the body.],
+  [`text`], [string], [Body text.],
+  [`figure`], [object], [Data for any wacss component. Its `title` names the component; every other member is passed to it as an argument.],
+  [`footer`], [string], [Text at the foot of the body.],
+  [`href`], [string], [Adds a secondary button to the footer that links here.],
+  [`ctaLabel`], [string; `Open component`], [The label of that button.],
+  [`id`, `class`], [string], [Passed to the root element.],
 )
 
-The figure has a portrait aspect ratio and a fixed height. It is full
-width, has no padding, and is vertically and horizontally centred. The
-figure takes 3/7 of the card height and the body takes 4/7, so the
-schema\'s grid rows are `3fr 4fr`. The card is 3 units wide and 4 units
-high (`aspect-ratio: 3 / 4`). If the figure or body needs styling beyond
-its elements, it becomes a component in its own right.
+The default slot adds content to the body after the text; the slot
+`figure` adds content to the figure.
 
-When the card links to a component page:
+== States
+<card:states>
+#table(
+  columns: 2,
+  [State], [Effect],
+  [hover], [The background moves toward the interaction colour and the card rises on a soft shadow.],
+)
 
-- Text stays selectable and shows the text cursor. The pointer cursor is
-  reserved for following the link.
-- Figure controls still work; for example, pausing a video does not
-  follow the link.
+== Themable properties
+<card:properties>
+#table(
+  columns: 2,
+  [Component], [Properties],
+  [Card], [`background`, `color`, `border-color`, `border-width`, `border-radius`, `box-shadow`, `font-size`, `line-height`, `transition-duration`, `transition-timing-function`],
+  [CardFigure], [`background`],
+  [CardBody], [`padding`, `gap`],
+)
 
-On the home page:
+== Example
+<card:example>
+```astro
+<Card
+  header="Button"
+  text="An action, in four variants."
+  figure={{ title: "Button", variant: "primary", label: "Save" }}
+  href="/components/button"
+/>
+```
 
-- Cards sit in a full-width `.grid`, intrinsically sized so the layout
-  reflows on resize or drawer toggle without special logic.
-- Each card has a header, a figure containing one component, and that
-  component\'s schema description below.
+#emph[Planned:] a figure is rendered on the server, so an interactive
+component inside it, such as an Accordion, is static. Hydrating the
+figure is planned.

@@ -23,62 +23,39 @@
 #let status = "Draft"
 #let running-title = "wacss · Specification"
 
-// The order and grouping follow design/index.md. Each part is a level-1
-// heading; each file's own headings nest beneath it.
-// index.md also lists `components`, which has no file yet, so it is not included.
+// Each part is a level-1 heading; each file's own headings nest beneath it.
 #let parts = (
-  ("Introduction", ("introduction",)),
-  (
-    "Architecture",
-    (
-      "schema",
-     "css-output", 
-     "build-and-verification", 
-     "component-schema",
-     "demo-site",
-      "primitives",
-      "semantic",
-      "variants",
-      "states",
-      "layout",
-      "architecture",
-      "generation",
-      "tokens",
-    ),
-  ),
-  
-  ("Aesthetics", ("philosophy", "aesthetics-in-practice"
-
-  , "ux-and-accessibility"
-)),
+  ("Introduction", ("intro-what", "intro-philosophy", "intro-usability", "intro-demo", "intro-glossary")),
+  ("Architecture", ("arch-overview", "arch-tokens", "arch-foundations", "arch-channels", "arch-variants", "arch-states", "arch-schema", "arch-generation", "arch-stylesheet", "arch-helpers", "arch-customising", "arch-build")),
+  ("Aesthetics", ("aes-intent", "themes", "aes-animation", "aes-form")),
+  ("Components", ("components/using", "components/Accordion", "components/Button", "components/Card")),
 )
 
 // ---------------------------------------------------------------------------
 // Themes
 // ---------------------------------------------------------------------------
 
-#let themes = (
-  light: (
-    page: rgb("#ffffff"),
-    ink: rgb("#2a2926"),
-    muted: rgb("#5f5a52"),
-    faint: rgb("#9a958c"),
-    rule: rgb("#e3dfd6"),
-    wash: rgb("#f5f3ee"),
-    kanji: rgb("#ebe7df"),
-    accent: rgb("#4a6a5c"),
-  ),
-  dark: (
-    page: rgb("#1c1b19"),
-    ink: rgb("#e9e5dc"),
-    muted: rgb("#b3ada2"),
-    faint: rgb("#7f7a70"),
-    rule: rgb("#35332f"),
-    wash: rgb("#262522"),
-    kanji: rgb("#2b2a27"),
-    accent: rgb("#8fb4a1"),
-  ),
+// The book is typeset in its own palette, Sage: four colours per edition and a
+// derived text colour. Every other shade is mixed from them, as the token
+// hierarchy does.
+#let sage = (
+  light: ("color-base": "#f7f8f7", "color-surface": "#ebecea", "color-accent": "#4a6a5c",
+          "color-text": "#1c1d1c", "color-text-muted": "#5a5b5a"),
+  dark: ("color-base": "#1b1c1c", "color-surface": "#252626", "color-accent": "#8fb4a1",
+         "color-text": "#dcdfdf", "color-text-muted": "#989a9a"),
 )
+#let mix(a, b, amount) = color.mix((rgb(a), amount), (rgb(b), 100% - amount), space: oklab)
+#let derive(t) = (
+  page: rgb(t.at("color-base")),
+  wash: rgb(t.at("color-surface")),
+  ink: rgb(t.at("color-text")),
+  muted: rgb(t.at("color-text-muted")),
+  faint: mix(t.at("color-text"), t.at("color-base"), 45%),
+  rule: mix(t.at("color-accent"), t.at("color-base"), 22%),
+  kanji: mix(t.at("color-accent"), t.at("color-base"), 10%),
+  accent: rgb(t.at("color-accent")),
+)
+#let themes = (light: derive(sage.light), dark: derive(sage.dark))
 
 #let theme-name = sys.inputs.at("theme", default: "light")
 #let c = themes.at(theme-name)
@@ -178,7 +155,7 @@
 
 // Links written in the text are accent-coloured and underlined; the internal
 // links the contents page builds from locations are left plain.
-#show link: it => if type(it.dest) == location {
+#show link: it => if type(it.dest) in (location, dictionary) {
   it
 } else {
   set text(fill: c.accent)
@@ -198,7 +175,8 @@
 // Code blocks: restrained, no syntax colours.
 // ---------------------------------------------------------------------------
 
-//#show raw: it => if it.lang != none { raw(it.text, lang: none, block: it.block) } else { it }
+// Dhall has no built-in syntax in Typst; this definition highlights it.
+#set raw(syntaxes: "dhall.sublime-syntax")
 
 #show raw.where(block: true): it => block(
   width: 100%,
@@ -235,17 +213,6 @@
 #set list(marker: text(fill: c.faint)[•], indent: 3pt, body-indent: 7pt, spacing: 0.65em)
 #set enum(numbering: n => text(fill: c.faint)[#n.], indent: 3pt, body-indent: 7pt, spacing: 0.65em)
 
-// Roadmap task boxes.
-/*
-#show "☐": box(
-  width: 0.72em,
-  height: 0.72em,
-  baseline: 0.04em,
-  stroke: 0.7pt + c.faint,
-  radius: 1.5pt,
-)
-*/
-
 #show quote.where(block: true): it => block(
   inset: (left: 10pt, y: 2pt),
   stroke: (left: 1.2pt + c.accent),
@@ -278,10 +245,17 @@
 // Contents
 // ---------------------------------------------------------------------------
 
+// Contents entries link to an explicit page position rather than a named
+// destination, so every PDF viewer follows them.
+#let target(it) = {
+  let loc = it.element.location()
+  (page: loc.page(), x: 0pt, y: loc.position().y)
+}
+
 #show outline.entry.where(level: 1): it => {
-  v(7mm, weak: true)
+  v(5mm, weak: true)
   block(below: 2.5mm, link(
-    it.element.location(),
+    target(it),
     grid(
       columns: (12mm, 1fr, auto),
       label-text(it.prefix(), size: 6.8pt, fill: c.faint),
@@ -294,9 +268,9 @@
 #show outline.entry.where(level: 2): it => block(
   below: 0pt,
   stroke: (bottom: 0.6pt + c.accent.transparentize(65%)),
-  inset: (y: 6.5pt),
+  inset: (y: 3.9pt),
   link(
-    it.element.location(),
+    target(it),
     grid(
       columns: (1fr, auto),
       text(size: 8.4pt, it.element.body),

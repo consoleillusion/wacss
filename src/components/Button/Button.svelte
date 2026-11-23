@@ -1,5 +1,7 @@
 <script lang="ts">
+  // Button: the bits-ui Button, driven by data. Styled by the generated `button` element rules.
   import { Button } from "bits-ui";
+  import type { Snippet } from "svelte";
 
   let {
     variant = "secondary",
@@ -19,23 +21,21 @@
     loading?: boolean;
     label?: string;
     class?: string;
-    children?: any;
-    [k: string]: any;
+    children?: Snippet;
+    [key: string]: unknown;
   } = $props();
 
-  const variantClass = $derived(variant === "secondary" ? "" : variant);
-  const classNames = $derived([variantClass, className].filter(Boolean).join(" ") || undefined);
-  const isDisabled = $derived(disabled || loading);
+  // The default variant has no class.
+  const classNames = $derived([variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ") || undefined);
 </script>
 
 <Button.Root
   {...restProps}
   {href}
   type={href ? undefined : type}
-  disabled={isDisabled}
+  disabled={disabled || loading}
   class={classNames}
   aria-busy={loading || undefined}
 >
-  {#if loading}<span aria-hidden="true" data-spinner></span>{/if}
-  {#if children}{@render children()}{:else if label}{label}{/if}
+  {#if children}{@render children()}{:else}{label}{/if}
 </Button.Root>
