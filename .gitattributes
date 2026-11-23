@@ -1,2 +1,3 @@
-*.typ linguist-detectable
+*.typ linguist-detectable=true
 *.astro linguist-language=Astro
+*.xml linguist-detectable=false
