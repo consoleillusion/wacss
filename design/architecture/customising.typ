@@ -33,7 +33,7 @@ The same declarations can be placed in a `[data-palette="…"]` or
 #table(
   columns: 2,
   [To change], [Redeclare],
-  [One palette's hue, or a semantic colour's], [Its primitive, `--hue-<palette>` or `--hue-<semantic>`; for good, its entry in `palettes.dhall`],
+  [One palette's hue, or a intent colour's], [Its primitive, `--hue-<palette>` or `--hue-<intent>`; for good, its entry in `palettes.dhall`],
   [The lightness or chroma of one colour in one mode, in every palette], [For good, its entry in `palettes.dhall`; at runtime, `--color-<colour>-<mode>`],
   [How a colour is derived, in every palette], [The L2 meaning, such as `--color-ring`; for text, underlines and borders, the `derived` templates in `vocabulary.dhall`],
   [Spacing, type, radii, shadows or timing everywhere], [The L1 step or base, or the L2 meaning built from it],
@@ -59,14 +59,14 @@ the property then receives it. Regenerate.
   selector, the token export and the book's palette pages all read the
   list, so the palette appears in each.
 + Read its contrast in the Palettes chapter's legibility table, and confirm that
-  its accent and pop stand clear of the semantic colours.
+  its accent and pop stand clear of the intent colours.
 
 The palette is then selected with `data-palette="<palette>"`.
 
 == Changing the colours every palette shares
 <customising:colours>
 The lightness and chroma of each colour in each mode, the pop's turn, and
-the semantic colours' hues and their lightness and chroma are entries in
+the intent colours' hues and their lightness and chroma are entries in
 `src/styles/palettes.dhall`. Change them there and run
 `bun run generate:tokens` and `bun run palette-swatches`; the tokens, the
 demo and the Palettes chapter follow.

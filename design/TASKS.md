@@ -83,8 +83,13 @@
 - [x] Palettes are data: `src/styles/palettes.dhall` lists each palette's name, kanji, hue and description; the generator writes the hues (`--hue-<palette>`), L2 chooses the prima `--hue-accent` and derives every colour from it; the pop is the hue turned `--pop-hue-offset`; status colours are shared by every palette; Sakura replaces Shu
 - [x] Colour hierarchy configured in `palettes.dhall`: palettes (name, kanji, hue, description), the four colours (use, turn, lightness and chroma per mode) and the semantic colours (hue, use, one tone per mode); L1 hues, L2 `--hue-accent`, `--color-<colour>-<mode>` and `--color-<colour>`; no `--palette-*` or role tokens; roles' colour values in `vocabulary.dhall`; a component's text the inverse of its background; Sakura at hue 0, danger at 30; the Palettes chapter written from the configuration
 - [x] No text or border tokens above components: text, underline and border are derived by each component from its own background (`derived` in `vocabulary.dhall`); the webpage is a component, Page (`body`, role base); L2 tokens that stand for text use `currentColor`
+- [x] Semantic colours renamed intent colours; intent tints `--color-<intent>-tint` and tint roles (`positive-tint`, …); syntax colours mix intent colours into the component's text
+- [x] Schema `parts` (descendant elements with their own tokens and optional role) and `values` (which semantic token a component token refers to); TableCell removed: Table styles its cells as a part and renders components given as data in them; Badge intent-tint variants
+- [x] Components for quizz-app, generally useful: Notice, Progress, Radio, Fieldset, Slider (bits-ui, one value or a range), Pagination, SortableList (own pointer and keyboard dragging), Stat, Toolbar (roving focus), ModeToggle; `.visually-hidden` helper
 
 ## Next
+
+- [ ] Decide whether the book computes its colours from `palettes.dhall` itself, without `palette-swatches` and a browser; that needs the `derived` rules held as numbers rather than CSS strings
 
 - [ ] Decide how the secondary variant shows the accent at full strength (today: ring, selection and border tint only)
 - [ ] Package exports for stylesheet, tokens, schemas and components

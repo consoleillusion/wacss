@@ -10,7 +10,8 @@
 --   colours  — the four colours every palette has, made from its hue. Each has a use, a turn
 --              of the hue (0 keeps the palette's hue) and a lightness and chroma in each mode,
 --              the same in every palette.
---   semantic — the semantic colours: positive, warning, danger and informational. Each has its
+--   intent   — the intent colours: positive, warning, danger and informational, the intent of
+--              what they mark. Each has its
 --              own hue and use, the same in every palette, and all share one lightness and chroma
 --              in each mode.
 
@@ -20,7 +21,7 @@ let Palette = { name : Text, kanji : Text, hue : Natural, description : Text }
 
 let Colour = { name : Text, use : Text, turn : Natural, light : Tone, dark : Tone }
 
-let Semantic = { name : Text, hue : Natural, use : Text }
+let Intent = { name : Text, hue : Natural, use : Text }
 
 in  { palettes =
           [ { name = "kinari"
@@ -54,36 +55,36 @@ in  { palettes =
             , use = "The background of the page. Close to neutral, with a trace of the palette's hue."
             , turn = 0
             , light = { lightness = 0.985, chroma = 0.0015 }
-            , dark = { lightness = 0.20, chroma = 0.002 }
+            , dark = { lightness = 0.19, chroma = 0.003 }
             }
           , { name = "surface"
             , use = "Raised surfaces such as cards, panels and inputs: a step lighter than the base in both modes, so a raised panel reads as lifted toward the light."
             , turn = 0
             , light = { lightness = 0.995, chroma = 0.002 }
-            , dark = { lightness = 0.22, chroma = 0.003 }
+            , dark = { lightness = 0.21, chroma = 0.004 }
             }
           , { name = "accent"
             , use = "The colour the palette is named for, at full strength: the fill of the default variant, such as a secondary Button, and the focus ring."
             , turn = 0
             , light = { lightness = 0.6, chroma = 0.09 }
-            , dark = { lightness = 0.7, chroma = 0.08 }
+            , dark = { lightness = 0.75, chroma = 0.08 }
             }
           , { name = "pop"
             , use = "A second accent, for critical emphasis: the fill of the primary variant, for calls to action, and of selected text."
             , turn = 10
             , light = { lightness = 0.7, chroma = 0.1 }
-            , dark = { lightness = 0.8, chroma = 0.12 }
+            , dark = { lightness = 0.8, chroma = 0.085 }
             }
           ]
         : List Colour
-    , semantic =
+    , intent =
       { colours =
             [ { name = "positive", hue = 147, use = "Success, confirmation" }
             , { name = "warning", hue = 57, use = "Caution, reversible risk" }
             , { name = "danger", hue = 30, use = "Destructive or failed" }
             , { name = "informational", hue = 270, use = "Neutral notice" }
             ]
-          : List Semantic
+          : List Intent
       , light = { lightness = 0.4, chroma = 0.09 } : Tone
       , dark = { lightness = 0.7, chroma = 0.09 } : Tone
       }

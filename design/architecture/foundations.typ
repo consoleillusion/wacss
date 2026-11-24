@@ -13,8 +13,8 @@ applied in both `em` and `rem` are unitless. Units appear only where the
 quantity is physical, such as `px` for hairlines and `ms` for durations.
 
 Primitives also hold the hues, the only colour values in L1: one for each
-palette, `--hue-<palette>`, and one for each semantic colour,
-`--hue-<semantic>`. They are not written by hand but come from the colour
+palette, `--hue-<palette>`, and one for each intent colour,
+`--hue-<intent>`. They are not written by hand but come from the colour
 configuration (#link(<foundations:colour>)[the colour hierarchy]).
 
 == The colour hierarchy
@@ -26,14 +26,14 @@ and flows down the levels. Nothing else holds a colour value.
   its name in Japanese, a hue and a description, the first the default; the
   four colours every palette has (base, surface, accent, pop), each with its
   use, its turn of the palette's hue, and its lightness and chroma in each
-  mode; and the semantic colours (positive, warning, danger, informational),
+  mode; and the intent colours (positive, warning, danger, informational),
   each with its hue and use, and one lightness and chroma for them all in
   each mode. The token generator checks it and writes it to
   `src/styles/_palettes.scss` as Sass maps, which the primitives and
   the semantic tokens read; the book writes its Palettes chapter from it
   (#link(<palettes>)[palettes]), and the demo lists its palettes from it.
-+ #strong[L1.] `--hue-<palette>` for each palette and `--hue-<semantic>`
-  for each semantic colour.
++ #strong[L1.] `--hue-<palette>` for each palette and `--hue-<intent>`
+  for each intent colour.
 + #strong[L2, the prima.] `--hue-accent`, the hue of the palette in
   effect. It is the only token that knows which palette that is
   (#link(<foundations:switching>)[choosing a palette]).
@@ -42,7 +42,7 @@ and flows down the levels. Nothing else holds a colour value.
   lightness and chroma are the configured values, written as literals, and
   the hue is `var(--hue-accent)` for the palette's colours, turned by
   `calc(var(--hue-accent) + <turn>)` when the turn is not 0, and
-  `var(--hue-<semantic>)` for the semantic colours.
+  `var(--hue-<intent>)` for the intent colours.
 + #strong[L2, the colours in use.] `--color-<colour>`, which the mode
   points at `--color-<colour>-dark` or `--color-<colour>-light`.
 + #strong[Everything else] refers to `--color-<colour>`: the colours
@@ -56,7 +56,12 @@ takes (`background` and `accent-color`, and on a map `color` and `fill`),
 written in terms of `--color-<colour>`, and the generator writes it as the variant's L3 token,
 such as `--button-secondary-background: var(--color-accent)`. There are no
 tokens between `--color-<colour>` and the component's own. A role may also
-give a property's value in a state, as the map role does for hover.
+give a property's value in a state, as the map role does for hover. Each
+intent colour also has a tint role, such as `danger-tint`, whose background
+is the intent colour's tint, `--color-<intent>-tint`: a Notice or a Badge
+marking something wrong uses it, so the text made from its background is
+near the page's own and readable in both modes. A part of a component may
+name its own role, whatever the variant's (#link(<generation:targets>)[targets]).
 
 Text and borders are not palette colours, and no token above a component
 holds them: a text colour depends on what the text sits on, which only the
@@ -79,8 +84,8 @@ any of these, which takes precedence over the template.
 The webpage is a component, Page, whose element is `body` and whose role is
 `base`; text outside any other component is the page's text. A component
 without a text colour of its own inherits the text of the component it is
-in. Where an L2 token stands for text (a syntax colour, a chart's labels,
-a tint's text), it is `currentColor` or mixed from it, the text of the
+in. Where an L2 token stands for text (a syntax colour, a chart's labels),
+it is `currentColor` or mixed from it, the text of the
 component it is used in, never a colour of its own. The same inverse
 makes the text of selected text from the pop, and of a pressed control
 from the accent. The contrast the text template gives on each fill is
@@ -95,7 +100,7 @@ groups.
   columns: 2,
   [Group], [Contents],
   [Colours], [The prima, `--hue-accent`; each colour in each mode, `--color-<colour>-<mode>`; and each colour in use, `--color-<colour>` (#link(<foundations:colour>)[the colour hierarchy]).],
-  [Meanings], [Named design values: colours derived from the colours in use (`--color-ring`, each semantic colour's tint `--background-<semantic>-tint`, and `--color-<semantic>-tint`, the semantic colour mixed into the text of the component it is in), space (`--space`, `--space-page`), type (`--font-size-heading`), depth (`--shadow-overlay`) and motion (`--duration-interaction`, `--easing`).],
+  [Meanings], [Named design values: colours derived from the colours in use (`--color-ring`, and each intent colour's tint, `--color-<intent>-tint`, the intent colour washed into the base: 10% in light mode, 16% in dark), space (`--space`, `--space-page`), type (`--font-size-heading`), depth (`--shadow-overlay`) and motion (`--duration-interaction`, `--easing`).],
   [Map colours], [A map's sea and land, which the `map` role gives a component's `color` and `fill`: `--color-sea` and `--color-land` at rest, `--color-sea-hover` and `--color-land-hover` under the pointer. At rest the sea lies on the scale from the base to the surface and the land is a blue-grey; under the pointer each takes only a hue, mixed in oklch: `--map-tone`, halfway from the accent to the pop, mixed with the L1 primitives `--map-sea`, a teal, for the sea and `--map-land`, a yellow-green, for the land, the palette's share being `--map-tone-share` (25%), so every palette tints its globe while the sea stays blue and the land green. Chroma comes from L1, `--map-sea-chroma` and `--map-land-chroma`, and lightness from L1 for each mode, `--map-sea-lightness-light` and `-dark` and `--map-land-lightness-light` and `-dark`. While alive a globe also glows with its atmosphere, `--atmosphere`: the sea's hue at `--atmosphere-lightness` and `--atmosphere-chroma`, spread over `--atmosphere-size`. The glow is a `drop-shadow`; the resting `--filter` is a transparent one written in oklab, so the glow fades in with its own colour.],
   [Chart colours], [The colours a chart gives its series, in order: `--chart-1` to `--chart-6`, the palette's accent, informational, positive, warning, danger and pop, so every palette draws its charts in its own colours. The charts are drawn by LayerChart, which reads its own variables; wacss sets them from its tokens: `--color-primary` is `--chart-1`, `--color-surface-content` (axis labels and legend text) is `currentColor`, the chart's own text, and `--color-surface-100`, `-200` and `-300` (the tooltip, the plot behind it and the grid lines) are the palette's surface, its base, and the chart's text at 20%.],
   [Property defaults], [One token per non-colour CSS property a component may make themable, named after the property: `--padding-inline`, `--transition-duration`. A component's default variant takes its values from these. `transform`, `box-shadow` and `filter` default to values that change nothing, so that states can add to them.],

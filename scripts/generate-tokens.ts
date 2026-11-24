@@ -31,13 +31,13 @@ const vocabulary = (await load("vocabulary.dhall", { base: COMPONENTS, formats: 
 const VARIANTS = vocabulary.variants;
 
 /** The colour configuration, palettes.dhall: the palettes, the four colours every palette has, and
- * the semantic colours. */
+ * the intent colours. */
 type Tone = { lightness: number; chroma: number };
 type Palette = { name: string; kanji: string; hue: number; description: string };
 type Colours =
 { palettes: Palette[]
 , colours: { name: string; use: string; turn: number; light: Tone; dark: Tone }[]
-, semantic: { colours: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
+, intent: { colours: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
 };
 const colours = (await load("palettes.dhall", { base: STYLES, formats: ["dhall"] })) as Colours;
 
@@ -54,7 +54,7 @@ const writeColours = async () => {
   if (repeated.length) fail(`palette ${repeated.join(", ")} appears twice`);
   const badName = names.filter((n) => !/^[a-z][a-z0-9-]*$/.test(n));
   if (badName.length) fail(`${badName.join(", ")}: a name is lowercase letters, digits and hyphens`);
-  const hues = [...colours.palettes, ...colours.semantic.colours];
+  const hues = [...colours.palettes, ...colours.intent.colours];
   const badHue = hues.filter((h) => h.hue >= 360).map((h) => h.name);
   if (badHue.length) fail(`${badHue.join(", ")}: a hue is below 360`);
   const tone = (t: Tone) => `(${t.lightness}, ${t.chroma})`;
@@ -63,8 +63,8 @@ const writeColours = async () => {
     "// Generated from palettes.dhall by scripts/generate-tokens.ts. Do not edit.\n" +
     `$palettes: ${map(colours.palettes.map((p) => `"${p.name}": ${p.hue}`))};\n` +
     `$colours: ${map(colours.colours.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
-    `$semantic-hues: ${map(colours.semantic.colours.map((c) => `"${c.name}": ${c.hue}`))};\n` +
-    `$semantic-tone: (light: ${tone(colours.semantic.light)}, dark: ${tone(colours.semantic.dark)});\n`);
+    `$intent-hues: ${map(colours.intent.colours.map((c) => `"${c.name}": ${c.hue}`))};\n` +
+    `$intent-tone: (light: ${tone(colours.intent.light)}, dark: ${tone(colours.intent.dark)});\n`);
 };
 
 const loadSchemas = async (): Promise<Schema[]> => {
@@ -81,7 +81,8 @@ const loadSchemas = async (): Promise<Schema[]> => {
     const variants = VARIANTS.filter((v) => v in roles);
     const unknown = Object.keys(roles).filter((v) => !VARIANTS.includes(v));
     if (unknown.length) throw new Error(`${folder}/schema.dhall: unknown variant ${unknown.join(", ")}`);
-    const badRole = Object.values(roles).filter((r) => !(r in vocabulary.roles));
+    const partRoles = Object.values((raw.parts ?? {}) as Record<string, { role?: string }>).flatMap((t) => (t.role ? [t.role] : []));
+    const badRole = [...Object.values(roles), ...partRoles].filter((r) => !(r in vocabulary.roles));
     if (badRole.length) throw new Error(`${folder}/schema.dhall: unknown colour role ${badRole.join(", ")}`);
     const badCategory = ((raw.categories ?? []) as string[]).filter((c) => !vocabulary.categories.includes(c));
     if (badCategory.length) throw new Error(`${folder}/schema.dhall: unknown category ${badCategory.join(", ")}`);

@@ -18,6 +18,13 @@ let filled =
         , `accent-color` = "var(--color-${colour})"
         }
 
+let tinted =
+      \(colour : Text) ->
+        { look = "the ${colour} tint, the ${colour} washed into the base; text, underline and border made from it"
+        , background = "var(--color-${colour}-tint)"
+        , `accent-color` = "var(--color-${colour})"
+        }
+
 let page =
       \(colour : Text) ->
         { look = "the ${colour}; text, underline and border made from it"
@@ -55,6 +62,10 @@ in  { variants =
       , warning = filled "warning"
       , danger = filled "danger"
       , informational = filled "informational"
+      , positive-tint = tinted "positive"
+      , warning-tint = tinted "warning"
+      , danger-tint = tinted "danger"
+      , informational-tint = tinted "informational"
       , map =
         { look = "a map: a pale sea and land at rest; under the pointer, the palette's tone mixed with blue for the sea and green for the land"
         , color = "var(--color-sea)"

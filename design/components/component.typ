@@ -119,6 +119,16 @@
   for (pseudo, p) in s.at("pseudoElements", default: (:)).pairs().filter(((k, p)) => p.themeableProperties.len() > 0).to-dict() {
     par[On #raw(pseudo)#if "on" in p [, drawn when the element matches #raw(p.on)]: #p.themeableProperties.map(raw).join(", ").]
   }
+  // Parts: the descendant elements it styles, with their own tokens and, if named, their own role.
+  for (part, p) in s.at("parts", default: (:)).pairs() {
+    let props = p.at("themeableProperties", default: ())
+    par[Its part #raw(part), the elements #raw(p.selector) within it#if "role" in p [, in the #raw(p.role) role]#if props.len() > 0 [: #props.map(raw).join(", ").] else [, with structure only.]]
+  }
+  // Values: which semantic token a component token of the default variant refers to.
+  let values = s.at("values", default: (:))
+  if values.len() > 0 {
+    par[On the default variant, #values.pairs().map(((k, v)) => [#raw(k) is #raw(v)]).join(", ", last: " and ").]
+  }
 
   [#heading(depth: 2, "Example")#label(name + ":example")]
   if at("usage").len() == 0 { panic(title + ": its schema gives no usage") }

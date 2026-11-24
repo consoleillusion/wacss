@@ -5,10 +5,10 @@
 #table(
   columns: 2,
   [Command], [Does],
-  [`bun run generate:tokens`], [Compile the styles, check every schema, generate tokens and CSS, and write `dist/`],
+  [`bun run generate:tokens`], [Check `palettes.dhall` and write it to `src/styles/_palettes.scss`, compile the styles, check every schema against the vocabulary, generate tokens and CSS, and write `dist/`. `_palettes.scss` is generated and not kept in the repository.],
   [`bun run dev`], [Generate, then serve the demo site],
   [`bun run build`], [Generate, then build the demo site into `demo-dist/`],
-  [`bun run palette-swatches`], [Render every palette and mode in Chrome and write `design/palettes.json`, each colour as the hex it is drawn with in the Palettes chapter, and `design/palettes-exact.json`, each colour as the browser computes it before rounding, from which the chapter prints its oklch value],
+  [`bun run palette-swatches`], [Render every palette and mode in Chrome and write `design/palettes.json`, each colour as the hex it is drawn with in the Palettes chapter, and `design/palettes-exact.json`, each colour as the browser computes it before rounding, from which the chapter prints its oklch value. It uses a browser so that every value is the one the stylesheet renders, resolved by a real CSS engine through its references, relative colours and mixes, rather than recomputed],
   [`bun run export:tokens`], [After generation, resolve every token in a browser in every palette and mode, and write the Design Tokens Format files to `dist/dtcg/` (#link(<build:dtcg>)[below])],
   [`bun run build:book`], [Compile this book, in a dark and a light edition. It first runs `generate:tokens` and `palette-swatches`, because the Palettes chapter reads its colours from `dist/tokens.json` and the files `palette-swatches` writes, so a change to `palettes.dhall` reaches the book in one step. Each component chapter is laid out from the component's `schema.dhall` as the book compiles (#link(<schema:chapters>)[component chapters])],
   [`bun run globe-relief <planet.jpeg>`], [Write `src/components/Globe/relief.webp`, Globe's texture of relief and sea depth, from the Blue Marble image `planet.jpeg` in the npm package `@freetiler/nasa-bluemarble`, which is too large to be a dependency. Run only to change the texture; the file is committed],

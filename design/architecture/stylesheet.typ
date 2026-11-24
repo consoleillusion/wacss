@@ -12,6 +12,7 @@ schema's structural literals.
   [Base], [`:where(<elements>)`], [`.<name>`], [`:where(button, a[data-button-root])`, `.card`],
   [Variant], [base + `:where(.<variant>)`], [base + `.<variant>`], [`:where(button, …):where(.primary)`, `.card.primary`],
   [State], [variant + `:where(<state selector>)`], [same], [`.card.primary:where(:hover)`],
+  [Part], [any of the above + a space + `:where(<selector>)`], [same], [`:where(table) :where(th, td)`, `.slider :where([data-slider-thumb])`],
   [Pseudo-element], [any of the above + `:where(<on>)`, if given, + `::<pseudo>`], [same], [`:where(button, …):where([aria-expanded="true"], …):where([aria-expanded])::after`],
 )
 
@@ -23,13 +24,14 @@ defaults; class rules have the specificity of one or two classes.
 <stylesheet:rules>
 For each target of a component, and for each variant in schema order:
 
-+ #strong[Base rule.] Select the variant (plus the pseudo-element, if the
-  target is one). Declare, for the default variant only, the target's
++ #strong[Base rule.] Select the variant (plus the pseudo-element or the
+  part's elements, if the target is one). Declare, for the default variant only, the target's
   `static` structural literals; then, for every variant, each themable
   property as `var(` its `static` token `)`.
 + #strong[State rules.] For each state the schema declares, in vocabulary
   order, skipping `static`: select the variant with the state selector
-  (plus the pseudo-element). Declare, for the default variant only, the
+  (plus the pseudo-element or the part's elements, so a part changes with
+  the component's state). Declare, for the default variant only, the
   structural literals listed under that state; then each property the
   state changes on this target as `var(` its L4 token `)`.
 

@@ -7,7 +7,7 @@ import Sample from "./Sample.astro";
 
 const { initial = "Button" } = Astro.props as { initial?: string };
 const components = data.components as Record<string, any>;
-const titles = ["Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "Page", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput"];
+const titles = ["Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Fieldset", "Form", "Globe", "LineChart", "Link", "ModeToggle", "NavBar", "Notice", "NumberInput", "Page", "Pagination", "PieChart", "Progress", "Radio", "Select", "Slider", "SortableList", "Stat", "StreetMap", "Table", "TextArea", "TextInput", "Toolbar"];
 ---
 <div class="stack">
   {titles.map((t) => (

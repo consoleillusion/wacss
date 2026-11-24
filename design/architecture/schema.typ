@@ -32,6 +32,8 @@ helpers for writing the `arguments` field.
   [`themeableProperties`], [yes], [The CSS properties whose values come from tokens.],
   [`structuralProperties`], [no], [Literal declarations, keyed by state. `static` holds what always applies; another state holds what applies only in that state.],
   [`pseudoElements`], [no], [A record keyed by pseudo-element (`` `::after` ``), each with its own `themeableProperties` and `structuralProperties`, and optionally `on`: a selector the element must match for the pseudo-element to be drawn.],
+  [`parts`], [no], [A record keyed by part name (`cell`), each a set of descendant elements the component styles: `selector`, the elements within the component (`` "th, td" ``); its own `themeableProperties` and `structuralProperties`; and optionally `role`, a colour role its colours come from whatever the variant, as a slider's thumbs are in the accent while its track is on the surface (#link(<generation:targets>)[targets]).],
+  [`values`], [no], [For the default variant, the value of a non-colour themable property's component token, keyed as the token is (`font-size`, `value-font-size`), written in L1 and L2 tokens: which semantic token the component token refers to, such as `var(--font-size-heading)` for a Stat's number. Without it, the component token refers to the property's L2 default, `--<property>`.],
   [`arguments`], [yes], [A JSON Schema for each argument the component accepts.],
   [`required`], [no], [The arguments that must be given.],
   [`details`], [no], [Paragraphs of plain text that follow the description in the component's chapter: how it is built and how it behaves.],
@@ -77,9 +79,14 @@ listed under.
 == The shared vocabulary
 <schema:vocabulary>
 `src/components/vocabulary.dhall` holds what every schema draws on: the
-variants, in order, with the default variant, `secondary`, first; every
-colour role a variant can have, with a sentence saying how a variant in
-that role looks; and the categories. The generator, this book and the
+variants, in order, with the default variant, `secondary`, first; the
+`derived` templates by which a component makes its text, underline and
+border from its background; every colour role a variant can have, with a
+sentence saying how a variant in that role looks, the value each colour
+property takes in it (such as `background = "var(--color-accent)"`), the
+colour a transparent role reads against (`text-on`), and any value it gives
+for a state; and the categories. A colour property a role does not give is
+made by its `derived` template (#link(<foundations:colour>)[the colour hierarchy]). The generator, this book and the
 demo site all read it, so none keeps a list of its own. The build stops
 with a message when a schema names a variant, a colour role or a
 category that is not in it.
@@ -153,4 +160,4 @@ otherwise be broken:
   be written for it.
 + A variant's colour role, or a category, is not in the shared vocabulary
   (#link(<schema:vocabulary>)[the shared vocabulary]). The role would have
-  no look to describe and the category no place in the demo's filter.
+  no colours to give and the category no place in the demo's filter.

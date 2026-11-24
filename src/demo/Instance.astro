@@ -1,15 +1,22 @@
 ---
 // One instance of any wacss component, rendered from its title and data. Components are found
 // by title; those that respond to input in the browser, Accordion, Globe and StreetMap, are
-// hydrated. A TableCell is only meaningful in a table, so it is shown in one. A Page is the
+// hydrated, as are Slider, SortableList, ModeToggle and Toolbar. A Toolbar and a Fieldset hold
+// controls, so they are shown holding some. A Page is the
 // document's body and cannot be shown inside another page: the page around it is the instance.
 import Accordion from "../components/Accordion/Accordion.svelte";
 import Globe from "../components/Globe/Globe.svelte";
 import StreetMap from "../components/StreetMap/StreetMap.svelte";
-import Table from "../components/Table/Table.astro";
 import LineChart from "../components/LineChart/LineChart.svelte";
 import BarChart from "../components/BarChart/BarChart.svelte";
 import PieChart from "../components/PieChart/PieChart.svelte";
+import Slider from "../components/Slider/Slider.svelte";
+import SortableList from "../components/SortableList/SortableList.svelte";
+import Toolbar from "../components/Toolbar/Toolbar.svelte";
+import ModeToggle from "../components/ModeToggle/ModeToggle.svelte";
+import Fieldset from "../components/Fieldset/Fieldset.svelte";
+import Checkbox from "../components/Checkbox/Checkbox.svelte";
+import Button from "../components/Button/Button.svelte";
 
 const modules = import.meta.glob<{ default: any }>(["../components/*/*.svelte", "../components/*/*.astro"], { eager: true });
 const { title, data = {} } = Astro.props as { title: string; data?: Record<string, unknown> };
@@ -18,8 +25,12 @@ const Component = (modules[`../components/${title}/${title}.svelte`] ?? modules[
 {title === "Accordion" ? <Accordion client:load {...data} />
   : title === "Globe" ? <Globe client:load {...data} />
   : title === "StreetMap" ? <StreetMap client:load {...data} />
-  : title === "TableCell" ? <Table {...data} />
   : title === "Page" ? <p>This page is a Page.</p>
+  : title === "Slider" ? <Slider client:load {...data} />
+  : title === "SortableList" ? <SortableList client:load {...data} />
+  : title === "ModeToggle" ? <ModeToggle client:load {...data} />
+  : title === "Toolbar" ? <Toolbar client:load {...data}><Button variant="tertiary" label="← Previous" /><Button variant="tertiary" label="Next →" /><Button variant="tertiary" label="Restart" /></Toolbar>
+  : title === "Fieldset" ? <Fieldset {...data}><Checkbox label="News" checked /><Checkbox label="Results" /></Fieldset>
   : title === "LineChart" ? <LineChart client:load {...data} />
   : title === "BarChart" ? <BarChart client:load {...data} />
   : title === "PieChart" ? <PieChart client:load {...data} />

@@ -4,7 +4,13 @@ in  { title = "Badge"
     , type = "object"
     , description = "A short label. Given pressed, it is a toggle that can be selected and unselected, as in a set of filters; selected, it takes the accent."
     , categories = [ "Action", "Content" ]
-    , variants.secondary = "surface"
+    , variants =
+      { secondary = "surface"
+      , positive = "positive-tint"
+      , warning = "warning-tint"
+      , danger = "danger-tint"
+      , informational = "informational-tint"
+      }
     , states = [ "static", "hover", "focus", "pressed", "disabled" ]
     , themeableProperties = P.controlProperties
     , structuralProperties =
@@ -24,6 +30,9 @@ in  { title = "Badge"
     , arguments =
           P.commonAttributes
       //  { label = P.described "The badge's text."
+          , variant =
+                  P.choice [ "secondary", "positive", "warning", "danger", "informational" ] "secondary"
+              //  { description = "The badge's colour: the surface, or an intent colour's tint, such as positive to mark something right and danger to mark it wrong." }
           , value = P.described "The value the badge stands for, given to its button."
           , pressed =
               P.boolean // { description = "Makes the badge a toggle button, selected when true. Without it, the badge is a label." }

@@ -2,8 +2,8 @@
 @use "sass:map";
 @use "palettes" as *;
 
-// The colours that change with the mode: the palette's four and the four semantic colours.
-$mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
+// The colours that change with the mode: the palette's four and the four intent colours.
+$mode-colours: list.join(map.keys($colours), map.keys($intent-hues));
 
 // Purpose: make one mode's colours, and what else depends on the mode, the ones in use
 @mixin mode($mode) {
@@ -24,7 +24,7 @@ $mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
   // by default; data-palette chooses another. Nothing above this level knows which palette it is.
   --hue-accent: var(--hue-#{list.nth(map.keys($palettes), 1)});
   // Each mode's colours: the palette's four from the prima, turned by their turn, and the
-  // semantic colours from their own hues, each at its lightness and chroma for the mode.
+  // intent colours from their own hues, each at its lightness and chroma for the mode.
   @each $mode in dark, light {
     @each $name, $c in $colours {
       $tone: map.get($c, $mode);
@@ -32,8 +32,8 @@ $mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
       @if map.get($c, turn) != 0 { $hue: "calc(var(--hue-accent) + #{map.get($c, turn)})"; }
       --color-#{$name}-#{$mode}: oklch(#{list.nth($tone, 1)} #{list.nth($tone, 2)} #{$hue});
     }
-    @each $name, $hue in $semantic-hues {
-      $tone: map.get($semantic-tone, $mode);
+    @each $name, $hue in $intent-hues {
+      $tone: map.get($intent-tone, $mode);
       --color-#{$name}-#{$mode}: oklch(#{list.nth($tone, 1)} #{list.nth($tone, 2)} var(--hue-#{$name}));
     }
   }
@@ -94,17 +94,17 @@ $mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
   --syntax-foreground: currentColor;
   --syntax-background: transparent;
   --syntax-token-keyword: var(--color-accent);
-  --syntax-token-string: var(--color-positive-tint);
-  --syntax-token-string-expression: var(--color-positive-tint);
-  --syntax-token-constant: var(--color-informational-tint);
-  --syntax-token-function: var(--color-warning-tint);
+  --syntax-token-string: color-mix(in oklab, var(--color-positive) 45%, currentColor);
+  --syntax-token-string-expression: color-mix(in oklab, var(--color-positive) 45%, currentColor);
+  --syntax-token-constant: color-mix(in oklab, var(--color-informational) 45%, currentColor);
+  --syntax-token-function: color-mix(in oklab, var(--color-warning) 45%, currentColor);
   --syntax-token-parameter: currentColor;
   --syntax-token-punctuation: color-mix(in oklch, currentColor 68%, transparent);
   --syntax-token-comment: color-mix(in oklch, currentColor 68%, transparent);
   --syntax-token-link: var(--color-accent);
-  --syntax-token-inserted: var(--color-positive-tint);
-  --syntax-token-deleted: var(--color-danger-tint);
-  --syntax-token-changed: var(--color-warning-tint);
+  --syntax-token-inserted: color-mix(in oklab, var(--color-positive) 45%, currentColor);
+  --syntax-token-deleted: color-mix(in oklab, var(--color-danger) 45%, currentColor);
+  --syntax-token-changed: color-mix(in oklab, var(--color-warning) 45%, currentColor);
   // Charts (LineChart, BarChart, PieChart): the colour of each series, in order. They start at
   // the accent and go round the palette's own colours, so neighbouring series stay distinct.
   --chart-1: var(--color-accent);
@@ -121,12 +121,10 @@ $mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
   --color-surface-100: var(--color-surface);
   --color-surface-200: var(--color-base);
   --color-surface-300: color-mix(in oklch, currentColor 20%, transparent);
-  // Tinted semantic colours: one washed into the base, and one mixed into the text of the
-  // component it is in (currentColor).
+  // Intent tints: each intent colour washed into the base, a quiet background for a notice.
   --tint: calc(var(--tint-base) + var(--tint-step));
-  @each $name, $hue in $semantic-hues {
-    --background-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) var(--tint), var(--color-base));
-    --color-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) 45%, currentColor);
+  @each $name, $hue in $intent-hues {
+    --color-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) var(--tint), var(--color-base));
   }
 
   // Property defaults, for properties that are not colours.

@@ -9,7 +9,7 @@
 #let derived = json("/dist/tokens.json").vocabulary.derived
 #let palette-list = config.palettes
 #let colours = config.colours
-#let semantic = config.semantic
+#let intent = config.intent
 #let title-case(name) = upper(name.first()) + name.slice(1)
 #let listed(items) = if items.len() == 1 { items.first() } else { items.slice(0, -1).join(", ") + " and " + items.last() }
 #let names = palette-list.map(p => title-case(p.name))
@@ -28,21 +28,21 @@ show each palette's modes.
 <palettes:anatomy>
 A palette is a hue: the prima, from which every colour on its page is
 made. It has a light mode and a dark mode, and each mode has
-#(colours.len() + semantic.colours.len()) colours.
+#(colours.len() + intent.colours.len()) colours.
 #colours.len() of them are the palette's own, made from its hue:
-#listed(colours.map(c => c.name)). The other #semantic.colours.len() are
-the semantic colours, #listed(semantic.colours.map(c => c.name)), which
+#listed(colours.map(c => c.name)). The other #intent.colours.len() are
+the intent colours, #listed(intent.colours.map(c => c.name)), which
 report the meaning of what they mark. Each has a hue of its own, the
 same in every palette.
 
-The term "semantic colours" names these #semantic.colours.len() only; "semantic
-tokens" names the token level L2 (#link(<foundations:semantic>)[foundations]).
+They are called intent colours, not semantic colours, because "semantic"
+names the token level L2 (#link(<foundations:semantic>)[foundations]).
 
 #table(
   columns: 2,
   [Colour], [Use],
   ..colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
-  ..semantic.colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
+  ..intent.colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
 )
 
 == Where a palette's colours come from
@@ -79,14 +79,14 @@ legible and equally strong:
   ..palette-list.map(p => (title-case(p.name), ..colours.map(c => str(calc.rem(p.hue + c.turn, 360))))).flatten(),
 )
 
-The semantic colours each have a hue, and share one lightness and chroma
-for each mode: #num(semantic.light.lightness) and #num(semantic.light.chroma)
-in light mode, #num(semantic.dark.lightness) and #num(semantic.dark.chroma) in dark.
+The intent colours each have a hue, and share one lightness and chroma
+for each mode: #num(intent.light.lightness) and #num(intent.light.chroma)
+in light mode, #num(intent.dark.lightness) and #num(intent.dark.chroma) in dark.
 
 #table(
   columns: 3,
-  [Semantic colour], [Hue], [Use],
-  ..semantic.colours.map(c => (title-case(c.name), str(c.hue), c.use)).flatten(),
+  [Intent colour], [Hue], [Use],
+  ..intent.colours.map(c => (title-case(c.name), str(c.hue), c.use)).flatten(),
 )
 
 The generator writes each colour as a token in each mode, and the token
@@ -121,8 +121,7 @@ derived from the palette:
   [Colour], [Derived as], [Used for],
   [Ring], [The accent], [The focus outline],
   [Selection], [The pop, with text its inverse], [Selected text, everywhere],
-  [Semantic tint], [10% of the semantic colour in the base in light mode, 16% in dark], [Tinted notes],
-  [Semantic tint text], [45% of the semantic colour mixed into the text of the component it is in], [Text on a tinted note],
+  [Intent tint, `--color-<intent>-tint`], [10% of the intent colour in the base in light mode, 16% in dark], [The background of the tint roles, such as `danger-tint`: a Notice. Its text is made from it, as every component's is],
 )
 
 == Legibility and distinction
@@ -156,10 +155,10 @@ stylesheet renders them. A ratio below 4.5:1 fails AA.
 #table(
   columns: 3,
   [Fill], [Light], [Dark],
-  ..(colours + semantic.colours).map(c => (title-case(c.name), ratio(lowest(c.name, "light")), ratio(lowest(c.name, "dark")))).flatten(),
+  ..(colours + intent.colours).map(c => (title-case(c.name), ratio(lowest(c.name, "light")), ratio(lowest(c.name, "dark")))).flatten(),
 )
 
-Each semantic colour keeps a hue of its own, apart from every palette's
+Each intent colour keeps a hue of its own, apart from every palette's
 accent and pop, so emphasis and warning are not confused.
 
 == Colour in each state
@@ -184,7 +183,7 @@ row follows for each of the four colours. The rows leave the left part of the pa
 rest, the colour's name is aligned to the right with its value on
 the same line, to its left, and its uses below; then comes a
 square of the colour at the right edge, with its tints, tones and shades
-in a column on the square's left. The semantic colours sit in a row at
+in a column on the square's left. The intent colours sit in a row at
 the foot of the page, each value on its name's line, to its right. Every
 value is written in CSS oklch notation. Every value shown is the one the stylesheet renders.
 
@@ -327,7 +326,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
     #v(6mm)
     #grid(
       columns: (auto, 1fr, auto, 1fr, auto, 1fr, auto),
-      ..semantic.colours.map(col => ("color-" + col.name, title-case(col.name), col.use)).map(((key, title, use)) => stack(
+      ..intent.colours.map(col => ("color-" + col.name, title-case(col.name), col.use)).map(((key, title, use)) => stack(
         spacing: 5pt,
         swatch-small(c(key), 12mm, edge),
         v(4pt),

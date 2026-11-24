@@ -8,12 +8,17 @@ belongs to one of four levels.
 #table(
   columns: 4,
   [Level], [Name pattern], [Example], [Origin],
-  [L1 primitive], [`--<name>`], [`--space-step`, `--hue-sakura`], [hand-written],
-  [L2 semantic], [`--<name>` or `--<property>`], [`--color-accent`, `--padding-inline`], [hand-written],
+  [L1 primitive], [`--<name>`], [`--space-step`, `--hue-sakura`], [hand-written; the hues from `palettes.dhall`],
+  [L2 semantic], [`--<name>` or `--<property>`], [`--color-accent`, `--padding-inline`], [hand-written; the colours from `palettes.dhall`],
   [L2 channel], [`--<state>-<property>`, with optional `-toward` and `-amount` suffixes], [`--focus-outline-color`], [hand-written],
   [L3 component], [`--<component>-<variant>-<property>`], [`--button-primary-background`], [generated],
   [L4 state], [`--<component>-<variant>-<property>-<state>`], [`--button-primary-background-hover`], [generated],
 )
+
+Colour enters at the top, in `palettes.dhall`, and reaches a component
+only through L1 hues, the L2 colours and the component's own tokens; text
+and borders exist only as component tokens
+(#link(<foundations:colour>)[the colour hierarchy]).
 
 `<component>` is the component's name: its title in kebab case (a title
 `DatePicker` would become `date-picker`). `<property>` is a CSS property name; for a

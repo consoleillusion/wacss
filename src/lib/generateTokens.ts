@@ -6,10 +6,14 @@ import * as R from "ramda";
 
 type Declarations = Record<string, string>;
 
-/** The styling part of one target: the component itself or one of its pseudo-elements. */
+/** The styling part of one target: the component itself, one of its pseudo-elements, or one of
+ * its parts, the descendant elements it styles. */
 type Target =
 { pseudo: string                                  // "" or e.g. "::after"
 , on: string                                      // "" or a selector the element must match to draw the pseudo-element
+, part: string                                    // "" or the part's name, e.g. "cell"
+, selector: string                                // "" or the part's elements within the component, e.g. "th, td"
+, role: string                                    // "" or the role the part's colours come from, whatever the variant
 , themeableProperties: string[]
 , structuralProperties: Record<string, Declarations>
 };
@@ -26,6 +30,8 @@ export type Schema =
 , themeableProperties: string[]
 , structuralProperties?: Record<string, Declarations>
 , pseudoElements?: Record<string, { on?: string; themeableProperties?: string[]; structuralProperties?: Record<string, Declarations> }>
+, values?: Record<string, string>                 // the default variant's value of a non-colour property, by key, in L1 and L2 tokens
+, parts?: Record<string, { selector: string; role?: string; themeableProperties?: string[]; structuralProperties?: Record<string, Declarations> }>
 , arguments: Record<string, unknown>
 };
 
@@ -75,15 +81,20 @@ const DEFAULT_VARIANT = "secondary";
 // ---------------------------------------------------------------------------
 
 const targetsOf = (meta: Schema): Target[] =>
-  // Purpose: list the component and each of its pseudo-elements as styling targets
-  [ { pseudo: "", on: "", themeableProperties: meta.themeableProperties, structuralProperties: meta.structuralProperties ?? {} }
+  // Purpose: list the component, each of its pseudo-elements and each of its parts as styling targets
+  [ { pseudo: "", on: "", part: "", selector: "", role: "", themeableProperties: meta.themeableProperties, structuralProperties: meta.structuralProperties ?? {} }
   , ...R.toPairs(meta.pseudoElements ?? {}).map(([pseudo, t]) =>
-      ({ pseudo, on: t.on ?? "", themeableProperties: t.themeableProperties ?? [], structuralProperties: t.structuralProperties ?? {} }))
+      ({ pseudo, on: t.on ?? "", part: "", selector: "", role: "", themeableProperties: t.themeableProperties ?? [], structuralProperties: t.structuralProperties ?? {} }))
+  , ...R.toPairs(meta.parts ?? {}).map(([part, t]) =>
+      ({ pseudo: "", on: "", part, selector: t.selector, role: t.role ?? "", themeableProperties: t.themeableProperties ?? [], structuralProperties: t.structuralProperties ?? {} }))
   ];
 
 const keyOf = (target: Target, property: string) =>
-  // Purpose: the property slot of a token name: "background", or "after-transform" for ::after
-  target.pseudo ? `${target.pseudo.replace(/^:+/, "")}-${property}` : property;
+  // Purpose: the property slot of a token name: "background", "after-transform" for ::after, or
+  // "cell-padding-block" for a part named cell
+  target.pseudo ? `${target.pseudo.replace(/^:+/, "")}-${property}`
+  : target.part ? `${target.part}-${property}`
+  : property;
 
 const channelOf = (channels: Declarations, state: string): string[] =>
   // Purpose: the property slots a state changes ("background", "after-transform"), read from the channel token names
@@ -147,11 +158,12 @@ const roleValue = (colouring: Colouring, role: string, property: string, ownBack
   return template && background ? template.replace("{background}", background) : undefined;
 };
 
-const variantValue = (c: string, v: string, key: string, property: string, colour?: string) => {
-  // Purpose: the L3 recipe: a colour takes its value from the variant's role; anything else takes
-  // the L2 default on the default variant, and the default variant's value on the others
+const variantValue = (c: string, v: string, key: string, property: string, colour?: string, own?: string) => {
+  // Purpose: the L3 recipe: a colour takes its value from the variant's role; anything else takes,
+  // on the default variant, the schema's own value for it, else the L2 default, and on the others
+  // the default variant's value
   if (isColour(property)) return colour!;
-  if (v === DEFAULT_VARIANT) return `var(--${property})`;
+  if (v === DEFAULT_VARIANT) return own ?? `var(--${property})`;
   return `var(--${c}-${DEFAULT_VARIANT}-${key})`;
 };
 
@@ -179,9 +191,9 @@ const check = (meta: Schema, l2: Declarations, colouring: Colouring) => {
     for (const p of t.themeableProperties)
       if (isColour(p)) {
         for (const v of meta.variants)
-          if (!roleValue(colouring, meta.roles[v]!, p, t.themeableProperties.includes("background") ? "own" : undefined))
-            fail(`role ${meta.roles[v]} gives no ${p} for variant ${v}`);
-      } else if (!l2[`--${p}`]) fail(`no L2 default --${p}`);
+          if (!roleValue(colouring, t.role || meta.roles[v]!, p, t.themeableProperties.includes("background") ? "own" : undefined))
+            fail(`role ${t.role || meta.roles[v]} gives no ${p} for variant ${v}`);
+      } else if (!meta.values?.[keyOf(t, p)] && !l2[`--${p}`]) fail(`no L2 default --${p}`);
   for (const s of meta.states)
     if (s !== "static" && !STATE_SELECTORS[s]) fail(`unknown state ${s}`);
 };
@@ -221,19 +233,21 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
       // background token when the target has one.
       const own = t.themeableProperties.includes("background") ? `var(${l3("background")})` : undefined;
       for (const p of t.themeableProperties)
-        add(3, l3(p), variantValue(c, v, keyOf(t, p), p, isColour(p) ? roleValue(colouring, meta.roles[v]!, p, own) : undefined));
+        add(3, l3(p), variantValue(c, v, keyOf(t, p), p, isColour(p) ? roleValue(colouring, t.role || meta.roles[v]!, p, own) : undefined, meta.values?.[keyOf(t, p)]));
       // Static is a state like any other: every property has a static token, equal to its L3 value,
       // and the base rule reads it, so the CSS only ever reads state tokens.
       for (const p of t.themeableProperties) add(4, `${l3(p)}-static`, `var(${l3(p)})`);
       const on = t.on ? `:where(${t.on})` : "";
-      css += rule(`${sel}${on}${t.pseudo}`, { ...structural("static"), ...R.fromPairs(t.themeableProperties.map((p) => [p, `var(${l3(p)}-static)`])) });
+      // A part's rules select its elements within the component, after any state of the component.
+      const within = t.selector ? ` :where(${t.selector})` : "";
+      css += rule(`${sel}${on}${t.pseudo}${within}`, { ...structural("static"), ...R.fromPairs(t.themeableProperties.map((p) => [p, `var(${l3(p)}-static)`])) });
       for (const s of STATE_ORDER.filter((s) => s !== "static" && meta.states.includes(s))) {
         // Every property has a token in every state (the full matrix): a property the state's channel
         // changes takes the channel recipe; any other keeps its static value. The state's rule
         // declares only what the state changes, so states that are true together do not undo each other.
         // A colour property also changes in a state when the variant's role gives its own value of
         // it for that state (vocabulary.dhall); that value is used as it is.
-        const roleState = (p: string): string => (isColour(p) && colouring.roles[meta.roles[v]!]?.[s]?.[p]) || "";
+        const roleState = (p: string): string => (isColour(p) && colouring.roles[t.role || meta.roles[v]!]?.[s]?.[p]) || "";
         // The component's own value for a property in a state, from its schema's stateValues,
         // comes first: "unchanged" keeps the static value; anything else is used as it is.
         const own = (p: string): string | undefined => (meta as any).stateValues?.[s]?.[keyOf(t, p)];
@@ -245,7 +259,7 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
             : own(p) !== undefined ? own(p)!
             : roleState(p) ? roleState(p)
             : stateValue(l3(p), s, keyOf(t, p), p, channels)!);
-        css += rule(`${sel}:where(${STATE_SELECTORS[s]})${on}${t.pseudo}`,
+        css += rule(`${sel}:where(${STATE_SELECTORS[s]})${on}${t.pseudo}${within}`,
           { ...structural(s), ...R.fromPairs(changed.map((p) => [p, `var(${l3(p)}-${s})`])) });
       }
     }

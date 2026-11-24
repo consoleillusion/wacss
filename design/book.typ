@@ -23,7 +23,7 @@
 
 // Each component's chapter is laid out by components/component.typ from its schema.dhall.
 // Typst cannot list a folder, so the components are named here, in the order of their chapters.
-#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "Page", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput")
+#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Fieldset", "Form", "Globe", "LineChart", "Link", "ModeToggle", "NavBar", "Notice", "NumberInput", "Page", "Pagination", "PieChart", "Progress", "Radio", "Select", "Slider", "SortableList", "Stat", "StreetMap", "Table", "TextArea", "TextInput", "Toolbar")
 
 // Each part is a level-1 heading; each file's own headings nest beneath it. An entry
 // "schema:<Title>" is a component chapter, laid out from that component's schema.

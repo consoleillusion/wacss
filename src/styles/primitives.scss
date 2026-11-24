@@ -69,12 +69,12 @@
   --tint-base: 10%;
   --tint-step: 6%;
 
-  // Hues, from palettes.dhall: one for each palette, --hue-<palette>, and one for each semantic
-  // colour, --hue-<semantic>. Which palette is in effect is chosen in L2 (--hue-accent).
+  // Hues, from palettes.dhall: one for each palette, --hue-<palette>, and one for each intent
+  // colour, --hue-<intent>. Which palette is in effect is chosen in L2 (--hue-accent).
   @each $name, $hue in $palettes {
     --hue-#{$name}: #{$hue};
   }
-  @each $name, $hue in $semantic-hues {
+  @each $name, $hue in $intent-hues {
     --hue-#{$name}: #{$hue};
   }
 

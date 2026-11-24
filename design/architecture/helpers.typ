@@ -10,11 +10,13 @@ removes default margins from headings, paragraphs and figures, aligns
 table headings to the start and cells to the top, removes the default
 frame of a fieldset, keeps `hidden` content hidden whatever display a component gives it,
 colours selected text with `--selection` and `--selection-ink` (the pop,
-with text in the base), leaves a button that no component styles plain,
+with text its inverse), leaves a button that no component styles plain,
 makes media
 block-level and no wider than its container, lets form controls inherit
-the document font, and gives the body its background, text colour, font
-and line height from L2. One rule, inside
+the document font, and sets the root's font family and line height. The
+body's background, text, font size and line height are not set here: the
+body is the Page component, which makes its text from its background as
+every component does (#link(<foundations:colour>)[the colour hierarchy]). One rule, inside
 `@media (prefers-reduced-motion: reduce)`, shortens every transition and
 animation to an instant; it is the only rule in wacss that uses
 `!important`.
@@ -31,6 +33,7 @@ Spacing is a multiple of `--space-page`, so it is measured in `rem`.
 #table(
   columns: 3,
   [Helper], [Arranges], [Options],
+  [`.visually-hidden`], [Nothing on screen: the element is read by assistive technology but not shown, such as a live announcement or a label beside an icon], [none],
   [`.stack`], [Children in a column with even spacing], [`--stack-space`],
   [`.push`], [In a stack, the element and those after it at the far end], [none],
   [`.cluster`], [Children in a wrapping row], [`--cluster-space`, `--cluster-justify`, `--cluster-align`],

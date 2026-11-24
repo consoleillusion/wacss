@@ -1,6 +1,22 @@
 // Sample data for each demo component: the props one instance receives.
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
+, Notice: { heading: "Correct.", text: "NETCONF listens on port 830 by default." }
+, Progress: { label: "Quiz", value: 9, max: 20, text: "7 correct of 9 answered" }
+, Radio:
+  { legend: "Which protocol uses YANG over HTTP?", name: "protocol", value: "restconf"
+  , options: [ { value: "netconf", label: "NETCONF" }, { value: "restconf", label: "RESTCONF" }, { value: "snmp", label: "SNMP" } ]
+  }
+, Fieldset: { legend: "Send me" }
+, Slider: { label: "Time range", min: 0, max: 30, value: [ 6, 24 ], text: "Days 6 to 24" }
+, Pagination: { page: 2, pages: 7, href: "#page-{page}" }
+, SortableList:
+  { label: "Put these in order"
+  , items: [ { id: "a", label: "Discover the device" }, { id: "b", label: "Read its capabilities" }, { id: "c", label: "Edit the configuration" } ]
+  }
+, Stat: { value: "80%", label: "correct" }
+, Toolbar: { label: "Question navigation" }
+, ModeToggle: {}
 , Accordion:
   { items:
     [ { value: "one", title: "What is wacss?", content: "A design system whose CSS is derived from each component's schema." }
@@ -22,10 +38,6 @@ export const samples: Record<string, Record<string, unknown>> =
   { lat: 51.5074, long: -0.1278, zoom: 12
   , markers: [ { lat: 51.5081, long: -0.0759, label: "Tower of London" }, { lat: 51.5007, long: -0.1246, label: "Westminster" } ]
   }
-, TableCell:
-  { columns: [ { key: "cell", label: "Heading cell" } ]
-  , rows: [ { cell: "Value cell" }, { cell: "Value cell" } ]
-  }
 , LineChart:
   { x: "month", y: [ "web", "mobile" ]
   , data:
@@ -44,8 +56,11 @@ export const samples: Record<string, Record<string, unknown>> =
 , Badge: { label: "Input", value: "input", pressed: false }
 , NavBar: { title: "Site", href: "#", current: "#about", links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ] }
 , Table:
-  { columns: [ { key: "palette", label: "Palette" }, { key: "accent", label: "Accent" } ]
-  , rows: [ { palette: "Kinari", accent: "Undyed thread" }, { palette: "Sakura", accent: "Cherry blossom" } ]
+  { columns: [ { key: "domain", label: "Domain" }, { key: "score", label: "Score" } ]
+  , rows:
+    [ { domain: "Network programmability", score: { component: "Badge", data: { label: "4/5", variant: "positive" } } }
+    , { domain: "Automation APIs", score: { component: "Badge", data: { label: "2/5", variant: "danger" } } }
+    ]
   }
 , TextInput: { label: "Name", placeholder: "Your name" }
 , NumberInput: { label: "Quantity", value: 3, min: 1, max: 9 }
