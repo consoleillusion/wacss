@@ -1,6 +1,6 @@
 {
   "name": "wacss",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A semantic, token-driven, class-light CSS system and Astro component library inspired by Wabi-Sabi and editorial minimalism.",
   "license": "MIT",
   "type": "module",
