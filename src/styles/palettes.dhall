@@ -55,26 +55,26 @@ in  { palettes =
           [ { name = "base"
             , use = "The background of the page. Close to neutral, with a trace of the palette's hue."
             , turn = 0
-            , light = { lightness = 0.985, chroma = 0.0015 }
-            , dark = { lightness = 0.19, chroma = 0.003 }
+            , light = { lightness = 0.985, chroma = 0.001 }
+            , dark = { lightness = 0.2, chroma = 0.002 }
             }
           , { name = "surface"
             , use = "Raised surfaces such as cards, panels and inputs: a step lighter than the base in both modes, so a raised panel reads as lifted toward the light."
             , turn = 0
             , light = { lightness = 0.995, chroma = 0.002 }
-            , dark = { lightness = 0.21, chroma = 0.004 }
+            , dark = { lightness = 0.22, chroma = 0.003 }
             }
           , { name = "accent"
             , use = "The color the palette is named for, at full strength: the fill of the default variant, such as a secondary Button, and the focus ring."
             , turn = 0
-            , light = { lightness = 0.6, chroma = 0.09 }
-            , dark = { lightness = 0.75, chroma = 0.08 }
+            , light = { lightness = 0.6, chroma = 0.07 }
+            , dark = { lightness = 0.75, chroma = 0.06 }
             }
           , { name = "pop"
             , use = "A second accent, for critical emphasis: the fill of the primary variant, for calls to action, and of selected text."
-            , turn = 10
-            , light = { lightness = 0.7, chroma = 0.1 }
-            , dark = { lightness = 0.8, chroma = 0.085 }
+            , turn = 15
+            , light = { lightness = 0.8, chroma = 0.12 }
+            , dark = { lightness = 0.9, chroma = 0.11 }
             }
           ]
         : List Decor

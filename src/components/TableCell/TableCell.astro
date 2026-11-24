@@ -1,6 +1,0 @@
----
-// TableCell: one cell of a table, th when header is set and td otherwise. Styled by the
-// generated th and td element rules.
-const { header = false, scope = "col", class: className, ...rest } = Astro.props as Record<string, any>;
----
-{header ? <th scope={scope} class={className} {...rest}><slot /></th> : <td class={className} {...rest}><slot /></td>}
