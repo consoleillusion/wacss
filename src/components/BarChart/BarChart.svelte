@@ -1,5 +1,5 @@
 <script lang="ts">
-  // BarChart: one bar for each row, or a group of bars, one for each series. Drawn by LayerChart; its colours are the palette's,
+  // BarChart: one bar for each row, or a group of bars, one for each series. Drawn by LayerChart; its colors are the palette's,
   // --chart-1 onward for the series, and LayerChart's own variables, set in L2.
   import { BarChart as Chart } from "layerchart";
 

@@ -1,45 +1,76 @@
 -- The shared vocabulary of every component schema, read by the generator, the book and the demo.
---   variants   — every variant, in order; the default variant, secondary, first
---   derived    — the colour properties a component makes from its own background, and how:
+--   variants   — every variant, in order, with what it is for; the first, secondary, is the
+--                default
+--   states     — every state, in the order its rules are written (a later state wins), with
+--                its selector, placed inside :where(…), whether it is a pointer state, which
+--                applies only to the interactive elements, and what it means
+--   interactive — the elements a person can act on
+--   colorProperties — the CSS properties whose values come from a variant's color role
+--   derived    — the color properties a component makes from its own background, and how:
 --                {background} stands for the variant's background (its own background token
 --                when it has one). Text is the background's lightness inverted; an underline
 --                is the text; a border is the background moved 15% of the way to its inverse.
---   roles      — every colour role a variant can have: how a variant in it looks, and the value
---                each colour property takes. A property a role does not give is derived, from
+--   roles      — every color role a variant can have: how a variant in it looks, and the value
+--                each color property takes. A property a role does not give is derived, from
 --                the role's `text-on` when it has one (a transparent role reads against the
 --                page), else from the background. A property given under a state (hover) is the
 --                role's value of it in that state.
---   categories — the kinds of component a schema's categories are chosen from
+--   categories — the kinds of component a schema's categories are chosen from, each with what
+--                makes a component one of them
 
 let filled =
-      \(colour : Text) ->
-        { look = "filled with the ${colour}; text, underline and border made from the fill"
-        , background = "var(--color-${colour})"
-        , `accent-color` = "var(--color-${colour})"
+      \(color : Text) ->
+        { look = "filled with the ${color}; text, underline and border made from the fill"
+        , background = "var(--color-${color})"
+        , `accent-color` = "var(--color-${color})"
         }
 
 let tinted =
-      \(colour : Text) ->
-        { look = "the ${colour} tint, the ${colour} washed into the base; text, underline and border made from it"
-        , background = "var(--color-${colour}-tint)"
-        , `accent-color` = "var(--color-${colour})"
+      \(color : Text) ->
+        { look = "the ${color} tint, the ${color} washed into the base; text, underline and border made from it"
+        , background = "var(--color-${color}-tint)"
+        , `accent-color` = "var(--color-${color})"
         }
 
 let page =
-      \(colour : Text) ->
-        { look = "the ${colour}; text, underline and border made from it"
-        , background = "var(--color-${colour})"
+      \(color : Text) ->
+        { look = "the ${color}; text, underline and border made from it"
+        , background = "var(--color-${color})"
         , `accent-color` = "var(--color-accent)"
         }
 
 in  { variants =
-      [ "secondary"
-      , "primary"
-      , "tertiary"
-      , "positive"
-      , "warning"
-      , "danger"
-      , "informational"
+      [ { name = "secondary", meaning = "The ordinary appearance. The default; every component has it." }
+      , { name = "primary", meaning = "The main action or emphasis in a region." }
+      , { name = "tertiary", meaning = "The least emphasis; reads like text." }
+      , { name = "positive", meaning = "Success or confirmation." }
+      , { name = "warning", meaning = "Caution; a risk that can be undone." }
+      , { name = "danger", meaning = "Destructive or failed." }
+      , { name = "informational", meaning = "A neutral notice." }
+      ]
+    , states =
+      [ { name = "static", selector = "", pointer = False, meaning = "No particular condition; the default." }
+      , { name = "hover", selector = ":hover", pointer = True, meaning = "The pointer is over it." }
+      , { name = "focus", selector = ":focus-visible", pointer = False, meaning = "It has keyboard focus." }
+      , { name = "active", selector = ":active", pointer = True, meaning = "It is being pressed." }
+      , { name = "open", selector = "[aria-expanded=\"true\"], [data-state=\"open\"]", pointer = False, meaning = "What it discloses is shown." }
+      , { name = "current", selector = "[aria-current=\"page\"], [aria-current=\"true\"]", pointer = False, meaning = "It stands for the page or item the reader is on." }
+      , { name = "pressed", selector = "[aria-pressed=\"true\"]", pointer = False, meaning = "A toggle that is on." }
+      , { name = "disabled", selector = ":disabled, [aria-disabled=\"true\"], [data-disabled]", pointer = False, meaning = "It cannot be used." }
+      , { name = "loading", selector = "[aria-busy=\"true\"]", pointer = False, meaning = "It is waiting for work to finish." }
+      ]
+    , interactive = "a[href], button, input, select, textarea, summary, [tabindex]"
+    , colorProperties =
+      [ "background"
+      , "background-color"
+      , "accent-color"
+      , "fill"
+      , "color"
+      , "caret-color"
+      , "stroke"
+      , "border-color"
+      , "text-decoration-color"
+      , "column-rule-color"
       ]
     , derived =
       { color = "oklch(from {background} calc(1 - l) c h)"
@@ -73,5 +104,18 @@ in  { variants =
         , hover = { color = "var(--color-sea-hover)", fill = "var(--color-land-hover)" }
         }
       }
-    , categories = [ "Action", "Content", "Input", "Navigation" ]
+    , categories =
+      [ { name = "Action"
+        , description = "Does something when it is used: runs a command, or changes what the page shows."
+        }
+      , { name = "Display"
+        , description = "A pattern for displaying or arranging information, such as a card, a table or a badge. It shows information; it does not change it."
+        }
+      , { name = "Input"
+        , description = "Lets a person enter information or configure it: choose, type, set, order or filter. A control that configures what is shown, such as a chip, is an input, not a display."
+        }
+      , { name = "Navigation"
+        , description = "Takes a person to another place: another page, or another part of the same one."
+        }
+      ]
     }

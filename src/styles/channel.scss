@@ -2,8 +2,8 @@
 //
 // A channel is what a state changes. Every token here is named
 //   --<state>-<slot>            the value the state applies
-//   --<state>-<slot>-toward     (colour properties) the colour to mix toward
-//   --<state>-<slot>-amount     (colour properties) how much of it to mix
+//   --<state>-<slot>-toward     (color properties) the color to mix toward
+//   --<state>-<slot>-amount     (color properties) how much of it to mix
 // where <slot> is a property ("background"), or a pseudo-element and a property
 // ("after-transform"), exactly as it appears in component token names.
 //

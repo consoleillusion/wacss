@@ -1,10 +1,10 @@
 ---
 // /component: every component in a grid of cards. Each card shows the component's default
 // variant in its figure, its title and description, and a button to its own page. Above the
-// grid, a row of Badges filters the cards by the categories their schemas give.
+// grid, a row of Chips filters the cards by the categories their schemas give.
 import data from "../../dist/tokens.json";
 import Card from "../components/Card/Card.astro";
-import Badge from "../components/Badge/Badge.astro";
+import Chip from "../components/Chip/Chip.svelte";
 import Instance from "./Instance.astro";
 import { samples } from "./samples";
 import { componentPath } from "../site";
@@ -15,8 +15,8 @@ const categories = [...new Set(titles.flatMap((t) => components[t].categories as
 ---
 <div class="stack">
   <div class="cluster" role="group" aria-label="Filter by category" data-demo-filter>
-    <Badge label="All" value="all" pressed={true} />
-    {categories.map((c) => <Badge label={c} value={c} pressed={false} />)}
+    <Chip label="All" value="all" pressed={true} />
+    {categories.map((c) => <Chip label={c} value={c} pressed={false} />)}
   </div>
   <div class="grid demo-grid">
     {titles.map((title) => (
@@ -45,7 +45,7 @@ const categories = [...new Set(titles.flatMap((t) => components[t].categories as
   const setOn = (b: HTMLButtonElement, on: boolean) => b.setAttribute("aria-pressed", String(on));
 
   const apply = () => {
-    // Purpose: show the cards the selected badges allow, and hide the rest
+    // Purpose: show the cards the pressed chips allow, and hide the rest
     const chosen = isOn(all) ? null : categories.filter(isOn).map((b) => b.value);
     for (const card of document.querySelectorAll<HTMLElement>("[data-categories]"))
       card.hidden = chosen !== null && !card.dataset.categories!.split(" ").some((c) => chosen.includes(c));

@@ -12,7 +12,7 @@ structure of the content. bits-ui supplies keyboard handling and ARIA
 state where HTML has none. Every function is reachable from the keyboard
 in a logical order, and focus is always visible. Informative images carry
 alternative text, errors are announced and tied to their fields, and no
-information is carried by colour or motion alone. Every text and fill
+information is carried by color or motion alone. Every text and fill
 pairing in every palette meets the AA contrast ratio. Text can be enlarged
 without breaking layouts, and a reduced-motion preference removes
 animation entirely. Automated checks are a floor, not a finish: components

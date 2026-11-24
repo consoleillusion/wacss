@@ -13,7 +13,7 @@ type Target =
 , on: string                                      // "" or a selector the element must match to draw the pseudo-element
 , part: string                                    // "" or the part's name, e.g. "cell"
 , selector: string                                // "" or the part's elements within the component, e.g. "th, td"
-, role: string                                    // "" or the role the part's colours come from, whatever the variant
+, role: string                                    // "" or the role the part's colors come from, whatever the variant
 , themeableProperties: string[]
 , structuralProperties: Record<string, Declarations>
 };
@@ -25,21 +25,32 @@ export type Schema =
 , description: string
 , element?: string[]
 , variants: string[]                              // in order, the default variant first
-, roles: Record<string, string>                   // each variant's colour role: accent, surface, pop, …
+, roles: Record<string, string>                   // each variant's color role: accent, surface, pop, …
 , states: string[]
 , themeableProperties: string[]
 , structuralProperties?: Record<string, Declarations>
 , pseudoElements?: Record<string, { on?: string; themeableProperties?: string[]; structuralProperties?: Record<string, Declarations> }>
-, values?: Record<string, string>                 // the default variant's value of a non-colour property, by key, in L1 and L2 tokens
+, values?: Record<string, string>                 // the default variant's value of a non-color property, by key, in L1 and L2 tokens
 , parts?: Record<string, { selector: string; role?: string; themeableProperties?: string[]; structuralProperties?: Record<string, Declarations> }>
 , arguments: Record<string, unknown>
 };
 
-/** A colour role, from vocabulary.dhall: its look, the value each colour property takes, the
+/** A color role, from vocabulary.dhall: its look, the value each color property takes, the
  * background its text is made from when not its own (text-on), and its values in a state. */
 export type Role = { look: string; "text-on"?: string } & Record<string, any>;
-/** How colour reaches a component: what a component derives from its background, and the roles. */
-export type Colouring = { derived: Record<string, string>; roles: Record<string, Role> };
+/** A state, from vocabulary.dhall: its selector, whether it is a pointer state, and its meaning. */
+export type State = { name: string; selector: string; pointer: boolean; meaning: string };
+/** The shared vocabulary the generator works from (vocabulary.dhall): variants in order, the
+ * default first; states in rule order; the interactive elements; the color properties; what a
+ * component derives from its background; and the color roles. */
+export type Vocabulary =
+{ variants: { name: string; meaning: string }[]
+, states: State[]
+, interactive: string
+, colorProperties: string[]
+, derived: Record<string, string>
+, roles: Record<string, Role>
+};
 
 export type Token =
 { name: string
@@ -50,31 +61,23 @@ export type Token =
 };
 
 // ---------------------------------------------------------------------------
-// Fixed vocabulary
+// The vocabulary's rules
 // ---------------------------------------------------------------------------
 
-/** State selectors: native pseudo-classes, then ARIA, then the data attributes bits-ui sets. */
-export const STATE_SELECTORS: Record<string, string> =
-{ hover: ":hover"
-, focus: ":focus-visible"
-, active: ":active"
-, open: '[aria-expanded="true"], [data-state="open"]'
-, current: '[aria-current="page"], [aria-current="true"]'
-, pressed: '[aria-pressed="true"]'
-, disabled: ':disabled, [aria-disabled="true"], [data-disabled]'
-, loading: '[aria-busy="true"]'
+const defaultVariant = (vocabulary: Vocabulary) =>
+  // Purpose: the default variant: the vocabulary's first
+  vocabulary.variants[0]!.name;
+
+export const stateSelector = (vocabulary: Vocabulary, state: string) => {
+  // Purpose: a state's selector; a pointer state applies only to the interactive elements, so
+  // nothing that cannot be used ever looks as if it could
+  const s = vocabulary.states.find((x) => x.name === state)!;
+  return s.pointer ? `:is(${vocabulary.interactive})${s.selector}` : s.selector;
 };
 
-/** Rule order: when two states set the same property, the later one wins. */
-const STATE_ORDER = ["static", ...Object.keys(STATE_SELECTORS)];
-
-const TYPES: Record<string, "fill" | "ink" | "edge"> =
-  { background: "fill", "background-color": "fill", "accent-color": "fill", fill: "fill"
-  , color: "ink", "caret-color": "ink", stroke: "ink"
-  , "border-color": "edge", "text-decoration-color": "edge", "column-rule-color": "edge"
-  };
-
-const DEFAULT_VARIANT = "secondary";
+const isColor = (vocabulary: Vocabulary, property: string) =>
+  // Purpose: whether a property takes its value from the variant's color role
+  vocabulary.colorProperties.includes(property);
 
 // ---------------------------------------------------------------------------
 // Names: the hierarchy (the stub, with variant joined to the component)
@@ -143,28 +146,24 @@ export const refsOf = (value: string): string[] =>
   // Purpose: every custom property a value references through var()
   R.uniq([...value.matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]!));
 
-const isColour = (property: string) =>
-  // Purpose: whether a property takes its value from the variant's colour role
-  property in TYPES;
-
-const roleValue = (colouring: Colouring, role: string, property: string, ownBackground?: string): string | undefined => {
-  // Purpose: the value a colour property takes in a role: the role's own value; without one, the
+const roleValue = (vocabulary: Vocabulary, role: string, property: string, ownBackground?: string): string | undefined => {
+  // Purpose: the value a color property takes in a role: the role's own value; without one, the
   // property's derived template over the role's text-on, else the component's own background
   // token, else the role's background
-  const r = colouring.roles[role]!;
+  const r = vocabulary.roles[role]!;
   if (r[property] !== undefined) return r[property];
-  const template = colouring.derived[property];
+  const template = vocabulary.derived[property];
   const background = r["text-on"] ?? ownBackground ?? r.background;
   return template && background ? template.replace("{background}", background) : undefined;
 };
 
-const variantValue = (c: string, v: string, key: string, property: string, colour?: string, own?: string) => {
-  // Purpose: the L3 recipe: a colour takes its value from the variant's role; anything else takes,
+const variantValue = (vocabulary: Vocabulary, c: string, v: string, key: string, property: string, color?: string, own?: string) => {
+  // Purpose: the L3 recipe: a color takes its value from the variant's role; anything else takes,
   // on the default variant, the schema's own value for it, else the L2 default, and on the others
   // the default variant's value
-  if (isColour(property)) return colour!;
-  if (v === DEFAULT_VARIANT) return own ?? `var(--${property})`;
-  return `var(--${c}-${DEFAULT_VARIANT}-${key})`;
+  if (isColor(vocabulary, property)) return color!;
+  if (v === defaultVariant(vocabulary)) return own ?? `var(--${property})`;
+  return `var(--${c}-${defaultVariant(vocabulary)}-${key})`;
 };
 
 const stateValue = (l3: string, state: string, key: string, property: string, channels: Declarations) => {
@@ -180,22 +179,22 @@ const stateValue = (l3: string, state: string, key: string, property: string, ch
 // Checks: only conditions without which the generated CSS would be broken
 // ---------------------------------------------------------------------------
 
-const check = (meta: Schema, l2: Declarations, colouring: Colouring) => {
+const check = (meta: Schema, l2: Declarations, vocabulary: Vocabulary) => {
   // Purpose: fail when a generated token or rule would have nothing to refer to
   const fail = (msg: string) => {
     // Purpose: stop the build with a message naming the component
     throw new Error(`${meta.title}: ${msg}`);
   };
-  if (!meta.variants.includes(DEFAULT_VARIANT)) fail(`variants must include ${DEFAULT_VARIANT}`);
+  if (!meta.variants.includes(defaultVariant(vocabulary))) fail(`variants must include ${defaultVariant(vocabulary)}`);
   for (const t of targetsOf(meta))
     for (const p of t.themeableProperties)
-      if (isColour(p)) {
+      if (isColor(vocabulary, p)) {
         for (const v of meta.variants)
-          if (!roleValue(colouring, t.role || meta.roles[v]!, p, t.themeableProperties.includes("background") ? "own" : undefined))
+          if (!roleValue(vocabulary, t.role || meta.roles[v]!, p, t.themeableProperties.includes("background") ? "own" : undefined))
             fail(`role ${t.role || meta.roles[v]} gives no ${p} for variant ${v}`);
       } else if (!meta.values?.[keyOf(t, p)] && !l2[`--${p}`]) fail(`no L2 default --${p}`);
   for (const s of meta.states)
-    if (s !== "static" && !STATE_SELECTORS[s]) fail(`unknown state ${s}`);
+    if (!vocabulary.states.some((x) => x.name === s)) fail(`unknown state ${s}`);
 };
 
 // ---------------------------------------------------------------------------
@@ -206,14 +205,14 @@ const rule = (selector: string, decls: Declarations) =>
   // Purpose: render one CSS rule, or nothing when it has no declarations
   R.isEmpty(decls) ? "" : `${selector} {\n${R.toPairs(decls).map(([k, v]) => `  ${k}: ${v};`).join("\n")}\n}\n`;
 
-export const generateComponent = (meta: Schema, l2: Declarations, channels: Declarations, colouring: Colouring) => {
+export const generateComponent = (meta: Schema, l2: Declarations, channels: Declarations, vocabulary: Vocabulary) => {
   // Purpose: produce one component's L3 and L4 tokens and the CSS that consumes them
-  check(meta, l2, colouring);
+  check(meta, l2, vocabulary);
   const c = meta.name;
   const base = meta.element ? `:where(${meta.element.join(", ")})` : `.${c}`;
   const variantSelector = (v: string) =>
     // Purpose: the selector of one variant; the default variant has no class
-    v === DEFAULT_VARIANT ? base : meta.element ? `${base}:where(.${v})` : `${base}.${v}`;
+    v === defaultVariant(vocabulary) ? base : meta.element ? `${base}:where(.${v})` : `${base}.${v}`;
   const tokens: Token[] = [];
   const add = (level: 3 | 4, name: string, value: string) =>
     // Purpose: record one generated token with its references
@@ -225,15 +224,15 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
       const sel = variantSelector(v);
       const structural = (s: string) =>
         // Purpose: a state's structural literals, emitted once on the default variant
-        (v === DEFAULT_VARIANT ? t.structuralProperties[s] ?? {} : {});
+        (v === defaultVariant(vocabulary) ? t.structuralProperties[s] ?? {} : {});
       const l3 = (p: string) =>
         // Purpose: the L3 name of a property for this variant and target
         `--${c}-${v}-${keyOf(t, p)}`;
-      // A colour's value comes from the variant's role; the text is made from the variant's own
+      // A color's value comes from the variant's role; the text is made from the variant's own
       // background token when the target has one.
       const own = t.themeableProperties.includes("background") ? `var(${l3("background")})` : undefined;
       for (const p of t.themeableProperties)
-        add(3, l3(p), variantValue(c, v, keyOf(t, p), p, isColour(p) ? roleValue(colouring, t.role || meta.roles[v]!, p, own) : undefined, meta.values?.[keyOf(t, p)]));
+        add(3, l3(p), variantValue(vocabulary, c, v, keyOf(t, p), p, isColor(vocabulary, p) ? roleValue(vocabulary, t.role || meta.roles[v]!, p, own) : undefined, meta.values?.[keyOf(t, p)]));
       // Static is a state like any other: every property has a static token, equal to its L3 value,
       // and the base rule reads it, so the CSS only ever reads state tokens.
       for (const p of t.themeableProperties) add(4, `${l3(p)}-static`, `var(${l3(p)})`);
@@ -241,13 +240,13 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
       // A part's rules select its elements within the component, after any state of the component.
       const within = t.selector ? ` :where(${t.selector})` : "";
       css += rule(`${sel}${on}${t.pseudo}${within}`, { ...structural("static"), ...R.fromPairs(t.themeableProperties.map((p) => [p, `var(${l3(p)}-static)`])) });
-      for (const s of STATE_ORDER.filter((s) => s !== "static" && meta.states.includes(s))) {
+      for (const s of vocabulary.states.map((x) => x.name).filter((s) => s !== "static" && meta.states.includes(s))) {
         // Every property has a token in every state (the full matrix): a property the state's channel
         // changes takes the channel recipe; any other keeps its static value. The state's rule
         // declares only what the state changes, so states that are true together do not undo each other.
-        // A colour property also changes in a state when the variant's role gives its own value of
+        // A color property also changes in a state when the variant's role gives its own value of
         // it for that state (vocabulary.dhall); that value is used as it is.
-        const roleState = (p: string): string => (isColour(p) && colouring.roles[t.role || meta.roles[v]!]?.[s]?.[p]) || "";
+        const roleState = (p: string): string => (isColor(vocabulary, p) && vocabulary.roles[t.role || meta.roles[v]!]?.[s]?.[p]) || "";
         // The component's own value for a property in a state, from its schema's stateValues,
         // comes first: "unchanged" keeps the static value; anything else is used as it is.
         const own = (p: string): string | undefined => (meta as any).stateValues?.[s]?.[keyOf(t, p)];
@@ -259,7 +258,7 @@ export const generateComponent = (meta: Schema, l2: Declarations, channels: Decl
             : own(p) !== undefined ? own(p)!
             : roleState(p) ? roleState(p)
             : stateValue(l3(p), s, keyOf(t, p), p, channels)!);
-        css += rule(`${sel}:where(${STATE_SELECTORS[s]})${on}${t.pseudo}${within}`,
+        css += rule(`${sel}:where(${stateSelector(vocabulary, s)})${on}${t.pseudo}${within}`,
           { ...structural(s), ...R.fromPairs(changed.map((p) => [p, `var(${l3(p)}-${s})`])) });
       }
     }

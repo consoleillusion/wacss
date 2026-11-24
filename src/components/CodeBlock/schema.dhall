@@ -3,7 +3,7 @@ let P = ../prelude.dhall
 in  { title = "CodeBlock"
     , type = "object"
     , description = "A block of code, highlighted, with a button that copies it."
-    , categories = [ "Content" ]
+    , categories = [ "Display" ]
     , variants.secondary = "surface"
     , states = [ "static" ]
     , themeableProperties =
@@ -34,7 +34,7 @@ in  { title = "CodeBlock"
           }
     , required = [ "code" ]
     , details =
-      [ "CodeBlock is structure only, written in Astro. Its code is highlighted on the server by Shiki, so the colours are in the page before any JavaScript runs. Shiki's css-variables theme marks each part of the code with an L2 syntax token, such as --syntax-token-keyword, and these take their colours from the palette, so the highlighting follows the palette and the mode."
+      [ "CodeBlock is structure only, written in Astro. Its code is highlighted on the server by Shiki, so the colors are in the page before any JavaScript runs. Shiki's css-variables theme marks each part of the code with an L2 syntax token, such as --syntax-token-keyword, and these take their colors from the palette, so the highlighting follows the palette and the mode."
       , "Above the code, the spread layout helper places the label at one end and the copy button, a tertiary Button, at the other. Pressing the button copies the code as it was given and says Copied for a moment; this, and only this, needs JavaScript."
       ]
     , usage =

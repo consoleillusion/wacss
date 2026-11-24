@@ -8,16 +8,16 @@ implementation is `src/lib/generateTokens.ts`, driven by
 
 == Inputs
 <generation:inputs>
-+ Load the colour configuration, `src/styles/palettes.dhall`. Check that
++ Load the color configuration, `src/styles/palettes.dhall`. Check that
   there is at least one palette, that no name appears twice, that every
   name is lowercase letters, digits and hyphens, and that every hue is below
   360. Write it to `src/styles/_palettes.scss` as four Sass maps: the
-  palettes' hues, the decor colours (each with its turn and its lightness
-  and chroma per mode), the intent colours' hues, and the intent
-  colours' lightness and chroma per mode. The primitives and the semantic
-  tokens read these maps (#link(<foundations:colour>)[the colour hierarchy]).
+  palettes' hues, the decor colors (each with its turn and its lightness
+  and chroma per mode), the intent colors' hues, and the intent
+  colors' lightness and chroma per mode. The primitives and the semantic
+  tokens read these maps (#link(<foundations:color>)[the color hierarchy]).
 + Load the shared vocabulary, `src/components/vocabulary.dhall`: the
-  variants, the `derived` templates, the colour roles and the categories
+  variants, the `derived` templates, the color roles and the categories
   (#link(<schema:vocabulary>)[the shared vocabulary]).
 + Compile `primitives.scss`, `semantic.scss`, `channel.scss` and
   `helpers.scss` to CSS.
@@ -45,8 +45,8 @@ A #emph[part] is a set of descendant elements the component styles, such
 as a table's cells or a slider's thumbs, so that a component never needs
 another component only to style the elements inside it. Its tokens are the
 component's own, one for each variant and property like any other target's.
-Its colours come from the variant's role, or from the part's own `role`
-when it names one; a colour it derives, such as its text, is made from the
+Its colors come from the variant's role, or from the part's own `role`
+when it names one; a color it derives, such as its text, is made from the
 part's own background when it has one.
 
 == Component tokens (L3)
@@ -55,7 +55,7 @@ For each target, and for each variant in schema order, and for each
 themable property in schema order, write one token named
 `--<name>-<variant>-<key>` whose value is given by the variant rules
 (#link(<variants:recipes>)[variants]). On the default variant, a
-non-colour property whose key the schema lists under `values` takes that
+non-color property whose key the schema lists under `values` takes that
 value instead of its L2 default: the schema chooses which semantic token
 its component token refers to.
 
@@ -92,7 +92,7 @@ tokens:
 --button-primary-background: var(--color-pop);
 /* L3: the text is made from the variant's own background */
 --button-primary-color: oklch(from var(--button-primary-background) calc(1 - l) c h);
-/* L3: padding is not a colour, so primary uses the default variant's value */
+/* L3: padding is not a color, so primary uses the default variant's value */
 --button-primary-padding-inline: var(--button-secondary-padding-inline);
 
 /* L4: every property has a static token, equal to its L3 token */

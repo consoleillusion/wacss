@@ -18,7 +18,7 @@ const { data: src, info } = await sharp(source).removeAlpha().raw().toBuffer({ r
 const S = info.width;
 
 const sample = (lon: number, lat: number) => {
-  // Purpose: the average colour of the Mercator source around a longitude and latitude
+  // Purpose: the average color of the Mercator source around a longitude and latitude
   const phi = (Math.max(-85.05, Math.min(85.05, lat)) * Math.PI) / 180;
   const cx = Math.floor(((lon + 180) / 360) * S);
   const cy = Math.floor(((1 - Math.log(Math.tan(Math.PI / 4 + phi / 2)) / Math.PI) / 2) * S);
@@ -42,7 +42,7 @@ for (let y = 0; y < H; y++)
     sea[y * W + x] = b > r + 12 && b > g ? 1 : 0;
   }
 
-// The broad brightness of each place, so that land shows only its relief and not its colour.
+// The broad brightness of each place, so that land shows only its relief and not its color.
 const grey = Buffer.from(Uint8Array.from(lum, (v) => Math.round(v * 255)));
 const soft = await sharp(grey, { raw: { width: W, height: H, channels: 1 } }).blur(6).extractChannel(0).raw().toBuffer();
 const blurred = Float32Array.from(soft, (v) => v / 255);

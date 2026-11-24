@@ -1,9 +1,24 @@
+#import "../data.typ": component-titles, listed, vocabulary, generated
+
 = Using components
 <using>
 A component is used by passing it data. Every argument it accepts is
 listed in its schema. The chapters that follow are laid out from the
 schemas as this book compiles, so they always match the components' API
 (#link(<schema:chapters>)[component chapters]).
+
+== Categories
+<using:categories>
+Every component belongs to one or more categories, which say what it is
+for. The categories are defined in `src/components/vocabulary.dhall`, and
+each schema names its own; the demo filters its components by them.
+
+#let members(name) = generated.components.pairs().filter(((t, c)) => name in c.at("categories", default: ())).map(((t, c)) => t).sorted()
+#table(
+  columns: (auto, 1fr, 1fr),
+  [Category], [What makes a component one], [Components],
+  ..vocabulary.categories.map(c => (strong(c.name), c.description, members(c.name).join(", "))).flatten(),
+)
 
 == Passing data
 <using:data>
@@ -50,6 +65,6 @@ site's design page shows every one of them in context.
 
 == More to come
 <using:more>
-Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Fieldset, Form, Globe, LineChart, Link, ModeToggle, NavBar, Notice, NumberInput, Page, Pagination, PieChart, Progress, Radio, Select, Slider, SortableList, Stat, StreetMap, Table, TextArea, TextInput and Toolbar are the first components. Each further
-component follows the same schema and generation; listing it in
-`design/book.typ` adds its chapter here.
+#listed(component-titles) are the first components. Each further
+component follows the same schema and generation; its chapter appears here as soon
+as its folder, with its schema, exists in `src/components`.

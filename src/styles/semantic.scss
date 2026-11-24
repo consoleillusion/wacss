@@ -2,12 +2,12 @@
 @use "sass:map";
 @use "palettes" as *;
 
-// The colours that change with the mode: the palette's four and the four intent colours.
-$mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
+// The colors that change with the mode: the palette's four and the four intent colors.
+$mode-colors: list.join(map.keys($decor), map.keys($intent-hues));
 
-// Purpose: make one mode's colours, and what else depends on the mode, the ones in use
+// Purpose: make one mode's colors, and what else depends on the mode, the ones in use
 @mixin mode($mode) {
-  @each $name in $mode-colours {
+  @each $name in $mode-colors {
     --color-#{$name}: var(--color-#{$name}-#{$mode});
   }
   --atmosphere-size: var(--atmosphere-size-#{$mode});
@@ -20,11 +20,11 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
 :root {
   color-scheme: dark;
 
-  // Colour, from palettes.dhall. The prima: the hue of the palette in effect, the first palette
+  // Color, from palettes.dhall. The prima: the hue of the palette in effect, the first palette
   // by default; data-palette chooses another. Nothing above this level knows which palette it is.
   --hue-accent: var(--hue-#{list.nth(map.keys($palettes), 1)});
-  // Each mode's colours: the palette's four from the prima, turned by their turn, and the
-  // intent colours from their own hues, each at its lightness and chroma for the mode.
+  // Each mode's colors: the palette's four from the prima, turned by their turn, and the
+  // intent colors from their own hues, each at its lightness and chroma for the mode.
   @each $mode in dark, light {
     @each $name, $c in $decor {
       $tone: map.get($c, $mode);
@@ -88,9 +88,9 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
   --color-land-hover: oklch(from color-mix(in oklch, var(--map-tone) var(--map-tone-share), var(--map-land)) var(--map-land-lightness) var(--map-land-chroma) h);
   // A globe's atmosphere: a soft glow in the hue of its lit sea around it while it is alive.
   --atmosphere: oklch(from var(--color-sea-hover) var(--atmosphere-lightness) var(--atmosphere-chroma) h);
-  // Syntax highlighting (CodeBlock): Shiki's css-variables theme colours each token with one of
+  // Syntax highlighting (CodeBlock): Shiki's css-variables theme colors each token with one of
   // these. Text is never set here: it is the text of the component they are in, currentColor,
-  // and the palette's colours mixed into it.
+  // and the palette's colors mixed into it.
   --syntax-foreground: currentColor;
   --syntax-background: transparent;
   --syntax-token-keyword: var(--color-accent);
@@ -105,15 +105,16 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
   --syntax-token-inserted: color-mix(in oklab, var(--color-positive) 45%, currentColor);
   --syntax-token-deleted: color-mix(in oklab, var(--color-danger) 45%, currentColor);
   --syntax-token-changed: color-mix(in oklab, var(--color-warning) 45%, currentColor);
-  // Charts (LineChart, BarChart, PieChart): the colour of each series, in order. They start at
-  // the accent and go round the palette's own colours, so neighbouring series stay distinct.
+  // Charts (LineChart, BarChart, PieChart): the color of each series, in order. The first two
+  // are the palette's own, its accent and its pop; the rest are the intent colors, so
+  // neighbouring series stay distinct.
   --chart-1: var(--color-accent);
-  --chart-2: var(--color-informational);
-  --chart-3: var(--color-positive);
-  --chart-4: var(--color-warning);
-  --chart-5: var(--color-danger);
-  --chart-6: var(--color-pop);
-  // LayerChart, which draws the charts, reads its colours from these variables: its default
+  --chart-2: var(--color-pop);
+  --chart-3: var(--color-informational);
+  --chart-4: var(--color-positive);
+  --chart-5: var(--color-warning);
+  --chart-6: var(--color-danger);
+  // LayerChart, which draws the charts, reads its colors from these variables: its default
   // mark, its text (the chart's own, currentColor), the surfaces of its tooltips and plot, and
   // its rules, the text faded.
   --color-primary: var(--chart-1);
@@ -121,13 +122,13 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
   --color-surface-100: var(--color-surface);
   --color-surface-200: var(--color-base);
   --color-surface-300: color-mix(in oklch, currentColor 20%, transparent);
-  // Intent tints: each intent colour washed into the base, a quiet background for a notice.
+  // Intent tints: each intent color washed into the base, a quiet background for a notice.
   --tint: calc(var(--tint-base) + var(--tint-step));
   @each $name, $hue in $intent-hues {
     --color-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) var(--tint), var(--color-base));
   }
 
-  // Property defaults, for properties that are not colours.
+  // Property defaults, for properties that are not colors.
   --text-decoration-thickness: max(1px, 0.06em);
   --max-inline-size: var(--measure);
   --border-width: var(--border-width-base);
@@ -147,13 +148,13 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
   --font-size: var(--font-size-body);
   --font-weight: var(--font-weight-body);
   --line-height: var(--line-height-body);
-  // At rest, the hover ring (two shadows: its gap, in the page's colour, and the ring itself)
+  // At rest, the hover ring (two shadows: its gap, in the page's color, and the ring itself)
   // sits at the edge, transparent, so hover can move it out and fade it in.
   --box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent;
   --ring-gap: 0.125rem;
   --transform: translate(0);
   // A filter that changes nothing, and that a glow or a desaturation can grow from.
-  // Its colour is written in oklab, as a glow's is, so the two interpolate directly.
+  // Its color is written in oklab, as a glow's is, so the two interpolate directly.
   --filter: drop-shadow(0 0 0 oklab(0 0 0 / 0));
   --opacity: var(--opacity-base);
   --transition-duration: var(--duration-interaction);
@@ -194,7 +195,7 @@ $mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
 }
 :root[data-mode="light"] { @include light; }
 
-// Palettes: each chooses the prima, and with it every colour.
+// Palettes: each chooses the prima, and with it every color.
 @each $name, $hue in $palettes {
   :root[data-palette="#{$name}"] { --hue-accent: var(--hue-#{$name}); }
 }

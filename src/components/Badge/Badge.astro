@@ -1,19 +1,12 @@
 ---
-// Badge: a short label, or, given pressed, a toggle button carrying aria-pressed.
+// Badge: a short label that marks something. Not interactive; a pressable label is a Chip.
 const {
   label,
   variant = "secondary",
-  value,
-  pressed,
-  disabled = false,
   class: className = "",
   ...rest
 } = Astro.props as Record<string, any>;
 // The default variant has no class; any other is its class.
 const classes = ["badge", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
 ---
-{pressed === undefined ? (
-  <span class={classes} {...rest}>{label}</span>
-) : (
-  <button type="button" class={classes} value={value} aria-pressed={pressed ? "true" : "false"} disabled={disabled} {...rest}>{label}</button>
-)}
+<span class={classes} {...rest}>{label}</span>

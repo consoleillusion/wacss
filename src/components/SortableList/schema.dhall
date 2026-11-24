@@ -21,10 +21,12 @@ in  { title = "SortableList"
         { selector = "li"
         , role = "surface"
         , themeableProperties =
-          [ "background", "color", "border-color", "border-width", "border-radius", "padding-block", "padding-inline", "gap", "outline-color", "outline-width", "outline-offset" ]
+          [ "background", "color", "border-color", "border-width", "border-radius", "padding-block", "padding-inline", "gap", "outline-color", "outline-width", "outline-offset", "transition-duration", "transition-timing-function" ]
         , structuralProperties.static =
-          { display = "flex"
+          { position = "relative"
+          , display = "flex"
           , `align-items` = "center"
+          , `transition-property` = "transform"
           , `border-style` = "solid"
           , `outline-style` = "solid"
           , cursor = "grab"
@@ -37,7 +39,12 @@ in  { title = "SortableList"
         , structuralProperties.static.flex = "1"
         }
       }
-    , values = { gap = "var(--gap)", item-gap = "var(--gap)" }
+    , values =
+      { gap = "var(--gap)"
+      , item-gap = "var(--gap)"
+      , item-transition-duration = "var(--duration-surface)"
+      , item-transition-timing-function = "var(--easing)"
+      }
     , arguments =
           P.commonAttributes
       //  { items =
@@ -57,7 +64,7 @@ in  { title = "SortableList"
           }
     , required = [ "items" ]
     , details =
-      [ "An ordered list whose items, a part named item, are on the surface. An item is dragged with the pointer, mouse, pen or touch, and the others make way as it passes their middle. Each item also has up and down buttons, tertiary Buttons, and, while it has focus, Alt with the up or down arrow moves it. Every move is announced to assistive technology. It needs no library of its own."
+      [ "An ordered list whose items, a part named item, are on the surface. An item is dragged with the pointer, mouse, pen or touch: it follows the pointer, and the others glide aside to make room as it passes their middle; let go, it settles into its place. An item moved by its buttons or keys glides to its new place in the same way. Every glide takes the item's transition duration and timing function, its component tokens, by default the surface duration and the easing; with reduced motion they are instant. Each item also has up and down buttons, tertiary Buttons, and, while it has focus, Alt with the up or down arrow moves it. Every move is announced to assistive technology. It needs no library of its own."
       ]
     , stateEffects.disabled = "Half opacity; nothing can be moved."
     , related = [ "Button" ]

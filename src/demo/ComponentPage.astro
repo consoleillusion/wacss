@@ -39,7 +39,7 @@ const argumentRows = Object.entries(s.arguments as Record<string, any>).flatMap(
     .filter(([, p]) => p.description)
     .map(([k, p]) => ({ argument: `${key}[].${k}`, type: typeCell(p, (a.items.required ?? []).includes(k)), meaning: meaning(p) })),
 ]);
-const variants = s.variants as string[]; // ordered as in the vocabulary; s.roles maps each to its colour role
+const variants = s.variants as string[]; // ordered as in the vocabulary; s.roles maps each to its color role
 const states = (s.states as string[]).filter((x) => x !== "static");
 const pseudo = Object.entries((s.pseudoElements ?? {}) as Record<string, any>).filter(([, p]) => p.themeableProperties.length);
 ---
@@ -59,7 +59,7 @@ const pseudo = Object.entries((s.pseudoElements ?? {}) as Record<string, any>).f
     {variants.map((v) => <Sample title={title} variant={v} framed={false} />)}
   </div>
   <Table
-    columns={[{ key: "variant", label: "Variant" }, { key: "role", label: "Colour role" }, { key: "look", label: "Look" }]}
+    columns={[{ key: "variant", label: "Variant" }, { key: "role", label: "Color role" }, { key: "look", label: "Look" }]}
     rows={variants.map((v) => ({ variant: v, role: s.roles[v], look: vocabulary.roles[s.roles[v]].look }))}
   />
   {states.length

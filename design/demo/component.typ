@@ -14,9 +14,9 @@ components and layout helpers.
 
 == The grid
 <page-component:grid>
-Above the grid, a row of toggle Badges filters it by category, from each
-component's `categories`: an All badge, then one badge for each category,
-in alphabetical order. A selected badge takes the accent. Badges can be
+Above the grid, a row of Chips filters it by category, from each
+component's `categories`: an All chip, then one chip for each category,
+in alphabetical order. A pressed chip takes the accent. Chips can be
 selected together.
 
 - At first, All is selected and every component is shown.
@@ -43,9 +43,9 @@ component's page]).
 == Fitting instances to the figure
 <page-component:fit>
 An accordion fills the figure's width, with a little padding at each side.
-A Card shown in a card's figure is drawn at 40% of the figure's width and
-42% of its size, so that the whole of it fits. A Form is drawn at 80% of
-the figure's width and 55% of its size.
+A Card or a Form shown in a card's figure is drawn smaller, so that the
+whole of it fits; the demo's own stylesheet, `src/demo/demo.scss`, sets
+how much smaller.
 
 Instances are found by title: the `Instance` part of the demo renders the
 component whose folder matches the title, with the data given, so a new

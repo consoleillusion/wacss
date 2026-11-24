@@ -1,3 +1,5 @@
+#import "../data.typ": component-titles, listed
+
 = What wacss is
 <what>
 wacss is a component library for the web with a single, global
@@ -16,10 +18,10 @@ interface, the people who build it, and the web platform beneath them.
 == The problem
 <what:problem>
 A typical design system grows one component at a time. Each component
-makes its own decisions about colour, spacing and behaviour, and the
+makes its own decisions about color, spacing and behaviour, and the
 system's consistency depends on everyone remembering to make the same
 decisions in the same way. Gaps appear where nobody looked: a combination
-of states that was never styled, a hover colour that differs from one
+of states that was never styled, a hover color that differs from one
 control to the next, a page that quietly adds its own CSS to fix
 something. Over time the system describes less and less of the interface
 it is meant to govern.
@@ -77,7 +79,7 @@ what an agent's work costs.
 
 == Direction
 <what:direction>
-The library begins with its first components — Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Fieldset, Form, Globe, LineChart, Link, ModeToggle, NavBar, Notice, NumberInput, Page, Pagination, PieChart, Progress, Radio, Select, Slider, SortableList, Stat, StreetMap, Table, TextArea, TextInput and Toolbar — and will grow until it covers a complete application
+The library begins with its first components — #listed(component-titles) — and will grow until it covers a complete application
 interface. The
 checks and outputs planned for the build are listed in
 #link(<build:planned>)[build].

@@ -19,7 +19,7 @@ const ROOT = new URL("../", import.meta.url).pathname;
 const DIST = `${ROOT}dist/`;
 const OUT = `${DIST}dtcg/`;
 // The palettes, from palettes.dhall by way of tokens.json; the first is the default.
-const PALETTES: string[] = JSON.parse(await readFile(`${DIST}tokens.json`, "utf8")).colours.palettes.map((p: { name: string }) => p.name);
+const PALETTES: string[] = JSON.parse(await readFile(`${DIST}tokens.json`, "utf8")).colors.palettes.map((p: { name: string }) => p.name);
 const MODES = ["dark", "light"];
 const DEFAULT = `${PALETTES[0]}-dark`;
 
@@ -61,9 +61,9 @@ const resolveAll = async (page: any, names: string[], palette: string, mode: str
     const out: Record<string, { type: string; value: unknown } | null> = {};
     for (const name of names) {
       const ref = `var(${name})`;
-      const colour = read("--probe-color", `oklch(from ${ref} l c h / alpha)`);
-      if (colour !== "rgb(1, 2, 3)") {
-        const m = colour.match(/oklch\(([-\d.e]+)\s+([-\d.e]+)\s+([-\d.e]+|none)(?:\s*\/\s*([-\d.e]+))?\)/);
+      const color = read("--probe-color", `oklch(from ${ref} l c h / alpha)`);
+      if (color !== "rgb(1, 2, 3)") {
+        const m = color.match(/oklch\(([-\d.e]+)\s+([-\d.e]+)\s+([-\d.e]+|none)(?:\s*\/\s*([-\d.e]+))?\)/);
         if (m) {
           out[name] = { type: "color", value: { colorSpace: "oklch", components: [num(m[1]!), num(m[2]!), m[3] === "none" ? 0 : num(m[3]!)], alpha: m[4] ? num(m[4]) : 1 } };
           continue;

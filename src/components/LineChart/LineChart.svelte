@@ -1,5 +1,5 @@
 <script lang="ts">
-  // LineChart: one line for each series, across the x values of the data. Drawn by LayerChart; its colours are the palette's,
+  // LineChart: one line for each series, across the x values of the data. Drawn by LayerChart; its colors are the palette's,
   // --chart-1 onward for the series, and LayerChart's own variables, set in L2.
   import { LineChart as Chart } from "layerchart";
 

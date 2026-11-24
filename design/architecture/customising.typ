@@ -33,12 +33,12 @@ The same declarations can be placed in a `[data-palette="…"]` or
 #table(
   columns: 2,
   [To change], [Redeclare],
-  [One palette's hue, or a intent colour's], [Its primitive, `--hue-<palette>` or `--hue-<intent>`; for good, its entry in `palettes.dhall`],
-  [The lightness or chroma of one colour in one mode, in every palette], [For good, its entry in `palettes.dhall`; at runtime, `--color-<colour>-<mode>`],
-  [How a colour is derived, in every palette], [The L2 meaning, such as `--color-ring`; for text, underlines and borders, the `derived` templates in `vocabulary.dhall`],
+  [One palette's hue, or a intent color's], [Its primitive, `--hue-<palette>` or `--hue-<intent>`; for good, its entry in `palettes.dhall`],
+  [The lightness or chroma of one color in one mode, in every palette], [For good, its entry in `palettes.dhall`; at runtime, `--color-<color>-<mode>`],
+  [How a color is derived, in every palette], [The L2 meaning, such as `--color-ring`; for text, underlines and borders, the `derived` templates in `vocabulary.dhall`],
   [Spacing, type, radii, shadows or timing everywhere], [The L1 step or base, or the L2 meaning built from it],
-  [The default value of one non-colour property for every component], [Its L2 property default, `--<property>`],
-  [A colour property in one role, for every component], [The role's value for it in `vocabulary.dhall`, then regenerate],
+  [The default value of one non-color property for every component], [Its L2 property default, `--<property>`],
+  [A color property in one role, for every component], [The role's value for it in `vocabulary.dhall`, then regenerate],
   [How a component's text is made from its background], [The `text` template in `vocabulary.dhall`, then regenerate],
   [What a state does everywhere], [Its channel token, `--<state>-<property>`],
 )
@@ -59,14 +59,14 @@ the property then receives it. Regenerate.
   selector, the token export and the book's palette pages all read the
   list, so the palette appears in each.
 + Read its contrast in the Palettes chapter's legibility table, and confirm that
-  its accent and pop stand clear of the intent colours.
+  its accent and pop stand clear of the intent colors.
 
 The palette is then selected with `data-palette="<palette>"`.
 
-== Changing the colours every palette shares
-<customising:colours>
-The lightness and chroma of each colour in each mode, the pop's turn, and
-the intent colours' hues and their lightness and chroma are entries in
+== Changing the colors every palette shares
+<customising:colors>
+The lightness and chroma of each color in each mode, the pop's turn, and
+the intent colors' hues and their lightness and chroma are entries in
 `src/styles/palettes.dhall`. Change them there and run
 `bun run generate:tokens` and `bun run palette-swatches`; the tokens, the
 demo and the Palettes chapter follow.
@@ -86,20 +86,23 @@ demo and the Palettes chapter follow.
   other component it shows is passed to it as data, `{ component, data }`,
   and loaded by title (#link(<schema:children>)[children]); inner elements
   that are not components are plain HTML, arranged with layout helpers.
-+ Run `bun run generate:tokens`. Fix anything the checks report.
++ Run `bun run generate:tokens`. Fix anything the checks report. The
+  component then appears in the book, in the demo and in every list of
+  components, which all read the generator's list; give it sample data in
+  `src/demo/samples.ts` for its demo instance.
 
 == Adding a state
 <customising:state>
 States are a closed vocabulary, because each needs a selector. To add
-one, add its name and selector to `STATE_SELECTORS` in
-`src/lib/generateTokens.ts` (its position there is its rule order), add
-at least one channel token for it to `channel.scss`, and list it in the
-schemas of the components that support it.
+one, add it to `states` in `src/components/vocabulary.dhall`, with its
+selector, whether it is a pointer state, and its meaning (its position
+there is its rule order); add at least one channel token for it to
+`channel.scss`; and list it in the schemas of the components that support
+it.
 
 == Adding a variant
 <customising:variant>
-A component gains one of the seven variants by listing it in its schema
-with a colour role. A new variant name is added to the vocabulary, the
-`VARIANTS` list in `scripts/generate-tokens.ts`; a new role needs its
-`--background-<role>`, `--color-<role>` and `--border-color-<role>`
-tokens in `semantic.scss`.
+A component gains one of the variants by listing it in its schema with a
+color role. A new variant is added, with its meaning, to `variants` in
+`src/components/vocabulary.dhall`; a new role is added to `roles` there,
+with the value each color property takes in it.

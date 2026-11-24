@@ -1,3 +1,5 @@
+#import "../data.typ": vocabulary, listed
+
 = Variants
 <variants>
 A variant is a role a component can play. Each variant has its own set of
@@ -8,15 +10,12 @@ component tokens, named with the variant after the component:
 <variants:vocabulary>
 #table(
   columns: 2,
-  [Variant], [Role],
-  [`secondary`], [The ordinary appearance. The default; every component has it.],
-  [`primary`], [The main action or emphasis in a region],
-  [`tertiary`], [The least emphasis; reads like text],
-  [`positive`], [Success or confirmation],
-  [`warning`], [Caution; a risk that can be undone],
-  [`danger`], [Destructive or failed],
-  [`informational`], [A neutral notice],
+  [Variant], [For],
+  ..vocabulary.variants.map(v => (raw(v.name), v.meaning)).flatten(),
 )
+
+The variants are defined, in this order, in `src/components/vocabulary.dhall`; the
+first is the default.
 
 A component lists the variants that make sense for it. Variants express
 role and emphasis; visual treatments such as "outline" or "ghost" are not
@@ -36,35 +35,28 @@ component:
 
 == Computing a variant's tokens
 <variants:recipes>
-Each property is classified by name:
+The color properties are those whose values come from a variant's color
+role, listed in `src/components/vocabulary.dhall`:
+#listed(vocabulary.colorProperties.map(raw)). Every other property,
+including `outline-color`, which belongs to the focus channel, is not.
 
-#table(
-  columns: 2,
-  [Type], [Properties],
-  [fill], [`background`, `background-color`, `accent-color`, `fill`],
-  [ink], [`color`, `caret-color`, `stroke`],
-  [edge], [`border-color`, `text-decoration-color`, `column-rule-color`],
-  [other], [every other property, including `outline-color`],
-)
-
-Every variant a component lists is given a colour role in its schema
+Every variant a component lists is given a color role in its schema
 (#link(<schema:fields>)[fields]): `accent`, `surface`, `pop`, `clear`,
-`base`, `map`, an intent colour, or an intent colour's tint
+`base`, `map`, an intent color, or an intent color's tint
 (`positive-tint`). The L3 token for component `c`, variant `v` with role
 `r`, and property `p` is then:
 
 #table(
   columns: 2,
   [Case], [L3 value],
-  [`p` is a fill, an ink or an edge], [The value role `r` gives `p` in `vocabulary.dhall`; for `color`, when the role gives none, the inverse of the variant's background (#link(<foundations:colour>)[the colour hierarchy])],
+  [`p` is a color property], [The value role `r` gives `p` in `vocabulary.dhall`; for `color`, when the role gives none, the inverse of the variant's background (#link(<foundations:color>)[the color hierarchy])],
   [`v` is `secondary`], [The schema's `values` entry for `p`, if it has one, such as `var(--font-size-heading)`; otherwise `var(--p)`, the L2 property default],
   [`p` is anything else], [`var(--c-secondary-p)`, the default variant's value],
 )
 
-So a component's variants differ only in their colours, and the role
+So a component's variants differ only in their colors, and the role
 decides which. The same variant name can take different roles in
 different components: Button's `secondary` is `accent`, so a secondary
 button is filled with the accent, while Card's `secondary` is `surface`.
 A component's tokens are its own, so a button inside a card keeps its
-own colours whatever the card's are. `outline-color` is classed as "other"
-because the outline belongs to the focus channel, not to the variant.
+own colors whatever the card's are. 

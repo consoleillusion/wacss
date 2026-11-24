@@ -1,18 +1,18 @@
--- The colour configuration of wacss: the top of its colour hierarchy. The token generator
--- writes the colour tokens from it, the book writes its Palettes chapter from it, and the demo
--- lists its palettes. Nothing else holds a colour value.
+-- The color configuration of wacss: the top of its color hierarchy. The token generator
+-- writes the color tokens from it, the book writes its Palettes chapter from it, and the demo
+-- lists its palettes. Nothing else holds a color value.
 --
 --   palettes — the palettes wacss ships, the first the default. A palette is named after its
---              accent, and is every colour derived from that accent: its decor colours, with
---              the intent colours, which every palette shares.
+--              accent, and is every color derived from that accent: its decor colors, with
+--              the intent colors, which every palette shares.
 --              name        lowercase; data-palette="<name>" selects it
 --              kanji       its name in Japanese, written down the right of its pages in the book
 --              hue         the accent's oklch hue in degrees, the prima of the palette
---              description what the palette is named for and how its colours read
---   decor    — the decor colours, base, surface, accent and pop, which every palette has, made
+--              description what the palette is named for and how its colors read
+--   decor    — the decor colors, base, surface, accent and pop, which every palette has, made
 --              from its hue. Each has a use, a turn of the hue (0 keeps the palette's hue) and a
 --              lightness and chroma in each mode, the same in every palette.
---   intent   — the intent colours: positive, warning, danger and informational, the intent of
+--   intent   — the intent colors: positive, warning, danger and informational, the intent of
 --              what they mark. Each has its own hue and use, the same in every palette, and all
 --              share one lightness and chroma in each mode.
 
@@ -65,7 +65,7 @@ in  { palettes =
             , dark = { lightness = 0.21, chroma = 0.004 }
             }
           , { name = "accent"
-            , use = "The colour the palette is named for, at full strength: the fill of the default variant, such as a secondary Button, and the focus ring."
+            , use = "The color the palette is named for, at full strength: the fill of the default variant, such as a secondary Button, and the focus ring."
             , turn = 0
             , light = { lightness = 0.6, chroma = 0.09 }
             , dark = { lightness = 0.75, chroma = 0.08 }
@@ -79,7 +79,7 @@ in  { palettes =
           ]
         : List Decor
     , intent =
-      { colours =
+      { colors =
             [ { name = "positive", hue = 147, use = "Success, confirmation" }
             , { name = "warning", hue = 57, use = "Caution, reversible risk" }
             , { name = "danger", hue = 30, use = "Destructive or failed" }

@@ -2,7 +2,7 @@ let P = ../prelude.dhall
 
 in  { title = "ColorInput"
     , type = "object"
-    , description = "A colour, chosen with the browser's own picker. A native colour input with its label."
+    , description = "A color, chosen with the browser's own picker. A native color input with its label."
     , categories = [ "Input" ]
     , element = [ "input[type=color]" ]
     , variants.secondary = "surface"
@@ -19,6 +19,6 @@ in  { title = "ColorInput"
       [ "Its label is above it and any help below, arranged by the stack layout helper."
       ]
     , stateEffects = P.controlStateEffects
-    , usage = [ "<ColorInput label=\"Colour\" name=\"colour\" value=\"#c23a22\" />"
+    , usage = [ "<ColorInput label=\"Color\" name=\"color\" value=\"#c23a22\" />"
       ]
     }

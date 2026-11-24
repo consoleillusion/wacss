@@ -4,7 +4,7 @@ in  { title = "Button"
     , type = "object"
     , description = "An action. Wraps the bits-ui Button; renders a button, or an anchor when href is set. A button that discloses content (aria-expanded) draws a chevron that turns while open."
     , categories = [ "Action" ]
-    , element = [ "button:not(.badge, [class^=\"lc-\"])", "a[data-button-root]" ]
+    , element = [ "button:not(.chip, [class^=\"lc-\"])", "a[data-button-root]" ]
     , variants =
       { secondary = "accent", primary = "pop", tertiary = "clear", danger = "danger" }
     , states = [ "static", "hover", "focus", "active", "open", "disabled", "loading" ]
@@ -79,7 +79,7 @@ in  { title = "Button"
               //  { description = "Prevents activation and shows the disabled state." }
           }
     , details =
-      [ "Because its rules select every button, the buttons inside other components, such as an accordion's triggers, are styled as Buttons too. Two kinds are left out: a Badge's toggle, which Badge styles, and the buttons LayerChart draws inside a chart, such as its legend, whose classes begin with lc- and which LayerChart styles."
+      [ "Because its rules select every button, the buttons inside other components, such as an accordion's triggers, are styled as Buttons too. Two kinds are left out: a Chip, which Chip styles, and the buttons LayerChart draws inside a chart, such as its legend, whose classes begin with lc- and which LayerChart styles."
       ]
     , argumentNotes = [ "Any other attribute is passed through to the element."
       ]

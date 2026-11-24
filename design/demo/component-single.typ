@@ -5,7 +5,7 @@ Components part of this book does, with the component itself, live, in
 place of a description of how it looks. Its data in `src/site.ts` is the
 component's title as the page title and one `ComponentPage` child, given
 the title. The page reads the component's schema, through
-`dist/tokens.json`, and the shared vocabulary of variants and colour
+`dist/tokens.json`, and the shared vocabulary of variants and color
 roles, so it says what the chapter says, in the same order; neither can
 fall behind the schema (#link(<schema:chapters>)[component chapters]).
 No card frames the component or any part of the page.
@@ -24,7 +24,7 @@ of use, each a CodeBlock, highlighted and with a button that copies it; what is 
 Under the heading _Variants and states_, one line shows a state
 selector, a Select, then the component live in each of its variants, in
 vocabulary order, each under a small label naming the variant. The
-tables of variants with their colour roles and looks, and of states with
+tables of variants with their color roles and looks, and of states with
 their effects, follow, as in the chapter.
 
 The selector lists the component's states in schema order and starts at

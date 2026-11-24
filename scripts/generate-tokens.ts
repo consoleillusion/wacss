@@ -6,7 +6,7 @@ import { existsSync } from "node:fs";
 import { kebabCase } from "change-case";
 import { load } from "load-object";
 import * as sass from "sass";
-import { generateComponent, toRootBlock, tokensFromDeclarations, type Role, type Schema } from "../src/lib/generateTokens";
+import { generateComponent, toRootBlock, tokensFromDeclarations, type Schema, type Vocabulary as GeneratorVocabulary } from "../src/lib/generateTokens";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const COMPONENTS = `${ROOT}src/components/`;
@@ -25,46 +25,47 @@ const rootDeclarations = (css: string): Record<string, string> => {
   return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1]!, m[2]!.replace(/\s+/g, " ").trim()]));
 };
 
-/** The shared vocabulary: variants in order, the derived colour templates, colour roles and their values, categories. */
-type Vocabulary = { variants: string[]; derived: Record<string, string>; roles: Record<string, Role>; categories: string[] };
+/** The shared vocabulary: variants, states, the interactive elements, the color properties, the
+ * derived color templates, the color roles and the categories. */
+type Vocabulary = GeneratorVocabulary & { categories: { name: string; description: string }[] };
 const vocabulary = (await load("vocabulary.dhall", { base: COMPONENTS, formats: ["dhall"] })) as Vocabulary;
-const VARIANTS = vocabulary.variants;
+const VARIANTS = vocabulary.variants.map((v) => v.name);
 
-/** The colour configuration, palettes.dhall: the palettes, the four colours every palette has, and
- * the intent colours. */
+/** The color configuration, palettes.dhall: the palettes, the four colors every palette has, and
+ * the intent colors. */
 type Tone = { lightness: number; chroma: number };
 type Palette = { name: string; kanji: string; hue: number; description: string };
-type Colours =
+type Colors =
 { palettes: Palette[]
 , decor: { name: string; use: string; turn: number; light: Tone; dark: Tone }[]
-, intent: { colours: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
+, intent: { colors: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
 };
-const colours = (await load("palettes.dhall", { base: STYLES, formats: ["dhall"] })) as Colours;
+const colors = (await load("palettes.dhall", { base: STYLES, formats: ["dhall"] })) as Colors;
 
-const writeColours = async () => {
-  // Purpose: check the colour configuration and write it as the Sass maps the primitives and the
+const writeColors = async () => {
+  // Purpose: check the color configuration and write it as the Sass maps the primitives and the
   // semantic layer read
   const fail = (msg: string) => {
     // Purpose: stop the build with a message naming the configuration
     throw new Error(`palettes.dhall: ${msg}`);
   };
-  const names = colours.palettes.map((p) => p.name);
+  const names = colors.palettes.map((p) => p.name);
   if (!names.length) fail("at least one palette is needed");
   const repeated = names.filter((n, i) => names.indexOf(n) !== i);
   if (repeated.length) fail(`palette ${repeated.join(", ")} appears twice`);
   const badName = names.filter((n) => !/^[a-z][a-z0-9-]*$/.test(n));
   if (badName.length) fail(`${badName.join(", ")}: a name is lowercase letters, digits and hyphens`);
-  const hues = [...colours.palettes, ...colours.intent.colours];
+  const hues = [...colors.palettes, ...colors.intent.colors];
   const badHue = hues.filter((h) => h.hue >= 360).map((h) => h.name);
   if (badHue.length) fail(`${badHue.join(", ")}: a hue is below 360`);
   const tone = (t: Tone) => `(${t.lightness}, ${t.chroma})`;
   const map = (entries: string[]) => `(${entries.join(", ")})`;
   await writeFile(`${STYLES}_palettes.scss`,
     "// Generated from palettes.dhall by scripts/generate-tokens.ts. Do not edit.\n" +
-    `$palettes: ${map(colours.palettes.map((p) => `"${p.name}": ${p.hue}`))};\n` +
-    `$decor: ${map(colours.decor.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
-    `$intent-hues: ${map(colours.intent.colours.map((c) => `"${c.name}": ${c.hue}`))};\n` +
-    `$intent-tone: (light: ${tone(colours.intent.light)}, dark: ${tone(colours.intent.dark)});\n`);
+    `$palettes: ${map(colors.palettes.map((p) => `"${p.name}": ${p.hue}`))};\n` +
+    `$decor: ${map(colors.decor.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
+    `$intent-hues: ${map(colors.intent.colors.map((c) => `"${c.name}": ${c.hue}`))};\n` +
+    `$intent-tone: (light: ${tone(colors.intent.light)}, dark: ${tone(colors.intent.dark)});\n`);
 };
 
 const loadSchemas = async (): Promise<Schema[]> => {
@@ -76,15 +77,15 @@ const loadSchemas = async (): Promise<Schema[]> => {
   return Promise.all(folders.map(async (folder) => {
     const raw = (await load(`${folder}/schema.dhall`, { base: COMPONENTS, formats: ["dhall"] })) as any;
     if (raw.title !== folder) throw new Error(`${folder}/schema.dhall: title "${raw.title}" must match the folder`);
-    // `variants` maps each variant to its colour role; they are ordered as in the vocabulary.
+    // `variants` maps each variant to its color role; they are ordered as in the vocabulary.
     const roles = raw.variants as Record<string, string>;
     const variants = VARIANTS.filter((v) => v in roles);
     const unknown = Object.keys(roles).filter((v) => !VARIANTS.includes(v));
     if (unknown.length) throw new Error(`${folder}/schema.dhall: unknown variant ${unknown.join(", ")}`);
     const partRoles = Object.values((raw.parts ?? {}) as Record<string, { role?: string }>).flatMap((t) => (t.role ? [t.role] : []));
     const badRole = [...Object.values(roles), ...partRoles].filter((r) => !(r in vocabulary.roles));
-    if (badRole.length) throw new Error(`${folder}/schema.dhall: unknown colour role ${badRole.join(", ")}`);
-    const badCategory = ((raw.categories ?? []) as string[]).filter((c) => !vocabulary.categories.includes(c));
+    if (badRole.length) throw new Error(`${folder}/schema.dhall: unknown color role ${badRole.join(", ")}`);
+    const badCategory = ((raw.categories ?? []) as string[]).filter((c) => !vocabulary.categories.some((k) => k.name === c));
     if (badCategory.length) throw new Error(`${folder}/schema.dhall: unknown category ${badCategory.join(", ")}`);
     return { name: kebabCase(raw.title), ...raw, variants, roles };
   }));
@@ -92,7 +93,7 @@ const loadSchemas = async (): Promise<Schema[]> => {
 
 const main = async () => {
   // Purpose: generate tokens, component CSS and tokens.json into dist/
-  await writeColours();
+  await writeColors();
   const css = { primitives: compile("primitives.scss"), semantic: compile("semantic.scss"), channel: compile("channel.scss"), helpers: compile("helpers.scss") };
   const l1 = rootDeclarations(css.primitives);
   const channels = rootDeclarations(css.channel);
@@ -127,7 +128,7 @@ const main = async () => {
   await mkdir(DIST, { recursive: true });
   await writeFile(`${DIST}tokens.css`, HEADER + tokensCss);
   await writeFile(`${DIST}wacss.css`, HEADER + stylesheet);
-  await writeFile(`${DIST}tokens.json`, JSON.stringify({ vocabulary, colours, tokens, components }, null, 2));
+  await writeFile(`${DIST}tokens.json`, JSON.stringify({ vocabulary, colors, tokens, components }, null, 2));
   const count = (level: number) => tokens.filter((t) => t.level === level).length;
   console.log(`wacss: ${schemas.length} components; tokens L1 ${count(1)}, L2 ${count(2)}, L3 ${count(3)}, L4 ${count(4)}`);
 };

@@ -57,7 +57,7 @@
 .demo-token.indirect { background: color-mix(in oklab, color-mix(in oklch, currentColor 68%, transparent) 20%, var(--color-surface)); border-color: color-mix(in oklch, currentColor 68%, transparent); }
 .demo-token.unrelated { opacity: 0.25; }
 
-// The graph takes its colours from the palette and mode in effect.
+// The graph takes its colors from the palette and mode in effect.
 .demo-graph .svelte-flow {
   --xy-background-color: var(--color-base);
   --xy-background-pattern-color: color-mix(in oklch, currentColor 20%, transparent);

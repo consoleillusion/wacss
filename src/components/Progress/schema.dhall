@@ -2,8 +2,8 @@ let P = ../prelude.dhall
 
 in  { title = "Progress"
     , type = "object"
-    , description = "How far a task has come: a native progress bar, with a label above it and a line of text below. Its bar takes the accent, or an intent colour."
-    , categories = [ "Content" ]
+    , description = "How far a task has come: a native progress bar, with a label above it and a line of text below. Its bar takes the accent, or an intent color."
+    , categories = [ "Display" ]
     , element = [ "progress" ]
     , variants =
       { secondary = "accent"
@@ -24,10 +24,10 @@ in  { title = "Progress"
           , text = P.described "A line below the bar, such as 7 correct of 9 answered."
           , variant =
                   P.choice [ "secondary", "positive", "warning", "danger", "informational" ] "secondary"
-              //  { description = "The bar's colour: the accent, or an intent colour." }
+              //  { description = "The bar's color: the accent, or an intent color." }
           }
     , details =
-      [ "It is the native progress element, coloured through accent-color, so it is drawn by the browser and announced as a progress bar. Its height is a component token, at twice the space step."
+      [ "It is the native progress element, colored through accent-color, so it is drawn by the browser and announced as a progress bar. Its height is a component token, at twice the space step."
       ]
     , related = [ "Stat" ]
     , usage =

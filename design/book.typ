@@ -23,13 +23,15 @@
 
 // Each component's chapter is laid out by components/component.typ from its schema.dhall.
 // Typst cannot list a folder, so the components are named here, in the order of their chapters.
-#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Fieldset", "Form", "Globe", "LineChart", "Link", "ModeToggle", "NavBar", "Notice", "NumberInput", "Page", "Pagination", "PieChart", "Progress", "Radio", "Select", "Slider", "SortableList", "Stat", "StreetMap", "Table", "TextArea", "TextInput", "Toolbar")
+#import "data.typ": component-titles
+// Every component, in name order, read from what the generator found in src/components.
+#let components = component-titles
 
 // Each part is a level-1 heading; each file's own headings nest beneath it. An entry
 // "schema:<Title>" is a component chapter, laid out from that component's schema.
 #let parts = (
   ("Introduction", ("introduction/what", "introduction/philosophy", "introduction/usability", "introduction/demo", "demo/component", "demo/component-single", "demo/design", "introduction/glossary")),
-  ("Architecture", ("architecture/overview", "architecture/tokens", "architecture/foundations", "architecture/channels", "architecture/variants", "architecture/states", "architecture/schema", "architecture/generation", "architecture/stylesheet", "architecture/helpers", "architecture/customising", "architecture/build")),
+  ("Architecture", ("architecture/overview", "architecture/tokens", "architecture/foundations", "architecture/channels", "architecture/variants", "architecture/states", "architecture/schema", "architecture/generation", "architecture/stylesheet", "architecture/helpers", "architecture/customising", "architecture/build", "architecture/reference")),
   ("Aesthetics", ("aesthetics/intent", "aesthetics/palettes", "aesthetics/animation", "aesthetics/form")),
   ("Components", ("components/using",) + components.map(c => "schema:" + c)),
 )
@@ -38,8 +40,8 @@
 // Modes
 // ---------------------------------------------------------------------------
 
-// The book is typeset in its own palette, Sage: four colours per edition and a
-// derived text colour. Every other shade is mixed from them, as the token
+// The book is typeset in its own palette, Sage: four colors per edition and a
+// derived text color. Every other shade is mixed from them, as the token
 // hierarchy does.
 #let sage = (
   light: ("color-base": "#f7f8f7", "color-surface": "#ebecea", "color-accent": "#4a6a5c",
@@ -70,7 +72,7 @@
 #import "components/component.typ": component-chapter
 #import "style.typ": sans, serif, mono, cjk, running-title, page-footer
 #import "style.typ" as style
-// The shared label, in the book's faint colour unless another is given.
+// The shared label, in the book's faint color unless another is given.
 #let label-text(body, size: 6.8pt, fill: c.faint) = style.label-text(body, size: size, fill: fill)
 
 // ---------------------------------------------------------------------------
@@ -139,7 +141,7 @@
 
 #show strong: set text(weight: 600)
 
-// Links written in the text are accent-coloured and underlined; the internal
+// Links written in the text are accent-colored and underlined; the internal
 // links the contents page builds from locations are left plain.
 #show link: it => if type(it.dest) in (location, dictionary) {
   it
@@ -158,7 +160,7 @@
 )
 
 // ---------------------------------------------------------------------------
-// Code blocks: restrained, no syntax colours.
+// Code blocks: restrained, no syntax colors.
 // ---------------------------------------------------------------------------
 
 // Dhall has no built-in syntax in Typst; this definition highlights it.

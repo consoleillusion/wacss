@@ -44,9 +44,9 @@
         };
         notice.addTo(map!);
       });
-      const colour = getComputedStyle(element).accentColor;
+      const color = getComputedStyle(element).accentColor;
       for (const place of places) {
-        const dot = L.circleMarker([place.lat, place.long], { radius: 7, color: colour, weight: 2, fillColor: colour, fillOpacity: 0.85 });
+        const dot = L.circleMarker([place.lat, place.long], { radius: 7, color: color, weight: 2, fillColor: color, fillOpacity: 0.85 });
         if (place.label) dot.bindTooltip(place.label, { direction: "top" });
         dot.addTo(map);
       }

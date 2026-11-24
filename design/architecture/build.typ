@@ -2,17 +2,29 @@
 <build>
 == Commands
 <build:commands>
+#import "../data.typ": scripts
+
+// What each script in package.json does. The table is written from package.json, so a script
+// without a description here, or a description without a script, stops the book.
+#let does = (
+  "generate:tokens": [Check `palettes.dhall` and write it to `src/styles/_palettes.scss`, compile the styles, check every schema against the vocabulary, generate tokens and CSS, and write `dist/`. `_palettes.scss` is generated and not kept in the repository.],
+  "dev": [Generate, then serve the demo site],
+  "build": [Generate, then build the demo site into `demo-dist/`],
+  "preview": [Serve the demo site as built in `demo-dist/`, to check it before publishing],
+  "palette-swatches": [Render every palette and mode in Chrome and write `design/palettes.json`, each color as the hex it is drawn with in the Palettes chapter, and `design/palettes-exact.json`, each color as the browser computes it before rounding, from which the chapter prints its oklch value. It uses a browser so that every value is the one the stylesheet renders, resolved by a real CSS engine through its references, relative colors and mixes, rather than recomputed],
+  "export:tokens": [After generation, resolve every token in a browser in every palette and mode, and write the Design Tokens Format files to `dist/dtcg/` (#link(<build:dtcg>)[below])],
+  "build:book": [Compile this book, in a dark and a light edition. It first runs `generate:tokens` and `palette-swatches`, because the Palettes chapter reads its colors from `dist/tokens.json` and the files `palette-swatches` writes, so a change to `palettes.dhall` reaches the book in one step. Each component chapter is laid out from the component's `schema.dhall` as the book compiles (#link(<schema:chapters>)[component chapters])],
+  "globe-relief": [Write `src/components/Globe/relief.webp`, Globe's texture of relief and sea depth, from the Blue Marble image `planet.jpeg` in the npm package `@freetiler/nasa-bluemarble`, which is too large to be a dependency. Run only to change the texture; the file is committed],
+  "build:dhall-plugin": [Build the Typst plugin that evaluates Dhall, `design/dhall.wasm`, from `design/dhall-plugin/`. It needs Rust with the `wasm32-unknown-unknown` target, and is run only when the plugin changes],
+)
+#let missing = scripts.keys().filter(k => k not in does)
+#let extra = does.keys().filter(k => k not in scripts)
+#if missing.len() > 0 { panic("package.json scripts without a description: " + missing.join(", ")) }
+#if extra.len() > 0 { panic("descriptions of scripts not in package.json: " + extra.join(", ")) }
 #table(
   columns: 2,
   [Command], [Does],
-  [`bun run generate:tokens`], [Check `palettes.dhall` and write it to `src/styles/_palettes.scss`, compile the styles, check every schema against the vocabulary, generate tokens and CSS, and write `dist/`. `_palettes.scss` is generated and not kept in the repository.],
-  [`bun run dev`], [Generate, then serve the demo site],
-  [`bun run build`], [Generate, then build the demo site into `demo-dist/`],
-  [`bun run palette-swatches`], [Render every palette and mode in Chrome and write `design/palettes.json`, each colour as the hex it is drawn with in the Palettes chapter, and `design/palettes-exact.json`, each colour as the browser computes it before rounding, from which the chapter prints its oklch value. It uses a browser so that every value is the one the stylesheet renders, resolved by a real CSS engine through its references, relative colours and mixes, rather than recomputed],
-  [`bun run export:tokens`], [After generation, resolve every token in a browser in every palette and mode, and write the Design Tokens Format files to `dist/dtcg/` (#link(<build:dtcg>)[below])],
-  [`bun run build:book`], [Compile this book, in a dark and a light edition. It first runs `generate:tokens` and `palette-swatches`, because the Palettes chapter reads its colours from `dist/tokens.json` and the files `palette-swatches` writes, so a change to `palettes.dhall` reaches the book in one step. Each component chapter is laid out from the component's `schema.dhall` as the book compiles (#link(<schema:chapters>)[component chapters])],
-  [`bun run globe-relief <planet.jpeg>`], [Write `src/components/Globe/relief.webp`, Globe's texture of relief and sea depth, from the Blue Marble image `planet.jpeg` in the npm package `@freetiler/nasa-bluemarble`, which is too large to be a dependency. Run only to change the texture; the file is committed],
-  [`bun run build:dhall-plugin`], [Build the Typst plugin that evaluates Dhall, `design/dhall.wasm`, from `design/dhall-plugin/`. It needs Rust with the `wasm32-unknown-unknown` target, and is run only when the plugin changes],
+  ..scripts.keys().map(k => (raw("bun run " + k + if k == "globe-relief" { " <planet.jpeg>" } else { "" }), does.at(k))).flatten(),
 )
 
 There is no separate verification step and there are no tests: the
@@ -37,13 +49,17 @@ of Vite's dependency pre-bundling, and LayerChart and its
 (`resolve.noExternal`), because they ship Svelte source that Node
 cannot load on its own.
 
-`tokens.json` has two members. `tokens` is a list of every token as
-recorded during generation: `name`, `level`, `group`, `value` and
+`tokens.json` has four members. `vocabulary` is the shared vocabulary and
+`colors` the color configuration, each as the generator read it, so the
+demo and this book need not evaluate Dhall to know them. `tokens` is a list
+of every token as recorded during generation: `name`, `level`, `group`, `value` and
 `refs`. `components` maps each component's title to its `name`,
-`description`, `element`, `variants`, `roles` (each variant's colour
+`description`, `element`, `variants`, `roles` (each variant's color
 role), `states`, `arguments`, `required`, and `channels`: for each declared state, the names of the L4 tokens it
-produces. The demo site reads this file to draw the token graph and to
-force states on its samples.
+produces, and every other field of its schema. The demo site reads this
+file to list its components, draw the token graph and force states on its
+samples; this book reads it to list the components and to quote token
+values.
 
 `dist/` is rebuilt on every run and is not committed.
 
@@ -68,7 +84,7 @@ name without the leading dashes, so `--button-secondary-background`
 becomes `button.button-secondary-background`, and its description names
 its level, such as `L3`.
 
-The format has types for colours, dimensions, durations, cubic Béziers,
+The format has types for colors, dimensions, durations, cubic Béziers,
 numbers, font families and weights, and shadows, but it has no
 calculations: a value is a literal or a reference. Each token is
 therefore exported in one of three ways:
@@ -77,7 +93,7 @@ therefore exported in one of three ways:
   alias, `{group.x}`, so the hierarchy is kept.
 + Any other token is exported resolved, as the browser computes it in
   that palette and mode, with its CSS kept under
-  `$extensions["org.wacss"].css`. Colours are written in oklch.
+  `$extensions["org.wacss"].css`. Colors are written in oklch.
   Dimensions are resolved to pixels at a root font size of 16 px, since
   the format allows only `px` and `rem`.
 + A token the format has no type for, such as a percentage, a transform,
@@ -92,7 +108,7 @@ from it and never edited.
 #table(
   columns: 2,
   [Addition], [Purpose],
-  [Contrast check], [Fail the build if any text colour on any fill, in any mode of any palette, falls below WCAG 2.2 AA. Today this is checked by hand from `design/palettes.json`.],
+  [Contrast check], [Fail the build if any text color on any fill, in any mode of any palette, falls below WCAG 2.2 AA. Today this is checked by hand from `design/palettes.json`.],
   [`dist/wacss.min.css`], [A minified stylesheet in which L3 and L4 names are shortened. L1 and L2 names stay readable, so products can still customise them at runtime.],
   [Package exports], [Publish the stylesheet, tokens, schemas and components so wacss can be installed and restyled from another project.],
 )

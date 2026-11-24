@@ -1,29 +1,29 @@
-// Resolves the colours of every palette in both modes, as the browser
+// Resolves the colors of every palette in both modes, as the browser
 // renders them, and writes two files for the book's Palettes chapter:
-// design/palettes.json, each colour as the opaque hex it is drawn with, and
-// design/palettes-exact.json, each colour as the browser computes it before any
-// rounding to 8 bits, from which the chapter prints the colour's oklch value.
+// design/palettes.json, each color as the opaque hex it is drawn with, and
+// design/palettes-exact.json, each color as the browser computes it before any
+// rounding to 8 bits, from which the chapter prints the color's oklch value.
 // Needs dist/wacss.css (bun run generate:tokens) and a local Chrome or Chromium
 // (set CHROME to its path if it is not found).
 import { readFile, writeFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
 
 const ROOT = new URL("..", import.meta.url).pathname;
-// The palettes and the colour names, from palettes.dhall by way of tokens.json, and the templates
+// The palettes and the color names, from palettes.dhall by way of tokens.json, and the templates
 // by which a component makes its text and border from its background, from vocabulary.dhall.
 const DATA = JSON.parse(await readFile(`${ROOT}dist/tokens.json`, "utf8"));
-const PALETTES: string[] = DATA.colours.palettes.map((p: { name: string }) => p.name);
-const COLOURS: string[] = [...DATA.colours.decor, ...DATA.colours.intent.colours].map((c: { name: string }) => c.name);
+const PALETTES: string[] = DATA.colors.palettes.map((p: { name: string }) => p.name);
+const COLORS: string[] = [...DATA.colors.decor, ...DATA.colors.intent.colors].map((c: { name: string }) => c.name);
 const MODES = ["light", "dark"];
-// Each colour, and the text and border a component with that background makes, keyed
-// text-<colour> and border-<colour>.
-const DERIVED = (property: string, colour: string) =>
-  DATA.vocabulary.derived[property].replace("{background}", `var(--color-${colour})`);
+// Each color, and the text and border a component with that background makes, keyed
+// text-<color> and border-<color>.
+const DERIVED = (property: string, color: string) =>
+  DATA.vocabulary.derived[property].replace("{background}", `var(--color-${color})`);
 const VALUES: Record<string, string> = Object.fromEntries(
-  COLOURS.flatMap((c) => [[`color-${c}`, `var(--color-${c})`], [`text-${c}`, DERIVED("color", c)], [`border-${c}`, DERIVED("border-color", c)]]));
+  COLORS.flatMap((c) => [[`color-${c}`, `var(--color-${c})`], [`text-${c}`, DERIVED("color", c)], [`border-${c}`, DERIVED("border-color", c)]]));
 
 const main = async () => {
-  // Purpose: render each palette and mode in Chrome and record its colours as opaque hex
+  // Purpose: render each palette and mode in Chrome and record its colors as opaque hex
   const css = await readFile(`${ROOT}dist/wacss.css`, "utf8");
   const browser = await chromium.launch({ executablePath: process.env.CHROME ?? "/usr/bin/google-chrome" });
   const page = await browser.newPage();
@@ -35,7 +35,7 @@ const main = async () => {
     exact[palette] = {};
     for (const mode of MODES) {
       const [drawn, computed] = await page.evaluate(({ palette, mode, values }) => {
-        // Purpose: resolve every token to an opaque colour, composited over the page base
+        // Purpose: resolve every token to an opaque color, composited over the page base
         document.documentElement.dataset.palette = palette;
         document.documentElement.dataset.mode = mode;
         const canvas = document.createElement("canvas");
@@ -44,7 +44,7 @@ const main = async () => {
         const probe = document.createElement("div");
         document.body.append(probe);
         const resolve = (token: string) => {
-          // Purpose: the computed colour of one value, as the browser serialises it
+          // Purpose: the computed color of one value, as the browser serialises it
           probe.style.backgroundColor = values[token]!;
           return getComputedStyle(probe).backgroundColor;
         };

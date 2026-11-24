@@ -8,7 +8,7 @@ import NavBar from "../components/NavBar/NavBar.astro";
 import Page from "../components/Page/Page.astro";
 
 const { title, path } = Astro.props as { title: string; path: string };
-const palettes = data.colours.palettes.map((p: { name: string }) => p.name);
+const palettes = data.colors.palettes.map((p: { name: string }) => p.name);
 const channels = Object.fromEntries(Object.entries(data.components).map(([k, v]: [string, any]) => [k, { name: v.name, element: v.element, variants: v.variants, channels: v.channels }]));
 ---
 <!doctype html>

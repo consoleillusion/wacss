@@ -25,15 +25,15 @@ helpers for writing the `arguments` field.
   [`title`], [yes], [The folder name. Its kebab-case form, the component's #emph[name], prefixes every token and is the class of a class component.],
   [`type`], [yes], [Always `"object"`; the schema doubles as a JSON Schema.],
   [`description`], [yes], [One sentence, shown on the demo site and in documentation.],
-  [`categories`], [yes], [The kinds of component it is, from the categories in `src/components/vocabulary.dhall`. The demo filters its component grid by them.],
+  [`categories`], [yes], [What the component is for, from the categories defined in `src/components/vocabulary.dhall` (#link(<using:categories>)[categories]). The demo filters its component grid by them.],
   [`element`], [no], [A list of element selectors. If present, the component is an element component selected by them; if absent, it is a class component selected by `.<name>`. A component that renders a native element that expresses it selects that element; a class is used only when none does (#link(<philosophy:selector>)[selection]).],
-  [`variants`], [yes], [A record mapping each variant (#link(<variants>)[variants]), including `secondary`, to its colour role (#link(<variants:recipes>)[recipes]). Variants are ordered as in the vocabulary.],
+  [`variants`], [yes], [A record mapping each variant (#link(<variants>)[variants]), including `secondary`, to its color role (#link(<variants:recipes>)[recipes]). Variants are ordered as in the vocabulary.],
   [`states`], [yes], [State names (#link(<states>)[states]), including `static`.],
   [`themeableProperties`], [yes], [The CSS properties whose values come from tokens.],
   [`structuralProperties`], [no], [Literal declarations, keyed by state. `static` holds what always applies; another state holds what applies only in that state.],
   [`pseudoElements`], [no], [A record keyed by pseudo-element (`` `::after` ``), each with its own `themeableProperties` and `structuralProperties`, and optionally `on`: a selector the element must match for the pseudo-element to be drawn.],
-  [`parts`], [no], [A record keyed by part name (`cell`), each a set of descendant elements the component styles: `selector`, the elements within the component (`` "th, td" ``); its own `themeableProperties` and `structuralProperties`; and optionally `role`, a colour role its colours come from whatever the variant, as a slider's thumbs are in the accent while its track is on the surface (#link(<generation:targets>)[targets]).],
-  [`values`], [no], [For the default variant, the value of a non-colour themable property's component token, keyed as the token is (`font-size`, `value-font-size`), written in L1 and L2 tokens: which semantic token the component token refers to, such as `var(--font-size-heading)` for a Stat's number. Without it, the component token refers to the property's L2 default, `--<property>`.],
+  [`parts`], [no], [A record keyed by part name (`cell`), each a set of descendant elements the component styles: `selector`, the elements within the component (`` "th, td" ``); its own `themeableProperties` and `structuralProperties`; and optionally `role`, a color role its colors come from whatever the variant, as a slider's thumbs are in the accent while its track is on the surface (#link(<generation:targets>)[targets]).],
+  [`values`], [no], [For the default variant, the value of a non-color themable property's component token, keyed as the token is (`font-size`, `value-font-size`), written in L1 and L2 tokens: which semantic token the component token refers to, such as `var(--font-size-heading)` for a Stat's number. Without it, the component token refers to the property's L2 default, `--<property>`.],
   [`arguments`], [yes], [A JSON Schema for each argument the component accepts.],
   [`required`], [no], [The arguments that must be given.],
   [`details`], [no], [Paragraphs of plain text that follow the description in the component's chapter: how it is built and how it behaves.],
@@ -64,14 +64,16 @@ evaluates the component's `schema.dhall`, through a plugin built from the
 Rust Dhall implementation (`design/dhall.wasm`), and
 `design/components/component.typ` lays the result out. The chapter's
 description and details, its arguments with their types, defaults and
-descriptions, its variants and their colour roles, its states and their
+descriptions, its variants and their color roles, its states and their
 effects, its themable properties and its examples all come from the
 schema, so the book and the component's API cannot diverge. To change a
 chapter, change the schema.
 
 A plugin cannot read files, so the book passes it each schema with the
 text of the prelude it imports. Typst cannot list a folder either, so
-`design/book.typ` names the components, in the order of their chapters.
+the book takes the components from `dist/tokens.json`, where the generator
+lists every folder in `src/components` that has a schema; their chapters
+are in name order. The demo site lists them the same way.
 The book stops with a message when a state has no entry in
 `stateEffects`, when `usage` is empty, or when a schema's title differs from the name it is
 listed under.
@@ -81,14 +83,14 @@ listed under.
 `src/components/vocabulary.dhall` holds what every schema draws on: the
 variants, in order, with the default variant, `secondary`, first; the
 `derived` templates by which a component makes its text, underline and
-border from its background; every colour role a variant can have, with a
-sentence saying how a variant in that role looks, the value each colour
+border from its background; every color role a variant can have, with a
+sentence saying how a variant in that role looks, the value each color
 property takes in it (such as `background = "var(--color-accent)"`), the
-colour a transparent role reads against (`text-on`), and any value it gives
-for a state; and the categories. A colour property a role does not give is
-made by its `derived` template (#link(<foundations:colour>)[the colour hierarchy]). The generator, this book and the
+color a transparent role reads against (`text-on`), and any value it gives
+for a state; and the categories, each with what makes a component one. A color property a role does not give is
+made by its `derived` template (#link(<foundations:color>)[the color hierarchy]). The generator, this book and the
 demo site all read it, so none keeps a list of its own. The build stops
-with a message when a schema names a variant, a colour role or a
+with a message when a schema names a variant, a color role or a
 category that is not in it.
 
 == An example
@@ -136,7 +138,7 @@ item's `content` are children of this kind.
 Everything else inside a component is plain HTML: headings, paragraphs,
 the bits-ui elements it wraps. These are styled by the element
 components that select them, for example Button's rules for an
-accordion's trigger, and by inheritance from their container: colour,
+accordion's trigger, and by inheritance from their container: color,
 font and `em` lengths. They are arranged with layout helpers
 (#link(<helpers:layout>)[layout helpers]). A component has no rules for
 its descendants, and nothing inside a component is a component of its
@@ -149,15 +151,15 @@ otherwise be broken:
 
 + The title differs from the folder name. Components are found by
   title, so the component could not be loaded.
-+ `variants` lacks `secondary`. Every other variant takes its non-colour
++ `variants` lacks `secondary`. Every other variant takes its non-color
   values from the secondary variant's tokens.
 + A variant is not in the vocabulary. Variants are written in vocabulary
   order, so it would have no place.
-+ A variant's role gives no value for one of its colour properties
-  (#link(<foundations:colour>)[the colour hierarchy]), or another
++ A variant's role gives no value for one of its color properties
+  (#link(<foundations:color>)[the color hierarchy]), or another
   themable property has no L2 default, `--<property>`. Its tokens would refer to a value that does not exist.
 + A state is not in the vocabulary. It has no selector, so no rule could
   be written for it.
-+ A variant's colour role, or a category, is not in the shared vocabulary
++ A variant's color role, or a category, is not in the shared vocabulary
   (#link(<schema:vocabulary>)[the shared vocabulary]). The role would have
-  no colours to give and the category no place in the demo's filter.
+  no colors to give and the category no place in the demo's filter.

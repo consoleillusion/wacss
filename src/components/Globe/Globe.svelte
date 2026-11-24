@@ -21,7 +21,7 @@
 </script>
 
 <script lang="ts">
-  // Globe: the world in an orthographic projection, drawn as SVG. Its colours come from the
+  // Globe: the world in an orthographic projection, drawn as SVG. Its colors come from the
   // svg element's color (sea) and fill (land), which the shapes inherit; its
   // states are CSS. JavaScript turns it, on its own under the pointer, by dragging, and with the
   // arrow keys when focused, and lays the texture of relief and sea depth over it (relief.webp).
@@ -121,7 +121,7 @@
     typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Its timing is CSS, read from its computed style: one full turn takes its animation-duration,
-  // and the turn speeds up and slows down as its colours change, over its transition duration
+  // and the turn speeds up and slows down as its colors change, over its transition duration
   // and along its transition timing function.
   let hovering = false;
   let spin = 0;

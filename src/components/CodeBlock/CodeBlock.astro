@@ -1,6 +1,6 @@
 ---
 // CodeBlock: code highlighted on the server by Shiki, with a button that copies it. Shiki's
-// css-variables theme colours each token with an L2 syntax token (--syntax-*), set from the
+// css-variables theme colors each token with an L2 syntax token (--syntax-*), set from the
 // palette in semantic.scss. The copy button is a tertiary Button; its script is below.
 import { codeToHtml, createCssVariablesTheme } from "shiki";
 import Button from "../Button/Button.svelte";
@@ -8,7 +8,7 @@ import Button from "../Button/Button.svelte";
 const theme = createCssVariablesTheme({ name: "wacss", variablePrefix: "--syntax-", fontStyle: true });
 const { code, lang = "astro", label, copy = true, class: className = "", ...rest } = Astro.props as Record<string, any>;
 const highlighted = await codeToHtml(String(code), { lang, theme });
-// Shiki's own <pre> carries inline colours and a tabindex; keep its code and use a plain <pre>.
+// Shiki's own <pre> carries inline colors and a tabindex; keep its code and use a plain <pre>.
 const inner = highlighted.replace(/^<pre[^>]*>/, "").replace(/<\/pre>\s*$/, "");
 const classes = ["code-block", className].filter(Boolean).join(" ");
 ---

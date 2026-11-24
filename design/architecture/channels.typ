@@ -1,3 +1,5 @@
+#import "../data.typ": vocabulary, tokens, token, resolved
+
 = Channels
 <channels>
 A channel is the set of CSS properties a state changes. Channels are
@@ -15,31 +17,36 @@ they appear in component token names (`background`, `after-transform`;
   columns: 2,
   [Token], [Meaning],
   [`--<state>-<key>`], [The value the state applies],
-  [`--<state>-<key>-toward`], [For a colour property: the colour to mix toward],
-  [`--<state>-<key>-amount`], [For a colour property: how much of that colour to mix in],
+  [`--<state>-<key>-toward`], [For a color property: the color to mix toward],
+  [`--<state>-<key>-amount`], [For a color property: how much of that color to mix in],
 )
 
 A state's channel is every key named by a token in `channel.scss` that
 begins with `--<state>-`, after removing any `-toward` or `-amount`
 suffix. The default map is:
 
+#let channel-tokens = tokens.filter(t => t.group == "channel")
+#let keys-of(state) = channel-tokens.map(t => t.name).filter(n => n.starts-with("--" + state + "-")).map(n => n.slice(state.len() + 3).replace(regex("-(toward|amount)$"), "")).dedup()
+#let effect(state, key) = {
+  let n = "--" + state + "-" + key
+  let toward = channel-tokens.find(t => t.name == n + "-toward")
+  if toward != none [#raw(key): toward #raw(toward.value), by #raw(token(n + "-amount"))]
+  else [#raw(key): #raw(token(n))]
+}
 #table(
   columns: 2,
-  [State], [Channel],
-  [`hover`], [`background`, `text-decoration-color` (toward the accent), `box-shadow` (the hover ring), and `animation-play-state` (running what is paused)],
-  [`focus`], [`outline-color`],
-  [`active`], [`transform`],
-  [`open`], [`after-transform`],
-  [`current`], [`font-weight`],
-  [`pressed`], [`background`, `border-color` and `color`, all the way to the accent and, for text, the base colour],
-  [`disabled`], [`opacity`],
-  [`loading`], [`filter`],
+  [State], [Channel, as `channel.scss` sets it],
+  ..vocabulary.states.filter(st => st.name != "static").map(st => (
+    raw(st.name),
+    { let ks = keys-of(st.name); if ks.len() == 0 [none] else { ks.map(k => effect(st.name, k)).join(linebreak()) } },
+  )).flatten(),
 )
 
 A component receives a state's effect only on the keys of its own themable
 properties that are in the channel. A button declares `background` but not
-`box-shadow`, so hovering a button changes its fill; a card declares both,
-so hovering a card changes its fill and lifts it. Opening turns a button's
+`text-decoration-color`, so hovering a button changes its fill; a link
+declares `text-decoration-color` but not `background`, so hovering a link
+changes its underline. Opening turns a button's
 `::after` chevron, but not the button itself, because the channel names
 `after-transform` rather than `transform`.
 
@@ -62,13 +69,13 @@ The second and third rules build on the L3 value rather than replacing
 it, which is why `transform`, `filter` and `opacity` default to values
 that change nothing.
 
-== A role's own colour for a state
+== A role's own color for a state
 <channels:role-states>
-A channel changes a property the same way on every component. A colour
-role can instead give its own value of a colour property for a state, in
+A channel changes a property the same way on every component. A color
+role can instead give its own value of a color property for a state, in
 its definition in `vocabulary.dhall`, such as the map role's
 `hover = { fill = "var(--color-land-hover)", … }`. When the role of a
-variant gives one, that colour property changes in that state on that
+variant gives one, that color property changes in that state on that
 variant, whether or not the state's channel names it, and its L4 token is
 the role's value as it is. This takes
 precedence over the recipes above. Only components whose variants have
@@ -83,7 +90,7 @@ of L1 and L2 tokens, such as `var(--color-accent)`, and becomes the
 property's L4 token in that state, on every variant. The word `unchanged`
 instead keeps the property at its static value in that state, even where
 the state's channel would change it. These come before a role's own
-colour and before the channels. No component uses them at present. A value used by more than one
+color and before the channels. No component uses them at present. A value used by more than one
 component does not belong here but in L2, where every component shares
 it.
 
@@ -92,10 +99,10 @@ it.
 Every component that can be interacted with lists `box-shadow`, and the
 hover channel draws a ring with it. A component that is not itself
 interacted with, such as a Card, has no hover state at all: only the
-components inside it respond. A Globe draws no ring either; its colouring
+components inside it respond. A Globe draws no ring either; its coloring
 and turning are its hover effect. At rest, `--box-shadow` is two
 transparent shadows at the element's edge; on hover they become a gap of
-`--ring-gap` (0.125rem) in the page's colour and, outside it, a ring of
+`--ring-gap` (#resolved("--ring-gap")) in the page's color and, outside it, a ring of
 `--ring` as wide as the focus outline. The transition moves the ring out
 from the edge to its place as it fades in from nothing. It is a shadow, not
 an outline, so the outline stays free for the focus ring; and a shadow

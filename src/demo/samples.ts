@@ -53,7 +53,8 @@ export const samples: Record<string, Record<string, unknown>> =
   { key: "browser", value: "users"
   , data: [ { browser: "Firefox", users: 30 }, { browser: "Chrome", users: 45 }, { browser: "Safari", users: 18 }, { browser: "Other", users: 7 } ]
   }
-, Badge: { label: "Input", value: "input", pressed: false }
+, Badge: { label: "4/5" }
+, Chip: { label: "Input", value: "input", pressed: false }
 , NavBar: { title: "Site", href: "#", current: "#about", links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ] }
 , Table:
   { columns: [ { key: "domain", label: "Domain" }, { key: "score", label: "Score" } ]
@@ -65,7 +66,7 @@ export const samples: Record<string, Record<string, unknown>> =
 , TextInput: { label: "Name", placeholder: "Your name" }
 , NumberInput: { label: "Quantity", value: 3, min: 1, max: 9 }
 , DateInput: { label: "Date", type: "date" }
-, ColorInput: { label: "Colour", value: "#c23a22" }
+, ColorInput: { label: "Color", value: "#c23a22" }
 , Checkbox: { label: "Send me updates", checked: true }
 , TextArea: { label: "Message", rows: 3 }
 , Form:

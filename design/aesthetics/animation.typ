@@ -1,9 +1,11 @@
+#import "../data.typ": measure
+
 = Animation
 <animation>
 In wacss, movement is always a reply. Nothing animates until a person
 does something, and the same action always produces the same movement.
 The mechanism behind every state is described in
-#link(<channels>)[channels] and the colour changes in
+#link(<channels>)[channels] and the color changes in
 #link(<palettes:states>)[palettes]; this chapter covers motion itself.
 
 == What moves
@@ -11,26 +13,32 @@ The mechanism behind every state is described in
 #table(
   columns: 2,
   [When a person…], […this moves],
-  [presses a control], [it sinks to 98% of its size and returns on release],
-  [rests the pointer on a card], [the card rises on a soft shadow],
+  [presses a control], [it sinks slightly, to `--scale-active` of its size, and returns on release],
+  [rests the pointer on a control], [a ring moves out from its edge as it fades in],
+  [drags an item of a sortable list], [the item follows the pointer and the others glide aside; let go, it settles into place],
   [opens or closes an accordion section], [its body slides open or closed as its chevron turns half a turn],
 )
 
-Every other state response is a change of colour, opacity or saturation,
+Every other state response is a change of color, opacity or saturation,
 and it eases in over the same duration, so a hover deepens rather than
-switches. Colour, opacity, shadow and transform are animated, and the
+switches. Color, opacity, shadow and transform are animated, and the
 height of a section as it opens or closes; nothing else in the layout
 moves.
 
 == Timing
 <animation:timing>
-Three durations are derived from one base of 250 ms and a ratio of 1.5.
-`--duration-interaction`, 250 ms, is used for every direct response to
+#let (base, unit) = measure("--duration-base")
+#let (ratio, _) = measure("--duration-ratio")
+#let (turns, _) = measure("--turn-ratio")
+#let ms(x) = str(calc.round(x)) + " " + unit
+Four durations are derived from one base of #ms(base) (`--duration-base`)
+and a ratio of #str(ratio) (`--duration-ratio`).
+`--duration-interaction`, #ms(base), is used for every direct response to
 input: quick enough to feel immediate, long enough to be seen.
-`--duration-surface`, about 375 ms, is for surfaces that appear or move.
-`--duration-reveal`, about 840 ms, is for disclosures large enough that
-the eye should follow them. `--duration-turn`, a hundred base durations
-(25 s, from the L1 `--turn-ratio`), is one full turn of something that
+`--duration-surface`, #ms(base * ratio), is for surfaces that appear or move.
+`--duration-reveal`, #ms(base * calc.pow(ratio, 3)), is for disclosures large enough that
+the eye should follow them. `--duration-turn`, #str(calc.round(turns)) base durations
+(#str(calc.round(base * turns / 1000)) s, from the L1 `--turn-ratio`), is one full turn of something that
 turns, such as a Globe; it is the default `--animation-duration`.
 
 Something that turns does so while its `animation-play-state` is
@@ -39,7 +47,7 @@ channel sets it running, so a turn is started and stopped by state, like
 any other change, whether the state comes from the pointer or is applied
 in another way. Every change of speed is a transition like any other: a Globe that starts
 or stops turning speeds up or slows down over the base duration and along
-`--easing`, as its colours change. A component whose motion is drawn by a
+`--easing`, as its colors change. A component whose motion is drawn by a
 script reads these from its own computed style, so its tokens govern it.
 
 == Easing
@@ -47,7 +55,7 @@ script reads these from its own computed style, so its tokens govern it.
 Every transition uses `--easing`, `cubic-bezier(0.2, 0, 0, 1)`: an
 ease-out curve that gathers itself for an instant, moves, and settles
 gently, the way a physical object comes to rest. It spreads the change
-across the whole duration, so a colour or a shadow is seen to move rather
+across the whole duration, so a color or a shadow is seen to move rather
 than to jump. There is no
 bounce, no overshoot and no constant-speed movement. A second curve,
 `--easing-ambient`, eases in and out for the rare movement that is not a

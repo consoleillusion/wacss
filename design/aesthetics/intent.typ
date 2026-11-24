@@ -7,12 +7,12 @@ defaults are for.
 
 == A quiet interface
 <intent:quiet>
-Most interfaces compete for attention with saturated colour, constant
+Most interfaces compete for attention with saturated color, constant
 motion and visual noise, and the people using them pay for it in fatigue.
-wacss is designed to recede. Its pages are close to neutral; colour is
+wacss is designed to recede. Its pages are close to neutral; color is
 reserved for what can be acted on, and most of all for the one action
 that matters most in a view. Because so little else asks to be noticed,
-a small amount of colour is enough to guide the eye.
+a small amount of color is enough to guide the eye.
 
 == The person leads
 <intent:agency>
@@ -26,7 +26,7 @@ trusted.
 == Beauty through restraint
 <intent:restraint>
 Beauty here comes from proportion, tone and timing rather than
-decoration. Colours sit close to one another in value; raised surfaces
+decoration. Colors sit close to one another in value; raised surfaces
 are a single step from the page; corners are square; type uses few sizes
 and weights. Motion is smooth and settles gently. The quality of the
 result depends as much on what is left out as on what is included.
@@ -50,7 +50,7 @@ against:
   columns: 3,
   [Principle], [Meaning], [How it shows in wacss],
   [Wa 和], [Harmony], [One coherent design across every component, palette and mode],
-  [Kanso 簡素], [Simplicity], [Four decor colours and four intent colours per mode, from one hue; few sizes; nothing ornamental],
+  [Kanso 簡素], [Simplicity], [Four decor colors and four intent colors per mode, from one hue; few sizes; nothing ornamental],
   [Ma 間], [Space and interval], [Whitespace and timing give structure and pace],
   [Seijaku 静寂], [Energised calm], [Stillness until something is done],
   [Yūgen 幽玄], [Subtle depth], [Hints rather than highlights],

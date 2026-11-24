@@ -58,7 +58,7 @@ let chartStructure =
       }
 
 let controlStateEffects =
-      { hover = "The background moves toward the interaction colour."
+      { hover = "The background moves toward the interaction color."
       , focus = "An accent ring appears."
       , disabled = "Half opacity; the pointer shows that it is not allowed."
       }

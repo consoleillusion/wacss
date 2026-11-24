@@ -2,7 +2,7 @@
   // The token hierarchy of one component, laid out by inheritance: every token sits below the
   // tokens it references, so each line runs downward from a token to the tokens built on it.
   // Selecting a token highlights the tokens it affects in the accent, the tokens it is affected by
-  // in the pop, and the tokens related to it indirectly in the muted text colour; editing it sets the token on <html> so every
+  // in the pop, and the tokens related to it indirectly in the muted text color; editing it sets the token on <html> so every
   // demo on the page changes live.
   import { SvelteFlow, Background, Controls, type Node, type Edge } from "@xyflow/svelte";
   import "@xyflow/svelte/dist/style.css";

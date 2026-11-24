@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Notice: a message set apart from the page, on the surface or on an intent colour's tint.
+  // Notice: a message set apart from the page, on the surface or on an intent color's tint.
   import type { Snippet } from "svelte";
   let {
     heading,

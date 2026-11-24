@@ -1,17 +1,19 @@
+#import "../data.typ": resolved
+
 = Space, type and form
 <aesthetics:form>
 == Space
 <form:space>
 Whitespace carries structure. Related things sit close together and
-unrelated things further apart, so grouping is clear before colour or
+unrelated things further apart, so grouping is clear before color or
 type have said anything. Every distance comes from one step, a quarter of
 the font size (`--space-step: 0.25`), giving 4, 8, 12 and 16 pixels at a
 16-pixel font size. Only a few multiples are used; when a gap seems to
 need a new value, the arrangement usually needs rethinking instead.
 Padding is set once, in L2, and shared: a control's is `--padding-block`
-by `--padding-inline`, 1ch by 1.5ch, so it follows the width of the
+by `--padding-inline`, #resolved("--padding-block") by #resolved("--padding-inline"), so it follows the width of the
 control's own text; a block of content, such as a card's body or an
-accordion's, has `--padding`, 2rem, through the box layout helper.
+accordion's, has `--padding`, #resolved("--padding"), through the box layout helper.
 Components measure space in `em` and pages in `rem`
 (#link(<tokens:units>)[units]).
 
