@@ -1,3 +1,4 @@
 *.typ linguist-detectable=true
 *.typ linguist-language=Typst
 *.astro linguist-language=Astro
+*.pdf linguist-generated
