@@ -80,6 +80,9 @@
 - [x] Components part: full argument, state and property reference for Accordion, Button and Card
 - [x] LineChart, BarChart and PieChart components, drawn by LayerChart in the palette's chart colours (`--chart-1` to `--chart-6`); a button no component styles is plain
 - [x] Dark base and surface lightness 0.19 and 0.21, dark surface chroma 0.004; accent and pop chroma 0.005 lower; text selection in the pop
+- [x] Palettes are data: `src/styles/palettes.dhall` lists each palette's name, kanji, hue and description; the generator writes the hues (`--hue-<palette>`), L2 chooses the prima `--hue-accent` and derives every colour from it; the pop is the hue turned `--pop-hue-offset`; status colours are shared by every palette; Sakura replaces Shu
+- [x] Colour hierarchy configured in `palettes.dhall`: palettes (name, kanji, hue, description), the four colours (use, turn, lightness and chroma per mode) and the semantic colours (hue, use, one tone per mode); L1 hues, L2 `--hue-accent`, `--color-<colour>-<mode>` and `--color-<colour>`; no `--palette-*` or role tokens; roles' colour values in `vocabulary.dhall`; a component's text the inverse of its background; Sakura at hue 0, danger at 30; the Palettes chapter written from the configuration
+- [x] No text or border tokens above components: text, underline and border are derived by each component from its own background (`derived` in `vocabulary.dhall`); the webpage is a component, Page (`body`, role base); L2 tokens that stand for text use `currentColor`
 
 ## Next
 

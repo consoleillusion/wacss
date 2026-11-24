@@ -23,7 +23,7 @@
 
 // Each component's chapter is laid out by components/component.typ from its schema.dhall.
 // Typst cannot list a folder, so the components are named here, in the order of their chapters.
-#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput")
+#let components = ("Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "Page", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput")
 
 // Each part is a level-1 heading; each file's own headings nest beneath it. An entry
 // "schema:<Title>" is a component chapter, laid out from that component's schema.
@@ -42,21 +42,21 @@
 // derived text colour. Every other shade is mixed from them, as the token
 // hierarchy does.
 #let sage = (
-  light: ("palette-base": "#f7f8f7", "palette-surface": "#ebecea", "palette-accent": "#4a6a5c",
+  light: ("color-base": "#f7f8f7", "color-surface": "#ebecea", "color-accent": "#4a6a5c",
           "color-text": "#1c1d1c", "color-text-muted": "#5a5b5a"),
-  dark: ("palette-base": "#1b1c1c", "palette-surface": "#252626", "palette-accent": "#8fb4a1",
+  dark: ("color-base": "#1b1c1c", "color-surface": "#252626", "color-accent": "#8fb4a1",
          "color-text": "#dcdfdf", "color-text-muted": "#989a9a"),
 )
 #let mix(a, b, amount) = color.mix((rgb(a), amount), (rgb(b), 100% - amount), space: oklab)
 #let derive(t) = (
-  page: rgb(t.at("palette-base")),
-  wash: rgb(t.at("palette-surface")),
+  page: rgb(t.at("color-base")),
+  wash: rgb(t.at("color-surface")),
   ink: rgb(t.at("color-text")),
   muted: rgb(t.at("color-text-muted")),
-  faint: mix(t.at("color-text"), t.at("palette-base"), 45%),
-  rule: mix(t.at("palette-accent"), t.at("palette-base"), 22%),
-  kanji: mix(t.at("palette-accent"), t.at("palette-base"), 10%),
-  accent: rgb(t.at("palette-accent")),
+  faint: mix(t.at("color-text"), t.at("color-base"), 45%),
+  rule: mix(t.at("color-accent"), t.at("color-base"), 22%),
+  kanji: mix(t.at("color-accent"), t.at("color-base"), 10%),
+  accent: rgb(t.at("color-accent")),
 )
 #let modes = (light: derive(sage.light), dark: derive(sage.dark))
 

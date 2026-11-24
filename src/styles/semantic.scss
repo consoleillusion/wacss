@@ -1,23 +1,15 @@
-// Purpose: point the palette slots at one palette's light and dark colours
-@mixin palette($p) {
-  @each $mode in light, dark {
-    @each $role in base, surface, accent, pop, positive, warning, danger, informational {
-      --palette-#{$mode}-#{$role}: var(--#{$p}-#{$mode}-#{$role});
-    }
-  }
-}
+@use "sass:list";
+@use "sass:map";
+@use "palettes" as *;
 
-// Purpose: make one mode of the palette in effect the colours in use
+// The colours that change with the mode: the palette's four and the four semantic colours.
+$mode-colours: list.join(map.keys($colours), map.keys($semantic-hues));
+
+// Purpose: make one mode's colours, and what else depends on the mode, the ones in use
 @mixin mode($mode) {
-  --palette-base: var(--palette-#{$mode}-base);
-  --palette-surface: var(--palette-#{$mode}-surface);
-  --palette-accent: var(--palette-#{$mode}-accent);
-  --palette-pop: var(--palette-#{$mode}-pop);
-  --palette-positive: var(--palette-#{$mode}-positive);
-  --palette-warning: var(--palette-#{$mode}-warning);
-  --palette-danger: var(--palette-#{$mode}-danger);
-  --palette-informational: var(--palette-#{$mode}-informational);
-  --lightness-text: var(--lightness-text-#{$mode});
+  @each $name in $mode-colours {
+    --color-#{$name}: var(--color-#{$name}-#{$mode});
+  }
   --atmosphere-size: var(--atmosphere-size-#{$mode});
   --map-sea-lightness: var(--map-sea-lightness-#{$mode});
   --map-land-lightness: var(--map-land-lightness-#{$mode});
@@ -28,17 +20,27 @@
 :root {
   color-scheme: dark;
 
-  // Colour: the palette.s four colours in the mode in effect, then what is derived from them.
-  // The default palette.s two modes; data-palette replaces these.
-  @include palette(kinari);
+  // Colour, from palettes.dhall. The prima: the hue of the palette in effect, the first palette
+  // by default; data-palette chooses another. Nothing above this level knows which palette it is.
+  --hue-accent: var(--hue-#{list.nth(map.keys($palettes), 1)});
+  // Each mode's colours: the palette's four from the prima, turned by their turn, and the
+  // semantic colours from their own hues, each at its lightness and chroma for the mode.
+  @each $mode in dark, light {
+    @each $name, $c in $colours {
+      $tone: map.get($c, $mode);
+      $hue: "var(--hue-accent)";
+      @if map.get($c, turn) != 0 { $hue: "calc(var(--hue-accent) + #{map.get($c, turn)})"; }
+      --color-#{$name}-#{$mode}: oklch(#{list.nth($tone, 1)} #{list.nth($tone, 2)} #{$hue});
+    }
+    @each $name, $hue in $semantic-hues {
+      $tone: map.get($semantic-tone, $mode);
+      --color-#{$name}-#{$mode}: oklch(#{list.nth($tone, 1)} #{list.nth($tone, 2)} var(--hue-#{$name}));
+    }
+  }
   // The mode in effect: dark by default.
   @include mode(dark);
-  --color-text: oklch(from var(--palette-base) var(--lightness-text) calc(c * 2) h);
-  --color-text-muted: color-mix(in oklch, var(--color-text) 68%, var(--palette-base));
-  --color-border: var(--hairline);
-  --color-ring: var(--palette-accent);
+  --color-ring: var(--color-accent);
   --color-overlay: color-mix(in oklch, var(--color-black) 50%, transparent);
-  --color-on-accent: var(--palette-base);
 
   // Space.
   --space: calc((var(--space-base) + var(--space-step)) * 1em);
@@ -74,110 +76,58 @@
   --easing: var(--ease-out);
   --easing-ambient: var(--ease-in-out);
 
-  // Colour by role. A component's schema gives each of its variants a role;
-  // its colour properties take the role's token, --<property>-<role>.
-  --background-base: var(--palette-base);
-  --background-surface: var(--palette-surface);
-  --background-accent: var(--palette-accent);
-  --background-pop: var(--palette-pop);
-  --background-clear: transparent;
-  --background-positive: var(--palette-positive);
-  --background-warning: var(--palette-warning);
-  --background-danger: var(--palette-danger);
-  --background-informational: var(--palette-informational);
-  // A map. At rest, its sea (color) lies on the scale from the base to the surface, and its
-  // land (fill) is a blue-grey. Under the pointer both take the palette's own tone, halfway
-  // from its accent to its pop, mixed with blue for the sea and with green for the land.
-  --map-tone: color-mix(in oklch, var(--palette-accent), var(--palette-pop));
-  --color-map: color-mix(in oklab, var(--palette-surface) 50%, var(--palette-base));
-  --fill-map: color-mix(in oklab, var(--palette-informational) 32%, var(--palette-surface));
+  // A map. At rest, its sea lies on the scale from the base to the surface, and its land is a
+  // blue-grey. Under the pointer both take the palette's own tone, halfway from its accent to its
+  // pop, mixed with blue for the sea and with green for the land. The map role gives these to a
+  // component's color (the sea) and fill (the land).
+  --map-tone: color-mix(in oklch, var(--color-accent), var(--color-pop));
+  --color-sea: color-mix(in oklab, var(--color-surface) 50%, var(--color-base));
+  --color-land: color-mix(in oklab, var(--color-informational) 32%, var(--color-surface));
   // Their lightness is fixed, so the globe is neither dark in light mode nor glaring in dark.
-  --color-map-hover: oklch(from color-mix(in oklch, var(--map-tone) var(--map-tone-share), var(--map-sea)) var(--map-sea-lightness) var(--map-sea-chroma) h);
-  --fill-map-hover: oklch(from color-mix(in oklch, var(--map-tone) var(--map-tone-share), var(--map-land)) var(--map-land-lightness) var(--map-land-chroma) h);
+  --color-sea-hover: oklch(from color-mix(in oklch, var(--map-tone) var(--map-tone-share), var(--map-sea)) var(--map-sea-lightness) var(--map-sea-chroma) h);
+  --color-land-hover: oklch(from color-mix(in oklch, var(--map-tone) var(--map-tone-share), var(--map-land)) var(--map-land-lightness) var(--map-land-chroma) h);
   // A globe's atmosphere: a soft glow in the hue of its lit sea around it while it is alive.
-  --atmosphere: oklch(from var(--color-map-hover) var(--atmosphere-lightness) var(--atmosphere-chroma) h);
+  --atmosphere: oklch(from var(--color-sea-hover) var(--atmosphere-lightness) var(--atmosphere-chroma) h);
   // Syntax highlighting (CodeBlock): Shiki's css-variables theme colours each token with one of
-  // these. They take the palette's colours, readable on its surface.
-  --syntax-foreground: var(--color-text);
+  // these. Text is never set here: it is the text of the component they are in, currentColor,
+  // and the palette's colours mixed into it.
+  --syntax-foreground: currentColor;
   --syntax-background: transparent;
-  --syntax-token-keyword: var(--palette-accent);
+  --syntax-token-keyword: var(--color-accent);
   --syntax-token-string: var(--color-positive-tint);
   --syntax-token-string-expression: var(--color-positive-tint);
   --syntax-token-constant: var(--color-informational-tint);
   --syntax-token-function: var(--color-warning-tint);
-  --syntax-token-parameter: var(--color-text);
-  --syntax-token-punctuation: var(--color-text-muted);
-  --syntax-token-comment: var(--color-text-muted);
-  --syntax-token-link: var(--palette-accent);
+  --syntax-token-parameter: currentColor;
+  --syntax-token-punctuation: color-mix(in oklch, currentColor 68%, transparent);
+  --syntax-token-comment: color-mix(in oklch, currentColor 68%, transparent);
+  --syntax-token-link: var(--color-accent);
   --syntax-token-inserted: var(--color-positive-tint);
   --syntax-token-deleted: var(--color-danger-tint);
   --syntax-token-changed: var(--color-warning-tint);
   // Charts (LineChart, BarChart, PieChart): the colour of each series, in order. They start at
   // the accent and go round the palette's own colours, so neighbouring series stay distinct.
-  --chart-1: var(--palette-accent);
-  --chart-2: var(--palette-informational);
-  --chart-3: var(--palette-positive);
-  --chart-4: var(--palette-warning);
-  --chart-5: var(--palette-danger);
-  --chart-6: var(--palette-pop);
+  --chart-1: var(--color-accent);
+  --chart-2: var(--color-informational);
+  --chart-3: var(--color-positive);
+  --chart-4: var(--color-warning);
+  --chart-5: var(--color-danger);
+  --chart-6: var(--color-pop);
   // LayerChart, which draws the charts, reads its colours from these variables: its default
-  // mark, its text, and the surfaces and rules of its axes, grid and tooltips.
+  // mark, its text (the chart's own, currentColor), the surfaces of its tooltips and plot, and
+  // its rules, the text faded.
   --color-primary: var(--chart-1);
-  --color-surface-content: var(--color-text);
-  --color-surface-100: var(--palette-surface);
-  --color-surface-200: var(--palette-base);
-  --color-surface-300: var(--color-border);
-  // Text on each role: the text colour on the page's colours, the base on filled ones.
-  --color-base: var(--color-text);
-  --color-surface: var(--color-text);
-  --color-accent: var(--color-on-accent);
-  --color-pop: var(--color-on-accent);
-  --color-clear: var(--color-text);
-  --color-positive: var(--color-on-accent);
-  --color-warning: var(--color-on-accent);
-  --color-danger: var(--color-on-accent);
-  --color-informational: var(--color-on-accent);
-  // Edges: a hairline on the page's colours, none when clear, the fill itself when filled.
-  --border-color-base: var(--color-border);
-  --border-color-surface: var(--color-border);
-  --border-color-accent: var(--background-accent);
-  --border-color-pop: var(--background-pop);
-  --border-color-clear: transparent;
-  --border-color-positive: var(--background-positive);
-  --border-color-warning: var(--background-warning);
-  --border-color-danger: var(--background-danger);
-  --border-color-informational: var(--background-informational);
-  // Fills of native controls (a checkbox's tick, a range's track): the role's fill, or the
-  // accent on roles that have none.
-  --accent-color-base: var(--palette-accent);
-  --accent-color-surface: var(--palette-accent);
-  --accent-color-accent: var(--background-accent);
-  --accent-color-pop: var(--background-pop);
-  --accent-color-clear: var(--palette-accent);
-  --accent-color-positive: var(--background-positive);
-  --accent-color-warning: var(--background-warning);
-  --accent-color-danger: var(--background-danger);
-  --accent-color-informational: var(--background-informational);
-  // Underlines: a hairline on the page's colours, the text colour on filled ones.
-  --text-decoration-color-base: var(--color-border);
-  --text-decoration-color-surface: var(--color-border);
-  --text-decoration-color-accent: var(--color-accent);
-  --text-decoration-color-pop: var(--color-pop);
-  --text-decoration-color-clear: var(--color-border);
-  --text-decoration-color-positive: var(--color-positive);
-  --text-decoration-color-warning: var(--color-warning);
-  --text-decoration-color-danger: var(--color-danger);
-  --text-decoration-color-informational: var(--color-informational);
-  // Tinted status: a status colour washed into the base, with text to read on it.
+  --color-surface-content: currentColor;
+  --color-surface-100: var(--color-surface);
+  --color-surface-200: var(--color-base);
+  --color-surface-300: color-mix(in oklch, currentColor 20%, transparent);
+  // Tinted semantic colours: one washed into the base, and one mixed into the text of the
+  // component it is in (currentColor).
   --tint: calc(var(--tint-base) + var(--tint-step));
-  --background-positive-tint: color-mix(in oklab, var(--palette-positive) var(--tint), var(--palette-base));
-  --background-warning-tint: color-mix(in oklab, var(--palette-warning) var(--tint), var(--palette-base));
-  --background-danger-tint: color-mix(in oklab, var(--palette-danger) var(--tint), var(--palette-base));
-  --background-informational-tint: color-mix(in oklab, var(--palette-informational) var(--tint), var(--palette-base));
-  --color-positive-tint: color-mix(in oklab, var(--palette-positive) 45%, var(--color-text));
-  --color-warning-tint: color-mix(in oklab, var(--palette-warning) 45%, var(--color-text));
-  --color-danger-tint: color-mix(in oklab, var(--palette-danger) 45%, var(--color-text));
-  --color-informational-tint: color-mix(in oklab, var(--palette-informational) 45%, var(--color-text));
+  @each $name, $hue in $semantic-hues {
+    --background-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) var(--tint), var(--color-base));
+    --color-#{$name}-tint: color-mix(in oklab, var(--color-#{$name}) 45%, currentColor);
+  }
 
   // Property defaults, for properties that are not colours.
   --text-decoration-thickness: max(1px, 0.06em);
@@ -226,10 +176,10 @@
   --opacity-disabled: calc(var(--opacity-base) - var(--opacity-step) * 2);
   --opacity-loading: calc(var(--opacity-base) - var(--opacity-step));
   --ring: var(--color-ring);
-  // Selected text: the pop, with text in the base.
-  --selection: var(--palette-pop);
-  --selection-ink: var(--color-on-accent);
-  --invalid: var(--palette-danger);
+  // Selected text: the pop, with text its inverse, as a component's text is its background's.
+  --selection: var(--color-pop);
+  --selection-ink: oklch(from var(--selection) calc(1 - l) c h);
+  --invalid: var(--color-danger);
   --mix-invalid: 85%;
 }
 
@@ -246,8 +196,7 @@
 }
 :root[data-mode="light"] { @include light; }
 
-// Palettes: each sets its light and dark mode colours.
-$palettes: kinari, matcha, aizome, shu;
-@each $p in $palettes {
-  :root[data-palette="#{$p}"] { @include palette($p); }
+// Palettes: each chooses the prima, and with it every colour.
+@each $name, $hue in $palettes {
+  :root[data-palette="#{$name}"] { --hue-accent: var(--hue-#{$name}); }
 }

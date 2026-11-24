@@ -45,7 +45,7 @@ export const samples: Record<string, Record<string, unknown>> =
 , NavBar: { title: "Site", href: "#", current: "#about", links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ] }
 , Table:
   { columns: [ { key: "palette", label: "Palette" }, { key: "accent", label: "Accent" } ]
-  , rows: [ { palette: "Kinari", accent: "Undyed thread" }, { palette: "Shu", accent: "Vermilion" } ]
+  , rows: [ { palette: "Kinari", accent: "Undyed thread" }, { palette: "Sakura", accent: "Cherry blossom" } ]
   }
 , TextInput: { label: "Name", placeholder: "Your name" }
 , NumberInput: { label: "Quantity", value: 3, min: 1, max: 9 }

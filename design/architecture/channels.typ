@@ -65,11 +65,12 @@ that change nothing.
 == A role's own colour for a state
 <channels:role-states>
 A channel changes a property the same way on every component. A colour
-role can instead give its own colour for a state: an L2 token
-`--<property>-<role>-<state>`, such as `--fill-map-hover`. When the role
-of a variant has one, that colour property changes in that state on that
+role can instead give its own value of a colour property for a state, in
+its definition in `vocabulary.dhall`, such as the map role's
+`hover = { fill = "var(--color-land-hover)", … }`. When the role of a
+variant gives one, that colour property changes in that state on that
 variant, whether or not the state's channel names it, and its L4 token is
-the role's colour as it is: `var(--<property>-<role>-<state>)`. This takes
+the role's value as it is. This takes
 precedence over the recipes above. Only components whose variants have
 that role are affected.
 
@@ -78,7 +79,7 @@ that role are affected.
 A component can set its own value for a themable property in a state, in
 its schema's `stateValues`: a record keyed by state, then by property (or
 `<pseudo>-<property>` for a pseudo-element). The value is written in terms
-of L1 and L2 tokens, such as `var(--palette-accent)`, and becomes the
+of L1 and L2 tokens, such as `var(--color-accent)`, and becomes the
 property's L4 token in that state, on every variant. The word `unchanged`
 instead keeps the property at its static value in that state, even where
 the state's channel would change it. These come before a role's own

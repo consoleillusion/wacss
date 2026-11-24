@@ -87,7 +87,7 @@
   [#heading(depth: 2, "Variants and states")#label(name + ":states")]
   let variants = vocabulary.variants.filter(v => v in s.variants)
   table(columns: 3, [Variant], [Colour role], [Look],
-    ..variants.map(v => (raw(v), raw(s.variants.at(v)), [#vocabulary.roles.at(s.variants.at(v))])).flatten())
+    ..variants.map(v => (raw(v), raw(s.variants.at(v)), [#vocabulary.roles.at(s.variants.at(v)).look])).flatten())
   let states = s.states.filter(x => x != "static")
   let effects = s.at("stateEffects", default: (:))
   if states.len() > 0 {

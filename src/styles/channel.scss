@@ -15,11 +15,11 @@
   --hover-background-toward: var(--interaction);
   --hover-background-amount: var(--mix-hover);
   --hover-box-shadow:
-    0 0 0 var(--ring-gap) var(--palette-base),
+    0 0 0 var(--ring-gap) var(--color-base),
     0 0 0 calc(var(--ring-gap) + var(--outline-width)) var(--ring);
 
   // hover: draw the underline in the accent.
-  --hover-text-decoration-color-toward: var(--palette-accent);
+  --hover-text-decoration-color-toward: var(--color-accent);
   --hover-text-decoration-color-amount: 100%;
 
   // hover: set running what was paused, such as a Globe's turn.
@@ -35,11 +35,11 @@
   --current-font-weight: var(--font-weight-heading);
 
   // pressed: a selected toggle takes the accent.
-  --pressed-background-toward: var(--palette-accent);
+  --pressed-background-toward: var(--color-accent);
   --pressed-background-amount: 100%;
-  --pressed-border-color-toward: var(--palette-accent);
+  --pressed-border-color-toward: var(--color-accent);
   --pressed-border-color-amount: 100%;
-  --pressed-color-toward: var(--color-on-accent);
+  --pressed-color-toward: oklch(from var(--pressed-background-toward) calc(1 - l) c h);
   --pressed-color-amount: 100%;
 
   // disabled: fade.

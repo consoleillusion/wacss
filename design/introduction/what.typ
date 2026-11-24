@@ -77,7 +77,7 @@ what an agent's work costs.
 
 == Direction
 <what:direction>
-The library begins with its first components — Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Form, Globe, LineChart, Link, NavBar, NumberInput, PieChart, Select, StreetMap, Table, TableCell, TextArea and TextInput — and will grow until it covers a complete application
+The library begins with its first components — Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Form, Globe, LineChart, Link, NavBar, NumberInput, Page, PieChart, Select, StreetMap, Table, TableCell, TextArea and TextInput — and will grow until it covers a complete application
 interface. The
 checks and outputs planned for the build are listed in
 #link(<build:planned>)[build].

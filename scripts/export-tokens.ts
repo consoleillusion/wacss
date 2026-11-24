@@ -18,9 +18,10 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 const ROOT = new URL("../", import.meta.url).pathname;
 const DIST = `${ROOT}dist/`;
 const OUT = `${DIST}dtcg/`;
-const PALETTES = ["kinari", "matcha", "aizome", "shu"];
+// The palettes, from palettes.dhall by way of tokens.json; the first is the default.
+const PALETTES: string[] = JSON.parse(await readFile(`${DIST}tokens.json`, "utf8")).colours.palettes.map((p: { name: string }) => p.name);
 const MODES = ["dark", "light"];
-const DEFAULT = "kinari-dark";
+const DEFAULT = `${PALETTES[0]}-dark`;
 
 type Token = { name: string; level: number; group: string; value: string; refs: string[] };
 type Resolved = { type: string; value: unknown } | undefined;

@@ -11,7 +11,7 @@
 .card > figure > form { zoom: 0.55; inline-size: 80%; }
 .demo-sample { display: grid; gap: calc(var(--space-page) * 2); justify-items: start; inline-size: 15rem; }
 .demo-sample:has(select) { inline-size: auto; }
-.demo-sample > small { color: var(--color-text-muted); }
+.demo-sample > small { color: color-mix(in oklch, currentColor 68%, transparent); }
 .demo-bare { inline-size: auto; }
 .demo-bare:has(.card) { inline-size: 18rem; }
 .demo-bare:has([data-globe]) { inline-size: 14rem; }
@@ -33,53 +33,53 @@
 // A card shown in a card's figure is drawn at a smaller scale so the whole of it fits.
 .demo-sample > .card > figure > .card { zoom: 0.42; inline-size: 40%; }
 
-.demo-graph { position: relative; block-size: 75vh; border: var(--border-width) solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; }
+.demo-graph { position: relative; block-size: 75vh; border: var(--border-width) solid color-mix(in oklch, currentColor 20%, transparent); border-radius: var(--border-radius); overflow: hidden; }
 .demo-editor {
   position: absolute; inset-block-start: 1rem; inset-inline-end: 1rem; z-index: 10;
   inline-size: min(28rem, 90%); padding: 1rem; gap: 0.5rem;
-  background: var(--palette-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--border-radius);
+  background: var(--color-surface); border: var(--border-width) solid color-mix(in oklch, currentColor 20%, transparent); border-radius: var(--border-radius);
   box-shadow: var(--shadow-overlay);
 }
 .demo-editor textarea { font-family: var(--font-family-code); inline-size: 100%; }
-.demo-editor small { overflow-wrap: anywhere; color: var(--color-text-muted); }
+.demo-editor small { overflow-wrap: anywhere; color: color-mix(in oklch, currentColor 68%, transparent); }
 
 .demo-token {
   inline-size: 340px; padding: 0.4rem 0.6rem; display: grid; gap: 0.1rem; font-size: 0.75rem;
-  background: var(--palette-surface); color: var(--color-text);
-  border: var(--border-width) solid var(--color-border); border-radius: var(--border-radius);
+  background: var(--color-surface); color: currentColor;
+  border: var(--border-width) solid color-mix(in oklch, currentColor 20%, transparent); border-radius: var(--border-radius);
 }
 .demo-token code { font-family: var(--font-family-code); font-weight: var(--font-weight-ui); }
-.demo-token span { color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-family-code); }
-.demo-token.edited { border-color: var(--palette-accent); }
-.demo-token.picked { outline: 2px solid var(--color-text); }
-.demo-token.affects { background: color-mix(in oklab, var(--palette-accent) 35%, var(--palette-surface)); border-color: var(--palette-accent); }
-.demo-token.affected-by { background: color-mix(in oklab, var(--palette-pop) 35%, var(--palette-surface)); border-color: var(--palette-pop); }
-.demo-token.indirect { background: color-mix(in oklab, var(--color-text-muted) 20%, var(--palette-surface)); border-color: var(--color-text-muted); }
+.demo-token span { color: color-mix(in oklch, currentColor 68%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-family-code); }
+.demo-token.edited { border-color: var(--color-accent); }
+.demo-token.picked { outline: 2px solid currentColor; }
+.demo-token.affects { background: color-mix(in oklab, var(--color-accent) 35%, var(--color-surface)); border-color: var(--color-accent); }
+.demo-token.affected-by { background: color-mix(in oklab, var(--color-pop) 35%, var(--color-surface)); border-color: var(--color-pop); }
+.demo-token.indirect { background: color-mix(in oklab, color-mix(in oklch, currentColor 68%, transparent) 20%, var(--color-surface)); border-color: color-mix(in oklch, currentColor 68%, transparent); }
 .demo-token.unrelated { opacity: 0.25; }
 
 // The graph takes its colours from the palette and mode in effect.
 .demo-graph .svelte-flow {
-  --xy-background-color: var(--palette-base);
-  --xy-background-pattern-color: var(--color-border);
-  --xy-edge-stroke: var(--color-border);
-  --xy-controls-button-background-color: var(--palette-surface);
-  --xy-controls-button-background-color-hover: color-mix(in oklab, var(--palette-surface), var(--interaction) var(--mix-hover));
-  --xy-controls-button-color: var(--color-text);
-  --xy-controls-button-color-hover: var(--color-text);
-  --xy-controls-button-border-color: var(--color-border);
-  --xy-attribution-background-color: var(--palette-base);
-  --xy-handle-background-color: var(--color-border);
-  --xy-handle-border-color: var(--color-border);
+  --xy-background-color: var(--color-base);
+  --xy-background-pattern-color: color-mix(in oklch, currentColor 20%, transparent);
+  --xy-edge-stroke: color-mix(in oklch, currentColor 20%, transparent);
+  --xy-controls-button-background-color: var(--color-surface);
+  --xy-controls-button-background-color-hover: color-mix(in oklab, var(--color-surface), var(--interaction) var(--mix-hover));
+  --xy-controls-button-color: currentColor;
+  --xy-controls-button-color-hover: currentColor;
+  --xy-controls-button-border-color: color-mix(in oklch, currentColor 20%, transparent);
+  --xy-attribution-background-color: var(--color-base);
+  --xy-handle-background-color: color-mix(in oklch, currentColor 20%, transparent);
+  --xy-handle-border-color: color-mix(in oklch, currentColor 20%, transparent);
 }
-.demo-graph .svelte-flow__attribution a { color: var(--color-text-muted); }
+.demo-graph .svelte-flow__attribution a { color: color-mix(in oklch, currentColor 68%, transparent); }
 
 // The reset limits media to its container's width; the graph's edge layers sit in a zero-width
 // container, so they are released from that limit or nothing is drawn.
 .demo-graph svg { max-inline-size: none; }
 
 // Edges keep their width at any zoom, so the hierarchy stays visible when the whole graph is in view.
-.demo-graph .svelte-flow__edge-path { stroke: var(--color-border); stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
-.demo-graph .svelte-flow__edge.affects .svelte-flow__edge-path { stroke: var(--palette-accent); stroke-width: 2.5px; }
-.demo-graph .svelte-flow__edge.affected-by .svelte-flow__edge-path { stroke: var(--palette-pop); stroke-width: 2.5px; }
-.demo-graph .svelte-flow__edge.indirect .svelte-flow__edge-path { stroke: var(--color-text-muted); stroke-width: 1.5px; }
+.demo-graph .svelte-flow__edge-path { stroke: color-mix(in oklch, currentColor 20%, transparent); stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+.demo-graph .svelte-flow__edge.affects .svelte-flow__edge-path { stroke: var(--color-accent); stroke-width: 2.5px; }
+.demo-graph .svelte-flow__edge.affected-by .svelte-flow__edge-path { stroke: var(--color-pop); stroke-width: 2.5px; }
+.demo-graph .svelte-flow__edge.indirect .svelte-flow__edge-path { stroke: color-mix(in oklch, currentColor 68%, transparent); stroke-width: 1.5px; }
 .demo-graph .svelte-flow__edge.unrelated .svelte-flow__edge-path { opacity: 0.08; }

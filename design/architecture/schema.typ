@@ -146,9 +146,9 @@ otherwise be broken:
   values from the secondary variant's tokens.
 + A variant is not in the vocabulary. Variants are written in vocabulary
   order, so it would have no place.
-+ A colour property has no L2 token for a variant's role,
-  `--<property>-<role>`, or another themable property has no L2 default,
-  `--<property>`. Its tokens would refer to a value that does not exist.
++ A variant's role gives no value for one of its colour properties
+  (#link(<foundations:colour>)[the colour hierarchy]), or another
+  themable property has no L2 default, `--<property>`. Its tokens would refer to a value that does not exist.
 + A state is not in the vocabulary. It has no selector, so no rule could
   be written for it.
 + A variant's colour role, or a category, is not in the shared vocabulary

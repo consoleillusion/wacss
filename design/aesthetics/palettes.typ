@@ -1,42 +1,57 @@
+#import "../style.typ": serif, mono, cjk, label-text, page-footer
+
+// This chapter is written from the colour configuration, src/styles/palettes.dhall, read through
+// the Dhall plugin, and from the template by which a component's text is made from its
+// background, in src/components/vocabulary.dhall.
+#let dhall-plugin = plugin("/design/dhall.wasm")
+#let load-dhall(path) = json(dhall-plugin.decode(read(path, encoding: none), bytes(json.encode((:)))))
+#let config = load-dhall("/src/styles/palettes.dhall")
+#let derived = json("/dist/tokens.json").vocabulary.derived
+#let palette-list = config.palettes
+#let colours = config.colours
+#let semantic = config.semantic
+#let title-case(name) = upper(name.first()) + name.slice(1)
+#let listed(items) = if items.len() == 1 { items.first() } else { items.slice(0, -1).join(", ") + " and " + items.last() }
+#let names = palette-list.map(p => title-case(p.name))
+#let num(x) = str(calc.round(x, digits: 4))
+
 = Palettes
 <palettes>
-wacss ships four palettes: Kinari, Matcha, Aizome and Shu. This chapter sets out
-what a palette consists of and the rules every palette follows, so that new
-palettes can be made to the same standard. The pages after it show each
-palette's modes.
+wacss ships #palette-list.len() palettes: #listed(names). They are set,
+with everything every palette shares, in `src/styles/palettes.dhall`, the
+top of the colour hierarchy; this chapter is written from that file. It
+sets out what a palette consists of and the rules every palette follows,
+so that new palettes can be made to the same standard. The pages after it
+show each palette's modes.
 
 == Anatomy of a palette
 <palettes:anatomy>
-A palette has a light mode and a dark mode. Each mode has eight colours.
-Four of them shape the page: base, surface, accent and pop. The other
-four report status: positive, warning, danger and informational. Every
-mode chooses its own status colours to suit its other four.
+A palette is a hue: the prima, from which every colour on its page is
+made. It has a light mode and a dark mode, and each mode has
+#(colours.len() + semantic.colours.len()) colours.
+#colours.len() of them are the palette's own, made from its hue:
+#listed(colours.map(c => c.name)). The other #semantic.colours.len() are
+the semantic colours, #listed(semantic.colours.map(c => c.name)), which
+report the meaning of what they mark. Each has a hue of its own, the
+same in every palette.
 
-The accent is the prima of a mode's colours: the one colour the others
-are defined from. A mode chooses six colours, its accent, its pop and its
-four status colours; its base and surface are derived from its accent.
-Every other colour on the page is derived from these through the token
-hierarchy, as tints, shades and mixtures.
+The term "semantic colours" names these #semantic.colours.len() only; "semantic
+tokens" names the token level L2 (#link(<foundations:semantic>)[foundations]).
 
-== The four colours
-<palettes:colours>
 #table(
   columns: 2,
-  [Colour], [Character and use],
-  [#strong[Base]], [The background of the page. Close to neutral, with a trace of the accent's hue, and always a step away from pure white or pure black.],
-  [#strong[Surface]], [Raised surfaces such as cards and panels. A small step from the base, so a raised surface reads as part of the same page.],
-  [#strong[Accent]], [The colour the palette is named for, at its full strength. It is the most characteristic colour on the page. Components whose default variant, `secondary`, takes the `accent` role, such as Button, are filled with it.],
-  [#strong[Pop]], [A second accent, for critical emphasis such as a call to action, or wherever a second accent is needed. It may be a different hue, or another expression of the accent's own colour, such as a deeper or paler shade. The `primary` variant, which is stronger and used less often, takes the `pop` role and is filled with it.],
+  [Colour], [Use],
+  ..colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
+  ..semantic.colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
 )
 
 == Where a palette's colours come from
 <palettes:source>
-A palette is named after one thing, and every one of its colours is drawn
-from that thing: its material, its stages, its preparations, the
-traditions it belongs to. Its accent is the colour a person would name
-it by. Its pop is a further colour found in the same source, and its
-base and surface carry the accent's own hue. A palette reads as a single idea because each colour on its page
-has the same origin.
+A palette is named after one thing, and its hue is the hue of the colour
+a person would name that thing by. Every colour on its page carries that
+hue: the accent at full strength, the pop turned a little further round
+the wheel, and the base and surface as a trace. A palette reads as a
+single idea because each colour on its page has the same origin.
 
 == Character
 <palettes:character>
@@ -45,74 +60,107 @@ this book. Its colours are chosen for their tone and their relationships
 rather than for intensity, so saturation is spent only where it guides
 the eye.
 
-== Derived colours
+== How the colours are made
 <palettes:derived>
-Every palette's accent and pop share one lightness and one chroma for
-each mode, so the palettes differ only in hue, and each is equally legible
-and equally strong:
+Each of a palette's colours is its hue, turned by the colour's turn, at
+a lightness and chroma set for each mode. The values are the same in
+every palette, so the palettes differ only in hue, and each is equally
+legible and equally strong:
 
 #table(
-  columns: 3,
-  [], [Light], [Dark],
-  [Accent lightness, chroma], [0.5, 0.095], [0.75, 0.085],
-  [Pop lightness, chroma], [0.38, 0.085], [0.88, 0.055],
+  columns: 6,
+  [Colour], [Turn], [Light lightness], [Light chroma], [Dark lightness], [Dark chroma],
+  ..colours.map(c => (title-case(c.name), str(c.turn) + "°", num(c.light.lightness), num(c.light.chroma), num(c.dark.lightness), num(c.dark.chroma))).flatten(),
 )
 
 #table(
-  columns: 3,
-  [Palette], [Accent hue, light and dark], [Pop hue, light and dark],
-  [Kinari], [78.4, 85.2], [77, 86.6],
-  [Matcha], [127.7, 125.9], [132.3, 122],
-  [Aizome], [253.2, 251.5], [263.8, 256],
-  [Shu], [22, 22], [20, 20],
+  columns: 1 + colours.len(),
+  [Palette], ..colours.map(c => [#title-case(c.name) hue]),
+  ..palette-list.map(p => (title-case(p.name), ..colours.map(c => str(calc.rem(p.hue + c.turn, 360))))).flatten(),
 )
 
-The base and surface keep only the accent's hue. Their lightness and
-chroma are fixed for each mode, set with CSS relative colour: nearly
-neutral in light mode, a deep grey tinted with the accent in dark.
+The semantic colours each have a hue, and share one lightness and chroma
+for each mode: #num(semantic.light.lightness) and #num(semantic.light.chroma)
+in light mode, #num(semantic.dark.lightness) and #num(semantic.dark.chroma) in dark.
+
+#table(
+  columns: 3,
+  [Semantic colour], [Hue], [Use],
+  ..semantic.colours.map(c => (title-case(c.name), str(c.hue), c.use)).flatten(),
+)
+
+The generator writes each colour as a token in each mode, and the token
+in use, which the mode chooses (#link(<foundations:colour>)[foundations]):
 
 ```css
---kinari-light-base: oklch(from var(--kinari-light-accent)
-  var(--base-lightness-light) var(--base-chroma-light) h);
+--color-pop-dark: oklch(0.8 0.085 calc(var(--hue-accent) + 10));
+--color-danger-light: oklch(0.4 0.09 var(--hue-danger));
+--color-pop: var(--color-pop-dark);
 ```
+
+No colour of text or border is set for a palette. Text and borders belong
+to components: each component makes them from its own background, by the
+templates in `src/components/vocabulary.dhall`, so they are the same rule
+on every background in every palette. The page itself is a component,
+Page, on the base; text outside any other component is the page's text.
 
 #table(
   columns: 3,
-  [], [Light], [Dark],
-  [Base lightness], [0.985], [0.19],
-  [Surface lightness], [0.995], [0.21],
-  [Base chroma], [0.0015], [0.003],
-  [Surface chroma], [0.002], [0.004],
+  [Property], [Made from the component's background as], [So that],
+  [Text, `color`], [#raw(derived.color)], [The background's lightness is inverted, keeping its chroma and hue],
+  [Underline, `text-decoration-color`], [#raw(derived.at("text-decoration-color"))], [An underline is the text's colour],
+  [Border, `border-color`], [#raw(derived.at("border-color"))], [The background is moved 15% of the way toward its inverse: a little darker on light backgrounds, a little lighter on dark],
 )
 
-The surface is lighter than the base in both modes, so a raised panel
-reads as lifted toward the light, and the dark mode mirrors the light.
-Every palette shares these values, so its accent alone decides the faint
-tint of its page.
-
-Text is derived from the base rather than chosen. It is a near-black or
-near-white that keeps the base's hue, and it reads clearly on both the
-base and the surface.
+A transparent background, the `clear` role, reads against the page, so its
+text is made from the base instead, and it has no border. Other colours
+derived from the palette:
 
 #table(
   columns: 3,
   [Colour], [Derived as], [Used for],
-  [Text], [The base, moved to 23% lightness in light mode or 90% in dark], [All body text and headings],
-  [Muted text], [68% text mixed into the base], [Secondary text, labels and captions],
-  [Border], [A translucent neutral grey, `--hairline`, the same in every palette], [Hairlines around surfaces and controls, and the rules of tables],
   [Ring], [The accent], [The focus outline],
-  [Selection], [The pop, with text in the base], [Selected text, everywhere],
-  [Text on a fill], [The base], [Primary buttons and status fills],
-  [Status surface], [10% of the status colour in the base in light mode, 16% in dark], [Tinted notes],
-  [Status surface text], [45% of the status colour in the text], [Text on a tinted note],
+  [Selection], [The pop, with text its inverse], [Selected text, everywhere],
+  [Semantic tint], [10% of the semantic colour in the base in light mode, 16% in dark], [Tinted notes],
+  [Semantic tint text], [45% of the semantic colour mixed into the text of the component it is in], [Text on a tinted note],
 )
 
 == Legibility and distinction
 <palettes:legibility>
-Every pairing that carries text or meaning meets WCAG 2.2 AA: text and
-muted text on the base and the surface, and the text on every fill.
-Each status colour stays clearly apart from the accent and the pop, so
-emphasis and warning are never confused.
+WCAG 2.2 AA asks for 4.5:1 between text and what it sits on. The table
+gives, for each colour, the contrast between a fill of it and the text a
+component makes on it, the lowest across the palettes, as the
+stylesheet renders them. A ratio below 4.5:1 fails AA.
+
+#let swatches = json("../palettes.json")
+// The same colours as the browser computes them, before rounding to 8 bits: the values printed.
+#let exact = json("../palettes-exact.json")
+#let luminance(hex) = {
+  let (r, g, b, _) = rgb(hex).components().map(x => x / 100%)
+  let lin(c) = if c <= 0.04045 { c / 12.92 } else { calc.pow((c + 0.055) / 1.055, 2.4) }
+  0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+}
+#let contrast(a, b) = {
+  let (x, y) = (luminance(a), luminance(b))
+  (calc.max(x, y) + 0.05) / (calc.min(x, y) + 0.05)
+}
+#let lowest(name, mode) = calc.min(..palette-list.map(p => {
+  let t = swatches.at(p.name).at(mode)
+  contrast(t.at("color-" + name), t.at("text-" + name))
+}))
+#let ratio(x) = {
+  let r = str(calc.round(x, digits: 1)) + ":1"
+  if x < 4.5 { [#r, fails] } else { r }
+}
+
+#table(
+  columns: 3,
+  [Fill], [Light], [Dark],
+  ..(colours + semantic.colours).map(c => (title-case(c.name), ratio(lowest(c.name, "light")), ratio(lowest(c.name, "dark")))).flatten(),
+)
+
+Each semantic colour keeps a hue of its own, apart from every palette's
+accent and pop, so emphasis and warning are not confused.
 
 == Colour in each state
 <palettes:states>
@@ -127,7 +175,7 @@ belongs to #link(<animation>)[animation].
 == The palette pages
 <palettes:pages>
 Each mode has its own page, drawn in that mode's colours. It opens with
-the mode, the palette's name and a description of the mode, aligned left
+the mode, the palette's name and its description, aligned left
 and wrapping in a column a little over half the page wide. The
 characters of the palette's Japanese name fill a column of their own on
 the right, written vertically and sized to reach the depth of the text
@@ -136,41 +184,9 @@ row follows for each of the four colours. The rows leave the left part of the pa
 rest, the colour's name is aligned to the right with its value on
 the same line, to its left, and its uses below; then comes a
 square of the colour at the right edge, with its tints, tones and shades
-in a column on the square's left. The four status colours sit in a row at
+in a column on the square's left. The semantic colours sit in a row at
 the foot of the page, each value on its name's line, to its right. Every
 value is written in CSS oklch notation. Every value shown is the one the stylesheet renders.
-
-#let swatches = json("../palettes.json")
-// The same colours as the browser computes them, before rounding to 8 bits: the values printed.
-#let exact = json("../palettes-exact.json")
-#import "../style.typ": serif, mono, cjk, label-text, page-footer
-
-#let palettes = (
-  ("kinari", "Kinari", "生成",
-    "Unbleached cloth. The page is kinari itself, the natural white of raw silk and cotton; the tan of the undyed thread defines it, and the deep brown of the raw fibre marks the call to action.",
-    "Raw silk by lamplight. The ecru of undyed thread on a dark page, and the pale lustre of the silk for emphasis."),
-  ("matcha", "Matcha", "抹茶",
-    "Whisked tea. Matcha green defines the page; koicha, the deep green of thick tea, marks what matters most.",
-    "Tea at dusk. Matcha green on a dark page, and the pale green of the froth for emphasis."),
-  ("aizome", "Aizome", "藍染",
-    "Indigo dyeing. Aizome, cloth dyed true indigo, defines the page; kon, the deepest indigo from the same vat, marks the call to action.",
-    "Indigo at night. Faded indigo on a blue-black page, and the palest indigo for emphasis."),
-  ("shu", "Shu", "朱",
-    "Japanese red. A deep crimson, the red of the rising sun on the flag, of lacquerware and of seals, defines the page; a darker red, lacquer laid on in many coats, marks the call to action.",
-    "Lacquer by lamplight. Crimson glowing on a dark page tinted with it, and a pale rose red for emphasis."),
-)
-
-#let uses = (
-  ("palette-base", "Base",
-    "Page backgrounds, and the text on any filled control."),
-  ("palette-surface", "Surface",
-    "Cards, panels and inputs."),
-  ("palette-accent", "Accent",
-    "The fill of secondary buttons and the focus ring."),
-  ("palette-pop", "Pop",
-    "The accent of the primary variant: the fill of primary buttons, for calls to action, and of selected text."),
-)
-
 
 // A colour with its variations: two tints (toward white), two tones (toward
 // grey) and two shades (toward black), from lightest to darkest. The small
@@ -211,7 +227,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
 // A colour written in CSS oklch notation: lightness as a percentage, chroma, hue in degrees.
 #let okl(value) = {
   // A colour's oklch value as it is defined, from its computed CSS: oklch(…) as written, and
-  // an rgb(…) status colour converted exactly; lightness, chroma and hue as plain numbers.
+  // an rgb(…) colour converted exactly; lightness, chroma and hue as plain numbers.
   let num(x, d) = str(calc.round(x, digits: d))
   if value.starts-with("oklch(") {
     let (l, ch, h) = value.slice(6, -1).split(" ").map(float)
@@ -230,14 +246,18 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
 // colours as computed, whose oklch values are printed.
 #let palette-page(t, x, name, kanji, description, mode) = {
   let c(k) = rgb(t.at(k))
-  let label(body) = label-text(body, fill: c("color-text-muted"))
+  // The page's text and border, made from the base as Page makes them; muted text is the text
+  // at 68%, as the demo draws captions.
+  let ink = c("text-base")
+  let muted = color.mix((ink, 68%), (c("color-base"), 32%), space: oklch)
+  let label(body) = label-text(body, fill: muted)
 
   page(
-    fill: c("palette-base"),
+    fill: c("color-base"),
     margin: (x: 28mm, top: 26mm, bottom: 24mm),
-    footer: page-footer(c("color-text"), c("color-text-muted")),
+    footer: page-footer(ink, muted),
   )[
-    #set text(fill: c("color-text"))
+    #set text(fill: ink)
     #set par(leading: 0.85em)
 
     // Two columns: the mode, name and description on the left, aligned left and wrapping
@@ -249,9 +269,9 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
     // edges of the page; the page margins remain its padding, and it is padded below.
     #block(
       width: 100%,
-      fill: c("palette-surface"),
+      fill: c("color-surface"),
       // Beneath it, a 1px rule in the pop at a tenth of its opacity, edge to edge.
-      stroke: (bottom: 0.75pt + c("palette-pop").transparentize(90%)),
+      stroke: (bottom: 0.75pt + c("color-pop").transparentize(90%)),
       outset: (x: 28mm, top: 26mm),
       inset: (bottom: 9mm),
       below: 10mm,
@@ -266,7 +286,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
       ),
       stack(
         spacing: 8pt,
-        ..chars.map(k => text(font: cjk, size: glyph, weight: "light", fill: c("palette-accent"), top-edge: "bounds", bottom-edge: "bounds", k)),
+        ..chars.map(k => text(font: cjk, size: glyph, weight: "light", fill: c("color-accent"), top-edge: "bounds", bottom-edge: "bounds", k)),
       ),
     ))
 
@@ -282,7 +302,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
         width: 100%,
         below: 6mm,
         stack(
-          ..uses.enumerate().map(((i, (key, title, use))) => block(
+          ..colours.map(col => ("color-" + col.name, title-case(col.name), col.use)).enumerate().map(((i, (key, title, use))) => block(
             width: 100%,
             inset: (y: 3.5mm),
             grid(
@@ -292,7 +312,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
               stack(
                 spacing: 6pt,
                 text(font: serif, size: 13pt, title),
-                text(size: 6.4pt, font: mono, fill: c("color-text-muted"), okl(x.at(key))),
+                text(size: 6.4pt, font: mono, fill: muted, okl(x.at(key))),
                 block(above: 0pt, inset: (top: 3pt), text(size: 8.5pt, use)),
               ),
               swatch(c(key), 18mm, edge),
@@ -303,29 +323,24 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
     )
 
     #v(1mm)
-    #line(length: 100%, stroke: 0.5pt + c("color-border"))
+    #line(length: 100%, stroke: 0.5pt + c("border-base"))
     #v(6mm)
     #grid(
       columns: (auto, 1fr, auto, 1fr, auto, 1fr, auto),
-      ..(
-        ("background-positive", "Positive", "Success, confirmation"),
-        ("background-warning", "Warning", "Caution, reversible risk"),
-        ("background-danger", "Danger", "Destructive or failed"),
-        ("background-informational", "Informational", "Neutral notice"),
-      ).map(((key, title, use)) => stack(
+      ..semantic.colours.map(col => ("color-" + col.name, title-case(col.name), col.use)).map(((key, title, use)) => stack(
         spacing: 5pt,
         swatch-small(c(key), 12mm, edge),
         v(4pt),
         text(size: 8pt, title),
         // The value on its own line, under the title.
-        text(size: 5.2pt, font: mono, fill: c("color-text-muted"), okl(x.at(key))),
-        text(size: 7pt, fill: c("color-text-muted"), use),
+        text(size: 5.2pt, font: mono, fill: muted, okl(x.at(key))),
+        text(size: 7pt, fill: muted, use),
       )).intersperse([]),
     )
   ]
 }
 
-#for (key, name, kanji, light, dark) in palettes {
-  palette-page(swatches.at(key).light, exact.at(key).light, name, kanji, light, "Light")
-  palette-page(swatches.at(key).dark, exact.at(key).dark, name, kanji, dark, "Dark")
+#for p in palette-list {
+  palette-page(swatches.at(p.name).light, exact.at(p.name).light, title-case(p.name), p.kanji, p.description, "Light")
+  palette-page(swatches.at(p.name).dark, exact.at(p.name).dark, title-case(p.name), p.kanji, p.description, "Dark")
 }

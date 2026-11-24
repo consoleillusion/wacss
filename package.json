@@ -12,7 +12,7 @@
     "build": "bun run generate:tokens && astro build",
     "dev": "bun run generate:tokens && astro dev",
     "preview": "astro preview",
-    "build:book": "typst compile --root . --input mode=dark design/book.typ design/wacss-spec.pdf && typst compile --root . --input mode=light design/book.typ design/wacss-spec-light.pdf",
+    "build:book": "bun run generate:tokens && bun run palette-swatches && typst compile --root . --input mode=dark design/book.typ design/wacss-spec.pdf && typst compile --root . --input mode=light design/book.typ design/wacss-spec-light.pdf",
     "palette-swatches": "bun scripts/palette-swatches.ts",
     "export:tokens": "bun scripts/export-tokens.ts",
     "build:dhall-plugin": "cargo build --release --target wasm32-unknown-unknown --manifest-path design/dhall-plugin/Cargo.toml && cp design/dhall-plugin/target/wasm32-unknown-unknown/release/typst_dhall.wasm design/dhall.wasm",

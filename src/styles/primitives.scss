@@ -1,4 +1,7 @@
-// L1 — Primitives. Hand-authored. Literals only.
+// L1 — Primitives. Hand-authored, but for the hues, which come from palettes.dhall.
+// Literals only.
+@use "palettes" as *;
+
 :root {
   // Space: step × n, applied as em (components) or rem (page).
   --space-base: 0;
@@ -21,9 +24,6 @@
   --measure-base: 68ch;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, monospace;
-
-  // The hairline: a translucent neutral grey, so it reads on any palette in either mode.
-  --hairline: oklch(0.55 0 0 / 0.3);
 
   // A map's colours when it comes alive: a teal sea and a yellow-green land.
   --map-sea: oklch(0.6 0.1 215);
@@ -69,72 +69,15 @@
   --tint-base: 10%;
   --tint-step: 6%;
 
-  // Palettes: Kinari, Matcha, Aizome and Shu, each with a light and a dark mode.
-  // A mode has four colours — accent (the palette's defining colour, and the prima
-  // from which the others are defined), pop (an alternative accent for critical
-  // emphasis), base (the background) and surface (raised panels) — and four
-  // status colours chosen for that mode. Named --<palette>-<mode>-<role>.
-  //
-  // Base and surface are the accent's hue at a fixed lightness and chroma for the mode: nearly
-  // neutral in light mode, a deep tinted grey in dark. The surface is always lighter than the
-  // base, in light mode and in dark, so a raised panel reads as lifted toward the light.
-  --base-lightness-light: 0.985;
-  --surface-lightness-light: 0.995;
-  --base-lightness-dark: 0.19;
-  --surface-lightness-dark: 0.21;
-  // Every palette's accent and pop share one lightness and one chroma for each mode, so the
-  // palettes differ only in hue.
-  --accent-lightness-light: 0.5;
-  --accent-chroma-light: 0.095;
-  --accent-lightness-dark: 0.75;
-  --accent-chroma-dark: 0.085;
-  --pop-lightness-light: 0.38;
-  --pop-chroma-light: 0.085;
-  --pop-lightness-dark: 0.88;
-  --pop-chroma-dark: 0.055;
-  --base-chroma-light: 0.0015;
-  --surface-chroma-light: 0.002;
-  --base-chroma-dark: 0.003;
-  --surface-chroma-dark: 0.004;
-  --kinari-light-base: oklch(from var(--kinari-light-accent) var(--base-lightness-light) var(--base-chroma-light) h);
-  --kinari-light-surface: oklch(from var(--kinari-light-accent) var(--surface-lightness-light) var(--surface-chroma-light) h);
-  --kinari-light-accent: oklch(var(--accent-lightness-light) var(--accent-chroma-light) 78.4); --kinari-light-pop: oklch(var(--pop-lightness-light) var(--pop-chroma-light) 77);
-  --kinari-light-positive: #476a35; --kinari-light-warning: #a3501d; --kinari-light-danger: #8e2b3a; --kinari-light-informational: #3a5c78;
-  --kinari-dark-base: oklch(from var(--kinari-dark-accent) var(--base-lightness-dark) var(--base-chroma-dark) h);
-  --kinari-dark-surface: oklch(from var(--kinari-dark-accent) var(--surface-lightness-dark) var(--surface-chroma-dark) h);
-  --kinari-dark-accent: oklch(var(--accent-lightness-dark) var(--accent-chroma-dark) 85.2); --kinari-dark-pop: oklch(var(--pop-lightness-dark) var(--pop-chroma-dark) 86.6);
-  --kinari-dark-positive: #a9c79a; --kinari-dark-warning: #eba27a; --kinari-dark-danger: #e996a3; --kinari-dark-informational: #9bbedb;
+  // Hues, from palettes.dhall: one for each palette, --hue-<palette>, and one for each semantic
+  // colour, --hue-<semantic>. Which palette is in effect is chosen in L2 (--hue-accent).
+  @each $name, $hue in $palettes {
+    --hue-#{$name}: #{$hue};
+  }
+  @each $name, $hue in $semantic-hues {
+    --hue-#{$name}: #{$hue};
+  }
 
-  --matcha-light-base: oklch(from var(--matcha-light-accent) var(--base-lightness-light) var(--base-chroma-light) h);
-  --matcha-light-surface: oklch(from var(--matcha-light-accent) var(--surface-lightness-light) var(--surface-chroma-light) h);
-  --matcha-light-accent: oklch(var(--accent-lightness-light) var(--accent-chroma-light) 127.7); --matcha-light-pop: oklch(var(--pop-lightness-light) var(--pop-chroma-light) 132.3);
-  --matcha-light-positive: #2d6a5c; --matcha-light-warning: #7a611a; --matcha-light-danger: #8e2b3a; --matcha-light-informational: #3a5d7a;
-  --matcha-dark-base: oklch(from var(--matcha-dark-accent) var(--base-lightness-dark) var(--base-chroma-dark) h);
-  --matcha-dark-surface: oklch(from var(--matcha-dark-accent) var(--surface-lightness-dark) var(--surface-chroma-dark) h);
-  --matcha-dark-accent: oklch(var(--accent-lightness-dark) var(--accent-chroma-dark) 125.9); --matcha-dark-pop: oklch(var(--pop-lightness-dark) var(--pop-chroma-dark) 122);
-  --matcha-dark-positive: #8fcbb9; --matcha-dark-warning: #d6c57c; --matcha-dark-danger: #e996a3; --matcha-dark-informational: #9cbede;
-
-  --aizome-light-base: oklch(from var(--aizome-light-accent) var(--base-lightness-light) var(--base-chroma-light) h);
-  --aizome-light-surface: oklch(from var(--aizome-light-accent) var(--surface-lightness-light) var(--surface-chroma-light) h);
-  --aizome-light-accent: oklch(var(--accent-lightness-light) var(--accent-chroma-light) 253.2); --aizome-light-pop: oklch(var(--pop-lightness-light) var(--pop-chroma-light) 263.8);
-  --aizome-light-positive: #3c6640; --aizome-light-warning: #745520; --aizome-light-danger: #8a4033; --aizome-light-informational: #2d6a5f;
-  --aizome-dark-base: oklch(from var(--aizome-dark-accent) var(--base-lightness-dark) var(--base-chroma-dark) h);
-  --aizome-dark-surface: oklch(from var(--aizome-dark-accent) var(--surface-lightness-dark) var(--surface-chroma-dark) h);
-  --aizome-dark-accent: oklch(var(--accent-lightness-dark) var(--accent-chroma-dark) 251.5); --aizome-dark-pop: oklch(var(--pop-lightness-dark) var(--pop-chroma-dark) 256);
-  --aizome-dark-positive: #9ec9a0; --aizome-dark-warning: #d6b47f; --aizome-dark-danger: #e8a291; --aizome-dark-informational: #8dcbc0;
-
-  --shu-light-base: oklch(from var(--shu-light-accent) var(--base-lightness-light) var(--base-chroma-light) h);
-  --shu-light-surface: oklch(from var(--shu-light-accent) var(--surface-lightness-light) var(--surface-chroma-light) h);
-  --shu-light-accent: oklch(var(--accent-lightness-light) var(--accent-chroma-light) 22); --shu-light-pop: oklch(var(--pop-lightness-light) var(--pop-chroma-light) 20);
-  --shu-light-positive: #3f6a48; --shu-light-warning: #85601a; --shu-light-danger: #7a2c6a; --shu-light-informational: #3a5878;
-  --shu-dark-base: oklch(from var(--shu-dark-accent) var(--base-lightness-dark) var(--base-chroma-dark) h);
-  --shu-dark-surface: oklch(from var(--shu-dark-accent) var(--surface-lightness-dark) var(--surface-chroma-dark) h);
-  --shu-dark-accent: oklch(var(--accent-lightness-dark) var(--accent-chroma-dark) 22); --shu-dark-pop: oklch(var(--pop-lightness-dark) var(--pop-chroma-dark) 20);
-  --shu-dark-positive: #9ec8a5; --shu-dark-warning: #d9bb7e; --shu-dark-danger: #dba2d2; --shu-dark-informational: #9bbedb;
-
-  // Text is derived from the base at these lightnesses.
-  --lightness-text-light: 23%;
-  --lightness-text-dark: 90%;
 
   --color-white: oklch(98% 0.004 80deg);
   --color-black: oklch(16% 0.004 60deg);

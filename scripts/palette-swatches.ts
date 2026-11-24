@@ -9,13 +9,18 @@ import { readFile, writeFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
 
 const ROOT = new URL("..", import.meta.url).pathname;
-const PALETTES = ["kinari", "matcha", "aizome", "shu"];
+// The palettes and the colour names, from palettes.dhall by way of tokens.json, and the templates
+// by which a component makes its text and border from its background, from vocabulary.dhall.
+const DATA = JSON.parse(await readFile(`${ROOT}dist/tokens.json`, "utf8"));
+const PALETTES: string[] = DATA.colours.palettes.map((p: { name: string }) => p.name);
+const COLOURS: string[] = [...DATA.colours.colours, ...DATA.colours.semantic.colours].map((c: { name: string }) => c.name);
 const MODES = ["light", "dark"];
-const TOKENS =
-  [ "palette-base", "palette-surface", "palette-accent", "palette-pop"
-  , "color-text", "color-text-muted", "color-border", "color-on-accent"
-  , "background-positive", "background-warning", "background-danger", "background-informational", "color-danger"
-  ];
+// Each colour, and the text and border a component with that background makes, keyed
+// text-<colour> and border-<colour>.
+const DERIVED = (property: string, colour: string) =>
+  DATA.vocabulary.derived[property].replace("{background}", `var(--color-${colour})`);
+const VALUES: Record<string, string> = Object.fromEntries(
+  COLOURS.flatMap((c) => [[`color-${c}`, `var(--color-${c})`], [`text-${c}`, DERIVED("color", c)], [`border-${c}`, DERIVED("border-color", c)]]));
 
 const main = async () => {
   // Purpose: render each palette and mode in Chrome and record its colours as opaque hex
@@ -29,7 +34,7 @@ const main = async () => {
     out[palette] = {};
     exact[palette] = {};
     for (const mode of MODES) {
-      const [drawn, computed] = await page.evaluate(({ palette, mode, tokens }) => {
+      const [drawn, computed] = await page.evaluate(({ palette, mode, values }) => {
         // Purpose: resolve every token to an opaque colour, composited over the page base
         document.documentElement.dataset.palette = palette;
         document.documentElement.dataset.mode = mode;
@@ -39,11 +44,11 @@ const main = async () => {
         const probe = document.createElement("div");
         document.body.append(probe);
         const resolve = (token: string) => {
-          // Purpose: the computed colour of one token, as the browser serialises it
-          probe.style.backgroundColor = `var(--${token})`;
+          // Purpose: the computed colour of one value, as the browser serialises it
+          probe.style.backgroundColor = values[token]!;
           return getComputedStyle(probe).backgroundColor;
         };
-        const base = resolve("palette-base");
+        const base = resolve("color-base");
         const hex = (token: string) => {
           // Purpose: paint the base, then the token over it, and read the pixel back
           ctx.clearRect(0, 0, 1, 1);
@@ -52,11 +57,11 @@ const main = async () => {
           const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
           return "#" + [r, g, b].map((n) => n!.toString(16).padStart(2, "0")).join("");
         };
-        const result = Object.fromEntries(tokens.map((t) => [t, hex(t)]));
-        const values = Object.fromEntries(tokens.map((t) => [t, resolve(t)]));
+        const result = Object.fromEntries(Object.keys(values).map((t) => [t, hex(t)]));
+        const computed = Object.fromEntries(Object.keys(values).map((t) => [t, resolve(t)]));
         probe.remove();
-        return [result, values];
-      }, { palette, mode, tokens: TOKENS });
+        return [result, computed];
+      }, { palette, mode, values: VALUES });
       out[palette]![mode] = drawn;
       exact[palette]![mode] = computed;
     }

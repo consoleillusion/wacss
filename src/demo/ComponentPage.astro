@@ -60,7 +60,7 @@ const pseudo = Object.entries((s.pseudoElements ?? {}) as Record<string, any>).f
   </div>
   <Table
     columns={[{ key: "variant", label: "Variant" }, { key: "role", label: "Colour role" }, { key: "look", label: "Look" }]}
-    rows={variants.map((v) => ({ variant: v, role: s.roles[v], look: vocabulary.roles[s.roles[v]] }))}
+    rows={variants.map((v) => ({ variant: v, role: s.roles[v], look: vocabulary.roles[s.roles[v]].look }))}
   />
   {states.length
     ? <Table columns={[{ key: "state", label: "State" }, { key: "effect", label: "Effect" }]} rows={states.map((x) => ({ state: x, effect: s.stateEffects?.[x] ?? "" }))} />

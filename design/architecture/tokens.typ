@@ -8,8 +8,8 @@ belongs to one of four levels.
 #table(
   columns: 4,
   [Level], [Name pattern], [Example], [Origin],
-  [L1 primitive], [`--<name>`], [`--space-step`, `--shu-light-accent`], [hand-written],
-  [L2 semantic], [`--<name>` or `--<property>`], [`--color-text`, `--padding-inline`], [hand-written],
+  [L1 primitive], [`--<name>`], [`--space-step`, `--hue-sakura`], [hand-written],
+  [L2 semantic], [`--<name>` or `--<property>`], [`--color-accent`, `--padding-inline`], [hand-written],
   [L2 channel], [`--<state>-<property>`, with optional `-toward` and `-amount` suffixes], [`--focus-outline-color`], [hand-written],
   [L3 component], [`--<component>-<variant>-<property>`], [`--button-primary-background`], [generated],
   [L4 state], [`--<component>-<variant>-<property>-<state>`], [`--button-primary-background-hover`], [generated],

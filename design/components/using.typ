@@ -50,6 +50,6 @@ site's design page shows every one of them in context.
 
 == More to come
 <using:more>
-Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Form, Globe, LineChart, Link, NavBar, NumberInput, PieChart, Select, StreetMap, Table, TableCell, TextArea and TextInput are the first components. Each further
+Accordion, Badge, BarChart, Button, Card, Checkbox, CodeBlock, ColorInput, DateInput, Form, Globe, LineChart, Link, NavBar, NumberInput, Page, PieChart, Select, StreetMap, Table, TableCell, TextArea and TextInput are the first components. Each further
 component follows the same schema and generation; listing it in
 `design/book.typ` adds its chapter here.

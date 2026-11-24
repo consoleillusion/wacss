@@ -49,13 +49,13 @@ Each property is classified by name:
 
 Every variant a component lists is given a colour role in its schema
 (#link(<schema:fields>)[fields]): `accent`, `surface`, `pop`, `clear`,
-`base`, or a status. The L3 token for component `c`, variant `v` with role
+`base`, `map`, or a semantic colour. The L3 token for component `c`, variant `v` with role
 `r`, and property `p` is then:
 
 #table(
   columns: 2,
   [Case], [L3 value],
-  [`p` is a fill, an ink or an edge], [`var(--p-r)`, the role's colour for that property],
+  [`p` is a fill, an ink or an edge], [The value role `r` gives `p` in `vocabulary.dhall`; for `color`, when the role gives none, the inverse of the variant's background (#link(<foundations:colour>)[the colour hierarchy])],
   [`v` is `secondary`], [`var(--p)`, the L2 property default],
   [`p` is anything else], [`var(--c-secondary-p)`, the default variant's value],
 )

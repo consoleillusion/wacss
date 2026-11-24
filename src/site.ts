@@ -4,7 +4,7 @@ export type Child = { component: string; data?: Record<string, unknown> };
 export type Page = { title: string; description: string; children: Child[] };
 
 /** The components the site shows, by title. */
-const components = ["Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput"];
+const components = ["Accordion", "Badge", "BarChart", "Button", "Card", "Checkbox", "CodeBlock", "ColorInput", "DateInput", "Form", "Globe", "LineChart", "Link", "NavBar", "NumberInput", "Page", "PieChart", "Select", "StreetMap", "Table", "TableCell", "TextArea", "TextInput"];
 
 /** A component's path: /component/ and its name in kebab case. */
 export const componentPath = (title: string) =>

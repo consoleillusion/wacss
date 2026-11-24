@@ -20,7 +20,7 @@ on `:root`, an unlayered `:root` block that comes later wins:
 
 ```css
 :root {
-  --shu-light-pop: oklch(32% 0.11 32); /* one colour of one palette's mode */
+  --hue-sakura: 355;                 /* one palette's hue, at runtime */
   --border-radius: 0.25em;           /* round every corner */
   --hover-background-amount: 4%;     /* a gentler hover everywhere */
   --duration-interaction: 120ms;     /* quicker feedback */
@@ -33,11 +33,13 @@ The same declarations can be placed in a `[data-palette="…"]` or
 #table(
   columns: 2,
   [To change], [Redeclare],
-  [One colour of one palette's mode], [Its primitive, `--<palette>-<mode>-<role>`],
-  [How a colour is derived, in every palette], [The L2 meaning, such as `--color-border` or `--color-text-muted`],
+  [One palette's hue, or a semantic colour's], [Its primitive, `--hue-<palette>` or `--hue-<semantic>`; for good, its entry in `palettes.dhall`],
+  [The lightness or chroma of one colour in one mode, in every palette], [For good, its entry in `palettes.dhall`; at runtime, `--color-<colour>-<mode>`],
+  [How a colour is derived, in every palette], [The L2 meaning, such as `--color-ring`; for text, underlines and borders, the `derived` templates in `vocabulary.dhall`],
   [Spacing, type, radii, shadows or timing everywhere], [The L1 step or base, or the L2 meaning built from it],
   [The default value of one non-colour property for every component], [Its L2 property default, `--<property>`],
-  [A colour property in one role, for every component], [`--background-<role>`, `--color-<role>` or `--border-color-<role>`],
+  [A colour property in one role, for every component], [The role's value for it in `vocabulary.dhall`, then regenerate],
+  [How a component's text is made from its background], [The `text` template in `vocabulary.dhall`, then regenerate],
   [What a state does everywhere], [Its channel token, `--<state>-<property>`],
 )
 
@@ -50,18 +52,24 @@ the property then receives it. Regenerate.
 
 == Adding a palette
 <customising:palette>
-+ Add sixteen primitives to `primitives.scss`: the eight roles for
-  `--<palette>-light-…` and the eight for `--<palette>-dark-…`. Choose the
-  accent, pop and status colours; write the base and surface with the same
-  relative-colour expression as the other palettes, from the new accent.
-+ Add the palette's name to `$palettes` in `semantic.scss`.
-+ Add it to the palette selector in `src/demo/Layout.astro`, to `PALETTES`
-  in `scripts/palette-swatches.ts`, and to the list of palettes in
-  `design/aesthetics/palettes.typ`.
-+ Run `bun run palette-swatches` and confirm that every text pairing meets
-  WCAG 2.2 AA.
++ Add an entry to `src/styles/palettes.dhall`: its name, its name in
+  Japanese, its hue and a description. The first entry is the default.
++ Run `bun run generate:tokens`, which declares its hue and its
+  `data-palette` rule, and `bun run palette-swatches`. The demo's palette
+  selector, the token export and the book's palette pages all read the
+  list, so the palette appears in each.
++ Read its contrast in the Palettes chapter's legibility table, and confirm that
+  its accent and pop stand clear of the semantic colours.
 
 The palette is then selected with `data-palette="<palette>"`.
+
+== Changing the colours every palette shares
+<customising:colours>
+The lightness and chroma of each colour in each mode, the pop's turn, and
+the semantic colours' hues and their lightness and chroma are entries in
+`src/styles/palettes.dhall`. Change them there and run
+`bun run generate:tokens` and `bun run palette-swatches`; the tokens, the
+demo and the Palettes chapter follow.
 
 == Adding a component
 <customising:component>

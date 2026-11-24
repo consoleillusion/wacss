@@ -66,7 +66,7 @@ in  { title = "Select"
     , stateEffects = P.controlStateEffects
     , usage =
       [ ''
-        <Select label="Palette" options={["kinari", "matcha", "aizome", "shu"]} value="kinari" />
+        <Select label="Palette" options={["kinari", "matcha", "aizome", "sakura"]} value="kinari" />
         <Select label="Size" options={[{ value: "s", label: "Small" }, { value: "m", label: "Medium" }]} />''
       ]
     }

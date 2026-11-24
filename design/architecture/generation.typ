@@ -61,12 +61,14 @@ tokens:
 
 ```css
 /* L2 */
---background-pop: var(--palette-pop);
+--color-pop: var(--color-pop-dark);
 --hover-background-toward: var(--interaction);
 --hover-background-amount: var(--mix-hover);
 
-/* L3: Button's schema gives primary the role pop, and background is a fill */
---button-primary-background: var(--background-pop);
+/* L3: Button's schema gives primary the role pop, whose background is var(--color-pop) */
+--button-primary-background: var(--color-pop);
+/* L3: the text is made from the variant's own background */
+--button-primary-color: oklch(from var(--button-primary-background) calc(1 - l) c h);
 /* L3: padding is not a colour, so primary uses the default variant's value */
 --button-primary-padding-inline: var(--button-secondary-padding-inline);
 

@@ -1,11 +1,12 @@
-// Builds dist/ from the hand-authored SCSS (L1, L2, channels, helpers) and every
-// src/components/<Name>/schema.dhall. Generated files must not be edited.
+// Builds dist/ from the hand-authored SCSS (L1, L2, channels, helpers), the palettes in
+// src/styles/palettes.dhall and every src/components/<Name>/schema.dhall. Generated files
+// must not be edited.
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { kebabCase } from "change-case";
 import { load } from "load-object";
 import * as sass from "sass";
-import { generateComponent, toRootBlock, tokensFromDeclarations, type Schema } from "../src/lib/generateTokens";
+import { generateComponent, toRootBlock, tokensFromDeclarations, type Role, type Schema } from "../src/lib/generateTokens";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const COMPONENTS = `${ROOT}src/components/`;
@@ -24,10 +25,47 @@ const rootDeclarations = (css: string): Record<string, string> => {
   return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1]!, m[2]!.replace(/\s+/g, " ").trim()]));
 };
 
-/** The shared vocabulary: variants in order, colour roles and their looks, categories. */
-type Vocabulary = { variants: string[]; roles: Record<string, string>; categories: string[] };
+/** The shared vocabulary: variants in order, the derived colour templates, colour roles and their values, categories. */
+type Vocabulary = { variants: string[]; derived: Record<string, string>; roles: Record<string, Role>; categories: string[] };
 const vocabulary = (await load("vocabulary.dhall", { base: COMPONENTS, formats: ["dhall"] })) as Vocabulary;
 const VARIANTS = vocabulary.variants;
+
+/** The colour configuration, palettes.dhall: the palettes, the four colours every palette has, and
+ * the semantic colours. */
+type Tone = { lightness: number; chroma: number };
+type Palette = { name: string; kanji: string; hue: number; description: string };
+type Colours =
+{ palettes: Palette[]
+, colours: { name: string; use: string; turn: number; light: Tone; dark: Tone }[]
+, semantic: { colours: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
+};
+const colours = (await load("palettes.dhall", { base: STYLES, formats: ["dhall"] })) as Colours;
+
+const writeColours = async () => {
+  // Purpose: check the colour configuration and write it as the Sass maps the primitives and the
+  // semantic layer read
+  const fail = (msg: string) => {
+    // Purpose: stop the build with a message naming the configuration
+    throw new Error(`palettes.dhall: ${msg}`);
+  };
+  const names = colours.palettes.map((p) => p.name);
+  if (!names.length) fail("at least one palette is needed");
+  const repeated = names.filter((n, i) => names.indexOf(n) !== i);
+  if (repeated.length) fail(`palette ${repeated.join(", ")} appears twice`);
+  const badName = names.filter((n) => !/^[a-z][a-z0-9-]*$/.test(n));
+  if (badName.length) fail(`${badName.join(", ")}: a name is lowercase letters, digits and hyphens`);
+  const hues = [...colours.palettes, ...colours.semantic.colours];
+  const badHue = hues.filter((h) => h.hue >= 360).map((h) => h.name);
+  if (badHue.length) fail(`${badHue.join(", ")}: a hue is below 360`);
+  const tone = (t: Tone) => `(${t.lightness}, ${t.chroma})`;
+  const map = (entries: string[]) => `(${entries.join(", ")})`;
+  await writeFile(`${STYLES}_palettes.scss`,
+    "// Generated from palettes.dhall by scripts/generate-tokens.ts. Do not edit.\n" +
+    `$palettes: ${map(colours.palettes.map((p) => `"${p.name}": ${p.hue}`))};\n` +
+    `$colours: ${map(colours.colours.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
+    `$semantic-hues: ${map(colours.semantic.colours.map((c) => `"${c.name}": ${c.hue}`))};\n` +
+    `$semantic-tone: (light: ${tone(colours.semantic.light)}, dark: ${tone(colours.semantic.dark)});\n`);
+};
 
 const loadSchemas = async (): Promise<Schema[]> => {
   // Purpose: load every component folder's schema.dhall, in name order
@@ -53,12 +91,13 @@ const loadSchemas = async (): Promise<Schema[]> => {
 
 const main = async () => {
   // Purpose: generate tokens, component CSS and tokens.json into dist/
+  await writeColours();
   const css = { primitives: compile("primitives.scss"), semantic: compile("semantic.scss"), channel: compile("channel.scss"), helpers: compile("helpers.scss") };
   const l1 = rootDeclarations(css.primitives);
   const channels = rootDeclarations(css.channel);
   const l2 = { ...rootDeclarations(css.semantic), ...channels };
   const schemas = await loadSchemas();
-  const generated = schemas.map((s) => ({ schema: s, ...generateComponent(s, l2, channels) }));
+  const generated = schemas.map((s) => ({ schema: s, ...generateComponent(s, l2, channels, vocabulary) }));
 
   const tokens =
     [ ...tokensFromDeclarations(l1, 1, "primitives")
@@ -87,7 +126,7 @@ const main = async () => {
   await mkdir(DIST, { recursive: true });
   await writeFile(`${DIST}tokens.css`, HEADER + tokensCss);
   await writeFile(`${DIST}wacss.css`, HEADER + stylesheet);
-  await writeFile(`${DIST}tokens.json`, JSON.stringify({ vocabulary, tokens, components }, null, 2));
+  await writeFile(`${DIST}tokens.json`, JSON.stringify({ vocabulary, colours, tokens, components }, null, 2));
   const count = (level: number) => tokens.filter((t) => t.level === level).length;
   console.log(`wacss: ${schemas.length} components; tokens L1 ${count(1)}, L2 ${count(2)}, L3 ${count(3)}, L4 ${count(4)}`);
 };

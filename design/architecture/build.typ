@@ -10,7 +10,7 @@
   [`bun run build`], [Generate, then build the demo site into `demo-dist/`],
   [`bun run palette-swatches`], [Render every palette and mode in Chrome and write `design/palettes.json`, each colour as the hex it is drawn with in the Palettes chapter, and `design/palettes-exact.json`, each colour as the browser computes it before rounding, from which the chapter prints its oklch value],
   [`bun run export:tokens`], [After generation, resolve every token in a browser in every palette and mode, and write the Design Tokens Format files to `dist/dtcg/` (#link(<build:dtcg>)[below])],
-  [`bun run build:book`], [Compile this book, in a dark and a light edition. Each component chapter is laid out from the component's `schema.dhall` as the book compiles (#link(<schema:chapters>)[component chapters])],
+  [`bun run build:book`], [Compile this book, in a dark and a light edition. It first runs `generate:tokens` and `palette-swatches`, because the Palettes chapter reads its colours from `dist/tokens.json` and the files `palette-swatches` writes, so a change to `palettes.dhall` reaches the book in one step. Each component chapter is laid out from the component's `schema.dhall` as the book compiles (#link(<schema:chapters>)[component chapters])],
   [`bun run globe-relief <planet.jpeg>`], [Write `src/components/Globe/relief.webp`, Globe's texture of relief and sea depth, from the Blue Marble image `planet.jpeg` in the npm package `@freetiler/nasa-bluemarble`, which is too large to be a dependency. Run only to change the texture; the file is committed],
   [`bun run build:dhall-plugin`], [Build the Typst plugin that evaluates Dhall, `design/dhall.wasm`, from `design/dhall-plugin/`. It needs Rust with the `wasm32-unknown-unknown` target, and is run only when the plugin changes],
 )
@@ -58,8 +58,8 @@ standard. It writes three kinds of file to `dist/dtcg/`:
   columns: 2,
   [File], [Contents],
   [`wacss.tokens.json`], [Every token, as it resolves in the default palette, Kinari, and mode, dark],
-  [`<palette>-<mode>.tokens.json`], [For each of the eight pairs, the tokens whose value differs from the default],
-  [`wacss.resolver.json`], [A resolver with one set, the default tokens, and one modifier, `palette-mode`, whose contexts are the eight pairs, `kinari-dark` by default],
+  [`<palette>-<mode>.tokens.json`], [For each palette and mode, the tokens whose value differs from the default],
+  [`wacss.resolver.json`], [A resolver with one set, the default tokens, and one modifier, `palette-mode`, whose contexts are each palette and mode, the first palette, dark, by default],
 )
 
 Tokens are grouped as `generateTokens` groups them: `primitives`,

@@ -36,6 +36,6 @@ in  { title = "NavBar"
       [ ''
         <NavBar title="wacss" href="/" current="/component/button"
           links={[{ href: "/component", label: "Component" }, { href: "/design", label: "Design" }]}
-          end={[{ component: "Select", data: { label: "Palette", options: ["kinari", "shu"] } }]} />''
+          end={[{ component: "Select", data: { label: "Palette", options: ["kinari", "sakura"] } }]} />''
       ]
     }
