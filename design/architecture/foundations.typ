@@ -24,7 +24,7 @@ and flows down the levels. Nothing else holds a colour value.
 
 + #strong[Configuration.] `palettes.dhall` lists the palettes, each a name,
   its name in Japanese, a hue and a description, the first the default; the
-  four colours every palette has (base, surface, accent, pop), each with its
+  decor colours every palette has (base, surface, accent, pop), each with its
   use, its turn of the palette's hue, and its lightness and chroma in each
   mode; and the intent colours (positive, warning, danger, informational),
   each with its hue and use, and one lightness and chroma for them all in
@@ -40,7 +40,7 @@ and flows down the levels. Nothing else holds a colour value.
 + #strong[L2, the colours of each mode.] For each colour and mode,
   `--color-<colour>-<mode>`: `oklch(<lightness> <chroma> <hue>)`, where the
   lightness and chroma are the configured values, written as literals, and
-  the hue is `var(--hue-accent)` for the palette's colours, turned by
+  the hue is `var(--hue-accent)` for the decor colours, turned by
   `calc(var(--hue-accent) + <turn>)` when the turn is not 0, and
   `var(--hue-<intent>)` for the intent colours.
 + #strong[L2, the colours in use.] `--color-<colour>`, which the mode

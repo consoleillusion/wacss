@@ -12,7 +12,7 @@ implementation is `src/lib/generateTokens.ts`, driven by
   there is at least one palette, that no name appears twice, that every
   name is lowercase letters, digits and hyphens, and that every hue is below
   360. Write it to `src/styles/_palettes.scss` as four Sass maps: the
-  palettes' hues, the four colours (each with its turn and its lightness
+  palettes' hues, the decor colours (each with its turn and its lightness
   and chroma per mode), the intent colours' hues, and the intent
   colours' lightness and chroma per mode. The primitives and the semantic
   tokens read these maps (#link(<foundations:colour>)[the colour hierarchy]).

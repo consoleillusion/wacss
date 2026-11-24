@@ -2,24 +2,25 @@
 -- writes the colour tokens from it, the book writes its Palettes chapter from it, and the demo
 -- lists its palettes. Nothing else holds a colour value.
 --
---   palettes — the palettes wacss ships, the first the default. A palette is only a hue:
+--   palettes — the palettes wacss ships, the first the default. A palette is named after its
+--              accent, and is every colour derived from that accent: its decor colours, with
+--              the intent colours, which every palette shares.
 --              name        lowercase; data-palette="<name>" selects it
 --              kanji       its name in Japanese, written down the right of its pages in the book
 --              hue         the accent's oklch hue in degrees, the prima of the palette
 --              description what the palette is named for and how its colours read
---   colours  — the four colours every palette has, made from its hue. Each has a use, a turn
---              of the hue (0 keeps the palette's hue) and a lightness and chroma in each mode,
---              the same in every palette.
+--   decor    — the decor colours, base, surface, accent and pop, which every palette has, made
+--              from its hue. Each has a use, a turn of the hue (0 keeps the palette's hue) and a
+--              lightness and chroma in each mode, the same in every palette.
 --   intent   — the intent colours: positive, warning, danger and informational, the intent of
---              what they mark. Each has its
---              own hue and use, the same in every palette, and all share one lightness and chroma
---              in each mode.
+--              what they mark. Each has its own hue and use, the same in every palette, and all
+--              share one lightness and chroma in each mode.
 
 let Tone = { lightness : Double, chroma : Double }
 
 let Palette = { name : Text, kanji : Text, hue : Natural, description : Text }
 
-let Colour = { name : Text, use : Text, turn : Natural, light : Tone, dark : Tone }
+let Decor = { name : Text, use : Text, turn : Natural, light : Tone, dark : Tone }
 
 let Intent = { name : Text, hue : Natural, use : Text }
 
@@ -50,7 +51,7 @@ in  { palettes =
             }
           ]
         : List Palette
-    , colours =
+    , decor =
           [ { name = "base"
             , use = "The background of the page. Close to neutral, with a trace of the palette's hue."
             , turn = 0
@@ -76,7 +77,7 @@ in  { palettes =
             , dark = { lightness = 0.8, chroma = 0.085 }
             }
           ]
-        : List Colour
+        : List Decor
     , intent =
       { colours =
             [ { name = "positive", hue = 147, use = "Success, confirmation" }

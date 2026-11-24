@@ -3,7 +3,7 @@
 @use "palettes" as *;
 
 // The colours that change with the mode: the palette's four and the four intent colours.
-$mode-colours: list.join(map.keys($colours), map.keys($intent-hues));
+$mode-colours: list.join(map.keys($decor), map.keys($intent-hues));
 
 // Purpose: make one mode's colours, and what else depends on the mode, the ones in use
 @mixin mode($mode) {
@@ -26,7 +26,7 @@ $mode-colours: list.join(map.keys($colours), map.keys($intent-hues));
   // Each mode's colours: the palette's four from the prima, turned by their turn, and the
   // intent colours from their own hues, each at its lightness and chroma for the mode.
   @each $mode in dark, light {
-    @each $name, $c in $colours {
+    @each $name, $c in $decor {
       $tone: map.get($c, $mode);
       $hue: "var(--hue-accent)";
       @if map.get($c, turn) != 0 { $hue: "calc(var(--hue-accent) + #{map.get($c, turn)})"; }

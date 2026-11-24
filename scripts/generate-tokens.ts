@@ -36,7 +36,7 @@ type Tone = { lightness: number; chroma: number };
 type Palette = { name: string; kanji: string; hue: number; description: string };
 type Colours =
 { palettes: Palette[]
-, colours: { name: string; use: string; turn: number; light: Tone; dark: Tone }[]
+, decor: { name: string; use: string; turn: number; light: Tone; dark: Tone }[]
 , intent: { colours: { name: string; hue: number; use: string }[]; light: Tone; dark: Tone }
 };
 const colours = (await load("palettes.dhall", { base: STYLES, formats: ["dhall"] })) as Colours;
@@ -62,7 +62,7 @@ const writeColours = async () => {
   await writeFile(`${STYLES}_palettes.scss`,
     "// Generated from palettes.dhall by scripts/generate-tokens.ts. Do not edit.\n" +
     `$palettes: ${map(colours.palettes.map((p) => `"${p.name}": ${p.hue}`))};\n` +
-    `$colours: ${map(colours.colours.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
+    `$decor: ${map(colours.decor.map((c) => `"${c.name}": (turn: ${c.turn}, light: ${tone(c.light)}, dark: ${tone(c.dark)})`))};\n` +
     `$intent-hues: ${map(colours.intent.colours.map((c) => `"${c.name}": ${c.hue}`))};\n` +
     `$intent-tone: (light: ${tone(colours.intent.light)}, dark: ${tone(colours.intent.dark)});\n`);
 };

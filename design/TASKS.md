@@ -86,6 +86,7 @@
 - [x] Semantic colours renamed intent colours; intent tints `--color-<intent>-tint` and tint roles (`positive-tint`, …); syntax colours mix intent colours into the component's text
 - [x] Schema `parts` (descendant elements with their own tokens and optional role) and `values` (which semantic token a component token refers to); TableCell removed: Table styles its cells as a part and renders components given as data in them; Badge intent-tint variants
 - [x] Components for quizz-app, generally useful: Notice, Progress, Radio, Fieldset, Slider (bits-ui, one value or a range), Pagination, SortableList (own pointer and keyboard dragging), Stat, Toolbar (roving focus), ModeToggle; `.visually-hidden` helper
+- [x] A palette is every semantic-level colour, named after its accent: decor colours (base, surface, accent, pop; `decor` in `palettes.dhall`) and intent colours; glossary grouped by group and subgroup
 
 ## Next
 

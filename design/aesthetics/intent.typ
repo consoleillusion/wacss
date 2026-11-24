@@ -50,7 +50,7 @@ against:
   columns: 3,
   [Principle], [Meaning], [How it shows in wacss],
   [Wa 和], [Harmony], [One coherent design across every component, palette and mode],
-  [Kanso 簡素], [Simplicity], [Four colours per mode; few sizes; nothing ornamental],
+  [Kanso 簡素], [Simplicity], [Four decor colours and four intent colours per mode, from one hue; few sizes; nothing ornamental],
   [Ma 間], [Space and interval], [Whitespace and timing give structure and pace],
   [Seijaku 静寂], [Energised calm], [Stillness until something is done],
   [Yūgen 幽玄], [Subtle depth], [Hints rather than highlights],

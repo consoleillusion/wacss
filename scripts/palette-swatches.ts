@@ -13,7 +13,7 @@ const ROOT = new URL("..", import.meta.url).pathname;
 // by which a component makes its text and border from its background, from vocabulary.dhall.
 const DATA = JSON.parse(await readFile(`${ROOT}dist/tokens.json`, "utf8"));
 const PALETTES: string[] = DATA.colours.palettes.map((p: { name: string }) => p.name);
-const COLOURS: string[] = [...DATA.colours.colours, ...DATA.colours.intent.colours].map((c: { name: string }) => c.name);
+const COLOURS: string[] = [...DATA.colours.decor, ...DATA.colours.intent.colours].map((c: { name: string }) => c.name);
 const MODES = ["light", "dark"];
 // Each colour, and the text and border a component with that background makes, keyed
 // text-<colour> and border-<colour>.

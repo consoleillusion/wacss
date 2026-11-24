@@ -10,7 +10,7 @@ result.
 #table(
   columns: 3,
   [File], [Holds], [Written by],
-  [`src/styles/primitives.scss`], [L1 primitive tokens, including every palette's colours], [hand],
+  [`src/styles/primitives.scss`], [L1 primitive tokens, including the hue of every palette and every intent colour], [hand],
   [`src/styles/semantic.scss`], [L2 semantic tokens and the palette and mode switching], [hand],
   [`src/styles/channel.scss`], [L2 channel tokens: what each state does], [hand],
   [`src/styles/helpers.scss`], [The reset, layout helpers and the reduced-motion rule], [hand],

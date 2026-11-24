@@ -8,7 +8,7 @@
 #let config = load-dhall("/src/styles/palettes.dhall")
 #let derived = json("/dist/tokens.json").vocabulary.derived
 #let palette-list = config.palettes
-#let colours = config.colours
+#let decor = config.decor
 #let intent = config.intent
 #let title-case(name) = upper(name.first()) + name.slice(1)
 #let listed(items) = if items.len() == 1 { items.first() } else { items.slice(0, -1).join(", ") + " and " + items.last() }
@@ -26,14 +26,17 @@ show each palette's modes.
 
 == Anatomy of a palette
 <palettes:anatomy>
-A palette is a hue: the prima, from which every colour on its page is
-made. It has a light mode and a dark mode, and each mode has
-#(colours.len() + intent.colours.len()) colours.
-#colours.len() of them are the palette's own, made from its hue:
-#listed(colours.map(c => c.name)). The other #intent.colours.len() are
-the intent colours, #listed(intent.colours.map(c => c.name)), which
-report the meaning of what they mark. Each has a hue of its own, the
-same in every palette.
+A palette is every colour of the semantic level: the colours a page is
+made of. It is named after its accent, whose hue is the prima from which
+its colours are made; Kinari is both a palette and its accent. It has a
+light mode and a dark mode, and each mode has
+#(decor.len() + intent.colours.len()) colours in two groups:
+
+- the #emph[decor colours], #listed(decor.map(c => c.name)), made from the
+  palette's hue;
+- the #emph[intent colours], #listed(intent.colours.map(c => c.name)),
+  which report the intent of what they mark. Each has a hue of its own, the
+  same in every palette.
 
 They are called intent colours, not semantic colours, because "semantic"
 names the token level L2 (#link(<foundations:semantic>)[foundations]).
@@ -41,7 +44,7 @@ names the token level L2 (#link(<foundations:semantic>)[foundations]).
 #table(
   columns: 2,
   [Colour], [Use],
-  ..colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
+  ..decor.map(c => (strong(title-case(c.name)), c.use)).flatten(),
   ..intent.colours.map(c => (strong(title-case(c.name)), c.use)).flatten(),
 )
 
@@ -62,7 +65,7 @@ the eye.
 
 == How the colours are made
 <palettes:derived>
-Each of a palette's colours is its hue, turned by the colour's turn, at
+Each decor colour is the palette's hue, turned by the colour's turn, at
 a lightness and chroma set for each mode. The values are the same in
 every palette, so the palettes differ only in hue, and each is equally
 legible and equally strong:
@@ -70,13 +73,13 @@ legible and equally strong:
 #table(
   columns: 6,
   [Colour], [Turn], [Light lightness], [Light chroma], [Dark lightness], [Dark chroma],
-  ..colours.map(c => (title-case(c.name), str(c.turn) + "°", num(c.light.lightness), num(c.light.chroma), num(c.dark.lightness), num(c.dark.chroma))).flatten(),
+  ..decor.map(c => (title-case(c.name), str(c.turn) + "°", num(c.light.lightness), num(c.light.chroma), num(c.dark.lightness), num(c.dark.chroma))).flatten(),
 )
 
 #table(
-  columns: 1 + colours.len(),
-  [Palette], ..colours.map(c => [#title-case(c.name) hue]),
-  ..palette-list.map(p => (title-case(p.name), ..colours.map(c => str(calc.rem(p.hue + c.turn, 360))))).flatten(),
+  columns: 1 + decor.len(),
+  [Palette], ..decor.map(c => [#title-case(c.name) hue]),
+  ..palette-list.map(p => (title-case(p.name), ..decor.map(c => str(calc.rem(p.hue + c.turn, 360))))).flatten(),
 )
 
 The intent colours each have a hue, and share one lightness and chroma
@@ -155,7 +158,7 @@ stylesheet renders them. A ratio below 4.5:1 fails AA.
 #table(
   columns: 3,
   [Fill], [Light], [Dark],
-  ..(colours + intent.colours).map(c => (title-case(c.name), ratio(lowest(c.name, "light")), ratio(lowest(c.name, "dark")))).flatten(),
+  ..(decor + intent.colours).map(c => (title-case(c.name), ratio(lowest(c.name, "light")), ratio(lowest(c.name, "dark")))).flatten(),
 )
 
 Each intent colour keeps a hue of its own, apart from every palette's
@@ -179,7 +182,7 @@ and wrapping in a column a little over half the page wide. The
 characters of the palette's Japanese name fill a column of their own on
 the right, written vertically and sized to reach the depth of the text
 beside them. One
-row follows for each of the four colours. The rows leave the left part of the page empty: in the
+row follows for each decor colour. The rows leave the left part of the page empty: in the
 rest, the colour's name is aligned to the right with its value on
 the same line, to its left, and its uses below; then comes a
 square of the colour at the right edge, with its tints, tones and shades
@@ -291,7 +294,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
 
     #v(9mm)
 
-    // The four colours on the right half of the page, one row each: the title and value and
+    // The decor colours on the right half of the page, one row each: the title and value and
     // then the colour's use on the left, wrapping within the half, and the swatch, with its
     // tints, on the right.
     #grid(
@@ -301,7 +304,7 @@ value is written in CSS oklch notation. Every value shown is the one the stylesh
         width: 100%,
         below: 6mm,
         stack(
-          ..colours.map(col => ("color-" + col.name, title-case(col.name), col.use)).enumerate().map(((i, (key, title, use))) => block(
+          ..decor.map(col => ("color-" + col.name, title-case(col.name), col.use)).enumerate().map(((i, (key, title, use))) => block(
             width: 100%,
             inset: (y: 3.5mm),
             grid(
