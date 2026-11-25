@@ -59,6 +59,18 @@ bun run build             # demo site to demo-dist/
 bun run build:book        # design/wacss-spec.pdf and design/wacss-spec-light.pdf
 ```
 
+## Deploying the demo to Vercel
+
+The demo is a static Astro site. Import the repository in Vercel and keep the settings
+already recorded in `vercel.json`:
+
+- framework preset: Astro
+- install command: `bun install` (the repository has a `bun.lock`)
+- build command: `bun run build` (generates `dist/` before `astro build`)
+- output directory: `demo-dist`
+
+`/` redirects to `/component`. The site needs no environment variables or server functions.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
