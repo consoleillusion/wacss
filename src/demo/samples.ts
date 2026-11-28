@@ -2,6 +2,8 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, CheckList:
+  { items: [ "Relieves muscle tension and pain", "Improves blood circulation", "Reduces stress and anxiety", "Promotes better sleep" ] }
 , Feature:
   { figure: { component: "Icon", data: { name: "sparkles" } }
   , title: "Premium Products"

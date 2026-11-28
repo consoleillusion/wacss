@@ -1,0 +1,33 @@
+---
+// CheckList: structure only. Its tick is another component, given as data ({ component, data })
+// and loaded by title; the list imports none of them.
+const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro"], { eager: true });
+
+type Child = { component?: string; data?: Record<string, unknown> };
+
+const load = (child?: Child) => {
+  // Purpose: the component a child names, or undefined
+  const name = child?.component;
+  if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
+  return (modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`])?.default;
+};
+
+const {
+  icon = { component: "Icon", data: { name: "check" } },
+  items = [],
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const Icon = load(icon);
+const classes = ["check-list", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+---
+<ul class={classes} {...rest}>
+  {items.map((item: string) => (
+    <li>
+      {Icon && <span data-check-icon><Icon {...icon?.data ?? {}} /></span>}
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>
