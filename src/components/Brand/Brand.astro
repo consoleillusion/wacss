@@ -1,0 +1,24 @@
+---
+// Brand: structure only. Its anchor holds the logo, the wordmark and the tagline, so the whole
+// mark is one link. The generated part rules keep the anchor free of Link's underline.
+const {
+  href = "/",
+  logo,
+  logoAlt = "",
+  name,
+  subtitle,
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const classes = ["brand", className].filter(Boolean).join(" ");
+---
+<div class={classes} {...rest}>
+  <a href={href}>
+    {logo && <img src={logo} alt={logoAlt} />}
+    <span class="cluster">
+      <strong>{name}</strong>
+      {subtitle && <small>{subtitle}</small>}
+    </span>
+  </a>
+</div>

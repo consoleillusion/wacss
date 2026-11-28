@@ -1,6 +1,7 @@
 // Sample data for each demo component: the props one instance receives.
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
+, Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
 , Notice: { heading: "Correct.", text: "NETCONF listens on port 830 by default." }
 , Progress: { label: "Quiz", value: 9, max: 20, text: "7 correct of 9 answered" }
 , Radio:
