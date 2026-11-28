@@ -1,0 +1,28 @@
+---
+// Testimonial: structure only. The quote, rating and attribution are all data.
+const {
+  quote,
+  rating = 5,
+  name,
+  location,
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const classes = ["testimonial", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+const stars = Math.max(0, Math.min(5, Number(rating) || 0));
+---
+<figure class={classes} {...rest}>
+  <div class="stack">
+    <p data-testimonial-rating role="img" aria-label={`${stars} out of 5 stars`}>
+      <span aria-hidden="true">{"★".repeat(stars)}{"☆".repeat(5 - stars)}</span>
+    </p>
+    {quote && <blockquote>{quote}</blockquote>}
+    <div class="cluster">
+      {name && <cite>{name}</cite>}
+      {location && <small>{location}</small>}
+    </div>
+    <slot />
+  </div>
+</figure>

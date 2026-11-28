@@ -2,6 +2,12 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, Testimonial:
+  { quote: "\"Christina's treatments are absolutely divine. The convenience of having spa-quality services at home is incredible!\""
+  , rating: 5
+  , name: "Sarah M."
+  , location: "Auckland CBD"
+  }
 , CheckList:
   { items: [ "Relieves muscle tension and pain", "Improves blood circulation", "Reduces stress and anxiety", "Promotes better sleep" ] }
 , Feature:
