@@ -2,6 +2,11 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, Feature:
+  { figure: { component: "Icon", data: { name: "sparkles" } }
+  , title: "Premium Products"
+  , text: "We use only the finest natural and professional-grade beauty products."
+  }
 , Icon: { name: "sparkles", label: "Sparkles" }
 , Image:
   { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23b8d6d3'/%3E%3C/svg%3E"

@@ -1,0 +1,34 @@
+---
+// Feature: structure only. Its figure is another component, given as data ({ component, data })
+// and loaded by title; the Feature imports none of them.
+const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro"], { eager: true });
+
+type Child = { component?: string; data?: Record<string, unknown> };
+
+const load = (child?: Child) => {
+  // Purpose: the component a child names, or undefined
+  const name = child?.component;
+  if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
+  return (modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`])?.default;
+};
+
+const {
+  figure,
+  title,
+  text,
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const Figure = load(figure);
+const classes = ["feature", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+---
+<div class={classes} {...rest}>
+  <div class="stack">
+    {Figure && <div data-feature-figure><Figure {...figure?.data ?? {}} /></div>}
+    {title && <h3>{title}</h3>}
+    {text && <p>{text}</p>}
+    <slot />
+  </div>
+</div>
