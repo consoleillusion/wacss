@@ -47,6 +47,7 @@ in  { variants =
       , { name = "warning", meaning = "Caution; a risk that can be undone." }
       , { name = "danger", meaning = "Destructive or failed." }
       , { name = "informational", meaning = "A neutral notice." }
+      , { name = "inverse", meaning = "An action on a dark surface or a photograph." }
       ]
     , states =
       [ { name = "static", selector = "", pointer = False, meaning = "No particular condition; the default." }
@@ -107,6 +108,13 @@ in  { variants =
         { look = "dark, with text made light so it reads over a photograph or an overlay"
         , background = "var(--color-black)"
         , color = "var(--color-white)"
+        }
+      , inverse-clear =
+        { look = "transparent, with a light border and text so it reads over a photograph or an overlay"
+        , background = "transparent"
+        , color = "var(--color-white)"
+        , border-color = "var(--color-white)"
+        , accent-color = "var(--color-white)"
         }
       }
     , categories =

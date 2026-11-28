@@ -6,7 +6,7 @@ in  { title = "Button"
     , categories = [ "Action" ]
     , element = [ "button:not(.chip, [class^=\"lc-\"])", "a[data-button-root]" ]
     , variants =
-      { secondary = "accent", primary = "pop", tertiary = "clear", danger = "danger" }
+      { secondary = "accent", primary = "pop", tertiary = "clear", danger = "danger", inverse = "inverse-clear" }
     , states = [ "static", "hover", "focus", "active", "open", "disabled", "loading" ]
     , themeableProperties =
       [ "background"
@@ -64,7 +64,7 @@ in  { title = "Button"
     , arguments =
           P.commonAttributes
       //  { variant =
-                  P.choice [ "secondary", "primary", "tertiary", "danger" ] "secondary"
+                  P.choice [ "secondary", "primary", "tertiary", "danger", "inverse" ] "secondary"
               //  { description = "Its emphasis." }
           , type =
                   P.choice [ "button", "submit", "reset" ] "button"
