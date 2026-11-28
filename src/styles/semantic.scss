@@ -145,6 +145,8 @@ $mode-colors: list.join(map.keys($decor), map.keys($intent-hues));
   --padding-block-end: calc(var(--space) * 4);
   --gap: calc(var(--space) * 2);
   --min-block-size: calc(var(--space) * 9);
+  --aspect-ratio: 3 / 4;
+  --object-fit: cover;
   --font-size: var(--font-size-body);
   --font-weight: var(--font-weight-body);
   --line-height: var(--line-height-body);

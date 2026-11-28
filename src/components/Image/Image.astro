@@ -1,0 +1,18 @@
+---
+// Image: structure only. The picture's address and alternative text are data; its shape comes
+// from the generated aspect-ratio and object-fit tokens.
+const {
+  src,
+  alt = "",
+  width,
+  height,
+  loading = "lazy",
+  decoding = "async",
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const classes = ["image", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+---
+<img class={classes} src={src} alt={alt} width={width} height={height} loading={loading} decoding={decoding} {...rest} />
