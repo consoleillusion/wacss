@@ -1,0 +1,64 @@
+---
+// Footer: structure only. Its mark is another component, given as data ({ component, data })
+// and loaded by title; the Footer imports none of them. Links are plain anchors, styled as Links.
+import Link from "../Link/Link.astro";
+
+const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro"], { eager: true });
+
+type Child = { component?: string; data?: Record<string, unknown> };
+
+const load = (child?: Child) => {
+  // Purpose: the component a child names, or undefined
+  const name = child?.component;
+  if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
+  return (modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`])?.default;
+};
+
+const {
+  brand,
+  description,
+  columns = [],
+  contact = [],
+  copyright,
+  legal = [],
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const Brand = load(brand);
+const brandData = brand?.data ?? {};
+const classes = ["footer", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+---
+<footer class={classes} {...rest}>
+  <div class="center stack">
+    <div class="grid">
+      <div class="stack">
+        {Brand && <Brand {...brandData} />}
+        {description && <p>{description}</p>}
+      </div>
+      {columns.map((column: any) => (
+        <nav class="stack" aria-label={column.heading}>
+          <h2>{column.heading}</h2>
+          {(column.links ?? []).map((link: any) => <Link href={link.href} label={link.label} />)}
+        </nav>
+      ))}
+      {contact.length > 0 && (
+        <div class="stack">
+          {contact.map((item: any) => (
+            <div class="stack">
+              <h2>{item.label}</h2>
+              {item.href ? <a href={item.href}>{item.value}</a> : <p>{item.value}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+    {(copyright || legal.length > 0) && (
+      <div class="cluster">
+        {copyright && <small>{copyright}</small>}
+        {legal.map((link: any) => <Link href={link.href} label={link.label} />)}
+      </div>
+    )}
+  </div>
+</footer>

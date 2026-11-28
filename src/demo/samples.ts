@@ -2,6 +2,17 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, Footer:
+  { brand: { component: "Brand", data: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" } }
+  , description: "Experience personalised beauty treatments in the comfort of your own space."
+  , columns:
+    [ { heading: "Quick Links", links: [ { href: "#", label: "Home" }, { href: "#", label: "About Us" } ] }
+    , { heading: "Services", links: [ { href: "#", label: "Massage" }, { href: "#", label: "Facials" } ] }
+    ]
+  , contact: [ { label: "Contact Us", value: "+64 21 027 57259", href: "tel:+642102757259" } ]
+  , copyright: "© 2026 Soulful Beauty. All rights reserved."
+  , legal: [ { href: "#", label: "Privacy Policy" }, { href: "#", label: "Terms & Conditions" } ]
+  }
 , Notice: { heading: "Correct.", text: "NETCONF listens on port 830 by default." }
 , Progress: { label: "Quiz", value: 9, max: 20, text: "7 correct of 9 answered" }
 , Radio:
