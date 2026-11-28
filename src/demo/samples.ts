@@ -2,6 +2,8 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, PriceList:
+  { items: [ { label: "60 min", value: "$120" }, { label: "90 min", value: "$160" }, { label: "Couples package", value: "$520" } ] }
 , MobileNav:
   { label: "Toggle menu"
   , current: "/services"

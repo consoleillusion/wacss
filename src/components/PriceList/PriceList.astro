@@ -1,0 +1,21 @@
+---
+// PriceList: structure only. Each row is a pair of strings given as data.
+const {
+  items = [],
+  variant = "secondary",
+  class: className = "",
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const classes = ["price-list", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+---
+<div class={classes} {...rest}>
+  <div class="stack">
+    {items.map((item: any) => (
+      <div data-price-row>
+        <span data-price-label>{item.label}</span>
+        <strong data-price-value>{item.value}</strong>
+      </div>
+    ))}
+  </div>
+</div>
