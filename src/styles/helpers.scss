@@ -99,4 +99,11 @@
     gap: calc(var(--space-page) * 6);
     grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 16rem), 100%), 1fr));
   }
+
+  // Show a group only on one side of the narrow-screen breakpoint.
+  .wide-only { display: none; }
+  @media (min-width: 48rem) {
+    .wide-only { display: flex; }
+    .narrow-only { display: none; }
+  }
 }

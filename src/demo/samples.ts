@@ -110,7 +110,14 @@ export const samples: Record<string, Record<string, unknown>> =
   }
 , Badge: { label: "4/5" }
 , Chip: { label: "Input", value: "input", pressed: false }
-, NavBar: { title: "Site", href: "#", current: "#about", links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ] }
+, NavBar:
+  { title: "Site"
+  , href: "#"
+  , current: "#about"
+  , links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ]
+  , brand: { component: "Brand", data: { name: "Soulful Beauty", subtitle: "MOBILE SPA" } }
+  , mobile: { component: "MobileNav", data: { label: "Toggle menu", links: [ { href: "#about", label: "About" }, { href: "#work", label: "Work" } ] } }
+  }
 , Table:
   { columns: [ { key: "domain", label: "Domain" }, { key: "score", label: "Score" } ]
   , rows:
