@@ -18,12 +18,14 @@ import Chip from "../components/Chip/Chip.svelte";
 import Fieldset from "../components/Fieldset/Fieldset.svelte";
 import Checkbox from "../components/Checkbox/Checkbox.svelte";
 import Button from "../components/Button/Button.svelte";
+import MobileNav from "../components/MobileNav/MobileNav.svelte";
 
 const modules = import.meta.glob<{ default: any }>(["../components/*/*.svelte", "../components/*/*.astro"], { eager: true });
 const { title, data = {} } = Astro.props as { title: string; data?: Record<string, unknown> };
 const Component = (modules[`../components/${title}/${title}.svelte`] ?? modules[`../components/${title}/${title}.astro`])?.default;
 ---
 {title === "Accordion" ? <Accordion client:load {...data} />
+  : title === "MobileNav" ? <MobileNav client:load {...data} />
   : title === "Globe" ? <Globe client:load {...data} />
   : title === "StreetMap" ? <StreetMap client:load {...data} />
   : title === "Page" ? <p>This page is a Page.</p>
