@@ -1,0 +1,58 @@
+---
+// Hero: structure only. Its actions are other components, given as data ({ component, data })
+// and loaded by title; the Hero imports none of them. The photograph is data too, passed to the
+// generated background rule as a custom property.
+const modules = import.meta.glob<{ default: any }>(["../*/*.svelte", "../*/*.astro"], { eager: true });
+
+type Child = { component?: string; data?: Record<string, unknown> };
+
+const load = (child?: Child) => {
+  // Purpose: the component a child names, or undefined
+  const name = child?.component;
+  if (typeof name !== "string" || !/^[A-Z][A-Za-z0-9]*$/.test(name)) return undefined;
+  return (modules[`../${name}/${name}.svelte`] ?? modules[`../${name}/${name}.astro`])?.default;
+};
+
+const {
+  as: Tag = "section",
+  image,
+  eyebrow,
+  title,
+  titleAccent,
+  text,
+  actions = [],
+  centered = false,
+  variant = "secondary",
+  class: className = "",
+  style,
+  ...rest
+} = Astro.props as Record<string, any>;
+
+const classes = ["hero", variant === "secondary" ? "" : variant, className].filter(Boolean).join(" ");
+const styles = [
+  image ? `--hero-image: url('${image}');` : "",
+  centered ? "justify-items: center; text-align: center;" : "",
+  style,
+].filter(Boolean).join(" ") || undefined;
+---
+<Tag class={classes} style={styles} data-hero-image={image ? "" : undefined} {...rest}>
+  <div class="stack" data-hero-content>
+    {eyebrow && <span data-hero-eyebrow>{eyebrow}</span>}
+    {title && (
+      <h1>
+        {title}
+        {titleAccent && <><br /><span data-hero-accent>{titleAccent}</span></>}
+      </h1>
+    )}
+    {text && <p>{text}</p>}
+    {actions.length > 0 && (
+      <div class="cluster" style={centered ? "--cluster-justify: center" : undefined}>
+        {actions.map((action: Child) => {
+          const Action = load(action);
+          return Action && <Action {...action.data ?? {}} />;
+        })}
+      </div>
+    )}
+    <slot />
+  </div>
+</Tag>

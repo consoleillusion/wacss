@@ -2,6 +2,16 @@
 export const samples: Record<string, Record<string, unknown>> =
 { Button: { label: "Button" }
 , Brand: { href: "#", name: "Soulful Beauty", subtitle: "MOBILE SPA" }
+, Hero:
+  { eyebrow: "Mobile Beauty Spa · Auckland"
+  , title: "Beauty & Wellness"
+  , titleAccent: "At Your Doorstep"
+  , text: "Experience personalised and flexibly convenient beauty treatments in the comfort of your home or business."
+  , actions:
+    [ { component: "Button", data: { variant: "primary", label: "Book Your Treatment", href: "#" } }
+    , { component: "Button", data: { variant: "tertiary", label: "Explore Services", href: "#" } }
+    ]
+  }
 , Section:
   { variant: "primary"
   , centered: true

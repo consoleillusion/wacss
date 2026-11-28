@@ -103,6 +103,11 @@ in  { variants =
         , fill = "var(--color-land)"
         , hover = { color = "var(--color-sea-hover)", fill = "var(--color-land-hover)" }
         }
+      , inverse =
+        { look = "dark, with text made light so it reads over a photograph or an overlay"
+        , background = "var(--color-black)"
+        , color = "var(--color-white)"
+        }
       }
     , categories =
       [ { name = "Action"
